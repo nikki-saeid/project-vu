@@ -11,7 +11,7 @@ export default function Logo({ isWhite, variant = 'full', className }: LogoProps
                 width={728}
                 height={200}
                 alt="Fit manage logo"
-                className={cn('h-auto w-32 md:w-40', className)}
+                className={cn('w-32 md:w-40', className)}
             />
         </Link>
     );

@@ -1,9 +1,8 @@
-import SimpleIcon from '@/components/simple-icon';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
+import { IconBrandGoogle } from '@tabler/icons-react';
 import { useState } from 'react';
-import { siGoogle } from 'simple-icons';
 
 export default function GoogleButton({ className, ...props }: React.ComponentProps<typeof Button>) {
     const [error, setError] = useState<string | null>(null);
@@ -34,7 +33,7 @@ export default function GoogleButton({ className, ...props }: React.ComponentPro
         <form onSubmit={handleSocialLogin}>
             <div className="flex flex-col gap-6">
                 <Button variant="outline" className={cn('w-full', className)} {...props} type="submit" disabled={isLoading}>
-                    <SimpleIcon icon={siGoogle} />
+                    <IconBrandGoogle />
                     {isLoading ? 'Logging in...' : 'Continue with Google'}
                 </Button>
                 {error && <p className="text-sm text-destructive-500">{error}</p>}

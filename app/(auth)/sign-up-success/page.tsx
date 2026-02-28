@@ -1,9 +1,9 @@
 import Logo from '@/components/logo';
-import LucideIcon from '@/components/lucide-icon';
+import StyledIcon from '@/components/styled-icon';
 import H3 from '@/components/typography/H3';
 import P from '@/components/typography/P';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Check } from 'lucide-react';
+import { IconCheck } from '@tabler/icons-react';
 
 export default function SignUpSuccess() {
     return (
@@ -13,7 +13,7 @@ export default function SignUpSuccess() {
                 <CardHeader>
                     <CardTitle>
                         <CardTitle className="flex items-center gap-2">
-                            <LucideIcon Icon={Check} size="lg" color="success" />
+                            <StyledIcon IconProps={{ className: 'text-success' }} className="bg-success/5" Icon={IconCheck} />
                             <H3 className="text-primary">Thank you for signing up!</H3>
                         </CardTitle>
                     </CardTitle>

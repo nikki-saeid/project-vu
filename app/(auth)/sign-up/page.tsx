@@ -10,14 +10,14 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { Separator } from '@/components/ui/separator';
 import { createClient } from '@/lib/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Mail } from 'lucide-react';
+import { IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import GoogleButton from '../_components/SocialAuth/GoogleButton';
+import GoogleButton from '../../../components/auth-ui/google-button';
 import PasswordInput from '../_components/password-input';
 import { BASE_URL } from '@/constants/urls';
 
@@ -91,7 +91,7 @@ export default function SignUpForm() {
                                         <FieldLabel htmlFor="form-email">Email</FieldLabel>
                                         <InputGroup>
                                             <InputGroupAddon>
-                                                <Mail />
+                                                <IconMail />
                                             </InputGroupAddon>
                                             <InputGroupInput
                                                 {...field}

@@ -1,7 +1,7 @@
 'use client';
 
 import Logo from '@/components/logo';
-import LucideIcon from '@/components/lucide-icon';
+import StyledIcon from '@/components/styled-icon';
 import H3 from '@/components/typography/H3';
 import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { BASE_URL } from '@/constants/urls';
 import { createClient } from '@/lib/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, Mail } from 'lucide-react';
+import { IconCheck, IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -61,7 +61,7 @@ export default function ForgotPasswordForm() {
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                            <LucideIcon Icon={Check} size="lg" color="success" />
+                            <StyledIcon IconProps={{ className: 'text-success' }} className="bg-success/5" Icon={IconCheck} />
                             <H3 className="text-primary">Check Your Email</H3>
                         </CardTitle>
                         <CardDescription>
@@ -95,7 +95,7 @@ export default function ForgotPasswordForm() {
                                             <FieldLabel htmlFor="form-email">Email</FieldLabel>
                                             <InputGroup>
                                                 <InputGroupAddon>
-                                                    <Mail />
+                                                    <IconMail />
                                                 </InputGroupAddon>
                                                 <InputGroupInput
                                                     {...field}

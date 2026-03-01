@@ -52,7 +52,7 @@ export default function LoginForm() {
             
             toast.dismiss();
             toast.success('Successfully logged in.');
-            router.push('/protected');
+            // router.push('/protected');
         } catch (error: unknown) {
             toast.dismiss();
             toast.error(error instanceof Error ? error.message : 'An error occurred while logging in.');

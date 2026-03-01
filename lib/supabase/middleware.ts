@@ -33,12 +33,15 @@ export async function updateSession(request: NextRequest) {
     const { data } = await supabase.auth.getClaims();
     const user = data?.claims;
 
-    if (!user && !PUBLIC_URLS.includes(request.nextUrl.pathname)) {
-        // no user, potentially respond by redirecting the user to the login page
-        const url = request.nextUrl.clone();
-        url.pathname = '/login';
-        return NextResponse.redirect(url);
-    }
+    // !!!!!!!!!! IMPORTANT REVERT THIS !!!!!!!!!
+    // if (!user && !PUBLIC_URLS.includes(request.nextUrl.pathname)) {
+    // no user, potentially respond by redirecting the user to the login page
+    //     const url = request.nextUrl.clone();
+    //     url.pathname = '/login';
+    //     return NextResponse.redirect(url);
+    // }
+    // !!!!!!!!!! IMPORTANT REVERT THIS !!!!!!!!!
+
 
     // IMPORTANT: You *must* return the supabaseResponse object as it is.
     // If you're creating a new response object with NextResponse.next() make sure to:

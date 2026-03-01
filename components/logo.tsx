@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Logo({ isWhite, variant = 'full', className }: LogoProps) {
     return (
-        <Link href="/dashboard/overview">
+        <Link href="/">
             <Image
                 src={variant === 'icon' ? '/brand/logo-icon.webp' : isWhite ? '/brand/logo-white.webp' : '/brand/logo.webp'}
                 width={728}

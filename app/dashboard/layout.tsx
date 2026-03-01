@@ -3,10 +3,19 @@ import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/constants/user-dashboard';
+import { createClient } from '@/lib/supabase/server';
 import { ChildrenProp } from '@/types/common';
+import { redirect } from 'next/navigation';
 import React from 'react';
 
-export default function UserLayout({ children }: ChildrenProp) {
+export default async function UserLayout({ children }: ChildrenProp) {
+    // const supabase = await createClient();
+
+    // const { data, error } = await supabase.auth.getClaims();
+    // if (error || !data?.claims) {
+    //     redirect('/login');
+    // }
+
     return (
         <SidebarProvider
             style={

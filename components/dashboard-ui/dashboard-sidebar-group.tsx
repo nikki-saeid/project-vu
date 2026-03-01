@@ -1,21 +1,9 @@
-'use client';
-
-import {
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { cn } from '@/lib/utils';
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar';
 import type { DashboardSidebarGroupProps } from '@/types/features';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import SidebarCustomButton from './sidebar-custom-button';
 
 export default function DashboardSidebarGroup({ data, label }: DashboardSidebarGroupProps) {
-    const pathname = usePathname();
-
     return (
         <SidebarGroup>
             {label && <SidebarGroupLabel>{label}</SidebarGroupLabel>}
@@ -24,20 +12,9 @@ export default function DashboardSidebarGroup({ data, label }: DashboardSidebarG
                     {data.map((item) => (
                         <SidebarMenuItem key={item.title}>
                             <Link href={item.url} className="w-full">
-                                <SidebarMenuButton
-                                    tooltip={item.title}
-                                    isActive={pathname === item.url}
-                                    className={cn(
-                                        'transition duration-100 ease-linear',
-                                        'active:bg-primary active:text-primary-foreground',
-                                        'data-[active=true]:bg-primary data-[active=true]:text-primary-foreground',
-                                        'hover:bg-primary/90 hover:text-primary-foreground',
-                                        'bg-transparent text-foreground',
-                                    )}
-                                >
+                                <SidebarCustomButton title={item.title} url={item.url}>
                                     <item.Icon />
-                                    <span>{item.title}</span>
-                                </SidebarMenuButton>
+                                </SidebarCustomButton>
                             </Link>
                         </SidebarMenuItem>
                     ))}

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
-import { IconBrandGoogle } from '@tabler/icons-react';
+import { IconBrandGoogleFilled } from '@tabler/icons-react';
 import { useState } from 'react';
 
 export default function GoogleButton({ className, ...props }: React.ComponentProps<typeof Button>) {
@@ -33,7 +33,7 @@ export default function GoogleButton({ className, ...props }: React.ComponentPro
         <form onSubmit={handleSocialLogin}>
             <div className="flex flex-col gap-6">
                 <Button variant="outline" className={cn('w-full', className)} {...props} type="submit" disabled={isLoading}>
-                    <IconBrandGoogle />
+                    <IconBrandGoogleFilled />
                     {isLoading ? 'Logging in...' : 'Continue with Google'}
                 </Button>
                 {error && <p className="text-sm text-destructive-500">{error}</p>}

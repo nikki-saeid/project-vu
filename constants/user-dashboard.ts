@@ -16,26 +16,14 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
             Icon: IconDashboard,
         },
         {
-            title: 'Pages',
-            url: '/dashboard/pages',
+            title: 'Live page',
+            url: '/dashboard/live-page',
             Icon: IconAppWindow,
         },
         {
             title: 'Projects',
             url: '/dashboard/projects',
             Icon: IconBuildingCommunity,
-        },
-    ],
-    account: [
-        {
-            title: 'Profile',
-            url: '/dashboard/profile',
-            Icon: IconUserCircle,
-        },
-        {
-            title: 'Billing',
-            url: '/dashboard/billing',
-            Icon: IconCreditCard,
         },
     ],
     map: [
@@ -48,6 +36,18 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
             title: 'Embedded map',
             url: '/dashboard/embedded-map',
             Icon: IconCode,
+        },
+    ],
+     account: [
+        {
+            title: 'Profile',
+            url: '/dashboard/profile',
+            Icon: IconUserCircle,
+        },
+        {
+            title: 'Billing',
+            url: '/dashboard/billing',
+            Icon: IconCreditCard,
         },
     ],
 };

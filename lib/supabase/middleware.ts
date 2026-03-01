@@ -1,3 +1,4 @@
+import { PUBLIC_URLS } from '@/constants/urls';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
@@ -32,15 +33,7 @@ export async function updateSession(request: NextRequest) {
     const { data } = await supabase.auth.getClaims();
     const user = data?.claims;
 
-    if (
-        !user &&
-        !request.nextUrl.pathname.startsWith('/login') &&
-        !request.nextUrl.pathname.startsWith('/sign-up') &&
-        !request.nextUrl.pathname.startsWith('/forgot-password') &&
-        !request.nextUrl.pathname.startsWith('/sign-up-success') &&
-        !request.nextUrl.pathname.startsWith('/update-password') &&
-        !request.nextUrl.pathname.startsWith('/auth-error')
-    ) {
+    if (!user && !PUBLIC_URLS.includes(request.nextUrl.pathname)) {
         // no user, potentially respond by redirecting the user to the login page
         const url = request.nextUrl.clone();
         url.pathname = '/login';

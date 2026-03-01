@@ -48,6 +48,8 @@ export default function LoginForm() {
                 password: data.password,
             });
             if (error) throw error;
+
+            
             toast.dismiss();
             toast.success('Successfully logged in.');
             router.push('/protected');

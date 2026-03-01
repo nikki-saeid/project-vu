@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -12,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import useCurrentUserMetadata from '@/hooks/use-current-user-metadata';
 import { createClient } from '@/lib/supabase/client';
-import { IconCreditCard, IconLogout, IconUserCircle } from '@tabler/icons-react';
+import { IconLogout } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 

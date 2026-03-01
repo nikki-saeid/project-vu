@@ -2,7 +2,7 @@ import DashboardHeader from '@/components/dashboard-ui/dashboard-header';
 import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/constants/user-dashboard';
+import { ADMIN_DASHBOARD_SIDEBAR_NAVIGATION } from '@/constants/admin-dashboard';
 import { ChildrenProp } from '@/types/common';
 import React from 'react';
 
@@ -14,13 +14,11 @@ export default function UserLayout({ children }: ChildrenProp) {
             }
         >
             <DashboardSidebar variant="inset">
-                <DashboardSidebarGroup data={USER_DASHBOARD_SIDEBAR_NAVIGATION.main} />
-                <DashboardSidebarGroup label="Map" data={USER_DASHBOARD_SIDEBAR_NAVIGATION.map} />
-                <DashboardSidebarGroup label="Account" data={USER_DASHBOARD_SIDEBAR_NAVIGATION.account} />
+                <DashboardSidebarGroup data={ADMIN_DASHBOARD_SIDEBAR_NAVIGATION.main} />
             </DashboardSidebar>
             <SidebarInset>
                 <DashboardHeader
-                    pagesMetadata={Object.values(USER_DASHBOARD_SIDEBAR_NAVIGATION)
+                    pagesMetadata={Object.values(ADMIN_DASHBOARD_SIDEBAR_NAVIGATION)
                         .flat()
                         .map((item) => ({ ...item, Icon: undefined }))}
                 />

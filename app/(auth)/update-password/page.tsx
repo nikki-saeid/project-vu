@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { createClient } from '@/lib/supabase/client';
+import { updatePasswordSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -13,42 +14,47 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import PasswordInput from '../_components/password-input';
-
-const formSchema = z
-    .object({
-        password: z.string().min(8, 'Password must be at least 8 characters long.'),
-        repeatPassword: z.string().min(8, 'Password must be at least 8 characters long.'),
-    })
-    .refine((data) => data.password === data.repeatPassword, {
-        message: 'Passwords do not match.',
-        path: ['repeatPassword'],
-    });
+import { roleRedirect } from '@/lib/helpers/role-redirect';
 
 export default function UpdatePasswordForm() {
+    // Define the form schema using zod
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
+    // Define the form schema using zod
     const form = useForm({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(updatePasswordSchema),
         defaultValues: {
             password: '',
             repeatPassword: '',
         },
     });
 
-    async function onSubmit(data: z.infer<typeof formSchema>) {
-        const supabase = createClient();
+    // Handle form submission
+    async function onSubmit(data: z.infer<typeof updatePasswordSchema>) {
+        // Set loading state and show a toast notification
         setIsLoading(true);
-        toast.loading('Logging in...');
+        toast.loading('Updating password...');
 
         try {
+            // Attempt to update the user's password with Supabase
+            const supabase = createClient();
+
+            // Use updateUser to change the password
             const { error } = await supabase.auth.updateUser({
                 password: data.password,
             });
+
+            // Handle any errors that occur during password update
             if (error) throw error;
+
+            // Dismiss the loading toast and show success message
             toast.dismiss();
             toast.success('Successfully updated password.');
-            // router.push('/protected');
+
+            // Redirect the user based on their role
+            const redirectUrl = await roleRedirect();
+            router.push(redirectUrl);
         } catch (error: unknown) {
             toast.dismiss();
             toast.error(error instanceof Error ? error.message : 'An error occurred while logging in.');

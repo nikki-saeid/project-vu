@@ -8,8 +8,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Separator } from '@/components/ui/separator';
+import { roleRedirect } from '@/lib/helpers/role-redirect';
 import { createClient } from '@/lib/supabase/client';
+import { loginSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -18,41 +21,43 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import GoogleButton from '../../../components/auth-ui/google-button';
 import PasswordInput from '../_components/password-input';
-import { IconMail } from '@tabler/icons-react';
-
-const formSchema = z.object({
-    email: z.string().email({ message: 'Please enter a valid email address.' }),
-    password: z.string().min(8, 'Password must be at least 8 characters long.'),
-});
 
 export default function LoginForm() {
+    // State to track loading status
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
+    // Initialize the form with react-hook-form and zod validation
     const form = useForm({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(loginSchema),
         defaultValues: {
             email: '',
             password: '',
         },
     });
 
-    async function onSubmit(data: z.infer<typeof formSchema>) {
-        const supabase = createClient();
+    // Handle form submission
+    async function onSubmit(formData: z.infer<typeof loginSchema>) {
+        // Set loading state and show a toast notification
         setIsLoading(true);
         toast.loading('Logging in...');
 
         try {
-            const { error } = await supabase.auth.signInWithPassword({
-                email: data.email,
-                password: data.password,
-            });
+            // Attempt to log in the user with Supabase
+            const supabase = createClient();
+
+            // Use signInWithPassword for email/password authentication
+            const { error } = await supabase.auth.signInWithPassword({ email: formData.email, password: formData.password });
             if (error) throw error;
 
-            
+            // Dismiss the loading toast and show success message
             toast.dismiss();
             toast.success('Successfully logged in.');
-            // router.push('/protected');
+
+            // Redirect the user based on their role
+            const redirectUrl = await roleRedirect();
+
+            router.push(redirectUrl);
         } catch (error: unknown) {
             toast.dismiss();
             toast.error(error instanceof Error ? error.message : 'An error occurred while logging in.');

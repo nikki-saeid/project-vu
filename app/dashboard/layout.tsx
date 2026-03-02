@@ -9,12 +9,14 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 export default async function UserLayout({ children }: ChildrenProp) {
-    // const supabase = await createClient();
+    const supabase = await createClient();
 
-    // const { data, error } = await supabase.auth.getClaims();
-    // if (error || !data?.claims) {
-    //     redirect('/login');
-    // }
+    const { data, error } = await supabase.auth.getClaims();
+    if (error || !data?.claims) {
+        redirect('/login');
+    } else if (data.claims.app_metadata?.role === 'admin') {
+        redirect('/admin/overview');
+    }
 
     return (
         <SidebarProvider

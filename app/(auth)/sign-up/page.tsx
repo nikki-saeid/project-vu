@@ -8,7 +8,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Separator } from '@/components/ui/separator';
+import { BASE_URL } from '@/constants/urls';
 import { createClient } from '@/lib/supabase/client';
+import { signUpSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
@@ -19,25 +21,15 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import GoogleButton from '../../../components/auth-ui/google-button';
 import PasswordInput from '../_components/password-input';
-import { BASE_URL } from '@/constants/urls';
-
-const formSchema = z
-    .object({
-        email: z.string().email({ message: 'Please enter a valid email address.' }),
-        password: z.string().min(8, 'Password must be at least 8 characters long.'),
-        repeatPassword: z.string().min(8, 'Password must be at least 8 characters long.'),
-    })
-    .refine((data) => data.password === data.repeatPassword, {
-        message: 'Passwords do not match.',
-        path: ['repeatPassword'],
-    });
 
 export default function SignUpForm() {
+    // State to track loading status
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
+    // Initialize the form with react-hook-form and zod validation
     const form = useForm({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(signUpSchema),
         defaultValues: {
             email: '',
             password: '',
@@ -45,12 +37,17 @@ export default function SignUpForm() {
         },
     });
 
-    async function onSubmit(data: z.infer<typeof formSchema>) {
-        const supabase = createClient();
+    // Handle form submission
+    async function onSubmit(data: z.infer<typeof signUpSchema>) {
+        // Set loading state and show a toast notification
         setIsLoading(true);
         toast.loading('Signing up...');
 
         try {
+            // Attempt to sign up the user with Supabase
+            const supabase = createClient();
+
+            // Use signUp for email/password authentication
             const { error } = await supabase.auth.signUp({
                 email: data.email,
                 password: data.password,
@@ -58,9 +55,15 @@ export default function SignUpForm() {
                     emailRedirectTo: `${BASE_URL}/protected`,
                 },
             });
+
+            // Handle any errors that occur during sign-up
             if (error) throw error;
+
+            // Dismiss the loading toast and show success message
             toast.dismiss();
             toast.success('Successfully signed up.');
+
+            // Redirect the user to a success page or dashboard after successful sign-up
             router.push('/sign-up-success');
         } catch (error: unknown) {
             toast.dismiss();

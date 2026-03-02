@@ -10,6 +10,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { BASE_URL } from '@/constants/urls';
 import { createClient } from '@/lib/supabase/client';
+import { forgotPasswordSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconCheck, IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
@@ -18,22 +19,21 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-const formSchema = z.object({
-    email: z.string().email({ message: 'Please enter a valid email address.' }),
-});
-
 export default function ForgotPasswordForm() {
+    // State to track loading and success status
     const [isLoading, setIsLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
+    // Initialize the form with react-hook-form and zod validation
     const form = useForm({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(forgotPasswordSchema),
         defaultValues: {
             email: '',
         },
     });
 
-    async function onSubmit(data: z.infer<typeof formSchema>) {
+    // Handle form submission
+    async function onSubmit(data: z.infer<typeof forgotPasswordSchema>) {
         const supabase = createClient();
         setIsLoading(true);
         toast.loading('Sending password reset email...');

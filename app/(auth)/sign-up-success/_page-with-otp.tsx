@@ -36,8 +36,6 @@ export default function SignUpSuccess() {
         const supabase = createClient();
         setIsLoading(true);
         toast.loading('Verifying...');
-
-        console.log((await supabase.auth.getSession()).data.session?.user.email);
         
 
         try {

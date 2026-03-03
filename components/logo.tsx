@@ -12,6 +12,7 @@ export default function Logo({ isWhite, variant = 'full', className }: LogoProps
                 height={200}
                 alt="Fit manage logo"
                 className={cn('w-32 md:w-40', className)}
+                loading="eager"
             />
         </Link>
     );

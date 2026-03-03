@@ -1,6 +1,12 @@
-import IsNewUserLayer from '@/components/security-layers/user-layers/is-new-user-layer';
+import { getUserProfile } from '@/lib/api-fetcher/user-profile';
 import type { ChildrenProp } from '@/types/common';
+import { redirect } from 'next/navigation';
 
 export default async function layout({ children }: ChildrenProp) {
-    return <IsNewUserLayer>{children}</IsNewUserLayer>;
+    const profile = await getUserProfile();
+
+    if (profile && profile.is_onboarded) {
+        redirect('/dashboard/overview');
+    }
+    return children;
 }

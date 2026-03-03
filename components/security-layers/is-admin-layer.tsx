@@ -6,10 +6,10 @@ export default async function IsAdminLayer({ children }: ChildrenProp) {
     const supabase = await createClient();
 
     const {
-        data: { session },
-    } = await supabase.auth.getSession();
+        data: { user },
+    } = await supabase.auth.getUser();
 
-    if (session?.user?.app_metadata?.role !== 'admin') {
+    if (user?.app_metadata?.role !== 'admin') {
         redirect('/');
     }
 

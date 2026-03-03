@@ -1,6 +1,6 @@
-import IsUserLayer from '@/components/security-layers/is-user-layer';
+import IsNewUserLayer from '@/components/security-layers/user-layers/is-new-user-layer';
 import type { ChildrenProp } from '@/types/common';
 
 export default async function UserLayout({ children }: ChildrenProp) {
-    return <IsUserLayer>{children}</IsUserLayer>;
+    return <IsNewUserLayer>{children}</IsNewUserLayer>;
 }

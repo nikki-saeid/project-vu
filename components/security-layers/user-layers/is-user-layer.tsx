@@ -5,8 +5,11 @@ import { redirect } from 'next/navigation';
 export default async function IsUserLayer({ children }: ChildrenProp) {
     const supabase = await createClient();
 
-    const { data } = await supabase.auth.getClaims();
-    if (data?.claims.app_metadata?.role === 'admin') {
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
+
+    if (session?.user?.app_metadata?.role === 'admin') {
         redirect('/admin/overview');
     }
 

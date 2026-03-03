@@ -2,9 +2,9 @@ import DashboardHeader from '@/components/dashboard-ui/dashboard-header';
 import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { ADMIN_DASHBOARD_SIDEBAR_NAVIGATION } from '@/constants/admin-dashboard';
+import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/constants/user-dashboard';
 import { createClient } from '@/lib/supabase/server';
-import { ChildrenProp } from '@/types/common';
+import type { ChildrenProp } from '@/types/common';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
@@ -14,8 +14,8 @@ export default async function UserLayout({ children }: ChildrenProp) {
     const { data, error } = await supabase.auth.getClaims();
     if (error || !data?.claims) {
         redirect('/login');
-    } else if (data.claims.app_metadata?.role !== 'admin') {
-        redirect('/');
+    } else if (data.claims.app_metadata?.role === 'admin') {
+        redirect('/admin/overview');
     }
 
     return (
@@ -25,11 +25,13 @@ export default async function UserLayout({ children }: ChildrenProp) {
             }
         >
             <DashboardSidebar variant="inset">
-                <DashboardSidebarGroup data={ADMIN_DASHBOARD_SIDEBAR_NAVIGATION.main} />
+                <DashboardSidebarGroup data={USER_DASHBOARD_SIDEBAR_NAVIGATION.main} />
+                <DashboardSidebarGroup label="Map" data={USER_DASHBOARD_SIDEBAR_NAVIGATION.map} />
+                <DashboardSidebarGroup label="Account" data={USER_DASHBOARD_SIDEBAR_NAVIGATION.account} />
             </DashboardSidebar>
             <SidebarInset>
                 <DashboardHeader
-                    pagesMetadata={Object.values(ADMIN_DASHBOARD_SIDEBAR_NAVIGATION)
+                    pagesMetadata={Object.values(USER_DASHBOARD_SIDEBAR_NAVIGATION)
                         .flat()
                         .map((item) => ({ ...item, Icon: undefined }))}
                 />

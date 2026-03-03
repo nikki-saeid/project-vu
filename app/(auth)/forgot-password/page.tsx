@@ -117,7 +117,7 @@ export default function ForgotPasswordForm() {
                         <div className="mt-6">
                             <P className="text-center text-sm">
                                 Go back to{' '}
-                                <Link href="/sign-in" className="underline underline-offset-2">
+                                <Link href="/login" className="underline underline-offset-2">
                                     Sign in
                                 </Link>
                             </P>

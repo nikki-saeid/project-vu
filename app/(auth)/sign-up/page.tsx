@@ -12,7 +12,7 @@ import { BASE_URL } from '@/constants/urls';
 import { createClient } from '@/lib/supabase/client';
 import { signUpSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IconMail } from '@tabler/icons-react';
+import { IconMail, IconUser } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -32,6 +32,7 @@ export default function SignUpForm() {
         resolver: zodResolver(signUpSchema),
         defaultValues: {
             email: '',
+            full_name: '',
             password: '',
             repeatPassword: '',
         },
@@ -53,6 +54,9 @@ export default function SignUpForm() {
                 password: data.password,
                 options: {
                     emailRedirectTo: `${BASE_URL}/protected`,
+                    data: {
+                        full_name: data.full_name,
+                    },
                 },
             });
 
@@ -87,6 +91,28 @@ export default function SignUpForm() {
                     <form id="form" onSubmit={form.handleSubmit(onSubmit)}>
                         <FieldGroup>
                             <Controller
+                                name="full_name"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel htmlFor="form-full-name">Full name</FieldLabel>
+                                        <InputGroup>
+                                            <InputGroupAddon>
+                                                <IconUser />
+                                            </InputGroupAddon>
+                                            <InputGroupInput
+                                                {...field}
+                                                id="form-full-name"
+                                                aria-invalid={fieldState.invalid}
+                                                placeholder="Enter your full name"
+                                                autoComplete="on"
+                                            />
+                                        </InputGroup>
+                                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )}
+                            />
+                            <Controller
                                 name="email"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
@@ -108,42 +134,43 @@ export default function SignUpForm() {
                                     </Field>
                                 )}
                             />
+                            <div className="flex sm:flex-row flex-col items-center md:gap-6 gap-4">
+                                <Controller
+                                    name="password"
+                                    control={form.control}
+                                    render={({ field, fieldState }) => (
+                                        <Field data-invalid={fieldState.invalid}>
+                                            <FieldLabel htmlFor="form-password">Password</FieldLabel>
+                                            <PasswordInput
+                                                {...field}
+                                                id="form-password"
+                                                aria-invalid={fieldState.invalid}
+                                                placeholder="Enter your password"
+                                                autoComplete="off"
+                                            />
+                                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                        </Field>
+                                    )}
+                                />
 
-                            <Controller
-                                name="password"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel htmlFor="form-password">Password</FieldLabel>
-                                        <PasswordInput
-                                            {...field}
-                                            id="form-password"
-                                            aria-invalid={fieldState.invalid}
-                                            placeholder="Enter your password"
-                                            autoComplete="off"
-                                        />
-                                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                                    </Field>
-                                )}
-                            />
-
-                            <Controller
-                                name="repeatPassword"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel htmlFor="form-repeat-password">Repeat Password</FieldLabel>
-                                        <PasswordInput
-                                            {...field}
-                                            id="form-repeat-password"
-                                            aria-invalid={fieldState.invalid}
-                                            placeholder="Enter your password again"
-                                            autoComplete="off"
-                                        />
-                                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                                    </Field>
-                                )}
-                            />
+                                <Controller
+                                    name="repeatPassword"
+                                    control={form.control}
+                                    render={({ field, fieldState }) => (
+                                        <Field data-invalid={fieldState.invalid}>
+                                            <FieldLabel htmlFor="form-repeat-password">Repeat Password</FieldLabel>
+                                            <PasswordInput
+                                                {...field}
+                                                id="form-repeat-password"
+                                                aria-invalid={fieldState.invalid}
+                                                placeholder="Repeat your password"
+                                                autoComplete="off"
+                                            />
+                                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                        </Field>
+                                    )}
+                                />
+                            </div>
                             <Button type="submit" className="w-full" disabled={isLoading}>
                                 {isLoading ? 'Signing up...' : 'Sign up'}
                             </Button>

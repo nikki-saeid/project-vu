@@ -8,6 +8,7 @@ export const loginSchema = z.object({
 export const signUpSchema = z
     .object({
         email: z.string().email({ message: 'Please enter a valid email address.' }),
+        full_name: z.string().min(1, 'Please enter a valid name'),
         password: z.string().min(8, 'Password must be at least 8 characters long.'),
         repeatPassword: z.string().min(8, 'Password must be at least 8 characters long.'),
     })

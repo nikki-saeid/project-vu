@@ -5,7 +5,7 @@ import {
     IconCreditCard,
     IconDashboard,
     IconMap2,
-    IconUserCircle
+    IconUserCircle,
 } from '@tabler/icons-react';
 
 export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
@@ -38,7 +38,7 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
             Icon: IconCode,
         },
     ],
-     account: [
+    account: [
         {
             title: 'Profile',
             url: '/dashboard/profile',
@@ -51,3 +51,18 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
         },
     ],
 };
+
+export const USER_ONBOARDING_STEPS = [
+    {
+        title: 'Personal information',
+        description: 'Enter your name, and other personal details. This information will appear on your public profile.',
+    },
+    {
+        title: 'Business details',
+        description: 'Provide your business information. These details will be visible on your public profile.',
+    },
+    {
+        title: 'Projects list',
+        description: 'Add and configure your initial projects. Your projects will be showcased on your public profile.',
+    },
+];

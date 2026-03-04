@@ -1,8 +1,7 @@
-import { ErrorResponse, SuccessResponse } from '@/lib/helpers/api-response';
+import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
 import { createClient } from '@/lib/supabase/server';
 import { Profile } from '@/types/db';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 export async function GET() {
     try {
@@ -15,24 +14,24 @@ export async function GET() {
         } = await supabase.auth.getUser();
 
         // Fetch the profile
-        const { data, error } = await supabase.from('profiles').select('*').eq('id', user?.id).maybeSingle();
+        const { data, error } = await supabase.from('profiles').select('*').eq('user_id', user?.id).maybeSingle();
 
         // Fetching error handling
-        if (error) {
-            const { message, status } = errorHandler({
-                error,
-                defaultValue: { status: StatusCodes.INTERNAL_SERVER_ERROR, message: ReasonPhrases.INTERNAL_SERVER_ERROR },
-            });
-            return new ErrorResponse(status, message).send();
+        if (error) return errorHandler({ error });
+
+        // create a profile for the user if profile is null
+        if (!data) {
+            const { error: insertError } = await supabase
+                .from('profiles')
+                .insert({ full_name: user?.user_metadata?.full_name, user_id: user?.id });
+
+            // insert error handing
+            if (insertError) return errorHandler({ error: insertError });
         }
 
         // Return response
         return new SuccessResponse<Profile>('profile fetched successfully', data).send();
     } catch (error) {
-        const { message, status } = errorHandler({
-            error,
-            defaultValue: { status: StatusCodes.INTERNAL_SERVER_ERROR, message: ReasonPhrases.INTERNAL_SERVER_ERROR },
-        });
-        return new ErrorResponse(status, message).send();
+        return errorHandler({ error });
     }
 }

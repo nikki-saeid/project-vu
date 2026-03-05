@@ -126,3 +126,44 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Custom Mapbox Popup Styling */
+.mapboxgl-custom-popup .mapboxgl-popup-content {
+    @apply bg-transparent text-card-foreground p-0;
+}
+
+.mapboxgl-custom-popup .mapboxgl-popup-close-button {
+    @apply hidden;
+}
+
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+    @apply hidden;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+    @apply hidden;
+}
+
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+    @apply hidden;
+}
+
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+    @apply hidden;
+}
+
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    @apply hidden;
+}
+
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip {
+    @apply hidden;
+}
+
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+    @apply hidden;
+}
+
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
+    @apply hidden;
+}

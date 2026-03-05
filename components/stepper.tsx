@@ -1,6 +1,6 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { cn } from '@/lib/utils';
-import { StepperProps } from '@/types/ui';
+import { StepperProps } from '@/lib/types/ui';
 
 export default function Stepper({ stepIndex, steps }: StepperProps) {
     return (

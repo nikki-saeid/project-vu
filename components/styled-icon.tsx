@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import type { StyledIconProps } from '@/types/ui';
+import type { StyledIconProps } from '@/lib/types/ui';
 
 export default function StyledIcon({ className, IconProps, Icon }: StyledIconProps) {
     return (

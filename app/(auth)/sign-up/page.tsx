@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Separator } from '@/components/ui/separator';
-import { BASE_URL } from '@/constants/urls';
+import { BASE_URL } from '@/lib/constants/urls';
 import { createClient } from '@/lib/supabase/client';
 import { signUpSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';

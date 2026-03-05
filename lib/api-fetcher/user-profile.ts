@@ -1,5 +1,5 @@
-import { API_URL } from '@/constants/urls';
-import { Profile } from '@/types/db';
+import { API_URL } from '@/lib/constants/urls';
+import { Profile } from '@/lib/types/db';
 import { cookies } from 'next/headers';
 
 export const getUserProfile = async () => {

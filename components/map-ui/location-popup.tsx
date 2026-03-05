@@ -1,0 +1,41 @@
+import { LocationPopupProps } from '@/lib/types/features';
+import { IconX } from '@tabler/icons-react';
+import ProjectCard from '../business-ui/project-card';
+import { Button } from '../ui/button';
+import Popup from './map-popup';
+
+export function LocationPopup({ location, onClose }: LocationPopupProps) {
+    if (!location) return null;
+
+    const { properties, geometry } = location;
+
+    // const name = properties?.name || 'Unknown Location';
+    // const address = properties?.full_address || properties?.address || '';
+    // const categories = properties?.poi_category || [];
+    // const brand = properties?.brand?.[0] || '';
+    // const status = properties?.operational_status || '';
+    // const maki = properties?.maki || '';
+
+    const lat = geometry?.coordinates?.[1] || properties?.coordinates?.latitude;
+    const lng = geometry?.coordinates?.[0] || properties?.coordinates?.longitude;
+
+    return (
+        <Popup
+            latitude={lat}
+            longitude={lng}
+            // onClose={onClose}
+            offset={15}
+            closeButton={false}
+            closeOnClick={false}
+            focusAfterOpen={false}
+        >
+            <ProjectCard
+                action={
+                    <Button size="icon-xs" className="rounded-full shadow-xs" variant="secondary" onClick={onClose}>
+                        <IconX />
+                    </Button>
+                }
+            />
+        </Popup>
+    );
+}

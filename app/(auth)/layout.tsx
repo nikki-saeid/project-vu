@@ -1,5 +1,5 @@
 import IsAuthLayer from '@/components/security-layers/is-auth-layer';
-import type { ChildrenProp } from '@/types/common';
+import type { ChildrenProp } from '@/lib/types/common';
 
 export default async function layout({ children }: ChildrenProp) {
     return (

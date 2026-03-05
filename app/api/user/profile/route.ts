@@ -1,7 +1,7 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
 import { createClient } from '@/lib/supabase/server';
-import { Profile } from '@/types/db';
+import { Profile } from '@/lib/types/db';
 
 export async function GET() {
     try {
@@ -21,12 +21,21 @@ export async function GET() {
 
         // create a profile for the user if profile is null
         if (!data) {
-            const { error: insertError } = await supabase
+            const { error: insertBusinessError } = await supabase
+                .from('businesses')
+                .insert({ user_id: user?.id, email: user?.email })
+                .select()
+                .maybeSingle();
+
+            if (insertBusinessError) return errorHandler({ error: insertBusinessError });
+
+            // create the profile
+            const { error: insertProfileError } = await supabase
                 .from('profiles')
                 .insert({ full_name: user?.user_metadata?.full_name, user_id: user?.id });
 
             // insert error handing
-            if (insertError) return errorHandler({ error: insertError });
+            if (insertProfileError) return errorHandler({ error: insertProfileError });
         }
 
         // Return response

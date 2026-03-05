@@ -1,6 +1,6 @@
-import Container from '@/components/ui/container';
+import NavbarWrapper from '@/components/public-pages-ui/navbar-wrapper';
 import { getUserProfile } from '@/lib/api-fetcher/user-profile';
-import type { ChildrenProp } from '@/types/common';
+import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 
 export default async function layout({ children }: ChildrenProp) {
@@ -9,5 +9,10 @@ export default async function layout({ children }: ChildrenProp) {
     if (profile && profile.is_onboarded) {
         redirect('/dashboard/overview');
     }
-    return <Container>{children}</Container>;
+    return (
+        <div className="flex flex-col gap-4 pb-4 md:pb-6 md:gap-6">
+            <NavbarWrapper />
+            {children}
+        </div>
+    );
 }

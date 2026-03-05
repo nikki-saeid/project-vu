@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import type { ChildrenProp } from '@/types/common';
+import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 
 export default async function IsUserLayer({ children }: ChildrenProp) {

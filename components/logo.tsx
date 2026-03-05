@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import type { LogoProps } from '@/types/ui';
+import type { LogoProps } from '@/lib/types/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 

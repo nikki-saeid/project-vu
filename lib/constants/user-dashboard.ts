@@ -1,3 +1,4 @@
+import { Constants } from '@/lib/types/supabase';
 import {
     IconAppWindow,
     IconBuildingCommunity,
@@ -28,11 +29,6 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
     ],
     map: [
         {
-            title: 'Projects map',
-            url: '/dashboard/projects-map',
-            Icon: IconMap2,
-        },
-        {
             title: 'Embedded map',
             url: '/dashboard/embedded-map',
             Icon: IconCode,
@@ -54,10 +50,6 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
 
 export const USER_ONBOARDING_STEPS = [
     {
-        title: 'Personal information',
-        description: 'Enter your name, and other personal details. This information will appear on your public profile.',
-    },
-    {
         title: 'Business details',
         description: 'Provide your business information. These details will be visible on your public profile.',
     },
@@ -66,3 +58,5 @@ export const USER_ONBOARDING_STEPS = [
         description: 'Add and configure your initial projects. Your projects will be showcased on your public profile.',
     },
 ];
+
+export const BUSINESS_TYPE = Constants.public.Enums.business_type;

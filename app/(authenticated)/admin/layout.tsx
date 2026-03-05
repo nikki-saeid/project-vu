@@ -3,8 +3,8 @@ import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import IsAdminLayer from '@/components/security-layers/is-admin-layer';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { ADMIN_DASHBOARD_SIDEBAR_NAVIGATION } from '@/constants/admin-dashboard';
-import { ChildrenProp } from '@/types/common';
+import { ADMIN_DASHBOARD_SIDEBAR_NAVIGATION } from '@/lib/constants/admin-dashboard';
+import { ChildrenProp } from '@/lib/types/common';
 import React from 'react';
 
 export default async function UserLayout({ children }: ChildrenProp) {

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import type { PasswordInputProps } from '@/types/features';
+import type { PasswordInputProps } from '@/lib/types/features';
 import { IconEye, IconEyeClosed, IconLock } from '@tabler/icons-react';
 import { useState } from 'react';
 

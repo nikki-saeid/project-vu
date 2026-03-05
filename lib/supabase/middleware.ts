@@ -1,4 +1,4 @@
-import { PUBLIC_URLS } from '@/constants/urls';
+import { PUBLIC_URLS } from '@/lib/constants/urls';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 

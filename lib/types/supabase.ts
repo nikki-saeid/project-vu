@@ -12,82 +12,74 @@ export type Database = {
       businesses: {
         Row: {
           created_at: string
-          description: string
+          description: string | null
+          email: string
           facebook_url: string | null
           id: string
           instagram_url: string | null
           logo_url: string | null
-          name: string
-          phone: string
-          slug: string
-          type: Database["public"]["Enums"]["business_type"]
+          name: string | null
+          phone: string | null
+          slug: string | null
+          type: Database["public"]["Enums"]["business_type"] | null
+          user_id: string
           website_url: string | null
         }
         Insert: {
           created_at?: string
-          description: string
+          description?: string | null
+          email: string
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
           logo_url?: string | null
-          name: string
-          phone: string
-          slug: string
-          type: Database["public"]["Enums"]["business_type"]
+          name?: string | null
+          phone?: string | null
+          slug?: string | null
+          type?: Database["public"]["Enums"]["business_type"] | null
+          user_id: string
           website_url?: string | null
         }
         Update: {
           created_at?: string
-          description?: string
+          description?: string | null
+          email?: string
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
           logo_url?: string | null
-          name?: string
-          phone?: string
-          slug?: string
-          type?: Database["public"]["Enums"]["business_type"]
+          name?: string | null
+          phone?: string | null
+          slug?: string | null
+          type?: Database["public"]["Enums"]["business_type"] | null
+          user_id?: string
           website_url?: string | null
         }
         Relationships: []
       }
       profiles: {
         Row: {
-          business_id: string | null
           created_at: string
           full_name: string
           id: string
-          image_url: string | null
           is_onboarded: boolean
           user_id: string
         }
         Insert: {
-          business_id?: string | null
           created_at?: string
           full_name: string
           id?: string
-          image_url?: string | null
           is_onboarded?: boolean
           user_id: string
         }
         Update: {
-          business_id?: string | null
           created_at?: string
           full_name?: string
           id?: string
-          image_url?: string | null
           is_onboarded?: boolean
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "business_member_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       project_image: {
         Row: {

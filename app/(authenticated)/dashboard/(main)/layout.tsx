@@ -2,9 +2,9 @@ import DashboardHeader from '@/components/dashboard-ui/dashboard-header';
 import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/constants/user-dashboard';
+import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/lib/constants/user-dashboard';
 import { getUserProfile } from '@/lib/api-fetcher/user-profile';
-import type { ChildrenProp } from '@/types/common';
+import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 import React from 'react';
 

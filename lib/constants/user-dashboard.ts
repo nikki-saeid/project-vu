@@ -1,13 +1,5 @@
 import { Constants } from '@/lib/types/supabase';
-import {
-    IconAppWindow,
-    IconBuildingCommunity,
-    IconCode,
-    IconCreditCard,
-    IconDashboard,
-    IconMap2,
-    IconUserCircle,
-} from '@tabler/icons-react';
+import { IconAppWindow, IconBuildingCommunity, IconCode, IconCreditCard, IconDashboard, IconUserCircle } from '@tabler/icons-react';
 
 export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
     main: [
@@ -47,16 +39,5 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
         },
     ],
 };
-
-export const USER_ONBOARDING_STEPS = [
-    {
-        title: 'Business details',
-        description: 'Provide your business information. These details will be visible on your public profile.',
-    },
-    {
-        title: 'Projects list',
-        description: 'Add and configure your initial projects. Your projects will be showcased on your public profile.',
-    },
-];
 
 export const BUSINESS_TYPE = Constants.public.Enums.business_type;

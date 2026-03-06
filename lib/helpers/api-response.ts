@@ -1,6 +1,12 @@
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 import { NextResponse } from 'next/server';
 
+export type APIResponseSend<T> = {
+    message: string;
+    status: StatusCodes;
+    data: T | null;
+};
+
 abstract class APIResponse<T> {
     protected data: T | null = null;
     protected status: StatusCodes;
@@ -14,7 +20,7 @@ abstract class APIResponse<T> {
         }
     }
 
-    send() {
+    send(): NextResponse<APIResponseSend<T>> {
         return NextResponse.json({ message: this.message, status: this.status, data: this.data }, { status: this.status });
     }
 }

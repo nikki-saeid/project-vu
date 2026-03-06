@@ -1,9 +1,9 @@
 import { Sidebar } from '@/components/ui/sidebar';
 import type { ReactNode, Icon as TablerIcon } from '@tabler/icons-react';
-import type { ChildrenProp } from './common';
-import { UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
-import { Business } from './db';
-import { Marker, MarkerOptions, PopupOptions } from 'mapbox-gl';
+import type { ChildrenProp, ClassNameProp } from './common';
+import type { UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
+import type { Business } from './db';
+import type { Marker, MarkerOptions, PopupOptions } from 'mapbox-gl';
 
 type SidebarNavigationItem = { title: string; url: string; Icon: TablerIcon };
 export type PasswordInputProps = React.ComponentProps<'input'>;
@@ -15,12 +15,10 @@ export type ImageUploadProps = { dropZoneProps: UseSupabaseUploadReturn; trigger
 export type NavbarWrapperProps = { isSticky?: boolean } & ChildrenProp;
 
 // profile types
-export type ProfileIsEditProp = { isEdit: boolean };
-export type ProfileAvatarProps = ProfileIsEditProp & Pick<Business, 'logo_url' | 'name'>;
-export type BusinessTitleProps = ProfileIsEditProp & Pick<Business, 'name'>;
+export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 'logo_url' | 'name'>> & ClassNameProp;
 export type ProjectCardProps = { action?: ReactNode };
-export type BusinessHeaderProps = { name: string | null; logo_url: string | null; type: string | null; description: string | null };
-export type BusinessSocialsProps = { website_url: string | null; facebook_url: string | null; instagram_url: string | null };
+export type BusinessHeaderProps = Partial<Pick<Business, 'name' | 'type' | 'description'>>;
+export type BusinessSocialsProps = Partial<Pick<Business, 'website_url' | 'facebook_url' | 'instagram_url'>>;
 
 // map types
 export type LocationFeature = {

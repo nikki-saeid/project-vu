@@ -1,28 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDropzone, type FileError, type FileRejection } from 'react-dropzone';
 
-import { createClient } from '@/lib/supabase/client';
-
-const supabase = createClient();
-
 interface FileWithPreview extends File {
     preview?: string;
     errors: readonly FileError[];
 }
 
 type UseSupabaseUploadOptions = {
-    /**
-     * Name of bucket to upload files to in your Supabase project
-     */
-    bucketName: string;
-    /**
-     * Folder to upload files to in the specified bucket within your Supabase project.
-     *
-     * Defaults to uploading files to the root of the bucket
-     *
-     * e.g If specified path is `test`, your file will be uploaded as `test/file_name`
-     */
-    path?: string;
     /**
      * Allowed MIME types for each file upload (e.g `image/png`, `text/html`, etc). Wildcards are also supported (e.g `image/*`).
      *
@@ -55,29 +39,27 @@ type UseSupabaseUploadReturn = ReturnType<typeof useSupabaseUpload>;
 
 const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
     const {
-        bucketName,
-        path,
         allowedMimeTypes = [],
         maxFileSize = Number.POSITIVE_INFINITY,
         maxFiles = 1,
-        cacheControl = 3600,
-        upsert = false,
+        // cacheControl = 3600,
+        // upsert = false,
     } = options;
 
     const [files, setFiles] = useState<FileWithPreview[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    // const [loading, setLoading] = useState<boolean>(false);
     const [errors, setErrors] = useState<{ name: string; message: string }[]>([]);
-    const [successes, setSuccesses] = useState<string[]>([]);
+    // const [successes, setSuccesses] = useState<string[]>([]);
 
-    const isSuccess = useMemo(() => {
-        if (errors.length === 0 && successes.length === 0) {
-            return false;
-        }
-        if (errors.length === 0 && successes.length === files.length) {
-            return true;
-        }
-        return false;
-    }, [errors.length, successes.length, files.length]);
+    // const isSuccess = useMemo(() => {
+    //     if (errors.length === 0 && successes.length === 0) {
+    //         return false;
+    //     }
+    //     if (errors.length === 0 && successes.length === files.length) {
+    //         return true;
+    //     }
+    //     return false;
+    // }, [errors.length, successes.length, files.length]);
 
     const onDrop = useCallback(
         (acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -112,44 +94,45 @@ const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
     });
 
     // eslint-disable-next-line react-hooks/preserve-manual-memoization
-    const onUpload = useCallback(async () => {
-        setLoading(true);
+    // const onUpload = useCallback(async () => {
+    //     setLoading(true);
 
-        // [Joshen] This is to support handling partial successes
-        // If any files didn't upload for any reason, hitting "Upload" again will only upload the files that had errors
-        const filesWithErrors = errors.map((x) => x.name);
-        const filesToUpload =
-            filesWithErrors.length > 0
-                ? [...files.filter((f) => filesWithErrors.includes(f.name)), ...files.filter((f) => !successes.includes(f.name))]
-                : files;
+    //     // [Joshen] This is to support handling partial successes
+    //     // If any files didn't upload for any reason, hitting "Upload" again will only upload the files that had errors
+    //     const filesWithErrors = errors.map((x) => x.name);
+    //     const filesToUpload =
+    //         filesWithErrors.length > 0
+    //             ? [...files.filter((f) => filesWithErrors.includes(f.name)), ...files.filter((f) => !successes.includes(f.name))]
+    //             : files;
 
-        const responses = await Promise.all(
-            filesToUpload.map(async (file) => {
-                const { error } = await supabase.storage.from(bucketName).upload(!!path ? `${path}/${file.name}` : file.name, file, {
-                    cacheControl: cacheControl.toString(),
-                    upsert,
-                });
-                if (error) {
-                    return { name: file.name, message: error.message };
-                } else {
-                    return { name: file.name, message: undefined };
-                }
-            }),
-        );
+    //     const responses = await Promise.all(
+    //         filesToUpload.map(async (file) => {
+    //             const { error } = await supabase.storage.from(bucketName).upload(!!path ? `${path}/${file.name}` : file.name, file, {
+    //                 cacheControl: cacheControl.toString(),
+    //                 upsert,
+    //             });
+    //             if (error) {
+    //                 return { name: file.name, message: error.message };
+    //             } else {
+    //                 return { name: file.name, message: undefined };
+    //             }
+    //         }),
+    //     );
 
-        const responseErrors = responses.filter((x) => x.message !== undefined);
-        // if there were errors previously, this function tried to upload the files again so we should clear/overwrite the existing errors.
-        setErrors(responseErrors);
+    //     const responseErrors = responses.filter((x) => x.message !== undefined);
+    //     // if there were errors previously, this function tried to upload the files again so we should clear/overwrite the existing errors.
+    //     setErrors(responseErrors);
 
-        const responseSuccesses = responses.filter((x) => x.message === undefined);
-        const newSuccesses = Array.from(new Set([...successes, ...responseSuccesses.map((x) => x.name)]));
-        setSuccesses(newSuccesses);
+    //     const responseSuccesses = responses.filter((x) => x.message === undefined);
+    //     const newSuccesses = Array.from(new Set([...successes, ...responseSuccesses.map((x) => x.name)]));
+    //     setSuccesses(newSuccesses);
 
-        setLoading(false);
-    }, [files, path, bucketName, errors, successes]);
+    //     setLoading(false);
+    // }, [files, path, bucketName, errors, successes]);
 
     useEffect(() => {
         if (files.length === 0) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             setErrors([]);
         }
 
@@ -166,18 +149,24 @@ const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
             if (changed) {
                 setFiles(newFiles);
             }
+
+            setErrors(
+                files
+                    .map((file) => file.errors.map((value) => ({ name: file.name, message: value.message })))
+                    .flat()
+                    .filter((value) => value !== undefined),
+            );
         }
-    }, [files.length, setFiles, maxFiles]);
+    }, [files.length, maxFiles, files]);
 
     return {
         files,
         setFiles,
-        successes,
-        isSuccess,
-        loading,
+        // successes,
+        // isSuccess,
+        // loading,
         errors,
         setErrors,
-        onUpload,
         maxFileSize: maxFileSize,
         maxFiles: maxFiles,
         allowedMimeTypes,

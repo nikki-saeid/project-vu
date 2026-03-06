@@ -1,15 +1,13 @@
-import { createClient } from '@/lib/supabase/server';
+import { getUserAuth } from '@/lib/api-fetcher/user-auth';
 import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 
 export default async function IsAdminLayer({ children }: ChildrenProp) {
-    const supabase = await createClient();
+    const user = await getUserAuth();
 
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
-    if (user?.app_metadata?.role !== 'admin') {
+    if (!user) {
+        redirect('/login');
+    } else if (user?.app_metadata?.role !== 'admin') {
         redirect('/');
     }
 

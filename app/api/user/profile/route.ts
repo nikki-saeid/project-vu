@@ -2,6 +2,7 @@ import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
 import { createClient } from '@/lib/supabase/server';
 import { Profile } from '@/lib/types/db';
+import { StatusCodes } from 'http-status-codes';
 
 export async function GET() {
     try {
@@ -12,6 +13,13 @@ export async function GET() {
         const {
             data: { user },
         } = await supabase.auth.getUser();
+
+        if (!user) {
+            return errorHandler({
+                error: new Error('Unauthorized'),
+                defaultValue: { status: StatusCodes.UNAUTHORIZED, message: 'You must be signed in to get your profile' },
+            });
+        }
 
         // Fetch the profile
         const { data, error } = await supabase.from('profiles').select('*').eq('user_id', user?.id).maybeSingle();

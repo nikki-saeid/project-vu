@@ -1,13 +1,12 @@
-import { createClient } from '@/lib/supabase/server';
+import { getUserAuth } from '@/lib/api-fetcher/user-auth';
 import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 
 export default async function IsAuthLayer({ children }: ChildrenProp) {
-    const supabase = await createClient();
+    const user = await getUserAuth();
 
-    const { data, error } = await supabase.auth.getClaims();
-    if (!error && data?.claims) {
-        if (data.claims.app_metadata?.role === 'admin') {
+    if (user) {
+        if (user.app_metadata?.role === 'admin') {
             redirect('/admin/overview');
         } else {
             redirect('/dashboard/overview');

@@ -1,15 +1,16 @@
+'use client';
 import DashboardHeader from '@/components/dashboard-ui/dashboard-header';
 import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/lib/constants/user-dashboard';
-import { getUserProfile } from '@/lib/api-fetcher/user-profile';
+import { useUser } from '@/lib/contexts/user-context';
 import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
-export default async function UserLayout({ children }: ChildrenProp) {
-    const profile = await getUserProfile();
+export default function MainLayout({ children }: ChildrenProp) {
+    const { profile } = useUser();
 
     if (!profile || !profile.is_onboarded) {
         redirect('/dashboard/onboarding');

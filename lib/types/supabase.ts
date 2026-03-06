@@ -24,6 +24,7 @@ export type Database = {
           type: Database["public"]["Enums"]["business_type"] | null
           user_id: string
           website_url: string | null
+          x_url: string | null
         }
         Insert: {
           created_at?: string
@@ -39,6 +40,7 @@ export type Database = {
           type?: Database["public"]["Enums"]["business_type"] | null
           user_id: string
           website_url?: string | null
+          x_url?: string | null
         }
         Update: {
           created_at?: string
@@ -54,6 +56,7 @@ export type Database = {
           type?: Database["public"]["Enums"]["business_type"] | null
           user_id?: string
           website_url?: string | null
+          x_url?: string | null
         }
         Relationships: []
       }

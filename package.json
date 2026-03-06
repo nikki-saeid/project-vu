@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
-        "supa-gen-types": "pnpx supabase gen types --lang typescript --local --schema=public > ./types/supabase.ts",
+        "supa-gen-types": "pnpx supabase gen types --lang typescript --local --schema=public > ./lib/types/supabase.ts",
         "supa-db-reset": "pnpx supabase db reset --local &&  node scripts/seed.ts && pnpm run supa-gen-types",
         "supa-reset": "pnpx supabase stop && pnpx supabase start"
     },

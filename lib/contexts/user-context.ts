@@ -1,6 +1,6 @@
 'use client';
 
-import type { Business, Profile } from '@/lib/types/db';
+import type { Business, Profile, Project } from '@/lib/types/db';
 import { createContext, useContext } from 'react';
 import type { User } from '@supabase/supabase-js';
 
@@ -11,6 +11,8 @@ export type UserContextValue = {
     setBusiness: (business: Business | null) => void;
     user: User | null;
     setUser: (user: User | null) => void;
+    projects: Project[];
+    setProjects: (projects: Project[]) => void;
 };
 
 export const UserContext = createContext<UserContextValue | null>(null);

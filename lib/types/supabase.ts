@@ -19,6 +19,7 @@ export type Database = {
           instagram_url: string | null
           logo_url: string | null
           name: string | null
+          page_status: Database["public"]["Enums"]["page_status"]
           phone: string | null
           slug: string | null
           type: Database["public"]["Enums"]["business_type"] | null
@@ -35,6 +36,7 @@ export type Database = {
           instagram_url?: string | null
           logo_url?: string | null
           name?: string | null
+          page_status?: Database["public"]["Enums"]["page_status"]
           phone?: string | null
           slug?: string | null
           type?: Database["public"]["Enums"]["business_type"] | null
@@ -51,6 +53,7 @@ export type Database = {
           instagram_url?: string | null
           logo_url?: string | null
           name?: string | null
+          page_status?: Database["public"]["Enums"]["page_status"]
           phone?: string | null
           slug?: string | null
           type?: Database["public"]["Enums"]["business_type"] | null
@@ -203,7 +206,7 @@ export type Database = {
         | "hvac"
         | "flooring_specialist"
         | "general_contractor"
-      page_status: "draft" | "published"
+      page_status: "draft" | "live"
       user_role: "admin" | "member"
     }
     CompositeTypes: {
@@ -345,7 +348,7 @@ export const Constants = {
         "flooring_specialist",
         "general_contractor",
       ],
-      page_status: ["draft", "published"],
+      page_status: ["draft", "live"],
       user_role: ["admin", "member"],
     },
   },

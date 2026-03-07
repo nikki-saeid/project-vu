@@ -94,7 +94,6 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <BusinessAvatar
                     logo_url={errors.length > 0 ? undefined : (files[0]?.preview ?? business?.logo_url ?? undefined)}
-                    className="border"
                     badge={
                         <ImageUploadDialog
                             dropZoneProps={dropZoneProps}
@@ -218,7 +217,7 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
                                 <InputGroupInput
                                     {...(field as { value: string })}
                                     id="form-website"
-                                    type="url"
+                                    type="text"
                                     aria-invalid={fieldState.invalid}
                                     placeholder="https://example.com"
                                     autoComplete="url"
@@ -242,9 +241,9 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
                                 <InputGroupInput
                                     {...(field as { value: string })}
                                     id="form-instagram"
-                                    type="url"
                                     aria-invalid={fieldState.invalid}
                                     placeholder="https://instagram.com/yourhandle"
+                                    type="text"
                                     autoComplete="url"
                                 />
                             </InputGroup>
@@ -266,10 +265,9 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
                                 <InputGroupInput
                                     {...(field as { value: string })}
                                     id="form-facebook"
-                                    type="url"
+                                    type="text"
                                     aria-invalid={fieldState.invalid}
                                     placeholder="https://facebook.com/yourpage"
-                                    autoComplete="url"
                                 />
                             </InputGroup>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -289,7 +287,7 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
                                 <InputGroupInput
                                     {...(field as { value: string })}
                                     id="form-x"
-                                    type="url"
+                                    type="text"
                                     aria-invalid={fieldState.invalid}
                                     placeholder="https://x.com/yourhandle"
                                     autoComplete="url"

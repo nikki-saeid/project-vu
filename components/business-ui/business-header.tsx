@@ -9,7 +9,7 @@ export default function BusinessHeader({ name, logo_url, type, description }: Bu
     return (
         <header className="flex flex-col gap-4">
             <div className="flex gap-4 items-center">
-                <BusinessAvatar isEdit={false} logo_url={logo_url} name={name} />
+                <BusinessAvatar logo_url={logo_url} name={name} />
                 <div className="flex flex-col gap-1">
                     <H4>{name ?? 'Business name'}</H4>
                     <Badge variant="secondary">{type ?? 'type'}</Badge>

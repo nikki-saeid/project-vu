@@ -5,7 +5,9 @@ import { cn } from '@/lib/utils';
 
 export default function BusinessAvatar({ logo_url, name, badge, className }: ProfileAvatarProps) {
     return (
-        <Avatar className={cn('relative size-24 overflow-visible flex items-center justify-center bg-muted', className)}>
+        <Avatar
+            className={cn('relative size-24 overflow-visible flex items-center justify-center bg-muted border-2 border-muted', className)}
+        >
             {logo_url ? (
                 <AvatarImage className="rounded-full size-24 text-gray-400 object-contain" src={logo_url} alt={name ?? 'business logo'} />
             ) : (

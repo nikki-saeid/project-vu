@@ -1,9 +1,10 @@
 'use client';
 
 import { LocationFeature } from '@/lib/types/features';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { LocationMarker } from '../map-ui/location-marker';
 import { LocationPopup } from '../map-ui/location-popup';
+import { useUser } from '@/lib/contexts/user-context';
 
 const locations: LocationFeature[] = [
     {
@@ -96,7 +97,9 @@ const locations: LocationFeature[] = [
     },
 ];
 
-export default function ProjectsLocations() {
+function ProjectsLocations() {
+    const { projects } = useUser();
+
     const [selectedLocation, setSelectedLocation] = useState<LocationFeature | null>(null);
 
     const handlePopUpOn = (data: LocationFeature | null) => setSelectedLocation(data);
@@ -111,3 +114,5 @@ export default function ProjectsLocations() {
         </>
     );
 }
+
+export default memo(ProjectsLocations);

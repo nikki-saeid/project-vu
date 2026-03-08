@@ -7,6 +7,7 @@ import { uploadLogo } from './file-upload';
 import { fetcher } from '../helpers/fetcher';
 import { revalidatePath } from 'next/cache';
 
+// private api fetcher for user
 export const getUserBusiness = async () => {
     const cookie = await cookies();
     return await fetcher<Business>(`${API_URL}/user/business`, {
@@ -14,6 +15,7 @@ export const getUserBusiness = async () => {
     });
 };
 
+// private api fetcher for user
 export const updateUserBusiness = async (business: Partial<Business> & { logo?: FormData }) => {
     let logo_url: string | undefined;
     if (business.logo) {

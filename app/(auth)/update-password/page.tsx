@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import PasswordInput from '../_components/password-input';
+import PasswordInput from '../../../components/auth-ui/password-input';
 import { roleRedirect } from '@/lib/helpers/role-redirect';
 
 export default function UpdatePasswordForm() {

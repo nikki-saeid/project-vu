@@ -1,7 +1,10 @@
 import { createContext, useContext } from 'react';
+import { LocationFeature } from '../types/features';
 
 interface MapContextType {
     map: mapboxgl.Map;
+    searchedLocation: LocationFeature | null;
+    setSearchedLocation: (location: LocationFeature | null) => void;
 }
 
 export const MapContext = createContext<MapContextType | null>(null);

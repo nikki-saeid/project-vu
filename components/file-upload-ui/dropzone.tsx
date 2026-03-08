@@ -7,6 +7,7 @@ import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
 import { cn } from '@/lib/utils';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
 import { Avatar, AvatarImage } from '../ui/avatar';
+import Image from 'next/image';
 
 export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB') => {
     const k = 1000;
@@ -53,7 +54,15 @@ const Dropzone = ({ className, children, getRootProps, getInputProps, ...restPro
         </DropzoneContext.Provider>
     );
 };
-const DropzoneContent = ({ className, onChooseImage }: { className?: string; onChooseImage: () => void }) => {
+const DropzoneContent = ({
+    className,
+    onChooseImage,
+    isLogo = false,
+}: {
+    className?: string;
+    onChooseImage?: () => void;
+    isLogo?: boolean;
+}) => {
     const { files, setFiles, maxFileSize, maxFiles } = useDropzoneContext();
 
     const exceedMaxFiles = files.length > maxFiles;
@@ -69,17 +78,32 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
         <div className={cn('flex flex-col', className)}>
             {files.map((file, idx) => {
                 return (
-                    <div key={`${file.name}-${idx}`} className="flex items-center gap-x-4  py-2 first:mt-4 last:mb-4 ">
-                        {file.type.startsWith('image/') ? (
-                            <Avatar className="size-34 border">
-                                <AvatarImage src={file.preview} alt={file.name} className="object-cover" />
-                            </Avatar>
-                        ) : (
-                            <div className="h-10 w-10 rounded border bg-muted flex items-center justify-center">
-                                <IconPhoto size={18} />
-                            </div>
-                        )}
+                    <div key={`${file.name}-${idx}`} className="flex flex-col">
+                        <div className="flex items-center justify-between gap-x-4  py-2 first:mt-4 last:mb-4 ">
+                            {file.type.startsWith('image/') ? (
+                                <>
+                                    {isLogo ? (
+                                        <Avatar className="size-10 rounded-full border">
+                                            <AvatarImage src={file.preview} alt={file.name} className="object-cover" />
+                                        </Avatar>
+                                    ) : (
+                                        <img
+                                            src={file.preview}
+                                            alt={file.name}
+                                            className="border aspect-video h-50 object-cover rounded-lg"
+                                        />
+                                    )}
+                                </>
+                            ) : (
+                                <div className="h-10 w-10 rounded border bg-muted flex items-center justify-center">
+                                    <IconPhoto size={18} />
+                                </div>
+                            )}
 
+                            <Button size="icon-xs" variant="outline" className="rounded-full" onClick={() => handleRemoveFile(file.name)}>
+                                <IconX />
+                            </Button>
+                        </div>
                         <div className="shrink grow flex flex-col items-start truncate">
                             <p title={file.name} className="text-sm truncate max-w-full text-wrap text-left">
                                 {file.name.length > 50 ? file.name.slice(0, 50) + '...' : file.name}
@@ -98,15 +122,6 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
                                 <p className="text-xs text-muted-foreground">{formatBytes(file.size, 2)}</p>
                             )}
                         </div>
-
-                        <Button
-                            size="icon"
-                            variant="link"
-                            className="shrink-0 justify-self-end text-muted-foreground hover:text-foreground"
-                            onClick={() => handleRemoveFile(file.name)}
-                        >
-                            <IconX />
-                        </Button>
                     </div>
                 );
             })}
@@ -134,7 +149,7 @@ const DropzoneEmptyState = ({ className }: { className?: string }) => {
         <div className={cn('flex flex-col items-center gap-y-2', className)}>
             <IconUpload size={20} className="text-muted-foreground" />
             <p className="text-sm">
-                Upload{!!maxFiles && maxFiles > 1 ? ` ${maxFiles}` : ''} file
+                Upload {!!maxFiles && maxFiles > 1 ? `up to ${maxFiles}` : ''} file
                 {!maxFiles || maxFiles > 1 ? 's' : ''}
             </p>
             <div className="flex flex-col items-center gap-y-1">

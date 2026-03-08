@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const BUCKET_NAME = 'businesses';
-const CACHE_CONTROL = '3600';
+const CACHE_CONTROL = '0';
 
 export type LogoUploadResponse = {
     logo_url: string;

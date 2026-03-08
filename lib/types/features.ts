@@ -3,7 +3,8 @@ import type { UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
 import type { ReactNode, Icon as TablerIcon } from '@tabler/icons-react';
 import type { Marker, MarkerOptions, PopupOptions } from 'mapbox-gl';
 import type { ChildrenProp, ClassNameProp } from './common';
-import type { Business } from './db';
+import type { Business, Project, ProjectImage } from './db';
+import { ProjectWithImages } from '@/app/api/user/projects/all/route';
 
 type SidebarNavigationItem = { title: string; url: string; Icon: TablerIcon };
 export type PasswordInputProps = React.ComponentProps<'input'>;
@@ -12,11 +13,13 @@ export type DashboardSidebarGroupProps = { label?: string; data: SidebarNavigati
 export type DashboardHeaderProps = { pagesMetadata: Omit<SidebarNavigationItem, 'Icon'>[] };
 export type SidebarCustomButtonProps = Omit<SidebarNavigationItem, 'Icon'> & ChildrenProp;
 export type ImageUploadProps = { dropZoneProps: UseSupabaseUploadReturn; trigger: (props: { onClick: () => void }) => React.ReactNode };
-export type NavbarWrapperProps = { isSticky?: boolean } & ChildrenProp;
+export type NavbarWrapperProps = ChildrenProp & ClassNameProp;
 
 // profile types
 export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 'logo_url' | 'name'>> & ClassNameProp;
-export type ProjectCardProps = { action?: ReactNode };
+export type ProjectCardProps = { action?: ReactNode } & Partial<Pick<Project, 'title' | 'description' | 'address'>> & {
+        project_image: Partial<Pick<ProjectImage, 'image_url'>>[];
+    };
 export type BusinessHeaderProps = Partial<Pick<Business, 'name' | 'type' | 'description' | 'logo_url'>>;
 export type BusinessSocialsProps = Partial<Pick<Business, 'website_url' | 'facebook_url' | 'instagram_url' | 'x_url'>>;
 export type BusinessContactProps = Partial<Pick<Business, 'phone' | 'email'>>;
@@ -128,5 +131,11 @@ export type PopupProps = {
     marker?: Marker;
 } & PopupOptions;
 
-export type LocationMarkerProps = { location: LocationFeature; onClick: (data: LocationFeature | null) => void };
-export type LocationPopupProps = { location: LocationFeature; onClose?: () => void };
+export type LocationMarkerProps = { location?: LocationFeature; onClick?: (data: LocationFeature | null) => void };
+export type LocationPopupProps = { location?: LocationFeature; onClose?: () => void; project?: ProjectWithImages | null };
+export type LocationSuggestion = {
+    mapbox_id: string;
+    name: string;
+    place_formatted: string;
+    maki?: string;
+};

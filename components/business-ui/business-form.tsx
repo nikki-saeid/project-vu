@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
@@ -8,20 +7,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { updateUserBusiness } from '@/lib/api-fetcher/user-business';
 import { BUSINESS_TYPE } from '@/lib/constants/user-dashboard';
-import { useUser } from '@/lib/contexts/user-context';
+import { usePublic } from '@/lib/contexts/public-context';
 import { businessProfileSchema } from '@/lib/validators/user/business-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
     IconBrandFacebook,
     IconBrandInstagram,
     IconBrandX,
-    IconBuildingCommunity,
+    IconBuildings,
     IconPencil,
     IconPhone,
     IconUser,
     IconWorld,
 } from '@tabler/icons-react';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
@@ -32,13 +31,14 @@ import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
 
 type BusinessFormProps = {
-    onNext?: () => void;
+    onSuccess?: () => void;
+    id: string;
+    setIsLoading: (about: boolean) => void;
 };
 
-export default function BusinessForm({ onNext }: BusinessFormProps) {
-    const [isLoading, setIsLoading] = useState(false);
+export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const router = useRouter();
-    const { business, setBusiness } = useUser();
+    const { business, setBusiness } = usePublic();
 
     const form = useForm({
         resolver: zodResolver(businessProfileSchema),
@@ -81,7 +81,7 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
             }
             toast.success('Business updated successfully');
             router.refresh();
-            onNext?.();
+            onSuccess?.();
         } catch (error) {
             toast.error(error instanceof Error ? error.message : 'An error occurred while updating your business');
         } finally {
@@ -90,7 +90,7 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
     };
 
     return (
-        <form className="flex flex-col gap-4 md:gap-6" id="profile-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="flex flex-col gap-4 md:gap-6" id={id} onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <BusinessAvatar
                     logo_url={errors.length > 0 ? undefined : (files[0]?.preview ?? business?.logo_url ?? undefined)}
@@ -191,7 +191,7 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
                                 autoComplete="on"
                             />
                             <InputGroupAddon>
-                                <IconBuildingCommunity />
+                                <IconBuildings />
                             </InputGroupAddon>
                         </InputGroup>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -298,15 +298,6 @@ export default function BusinessForm({ onNext }: BusinessFormProps) {
                     )}
                 />
             </div>
-            {onNext ? (
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? 'Saving...' : 'Save Profile and Continue'}
-                </Button>
-            ) : (
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? 'Saving...' : 'Save Profile'}
-                </Button>
-            )}
         </form>
     );
 }

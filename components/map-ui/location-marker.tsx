@@ -5,11 +5,11 @@ import Marker from './map-marker';
 export function LocationMarker({ location, onClick }: LocationMarkerProps) {
     return (
         <Marker
-            longitude={location.geometry.coordinates[0]}
-            latitude={location.geometry.coordinates[1]}
+            longitude={location?.geometry.coordinates[0] ?? 0}
+            latitude={location?.geometry.coordinates[1] ?? 0}
             data={location}
             onClick={({ data }) => {
-                onClick(data);
+                onClick?.(data);
             }}
         >
             <div className="rounded-full flex items-center justify-center transform transition-all duration-200 bg-primary-foreground text-primary shadow-lg size-5 cursor-pointer hover:scale-110">

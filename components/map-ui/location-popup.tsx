@@ -1,10 +1,10 @@
 import { LocationPopupProps } from '@/lib/types/features';
 import { IconX } from '@tabler/icons-react';
-import ProjectCard from '../business-ui/project-card';
+import ProjectCard from '../project-ui/project-card';
 import { Button } from '../ui/button';
 import Popup from './map-popup';
 
-export function LocationPopup({ location, onClose }: LocationPopupProps) {
+export function LocationPopup({ location, onClose, project }: LocationPopupProps) {
     if (!location) return null;
 
     const { properties, geometry } = location;
@@ -30,6 +30,8 @@ export function LocationPopup({ location, onClose }: LocationPopupProps) {
             focusAfterOpen={false}
         >
             <ProjectCard
+                {...project}
+                project_image={project?.project_image ?? []}
                 action={
                     <Button size="icon-xs" className="rounded-full shadow-xs" variant="secondary" onClick={onClose}>
                         <IconX />

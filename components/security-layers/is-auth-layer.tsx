@@ -9,7 +9,7 @@ export default async function IsAuthLayer({ children }: ChildrenProp) {
         if (user.app_metadata?.role === 'admin') {
             redirect('/admin/overview');
         } else {
-            redirect('/dashboard/overview');
+            redirect('/dashboard/live-page');
         }
     }
     return children;

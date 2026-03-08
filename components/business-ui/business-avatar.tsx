@@ -9,7 +9,7 @@ export default function BusinessAvatar({ logo_url, name, badge, className }: Pro
             className={cn('relative size-24 overflow-visible flex items-center justify-center bg-muted border-2 border-muted', className)}
         >
             {logo_url ? (
-                <AvatarImage className="rounded-full size-24 text-gray-400 object-contain" src={logo_url} alt={name ?? 'business logo'} />
+                <AvatarImage className="rounded-full size-24 text-gray-400 object-cover" src={logo_url} alt={name ?? 'business logo'} />
             ) : (
                 <IconPhoto className="size-10 text-gray-300" />
             )}

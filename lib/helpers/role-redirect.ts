@@ -10,7 +10,7 @@ export async function roleRedirect() {
             case 'admin':
                 return '/admin/overview';
             default:
-                return '/dashboard/overview';
+                return '/dashboard/live-page';
         }
     } else {
         return '/login';

@@ -1,13 +1,8 @@
 import { Constants } from '@/lib/types/supabase';
-import { IconAppWindow, IconBuildingCommunity, IconCode, IconCreditCard, IconDashboard, IconUserCircle } from '@tabler/icons-react';
+import { IconAppWindow, IconBuildings, IconCode, IconCreditCard, IconUserCircle } from '@tabler/icons-react';
 
 export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
     main: [
-        {
-            title: 'Overview',
-            url: '/dashboard/overview',
-            Icon: IconDashboard,
-        },
         {
             title: 'Live page',
             url: '/dashboard/live-page',
@@ -16,7 +11,7 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
         {
             title: 'Projects',
             url: '/dashboard/projects',
-            Icon: IconBuildingCommunity,
+            Icon: IconBuildings,
         },
     ],
     map: [

@@ -1,7 +1,27 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+    experimental: {
+        serverActions: {
+            bodySizeLimit: '50mb',
+        },
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+                port: '54321',
+                pathname: '/storage/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'localhost',
+                port: '54321',
+                pathname: '/storage/**',
+            },
+        ],
+    },
 };
 
 export default nextConfig;

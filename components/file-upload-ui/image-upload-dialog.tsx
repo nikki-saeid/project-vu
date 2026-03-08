@@ -1,5 +1,6 @@
 'use client';
-import { Dropzone, DropzoneContent, DropzoneEmptyState } from '@/components/file-upload-ui/dropzone';
+
+import ImageUpload from '@/components/file-upload-ui/image-upload';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ImageUploadProps } from '@/lib/types/features';
 import { useState } from 'react';
@@ -16,10 +17,7 @@ export default function ImageUploadDialog({ dropZoneProps, trigger }: ImageUploa
                 <DialogHeader>
                     <DialogTitle>Edit image</DialogTitle>
                 </DialogHeader>
-                <Dropzone {...dropZoneProps}>
-                    {dropZoneProps.files.length < dropZoneProps.maxFiles && <DropzoneEmptyState />}
-                    <DropzoneContent onChooseImage={() => setOpen(false)} />
-                </Dropzone>
+                <ImageUpload dropZoneProps={dropZoneProps} onChooseImage={() => setOpen(false)} />
             </DialogContent>
         </Dialog>
     );

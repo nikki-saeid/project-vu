@@ -20,7 +20,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import GoogleButton from '../../../components/auth-ui/google-button';
-import PasswordInput from '../_components/password-input';
+import PasswordInput from '../../../components/auth-ui/password-input';
 
 export default function LoginForm() {
     // State to track loading status

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Navbar() {
     return (
-        <NavbarWrapper isSticky>
+        <NavbarWrapper className="border-b">
             <Link href="/login">
                 <Button>Log in</Button>
             </Link>

@@ -1,15 +1,19 @@
 'use client';
 
 import MapProvider from '@/lib/providers/map-provider';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import MapCotrols from './map-controls';
-import { ChildrenProp } from '@/lib/types/common';
+import { ChildrenProp, ClassNameProp } from '@/lib/types/common';
+import { cn } from '@/lib/utils';
+import MapSearch from './map-search';
 
-export default function Map({ children }: ChildrenProp) {
+type MapProps = ChildrenProp & ClassNameProp & { isSearchable?: boolean };
+
+function Map({ children, className = '', isSearchable = true }: MapProps) {
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div className="w-full h-150 rounded-lg overflow-hidden relative">
+        <div className={cn('w-full h-150 rounded-lg overflow-hidden relative', className)}>
             <div id="map-container" ref={mapContainerRef} className="absolute inset-0 h-full w-full" />
 
             <MapProvider
@@ -20,11 +24,18 @@ export default function Map({ children }: ChildrenProp) {
                     zoom: 10,
                 }}
             >
-                <div className="z-50 absolute top-6 right-6">
+                <div className="z-50 absolute bottom-6 right-6">
                     <MapCotrols />
                 </div>
+                {isSearchable && (
+                    <div className="z-50 absolute top-6 left-6">
+                        <MapSearch />
+                    </div>
+                )}
                 {children}
             </MapProvider>
         </div>
     );
 }
+
+export default memo(Map);

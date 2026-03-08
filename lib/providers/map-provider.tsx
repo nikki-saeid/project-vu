@@ -5,7 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
 import { MapContext } from '../contexts/map-context';
-import { MapProps } from '../types/features';
+import { LocationFeature, MapProps } from '../types/features';
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -13,6 +13,7 @@ export default function MapProvider({ mapContainerRef, initialViewState, childre
     const map = useRef<mapboxgl.Map | null>(null);
     const [loaded, setLoaded] = useState(false);
     const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
+    const [searchedLocation, setSearchedLocation] = useState<LocationFeature | null>(null);
 
     useEffect(() => {
         if (!mapContainerRef.current || map.current) return;
@@ -40,7 +41,7 @@ export default function MapProvider({ mapContainerRef, initialViewState, childre
 
     return (
         <div className="z-1000">
-            <MapContext.Provider value={{ map: mapInstance! }}>
+            <MapContext.Provider value={{ map: mapInstance!, searchedLocation, setSearchedLocation }}>
                 {!loaded && <MapSkeleton />}
                 {children}
             </MapContext.Provider>

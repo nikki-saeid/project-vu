@@ -129,7 +129,7 @@
 
 /* Custom Mapbox Popup Styling */
 .mapboxgl-custom-popup .mapboxgl-popup-content {
-    @apply bg-transparent text-card-foreground p-0;
+    @apply bg-transparent text-card-foreground p-0 shadow-none;
 }
 
 .mapboxgl-custom-popup .mapboxgl-popup-close-button {

@@ -1,19 +1,23 @@
 'use client';
 
 import MapProvider from '@/lib/providers/map-provider';
+import { MapWrapperProps } from '@/lib/types/features';
+import { cn } from '@/lib/utils';
 import { memo, useRef } from 'react';
 import MapCotrols from './map-controls';
-import { ChildrenProp, ClassNameProp } from '@/lib/types/common';
-import { cn } from '@/lib/utils';
 import MapSearch from './map-search';
 
-type MapProps = ChildrenProp & ClassNameProp & { isSearchable?: boolean };
-
-function Map({ children, className = '', isSearchable = true }: MapProps) {
+function Map({ children, className = '', isSearchable = true, fullHeight = false }: MapWrapperProps) {
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div className={cn('w-full h-150 rounded-lg overflow-hidden relative', className)}>
+        <div
+            className={cn(
+                'w-full rounded-lg overflow-hidden relative',
+                fullHeight ? 'min-h-[300px] h-screen sm:h-dvh' : 'h-150',
+                className,
+            )}
+        >
             <div id="map-container" ref={mapContainerRef} className="absolute inset-0 h-full w-full" />
 
             <MapProvider

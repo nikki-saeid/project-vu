@@ -1,6 +1,6 @@
 'use client';
 
-import AddProjectDialog from '@/app/(authenticated)/(user)/dashboard/(main)/projects/_components/add-project-dialog';
+import AddProjectDialog from '@/app/(user)/dashboard/(main)/projects/_components/add-project-dialog';
 import NoProjectsUi from '@/components/project-ui/no-projects-ui';
 import ProjectsList from '@/components/project-ui/projects-list';
 import { usePublic } from '@/lib/contexts/public-context';

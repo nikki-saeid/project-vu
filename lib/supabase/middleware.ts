@@ -33,7 +33,13 @@ export async function updateSession(request: NextRequest) {
     const { data } = await supabase.auth.getClaims();
     const user = data?.claims;
 
-    if (!user && !PUBLIC_URLS.includes(request.nextUrl.pathname) && !request.nextUrl.pathname.startsWith('/api')) {
+    if (
+        !user &&
+        !PUBLIC_URLS.includes(request.nextUrl.pathname) &&
+        !request.nextUrl.pathname.startsWith('/api') &&
+        !request.nextUrl.pathname.startsWith('/embed') &&
+        !request.nextUrl.pathname.startsWith('/page')
+    ) {
         // no user, potentially respond by redirecting the user to the login page
         const url = request.nextUrl.clone();
         url.pathname = '/login';

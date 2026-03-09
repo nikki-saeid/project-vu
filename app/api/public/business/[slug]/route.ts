@@ -11,6 +11,7 @@ type Params = {
 export async function GET(_request: Request, { params }: Params) {
     try {
         const { slug } = await params;
+
         if (!slug?.trim()) {
             return errorHandler({
                 error: new Error('Slug is required'),

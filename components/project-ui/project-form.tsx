@@ -6,8 +6,7 @@ import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { uploadProjectImages } from '@/lib/api-fetcher/file-upload';
 import { createProject } from '@/lib/api-fetcher/user-projects';
 import { usePublic } from '@/lib/contexts/public-context';
-import type { ClassNameProp } from '@/lib/types/common';
-import { LocationFeature } from '@/lib/types/features';
+import { LocationFeature, ProjectFormProps } from '@/lib/types/features';
 import { cn } from '@/lib/utils';
 import { projectCreateSchema, type ProjectCreateInput } from '@/lib/validators/user/project';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,12 +17,6 @@ import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
 import { useUser } from '@/lib/contexts/user-context';
-
-type ProjectFormProps = {
-    onSuccess?: () => void;
-    id: string;
-    setIsLoading: (about: boolean) => void;
-} & ClassNameProp;
 
 export default function ProjectForm({ onSuccess, className, id, setIsLoading }: ProjectFormProps) {
     const [searchedLocation, setSearchedLocation] = useState<LocationFeature | null>(null);

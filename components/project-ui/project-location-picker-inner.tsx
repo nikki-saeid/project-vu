@@ -1,13 +1,9 @@
 'use client';
 
 import { useMap } from '@/lib/contexts/map-context';
-import { LocationMarker } from '../map-ui/location-marker';
-import { LocationFeature } from '@/lib/types/features';
+import { ProjectLocationPickerProps } from '@/lib/types/features';
 import { useEffect } from 'react';
-
-type ProjectLocationPickerProps = {
-    onSearchedLocationChange: (location: LocationFeature) => void;
-};
+import { LocationMarker } from '../map-ui/location-marker';
 
 export default function ProjectLocationPickerInner({ onSearchedLocationChange }: ProjectLocationPickerProps) {
     const { searchedLocation } = useMap();

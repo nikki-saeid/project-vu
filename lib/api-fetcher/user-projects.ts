@@ -6,11 +6,12 @@ import { fetcher } from '../helpers/fetcher';
 import { Project } from '../types/db';
 import type { ProjectCreateInput } from '@/lib/validators/user/project';
 import { revalidatePath } from 'next/cache';
+import { ProjectWithImages } from '@/app/api/user/projects/all/route';
 
 // private api fetcher for user
 export const getUserProjects = async () => {
     const cookie = await cookies();
-    return await fetcher<Project[]>(`${API_URL}/user/projects/all`, {
+    return await fetcher<ProjectWithImages[]>(`${API_URL}/user/projects/all`, {
         headers: { Cookie: cookie.toString() },
     });
 };

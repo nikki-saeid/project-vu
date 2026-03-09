@@ -1,11 +1,8 @@
+import { NoProjectsUiProps } from '@/lib/types/features';
 import { IconBuildingOff, IconPlus } from '@tabler/icons-react';
 import Link from 'next/link';
-import { Button } from '../ui/button';
 import P from '../typography/P';
-
-type NoProjectsUiProps = {
-    isAction?: boolean;
-};
+import { Button } from '../ui/button';
 
 export default function NoProjectsUi({ isAction }: NoProjectsUiProps) {
     return (

@@ -4,10 +4,11 @@ import { createContext, useCallback, useContext, type PropsWithChildren } from '
 
 import { Button } from '@/components/ui/button';
 import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
+import { DropzoneProps } from '@/lib/types/features';
 import { cn } from '@/lib/utils';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
-import { Avatar, AvatarImage } from '../ui/avatar';
 import Image from 'next/image';
+import { Avatar, AvatarImage } from '../ui/avatar';
 
 export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB') => {
     const k = 1000;
@@ -19,13 +20,7 @@ export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' |
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
-type DropzoneContextType = Omit<UseSupabaseUploadReturn, 'getRootProps' | 'getInputProps'>;
-
-const DropzoneContext = createContext<DropzoneContextType | undefined>(undefined);
-
-type DropzoneProps = UseSupabaseUploadReturn & {
-    className?: string;
-};
+const DropzoneContext = createContext<Omit<UseSupabaseUploadReturn, 'getRootProps' | 'getInputProps'> | undefined>(undefined);
 
 const Dropzone = ({ className, children, getRootProps, getInputProps, ...restProps }: PropsWithChildren<DropzoneProps>) => {
     // const isSuccess = restProps.isSuccess;

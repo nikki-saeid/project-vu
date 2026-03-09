@@ -1,17 +1,8 @@
+import { DialogFormProps } from '@/lib/types/features';
 import { IconX } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-
-type DialogFormProps = {
-    title: string;
-    trigger?: React.ReactNode;
-    action: (id: string, isLoading: boolean) => React.ReactNode;
-    form: (id: string, setIsLoading: (about: boolean) => void) => React.ReactNode;
-    id: string;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-};
 
 export default function DialogForm({ trigger, action, id, form, title, open, onOpenChange }: DialogFormProps) {
     const [isLoading, setIsLoading] = useState(false);

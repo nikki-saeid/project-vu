@@ -24,17 +24,12 @@ import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
+import { BusinessFormProps } from '@/lib/types/features';
 import ImageUploadDialog from '../file-upload-ui/image-upload-dialog';
 import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
-
-type BusinessFormProps = {
-    onSuccess?: () => void;
-    id: string;
-    setIsLoading: (about: boolean) => void;
-};
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const router = useRouter();

@@ -6,19 +6,19 @@ import Map from '../map-ui/map';
 import NoProjectsUi from './no-projects-ui';
 import ProjectsLocations from './projects-locations';
 
-function ProjectsMap() {
-    const { projects } = usePublic();
+type ProjectsMapProps = { embed?: boolean };
 
-    console.log("projects",projects);
+function ProjectsMap({ embed = false }: ProjectsMapProps) {
+    const { projects } = usePublic();
 
     return (
         <>
             {projects.length > 0 ? (
-                <Map isSearchable={false}>
+                <Map isSearchable={false} fullHeight={embed} className={embed ? 'rounded-none' : ''}>
                     <ProjectsLocations />
                 </Map>
             ) : (
-                <NoProjectsUi isAction />
+                <NoProjectsUi isAction={!embed} />
             )}
         </>
     );

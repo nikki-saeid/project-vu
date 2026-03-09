@@ -9,7 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import useCurrentUserMetadata from '@/hooks/use-current-user-metadata';
+import { useUser } from '@/lib/contexts/user-context';
 import { createClient } from '@/lib/supabase/client';
 import { IconLogout } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
@@ -17,10 +17,12 @@ import { toast } from 'sonner';
 
 export default function DashboardAvatar() {
     // user metadata
-    const userMetadata = useCurrentUserMetadata();
-    const name = userMetadata?.name ?? null;
-    const avatarUrl = userMetadata?.avatar_url ?? null;
-    const email = userMetadata?.email ?? null;
+
+    const { user } = useUser();
+
+    const name = user?.user_metadata?.full_name ?? null;
+    const avatarUrl = user?.user_metadata?.avatar_url ?? null;
+    const email = user?.email ?? null;
     const initials = (name || email || 'U')
         ?.split(' ')
         ?.map((word: string) => word[0])
@@ -47,8 +49,8 @@ export default function DashboardAvatar() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Avatar className="cursor-pointer">
-                    {avatarUrl && <AvatarImage src={avatarUrl} alt={initials} />}
+                <Avatar className="cursor-pointer overflow-hidden bg-muted">
+                    {avatarUrl && <AvatarImage className="object-cover" src={avatarUrl} alt={initials} />}
                     <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
@@ -60,7 +62,7 @@ export default function DashboardAvatar() {
             >
                 <DropdownMenuLabel className="p-0 font-normal">
                     <div className="grid flex-1 text-left text-sm leading-tight px-2 py-1.5">
-                        {name && <span className="truncate font-medium">{name}</span>}
+                        {name && <span className="truncate font-medium capitalize">{name}</span>}
                         <span className="text-muted-foreground truncate text-xs">{email}</span>
                     </div>
                 </DropdownMenuLabel>

@@ -1,3 +1,4 @@
+'use server';
 import { createClient } from '../supabase/server';
 
 export const getUserAuth = async () => {

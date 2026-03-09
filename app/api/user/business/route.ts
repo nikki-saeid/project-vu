@@ -65,6 +65,19 @@ export async function PUT(request: Request) {
         // Fetching error handling
         if (error) return errorHandler({ error });
 
+        // Update the user metadata (sets avatar_url directly in top-level user_metadata, per Supabase API)
+        const { error: updateUserError } = await supabase.auth.updateUser({
+            data: {
+                user_metadata: {
+                    ...user.user_metadata,
+                    avatar_url: body.logo_url,
+                    name: body.name,
+                },
+            },
+        });
+
+        // Update error handling
+        if (updateUserError) return errorHandler({ error: updateUserError });
         // Return response
         return new SuccessResponse<Business>('business updated successfully', data as unknown as Business).send();
     } catch (error) {

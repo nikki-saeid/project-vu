@@ -30,7 +30,10 @@ export async function GET() {
 
         if (error) return errorHandler({ error });
 
-        return new SuccessResponse('Users fetched successfully', data).send();
+        return new SuccessResponse('Users fetched successfully', {
+            ...data,
+            users: data.users.filter((user) => user.app_metadata?.role !== 'admin'),
+        }).send();
     } catch (error) {
         return errorHandler({ error });
     }

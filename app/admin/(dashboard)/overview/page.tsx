@@ -4,14 +4,15 @@ import P from '@/components/typography/P';
 import { Badge } from '@/components/ui/badge';
 import { useAdmin } from '@/lib/contexts/admin-context';
 import { IconCurrencyDollar, IconTrendingUp, IconUsers } from '@tabler/icons-react';
+import RevenueChart from './_components/revenue-chart';
 
 export default function Overview() {
     const { activeSubscriptions } = useAdmin();
 
     return (
-        <section>
-            <P className="text-muted-foreground mb-4 md:mb-6">These are the key metrics of the platform</P>
-            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
+        <section className="flex flex-col gap-4 md:gap-6">
+            <P className="text-muted-foreground">These are the key metrics of the platform</P>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <DataCard
                     title="Total Revenue"
                     description="Total revenue generated from subscriptions"
@@ -37,6 +38,7 @@ export default function Overview() {
                     Icon={IconUsers}
                 />
             </div>
+            {/* <RevenueChart /> */}
         </section>
     );
 }

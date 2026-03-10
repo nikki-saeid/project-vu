@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import UpdatePasswordDialog from './_components/update-password-dialog';
 import UpdateProfileDialog from './_components/update-profile-dialog';
 import { useUser } from '@/lib/contexts/user-context';
+import DeleteAccountDialog from './_components/delete-account-dialog';
+import { Separator } from '@/components/ui/separator';
 
 export default function Profile() {
     const { user } = useUser();
@@ -35,6 +37,15 @@ export default function Profile() {
                             <UpdatePasswordDialog />
                         </div>
                         <Input readOnly={true} type="password" value="********" />
+                    </div>
+                </Field>
+            </div>
+            <div className="rounded-lg border p-4 md:p-6">
+                <Field>
+                    <FieldLabel>Delete account</FieldLabel>
+                    <FieldDescription>Permanently delete your account. This action is irreversible.</FieldDescription>
+                    <div className="flex items-center justify-end">
+                        <DeleteAccountDialog />
                     </div>
                 </Field>
             </div>

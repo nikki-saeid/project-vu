@@ -13,3 +13,12 @@ export const businessProfileSchema = z.object({
     facebook_url: z.string().url('Please enter a valid Facebook URL').optional(),
     x_url: z.string().url('Please enter a valid X URL').optional(),
 });
+
+export const businessDeleteSchema = z.object({
+    confirm: z
+        .string()
+        .min(1, 'Type DELETE to confirm.')
+        .refine((value) => value.toUpperCase() === 'DELETE', {
+            message: 'Type DELETE to confirm.',
+        }),
+});

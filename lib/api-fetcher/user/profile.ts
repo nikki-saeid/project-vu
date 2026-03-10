@@ -13,3 +13,11 @@ export async function updateUser(body: { full_name: string }) {
         body: JSON.stringify(body),
     });
 }
+
+export async function deleteUser() {
+    const cookie = await cookies();
+    return await fetcher<void>(`${API_URL}/user`, {
+        method: 'DELETE',
+        headers: { Cookie: cookie.toString() },
+    });
+}

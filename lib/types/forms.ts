@@ -60,3 +60,9 @@ export type DialogFormProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
 };
+
+export type BusinessDeleteFormProps = {
+    onSuccess?: () => void;
+    id: string;
+    setIsLoading: (about: boolean) => void;
+};

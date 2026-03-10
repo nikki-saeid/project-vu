@@ -1,11 +1,21 @@
-import React from 'react';
-import BusinessAvatar from './business-avatar';
-import H4 from '../typography/H4';
-import { Badge } from '../ui/badge';
-import P from '../typography/P';
-import { BusinessHeaderProps } from '@/lib/types/features';
+'use client';
 
-export default function BusinessHeader({ name, logo_url, type, description }: BusinessHeaderProps) {
+import { usePublic } from '@/lib/contexts/public-context';
+import H4 from '../typography/H4';
+import P from '../typography/P';
+import { Badge } from '../ui/badge';
+import BusinessAvatar from './business-avatar';
+
+export default function BusinessHeader() {
+    const { business } = usePublic();
+
+    const { name, logo_url, type, description } = business ?? {
+        name: null,
+        logo_url: null,
+        type: null,
+        description: null,
+    };
+
     return (
         <header className="flex flex-col gap-4">
             <div className="flex gap-4 items-center">

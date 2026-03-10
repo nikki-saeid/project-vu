@@ -3,7 +3,7 @@ import { errorHandler } from '@/lib/helpers/error-handler';
 import { generateUniqueSlug } from '@/lib/helpers/unique-slug';
 import { createClient } from '@/lib/supabase/server';
 import { Business } from '@/lib/types/db';
-import { StatusCodes } from 'http-status-codes';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 export async function GET() {
     try {
@@ -15,18 +15,27 @@ export async function GET() {
             data: { user },
         } = await supabase.auth.getUser();
 
+        if (!user) {
+            return errorHandler({
+                error: new Error('You must be signed in to get your business'),
+                defaultValue: { status: StatusCodes.UNAUTHORIZED, message: ReasonPhrases.UNAUTHORIZED },
+            });
+        }
+
         // Fetch the profile
         const { data, error } = await supabase.from('businesses').select('*').eq('user_id', user?.id).maybeSingle();
 
         // Fetching error handling
         if (error) return errorHandler({ error });
 
-        // create a profile for the user if profile is null
         if (!data) {
-            const { error: insertError } = await supabase.from('businesses').insert({ user_id: user?.id });
+            const { error: newBusinessError } = await supabase
+                .from('businesses')
+                .insert({ user_id: user?.id, email: user?.email })
+                .select()
+                .maybeSingle();
 
-            // insert error handing
-            if (insertError) return errorHandler({ error: insertError });
+            if (newBusinessError) return errorHandler({ error: newBusinessError });
         }
 
         // Return response
@@ -60,7 +69,7 @@ export async function PUT(request: Request) {
         body.slug = generateUniqueSlug(body.name);
 
         // Update the business
-        const { data, error } = await supabase.from('businesses').update(body).eq('user_id', user?.id).maybeSingle();
+        const { data, error } = await supabase.from('businesses').update(body).eq('user_id', user?.id).select().maybeSingle();
 
         // Fetching error handling
         if (error) return errorHandler({ error });
@@ -68,18 +77,15 @@ export async function PUT(request: Request) {
         // Update the user metadata (sets avatar_url directly in top-level user_metadata, per Supabase API)
         const { error: updateUserError } = await supabase.auth.updateUser({
             data: {
-                user_metadata: {
-                    ...user.user_metadata,
-                    avatar_url: body.logo_url,
-                    name: body.name,
-                },
+                avatar_url: data.logo_url,
+                name: data.name,
             },
         });
 
         // Update error handling
         if (updateUserError) return errorHandler({ error: updateUserError });
         // Return response
-        return new SuccessResponse<Business>('business updated successfully', data as unknown as Business).send();
+        return new SuccessResponse<Business | null>('business updated successfully', data).send();
     } catch (error) {
         return errorHandler({ error });
     }

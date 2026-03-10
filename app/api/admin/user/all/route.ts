@@ -13,8 +13,8 @@ export async function GET() {
 
         if (!user) {
             return errorHandler({
-                error: new Error('Unauthorized'),
-                defaultValue: { status: StatusCodes.UNAUTHORIZED, message: 'You must be signed in' },
+                error: new Error('You must be signed in'),
+                defaultValue: { status: StatusCodes.UNAUTHORIZED, message: ReasonPhrases.UNAUTHORIZED },
             });
         }
 

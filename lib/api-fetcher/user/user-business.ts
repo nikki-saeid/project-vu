@@ -3,9 +3,8 @@
 import { API_URL } from '@/lib/constants/urls';
 import { Business } from '@/lib/types/db';
 import { cookies } from 'next/headers';
-import { uploadLogo } from './file-upload';
 import { fetcher } from '../../helpers/fetcher';
-import { revalidatePath } from 'next/cache';
+import { uploadLogo } from './file-upload';
 
 // private api fetcher for user
 export const getUserBusiness = async () => {
@@ -42,6 +41,5 @@ export const updateUserBusiness = async (business: Partial<Business> & { logo?: 
             logo_url: logo_url ?? business.logo_url,
         }),
     });
-    revalidatePath('/dashboard', 'layout');
     return response;
 };

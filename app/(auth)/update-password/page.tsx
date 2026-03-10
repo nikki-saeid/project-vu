@@ -11,7 +11,7 @@ export default function UpdatePassword() {
     const handleSuccess = async () => {
         const redirectUrl = await roleRedirect();
         router.push(redirectUrl);
-    }
+    };
     return (
         <div>
             <Logo className="mx-auto mb-6" />

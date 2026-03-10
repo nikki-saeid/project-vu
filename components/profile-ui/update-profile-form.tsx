@@ -8,8 +8,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '../ui/input-group';
-import { updateUserProfile } from '@/lib/api-fetcher/user/user-profile';
-import { useProfile } from '@/lib/contexts/profile-context';
+import { useUser } from '@/lib/contexts/user-context';
+import { updateUser } from '@/lib/api-fetcher/user/profile';
 
 type UpdateProfileFormProps = {
     id: string;
@@ -18,13 +18,13 @@ type UpdateProfileFormProps = {
 };
 
 export default function UpdateProfileForm({ id, setIsLoading, onSuccess }: UpdateProfileFormProps) {
-    const { profile, setProfile } = useProfile();
+    const { user, setUser } = useUser();
 
     // Define the form schema using zod
     const form = useForm({
         resolver: zodResolver(profileSchema),
         defaultValues: {
-            full_name: profile?.full_name ?? '',
+            full_name: user?.user_metadata?.full_name ?? '',
         },
     });
 
@@ -34,8 +34,8 @@ export default function UpdateProfileForm({ id, setIsLoading, onSuccess }: Updat
     const onSubmit = async (data: z.infer<typeof profileSchema>) => {
         setIsLoading(true);
         try {
-            const response = await updateUserProfile(data);
-            setProfile(response);
+            const response = await updateUser(data);
+            setUser(response);
             toast.success('Profile updated successfully');
             onSuccess?.();
         } catch (error) {

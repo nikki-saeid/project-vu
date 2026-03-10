@@ -17,6 +17,7 @@ export type Database = {
           facebook_url: string | null
           id: string
           instagram_url: string | null
+          is_onboarded: boolean | null
           logo_url: string | null
           name: string | null
           page_status: Database["public"]["Enums"]["page_status"]
@@ -34,6 +35,7 @@ export type Database = {
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
+          is_onboarded?: boolean | null
           logo_url?: string | null
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]
@@ -51,6 +53,7 @@ export type Database = {
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
+          is_onboarded?: boolean | null
           logo_url?: string | null
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]
@@ -60,30 +63,6 @@ export type Database = {
           user_id?: string
           website_url?: string | null
           x_url?: string | null
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string
-          full_name: string
-          id: string
-          is_onboarded: boolean
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          full_name: string
-          id?: string
-          is_onboarded?: boolean
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          full_name?: string
-          id?: string
-          is_onboarded?: boolean
-          user_id?: string
         }
         Relationships: []
       }
@@ -162,18 +141,21 @@ export type Database = {
           business_id: string
           created_at: string
           id: string
+          is_active: boolean
           plan_end_date: string
         }
         Insert: {
           business_id: string
           created_at?: string
           id?: string
+          is_active?: boolean
           plan_end_date: string
         }
         Update: {
           business_id?: string
           created_at?: string
           id?: string
+          is_active?: boolean
           plan_end_date?: string
         }
         Relationships: [

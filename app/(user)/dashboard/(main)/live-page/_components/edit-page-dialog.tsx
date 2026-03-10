@@ -15,9 +15,9 @@ export default function EditPageDialog({ open, onOpenChange }: EditPageDialogPro
                     {isLoading ? 'Saving profile...' : 'Save profile'}
                 </Button>
             )}
-            id="add-project"
+            id="edit-page"
             form={(id, setIsLoading) => <BusinessForm id={id} setIsLoading={setIsLoading} onSuccess={() => onOpenChange(false)} />}
-            title="Add Project"
+            title="Edit Page"
             open={open}
             onOpenChange={onOpenChange}
         />

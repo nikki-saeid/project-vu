@@ -6,8 +6,8 @@ import ProjectsMap from './projects-map';
 export default function ProjectsTabs() {
     return (
         <Tabs defaultValue="map">
-            <TabsList className="mb-3">
-                <TabsTrigger value="map">
+            <TabsList className="mb-3 w-full">
+                <TabsTrigger value="map" >
                     <IconMap2 />
                     Projects map
                 </TabsTrigger>

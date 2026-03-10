@@ -1,12 +1,11 @@
 'use server';
 
+import { ProjectWithImages } from '@/app/api/user/projects/all/route';
 import { API_URL } from '@/lib/constants/urls';
+import type { ProjectCreateInput } from '@/lib/validators/user/project';
 import { cookies } from 'next/headers';
 import { fetcher } from '../../helpers/fetcher';
 import { Project } from '../../types/db';
-import type { ProjectCreateInput } from '@/lib/validators/user/project';
-import { revalidatePath } from 'next/cache';
-import { ProjectWithImages } from '@/app/api/user/projects/all/route';
 
 // private api fetcher for user
 export const getUserProjects = async () => {
@@ -27,6 +26,5 @@ export async function createProject(input: ProjectCreateInput): Promise<Project>
         },
         body: JSON.stringify(input),
     });
-    revalidatePath('/dashboard', 'layout');
     return response;
 }

@@ -8,6 +8,7 @@ import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { updateUserBusiness } from '@/lib/api-fetcher/user/user-business';
 import { BUSINESS_TYPE } from '@/lib/constants/user-dashboard';
 import { usePublic } from '@/lib/contexts/public-context';
+import { BusinessFormProps } from '@/lib/types/features';
 import { businessProfileSchema } from '@/lib/validators/user/business-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -20,11 +21,9 @@ import {
     IconUser,
     IconWorld,
 } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
-import { BusinessFormProps } from '@/lib/types/features';
 import ImageUploadDialog from '../file-upload-ui/image-upload-dialog';
 import H4 from '../typography/H4';
 import P from '../typography/P';
@@ -32,7 +31,6 @@ import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
-    const router = useRouter();
     const { business, setBusiness } = usePublic();
 
     const form = useForm({
@@ -75,7 +73,6 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                 setBusiness(response);
             }
             toast.success('Business updated successfully');
-            router.refresh();
             onSuccess?.();
         } catch (error) {
             toast.error(error instanceof Error ? error.message : 'An error occurred while updating your business');

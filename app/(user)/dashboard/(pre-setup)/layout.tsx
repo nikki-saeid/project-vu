@@ -1,13 +1,13 @@
 'use client';
 import NavbarWrapper from '@/components/public-pages-ui/navbar-wrapper';
-import { useProfile } from '@/lib/contexts/profile-context';
+import { usePublic } from '@/lib/contexts/public-context';
 import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 
 export default function PreSetupLayout({ children }: ChildrenProp) {
-    const { profile } = useProfile();
+    const { business } = usePublic();
 
-    if (profile && profile.is_onboarded) {
+    if (business && business.is_onboarded) {
         redirect('/dashboard/live-page');
     }
 

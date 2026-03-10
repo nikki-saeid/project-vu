@@ -4,15 +4,15 @@ import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/lib/constants/user-dashboard';
+import { usePublic } from '@/lib/contexts/public-context';
 import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import { useProfile } from '@/lib/contexts/profile-context';
 
 export default function MainLayout({ children }: ChildrenProp) {
-    const { profile } = useProfile();
+    const { business } = usePublic();
 
-    if (!profile || !profile.is_onboarded) {
+    if (!business || !business.is_onboarded) {
         redirect('/dashboard/onboarding');
     }
 

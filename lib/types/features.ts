@@ -20,9 +20,6 @@ export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 
 export type ProjectCardProps = { action?: ReactNode } & Partial<Pick<Project, 'title' | 'description' | 'address'>> & {
         project_image: Partial<Pick<ProjectImage, 'image_url'>>[];
     };
-export type BusinessHeaderProps = Partial<Pick<Business, 'name' | 'type' | 'description' | 'logo_url'>>;
-export type BusinessSocialsProps = Partial<Pick<Business, 'website_url' | 'facebook_url' | 'instagram_url' | 'x_url'>>;
-export type BusinessContactProps = Partial<Pick<Business, 'phone' | 'email'>>;
 
 // form & component props
 export type ProjectLocationPickerProps = {

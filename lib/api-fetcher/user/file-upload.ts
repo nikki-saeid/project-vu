@@ -1,9 +1,8 @@
 'use server';
-import { LogoUploadResponse } from '@/app/api/files/logo/route';
+import type { LogoUploadResponse, ProjectImageResponse } from '@/lib/types/api';
 import { cookies } from 'next/headers';
 import { API_URL } from '../../constants/urls';
 import { fetcher } from '../../helpers/fetcher';
-import { ProjectImage } from '../../types/db';
 
 export const uploadLogo = async (logo: FormData) => {
     const cookie = await cookies();
@@ -16,7 +15,7 @@ export const uploadLogo = async (logo: FormData) => {
 
 export const uploadProjectImages = async (formData: FormData) => {
     const cookie = await cookies();
-    return await fetcher<ProjectImage[]>(`${API_URL}/files/project-images`, {
+    return await fetcher<ProjectImageResponse[]>(`${API_URL}/files/project-images`, {
         headers: { Cookie: cookie.toString() },
         method: 'POST',
         body: formData,

@@ -1,6 +1,6 @@
 'use client';
 
-import { ProjectWithImages } from '@/app/api/user/projects/all/route';
+import type { ProjectWithImages } from '@/lib/types/api';
 import type { Business } from '@/lib/types/db';
 import React, { useEffect, useMemo, useState } from 'react';
 import { PublicContext, PublicContextValue } from '../contexts/public-context';

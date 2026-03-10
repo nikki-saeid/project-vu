@@ -1,7 +1,7 @@
 'use client';
 
 import MapProvider from '@/lib/providers/map-provider';
-import { MapWrapperProps } from '@/lib/types/features';
+import type { MapWrapperProps } from '@/lib/types/dashboard';
 import { cn } from '@/lib/utils';
 import { memo, useRef } from 'react';
 import MapCotrols from './map-controls';

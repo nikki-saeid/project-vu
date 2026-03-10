@@ -1,4 +1,4 @@
-import { ProfileAvatarProps } from '@/lib/types/features';
+import type { ProfileAvatarProps } from '@/lib/types/forms';
 import { IconPhoto } from '@tabler/icons-react';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';

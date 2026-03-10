@@ -1,4 +1,4 @@
-import type { LocationFeature } from '@/lib/types/features';
+import type { LocationFeature } from '@/lib/types/map';
 
 export type ProjectWithCoordinates = {
     id: string;

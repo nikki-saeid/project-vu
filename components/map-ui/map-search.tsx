@@ -6,7 +6,7 @@ import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, Command
 import { useDebounce } from '@/hooks/use-debounce';
 
 import { cn } from '@/lib/utils';
-import { LocationFeature, LocationSuggestion } from '@/lib/types/features';
+import type { LocationFeature, LocationSuggestion } from '@/lib/types/map';
 import { MAP_CONSTANTS } from '@/lib/constants/map';
 import { useMap } from '@/lib/contexts/map-context';
 import { LocationMarker } from './location-marker';

@@ -1,4 +1,4 @@
-import { LocationMarkerProps } from '@/lib/types/features';
+import type { LocationMarkerProps } from '@/lib/types/map';
 import { IconCircleFilled } from '@tabler/icons-react';
 import Marker from './map-marker';
 

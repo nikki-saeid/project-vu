@@ -1,4 +1,4 @@
-import { DialogFormProps } from '@/lib/types/features';
+import type { DialogFormProps } from '@/lib/types/forms';
 import { IconX } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Button } from './ui/button';

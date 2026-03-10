@@ -1,4 +1,4 @@
-import { ProjectLocationPickerProps } from '@/lib/types/features';
+import type { ProjectLocationPickerProps } from '@/lib/types/forms';
 import { memo } from 'react';
 import Map from '../map-ui/map';
 import ProjectLocationPickerInner from './project-location-picker-inner';

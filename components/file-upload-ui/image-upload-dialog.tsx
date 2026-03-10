@@ -2,7 +2,7 @@
 
 import ImageUpload from '@/components/file-upload-ui/image-upload';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { ImageUploadProps } from '@/lib/types/features';
+import type { ImageUploadProps } from '@/lib/types/forms';
 import { useState } from 'react';
 
 export default function ImageUploadDialog({ dropZoneProps, trigger }: ImageUploadProps) {

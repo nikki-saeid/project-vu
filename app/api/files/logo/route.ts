@@ -1,14 +1,11 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
 import { createClient } from '@/lib/supabase/server';
+import type { LogoUploadResponse } from '@/lib/types/api';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const BUCKET_NAME = 'businesses';
 const CACHE_CONTROL = '0';
-
-export type LogoUploadResponse = {
-    logo_url: string;
-};
 
 export async function POST(request: Request) {
     try {

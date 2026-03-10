@@ -1,7 +1,7 @@
 'use client';
 
 import { useMap } from '@/lib/contexts/map-context';
-import { MarkerProps } from '@/lib/types/features';
+import type { MarkerProps } from '@/lib/types/map';
 import mapboxgl from 'mapbox-gl';
 import { useEffect, useRef } from 'react';
 

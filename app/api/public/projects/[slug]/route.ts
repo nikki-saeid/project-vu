@@ -2,14 +2,8 @@ import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
 import { parsePostGisPoint } from '@/lib/helpers/postgis';
 import { createClient } from '@/lib/supabase/server';
-import type { Database } from '@/lib/types/supabase';
+import type { ProjectWithImages } from '@/lib/types/api';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-
-export type ProjectWithImages = Database['public']['Tables']['projects']['Row'] & {
-    project_image: Database['public']['Tables']['project_image']['Row'][];
-    lng?: number;
-    lat?: number;
-};
 
 type Params = {
     params: Promise<{ slug: string }>;

@@ -1,13 +1,11 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
 import { createClient } from '@/lib/supabase/server';
-import { Database } from '@/lib/types/supabase';
+import type { ProjectImageResponse } from '@/lib/types/api';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const BUCKET_NAME = 'businesses';
 const CACHE_CONTROL = '0';
-
-export type ProjectImage = Omit<Database['public']['Tables']['project_image']['Row'], 'created_at' | 'id'>;
 
 export async function POST(request: Request) {
     try {
@@ -67,7 +65,7 @@ export async function POST(request: Request) {
 
         // Store the uploadResults public urls to project_image
 
-        const projectImages: ProjectImage[] = [];
+        const projectImages: ProjectImageResponse[] = [];
         let displayOrder = 0;
         for (const result of uploadResults) {
             if (!result.error) {
@@ -86,7 +84,7 @@ export async function POST(request: Request) {
             }
         }
 
-        return new SuccessResponse<ProjectImage[]>('Project images saved successfully', projectImages).send();
+        return new SuccessResponse<ProjectImageResponse[]>('Project images saved successfully', projectImages).send();
     } catch (error) {
         throw errorHandler({ error });
     }

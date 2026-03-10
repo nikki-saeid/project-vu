@@ -1,7 +1,7 @@
 'use client';
 
 import { useMap } from '@/lib/contexts/map-context';
-import { PopupProps } from '@/lib/types/features';
+import type { PopupProps } from '@/lib/types/map';
 import mapboxgl from 'mapbox-gl';
 import { useCallback, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';

@@ -1,4 +1,4 @@
-import { LocationPopupProps } from '@/lib/types/features';
+import type { LocationPopupProps } from '@/lib/types/map';
 import { IconX } from '@tabler/icons-react';
 import ProjectCard from '../project-ui/project-card';
 import { Button } from '../ui/button';

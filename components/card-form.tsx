@@ -1,4 +1,4 @@
-import { CardFormProps } from '@/lib/types/features';
+import type { CardFormProps } from '@/lib/types/forms';
 import { useState } from 'react';
 import H3 from './typography/H3';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';

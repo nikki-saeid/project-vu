@@ -1,6 +1,6 @@
 'use server';
 
-import { ProjectWithImages } from '@/app/api/user/projects/all/route';
+import type { ProjectWithImages } from '@/lib/types/api';
 import { API_URL } from '@/lib/constants/urls';
 import type { ProjectCreateInput } from '@/lib/validators/user/project';
 import { cookies } from 'next/headers';

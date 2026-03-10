@@ -1,6 +1,6 @@
 'use server';
 
-import { ProjectWithImages } from '@/app/api/user/projects/all/route';
+import type { ProjectWithImages } from '@/lib/types/api';
 import { API_URL } from '../../constants/urls';
 import { fetcher } from '../../helpers/fetcher';
 import { Business } from '../../types/db';

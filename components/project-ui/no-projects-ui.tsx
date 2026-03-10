@@ -1,4 +1,4 @@
-import { NoProjectsUiProps } from '@/lib/types/features';
+import type { NoProjectsUiProps } from '@/lib/types/forms';
 import { IconBuildingOff, IconPlus } from '@tabler/icons-react';
 import Link from 'next/link';
 import P from '../typography/P';

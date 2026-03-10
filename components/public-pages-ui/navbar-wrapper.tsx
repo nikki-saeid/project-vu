@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { NavbarWrapperProps } from '@/lib/types/features';
+import type { NavbarWrapperProps } from '@/lib/types/dashboard';
 import Container from '../ui/container';
 import Logo from '../logo';
 

@@ -1,7 +1,7 @@
 'use client';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { DashboardHeaderProps } from '@/lib/types/features';
+import type { DashboardHeaderProps } from '@/lib/types/dashboard';
 import DashboardAvatar from './dashboard-avatar';
 import { usePathname } from 'next/navigation';
 

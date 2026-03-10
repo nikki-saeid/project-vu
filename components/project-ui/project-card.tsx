@@ -1,6 +1,6 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { ProjectCardProps } from '@/lib/types/features';
+import type { ProjectCardProps } from '@/lib/types/forms';
 import { IconMapPin } from '@tabler/icons-react';
 import Image from 'next/image';
 

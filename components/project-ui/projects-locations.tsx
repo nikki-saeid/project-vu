@@ -1,12 +1,12 @@
 'use client';
 
 import { projectToLocationFeature } from '@/lib/helpers/project-map';
-import { LocationFeature } from '@/lib/types/features';
+import type { LocationFeature } from '@/lib/types/features';
+import type { ProjectWithImages } from '@/lib/types/api';
 import { memo, useMemo, useState } from 'react';
 import { LocationMarker } from '../map-ui/location-marker';
 import { LocationPopup } from '../map-ui/location-popup';
 import { usePublic } from '@/lib/contexts/public-context';
-import { ProjectWithImages } from '@/app/api/user/projects/all/route';
 
 function ProjectsLocations() {
     const { projects } = usePublic();

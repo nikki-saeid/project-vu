@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, type PropsWithChildren } from '
 
 import { Button } from '@/components/ui/button';
 import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
-import { DropzoneProps } from '@/lib/types/features';
+import type { DropzoneProps } from '@/lib/types/forms';
 import { cn } from '@/lib/utils';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
 import Image from 'next/image';

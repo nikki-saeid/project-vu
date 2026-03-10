@@ -8,7 +8,7 @@ import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { updateUserBusiness } from '@/lib/api-fetcher/user/user-business';
 import { BUSINESS_TYPE } from '@/lib/constants/user-dashboard';
 import { usePublic } from '@/lib/contexts/public-context';
-import { BusinessFormProps } from '@/lib/types/features';
+import type { BusinessFormProps } from '@/lib/types/forms';
 import { businessProfileSchema } from '@/lib/validators/user/business-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {

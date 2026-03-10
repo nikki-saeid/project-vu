@@ -1,7 +1,7 @@
 'use client';
 
 import { useMap } from '@/lib/contexts/map-context';
-import { ProjectLocationPickerProps } from '@/lib/types/features';
+import type { ProjectLocationPickerProps } from '@/lib/types/forms';
 import { useEffect } from 'react';
 import { LocationMarker } from '../map-ui/location-marker';
 

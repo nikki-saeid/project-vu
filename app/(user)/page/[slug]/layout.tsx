@@ -4,7 +4,7 @@ import { getPublicBusinessBySlug, getPublicProjectsBySlug } from '@/lib/api-fetc
 import { PublicProvider } from '@/lib/providers/public-provider';
 import type { ChildrenProp } from '@/lib/types/common';
 import { Business } from '@/lib/types/db';
-import { ProjectWithImages } from '@/app/api/user/projects/all/route';
+import type { ProjectWithImages } from '@/lib/types/api';
 import { notFound } from 'next/navigation';
 
 export default async function UserLayout({ children, params }: ChildrenProp & { params: Promise<{ slug: string }> }) {

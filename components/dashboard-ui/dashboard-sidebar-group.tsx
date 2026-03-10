@@ -1,5 +1,5 @@
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar';
-import type { DashboardSidebarGroupProps } from '@/lib/types/features';
+import type { DashboardSidebarGroupProps } from '@/lib/types/dashboard';
 import Link from 'next/link';
 import SidebarCustomButton from './sidebar-custom-button';
 

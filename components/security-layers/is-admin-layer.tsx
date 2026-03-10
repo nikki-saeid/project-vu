@@ -1,4 +1,4 @@
-import { getUserAuth } from '@/lib/api-fetcher/user-auth';
+import { getUserAuth } from '@/lib/api-fetcher/user/user-auth';
 import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 

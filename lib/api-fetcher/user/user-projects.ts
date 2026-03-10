@@ -2,8 +2,8 @@
 
 import { API_URL } from '@/lib/constants/urls';
 import { cookies } from 'next/headers';
-import { fetcher } from '../helpers/fetcher';
-import { Project } from '../types/db';
+import { fetcher } from '../../helpers/fetcher';
+import { Project } from '../../types/db';
 import type { ProjectCreateInput } from '@/lib/validators/user/project';
 import { revalidatePath } from 'next/cache';
 import { ProjectWithImages } from '@/app/api/user/projects/all/route';

@@ -5,7 +5,7 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
-import { updateUserBusiness } from '@/lib/api-fetcher/user-business';
+import { updateUserBusiness } from '@/lib/api-fetcher/user/user-business';
 import { BUSINESS_TYPE } from '@/lib/constants/user-dashboard';
 import { usePublic } from '@/lib/contexts/public-context';
 import { businessProfileSchema } from '@/lib/validators/user/business-profile';

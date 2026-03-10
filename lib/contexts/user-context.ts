@@ -1,12 +1,9 @@
 'use client';
 
-import type { Profile } from '@/lib/types/db';
 import type { User } from '@supabase/supabase-js';
 import { createContext, useContext } from 'react';
 
 export type UserContextValue = {
-    profile: Profile | null;
-    setProfile: (profile: Profile | null) => void;
     user: User | null;
     setUser: (user: User | null) => void;
 };

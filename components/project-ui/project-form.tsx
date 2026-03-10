@@ -3,8 +3,8 @@
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
-import { uploadProjectImages } from '@/lib/api-fetcher/file-upload';
-import { createProject } from '@/lib/api-fetcher/user-projects';
+import { uploadProjectImages } from '@/lib/api-fetcher/user/file-upload';
+import { createProject } from '@/lib/api-fetcher/user/user-projects';
 import { usePublic } from '@/lib/contexts/public-context';
 import { LocationFeature, ProjectFormProps } from '@/lib/types/features';
 import { cn } from '@/lib/utils';
@@ -16,7 +16,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
-import { useUser } from '@/lib/contexts/user-context';
 
 export default function ProjectForm({ onSuccess, className, id, setIsLoading }: ProjectFormProps) {
     const [searchedLocation, setSearchedLocation] = useState<LocationFeature | null>(null);
@@ -63,7 +62,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading }: 
             formData.append('businessId', business?.id ?? '');
 
             const uploadedImages = await uploadProjectImages(formData);
-            console.log("uploadedImages",uploadedImages);
+            console.log('uploadedImages', uploadedImages);
             setProjects([...projects, { ...created, project_image: uploadedImages }]);
 
             // Success

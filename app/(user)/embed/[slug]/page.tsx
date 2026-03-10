@@ -1,5 +1,5 @@
 import ProjectsMap from '@/components/project-ui/projects-map';
-import { getPublicBusinessBySlug, getPublicProjectsBySlug } from '@/lib/api-fetcher/public-profile';
+import { getPublicBusinessBySlug, getPublicProjectsBySlug } from '@/lib/api-fetcher/user/public-profile';
 import { PublicProvider } from '@/lib/providers/public-provider';
 import type { ChildrenProp } from '@/lib/types/common';
 import type { Business } from '@/lib/types/db';

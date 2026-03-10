@@ -1,9 +1,9 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { API_URL } from '../constants/urls';
-import { fetcher } from '../helpers/fetcher';
-import { Business, PageStatusEnum } from '../types/db';
+import { API_URL } from '../../constants/urls';
+import { fetcher } from '../../helpers/fetcher';
+import { Business, PageStatusEnum } from '../../types/db';
 
 export const updatePageStatus = async (status: PageStatusEnum) => {
     const cookie = await cookies();

@@ -18,12 +18,12 @@ export default function ActionMenu() {
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon" className="size-8 rounded-full">
+                    <Button variant="outline" size="icon-xs" className="rounded-full">
                         <IconDotsVertical className="size-4" />
                         <span className="sr-only">Open menu</span>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuContent align="end" className="w-35">
                     <DropdownMenuItem onSelect={() => setDialogOpen(true)}>
                         <IconEdit className="size-4" />
                         Edit

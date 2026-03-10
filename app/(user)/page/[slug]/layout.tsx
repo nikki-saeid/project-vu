@@ -1,6 +1,6 @@
 import Navbar from '@/components/public-pages-ui/navbar';
 import Container from '@/components/ui/container';
-import { getPublicBusinessBySlug, getPublicProjectsBySlug } from '@/lib/api-fetcher/public-profile';
+import { getPublicBusinessBySlug, getPublicProjectsBySlug } from '@/lib/api-fetcher/user/public-profile';
 import { PublicProvider } from '@/lib/providers/public-provider';
 import type { ChildrenProp } from '@/lib/types/common';
 import { Business } from '@/lib/types/db';

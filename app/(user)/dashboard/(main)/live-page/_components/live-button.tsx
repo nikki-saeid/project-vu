@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { updatePageStatus } from '@/lib/api-fetcher/page-status';
+import { updatePageStatus } from '@/lib/api-fetcher/user/page-status';
 import { usePublic } from '@/lib/contexts/public-context';
 import { Business, PageStatusEnum } from '@/lib/types/db';
 import { cn } from '@/lib/utils';
@@ -33,12 +33,12 @@ export default function LiveButton() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button size="sm" variant={page_status === 'live' ? 'success' : 'muted'} className="capitalize">
+                <Button size="xs" variant="outline" className="capitalize">
                     {isLoading ? (
-                        <IconLoader className="size-4 animate-spin" />
+                        <IconLoader className="size-3 animate-spin" />
                     ) : (
                         <IconCircleFilled
-                            className={cn('size-4', page_status === 'live' ? 'text-green-500 animate-pulse' : 'text-gray-500')}
+                            className={cn('size-3', page_status === 'live' ? 'text-green-500 animate-pulse' : 'text-gray-500')}
                         />
                     )}
                     {page_status}

@@ -4,7 +4,7 @@ import { API_URL } from '@/lib/constants/urls';
 import { Business } from '@/lib/types/db';
 import { cookies } from 'next/headers';
 import { uploadLogo } from './file-upload';
-import { fetcher } from '../helpers/fetcher';
+import { fetcher } from '../../helpers/fetcher';
 import { revalidatePath } from 'next/cache';
 
 // private api fetcher for user

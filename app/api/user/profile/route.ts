@@ -4,6 +4,43 @@ import { createClient } from '@/lib/supabase/server';
 import { Profile } from '@/lib/types/db';
 import { StatusCodes } from 'http-status-codes';
 
+export async function PATCH(request: Request) {
+    try {
+        const supabase = await createClient();
+
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) {
+            return errorHandler({
+                error: new Error('Unauthorized'),
+                defaultValue: { status: StatusCodes.UNAUTHORIZED, message: 'You must be signed in to update your profile' },
+            });
+        }
+
+        const body = await request.json();
+
+        const { data, error } = await supabase
+            .from('profiles')
+            .update({ ...body })
+            .eq('user_id', user.id)
+            .select()
+            .single();
+
+        if (error) return errorHandler({ error });
+
+        // update the user metadata
+        const { error: insertProfileError } = await supabase.auth.updateUser({ data: { full_name: body.full_name } });
+        // update error handling
+        if (insertProfileError) return errorHandler({ error: insertProfileError });
+
+        return new SuccessResponse<Profile>('Profile updated successfully', data).send();
+    } catch (error) {
+        return errorHandler({ error });
+    }
+}
+
 export async function GET() {
     try {
         // Initialize Supabase client for server-side operations

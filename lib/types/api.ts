@@ -14,3 +14,6 @@ export type ProjectWithImages = Database['public']['Tables']['projects']['Row'] 
     lat?: number;
 };
 
+export type AdminAnalyticsResponse = {
+    activeSubscriptions: number;
+};

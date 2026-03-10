@@ -17,7 +17,7 @@ export type Database = {
           facebook_url: string | null
           id: string
           instagram_url: string | null
-          is_onboarded: boolean | null
+          is_onboarded: boolean
           logo_url: string | null
           name: string | null
           page_status: Database["public"]["Enums"]["page_status"]
@@ -35,7 +35,7 @@ export type Database = {
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
-          is_onboarded?: boolean | null
+          is_onboarded?: boolean
           logo_url?: string | null
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]
@@ -53,7 +53,7 @@ export type Database = {
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
-          is_onboarded?: boolean | null
+          is_onboarded?: boolean
           logo_url?: string | null
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]

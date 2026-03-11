@@ -85,10 +85,17 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
         <form className="flex flex-col gap-4 md:gap-6" id={id} onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <BusinessAvatar
-                    logo_url={errors.length > 0 ? undefined : (files[0]?.preview ?? business?.logo_url ?? undefined)}
+                    logo_url={
+                        files[0]?.preview
+                            ? errors.length > 0
+                                ? (business?.logo_url ?? undefined)
+                                : (files[0]?.preview ?? undefined)
+                            : (business?.logo_url ?? undefined)
+                    }
                     badge={
                         <ImageUploadDialog
                             dropZoneProps={dropZoneProps}
+                            isLogo={true}
                             trigger={({ onClick }) => (
                                 <Button type="button" size="icon-sm" className="shadow-none rounded-full border-0" onClick={onClick}>
                                     <IconPencil />

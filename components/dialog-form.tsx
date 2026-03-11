@@ -19,7 +19,7 @@ export default function DialogForm({ trigger, action, id, form, title, open, onO
                         </Button>
                     </div>
                 </DialogHeader>
-                <div className="no-scrollbar max-h-[60vh] overflow-y-auto p-5">{form(id, setIsLoading)}</div>
+                <div className="no-scrollbar max-h-[60vh] overflow-y-auto px-5 pb-5 pt-1">{form(id, setIsLoading)}</div>
                 <DialogFooter className="border-t p-5">{action(id, isLoading)}</DialogFooter>
             </DialogContent>
         </Dialog>

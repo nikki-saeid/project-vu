@@ -78,10 +78,11 @@ const DropzoneContent = ({
                             {file.type.startsWith('image/') ? (
                                 <>
                                     {isLogo ? (
-                                        <Avatar className="size-10 rounded-full border">
+                                        <Avatar className="size-35 rounded-full border">
                                             <AvatarImage src={file.preview} alt={file.name} className="object-cover" />
                                         </Avatar>
                                     ) : (
+                                        //
                                         <img
                                             src={file.preview}
                                             alt={file.name}
@@ -126,7 +127,7 @@ const DropzoneContent = ({
                     {files.length - maxFiles > 1 ? 's' : ''}.
                 </p>
             )}
-            {files.length > 0 && !exceedMaxFiles && (
+            {isLogo && files.length > 0 && !exceedMaxFiles && (
                 <div className="mt-2">
                     <Button variant="outline" disabled={files.some((file) => file.errors.length !== 0)} onClick={onChooseImage}>
                         Choose image

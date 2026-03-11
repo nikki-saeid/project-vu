@@ -8,6 +8,7 @@ export type PasswordInputProps = React.ComponentProps<'input'>;
 
 export type ImageUploadProps = {
     dropZoneProps: UseSupabaseUploadReturn;
+    isLogo?: boolean;
     trigger: (props: { onClick: () => void }) => ReactNode;
 };
 

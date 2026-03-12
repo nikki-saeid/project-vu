@@ -21,6 +21,7 @@ export type ProjectCardProps = { action?: ReactNode } & Partial<Pick<Project, 't
 
 export type ProjectLocationPickerProps = {
     onSearchedLocationChange: (location: LocationFeature) => void;
+    onEditLocation?: LocationFeature;
 };
 
 export type CardFormProps = {

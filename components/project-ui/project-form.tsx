@@ -18,6 +18,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
+import { projectToLocationFeature } from '@/lib/helpers/project-map';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 
@@ -165,6 +166,15 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     }, [searchedLocation, form]);
 
     useEffect(() => {
+        if (project) {
+            const location = projectToLocationFeature(project);
+            if (location) {
+                setSearchedLocation(location);
+            }
+        }
+    }, [project]);
+
+    useEffect(() => {
         if (files.length > 0) {
             form.setValue('isImagesUploaded', true);
         } else {
@@ -225,7 +235,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
                 <FieldDescription className="data-[invalid=true]:text-destructive">
                     Search for an address or click on the map to set the project location.
                 </FieldDescription>
-                <ProjectLocationPicker onSearchedLocationChange={setSearchedLocation} />
+                <ProjectLocationPicker onEditLocation={searchedLocation ?? undefined} onSearchedLocationChange={setSearchedLocation} />
 
                 {(form.formState.errors.address || form.formState.errors.latitude || form.formState.errors.longitude) && (
                     <FieldError

@@ -22,7 +22,7 @@ function ProjectsList() {
                         ))}
                     </div>
                 ) : (
-                    <NoProjectsUi isAction />
+                    <NoProjectsUi isAction={!isPublic} />
                 )}
             </section>
         </Suspense>

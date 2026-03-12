@@ -5,20 +5,30 @@ import { memo } from 'react';
 import Map from '../map-ui/map';
 import NoProjectsUi from './no-projects-ui';
 import ProjectsLocations from './projects-locations';
+import { getCenterLatLng, getZoomLevelForLocations } from '@/lib/helpers/project-map';
 
 type ProjectsMapProps = { embed?: boolean };
 
 function ProjectsMap({ embed = false }: ProjectsMapProps) {
-    const { projects } = usePublic();
+    const { projects, isPublic } = usePublic();
+    const centerLatLng = getCenterLatLng(projects);
+    const zoomLevel = getZoomLevelForLocations(projects);
+
+    console.log('zoomLevel', zoomLevel);
 
     return (
         <>
             {projects.length > 0 ? (
-                <Map isSearchable={false} fullHeight={embed} className={embed ? 'rounded-none' : ''}>
+                <Map
+                    initialViewState={{ ...centerLatLng, zoom: zoomLevel }}
+                    isSearchable={false}
+                    fullHeight={embed}
+                    className={embed ? 'rounded-none' : ''}
+                >
                     <ProjectsLocations />
                 </Map>
             ) : (
-                <NoProjectsUi isAction={!embed} />
+                <NoProjectsUi isAction={!embed && !isPublic} />
             )}
         </>
     );

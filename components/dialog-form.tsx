@@ -10,7 +10,7 @@ export default function DialogForm({ trigger, action, id, form, title, open, onO
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-            <DialogContent className="sm:max-w-xl p-0" showCloseButton={false}>
+            <DialogContent className="sm:max-w-xl p-0 z-500" showCloseButton={false}>
                 <DialogHeader className="p-5 border-b">
                     <div className="flex items-center justify-between">
                         <DialogTitle>{title}</DialogTitle>
@@ -19,7 +19,7 @@ export default function DialogForm({ trigger, action, id, form, title, open, onO
                         </Button>
                     </div>
                 </DialogHeader>
-                <div className="no-scrollbar max-h-[60vh] overflow-y-auto px-5 pb-5 pt-1">{form(id, setIsLoading)}</div>
+                {form && <div className="no-scrollbar max-h-[60vh] overflow-y-auto px-5 pb-5 pt-4">{form(id, setIsLoading)}</div>}
                 <DialogFooter className="border-t p-5">{action(id, isLoading)}</DialogFooter>
             </DialogContent>
         </Dialog>

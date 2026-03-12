@@ -1,12 +1,11 @@
 'use client';
 
+import { usePublic } from '@/lib/contexts/public-context';
 import { projectToLocationFeature } from '@/lib/helpers/project-map';
 import type { LocationFeature } from '@/lib/types/features';
-import type { ProjectWithImages } from '@/lib/types/api';
 import { memo, useMemo, useState } from 'react';
 import { LocationMarker } from '../map-ui/location-marker';
 import { LocationPopup } from '../map-ui/location-popup';
-import { usePublic } from '@/lib/contexts/public-context';
 
 function ProjectsLocations() {
     const { projects } = usePublic();
@@ -28,9 +27,9 @@ function ProjectsLocations() {
 
             {selectedLocation && (
                 <LocationPopup
-                    project={projects.find((p) => p.id === selectedLocation.properties.mapbox_id) as ProjectWithImages}
                     location={selectedLocation}
                     onClose={handlePopUpOff}
+                    project={projects.find((p) => p.id === selectedLocation.properties.mapbox_id)}
                 />
             )}
         </>

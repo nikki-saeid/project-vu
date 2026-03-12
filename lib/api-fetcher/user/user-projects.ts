@@ -28,3 +28,25 @@ export async function createProject(input: ProjectCreateInput): Promise<Project>
     });
     return response;
 }
+
+export async function updateProject(input: ProjectCreateInput, id: string): Promise<Project> {
+    const cookie = await cookies();
+    const response = await fetcher<Project>(`${API_URL}/user/projects/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: cookie.toString(),
+        },
+        body: JSON.stringify(input),
+    });
+    return response;
+}
+
+
+export async function deleteProject(id: string): Promise<void> {
+    const cookie = await cookies();
+    await fetcher<void>(`${API_URL}/user/projects/${id}`, {
+        method: 'DELETE',
+        headers: { Cookie: cookie.toString() },
+    });
+}

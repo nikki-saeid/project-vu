@@ -1,18 +1,16 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { useDebounce } from '@/hooks/use-debounce';
 
-import { cn } from '@/lib/utils';
-import type { LocationFeature, LocationSuggestion } from '@/lib/types/map';
+import { retrieveLocation, searchLocations } from '@/lib/api-fetcher/map';
 import { MAP_CONSTANTS } from '@/lib/constants/map';
 import { useMap } from '@/lib/contexts/map-context';
-import { LocationMarker } from './location-marker';
-import { LocationPopup } from './location-popup';
+import type { LocationSuggestion } from '@/lib/types/map';
+import { cn } from '@/lib/utils';
 import { IconLoader, IconMapPin, IconX } from '@tabler/icons-react';
-import { retrieveLocation, searchLocations } from '@/lib/api-fetcher/map';
 
 export default function MapSearch() {
     const { map, setSearchedLocation } = useMap();

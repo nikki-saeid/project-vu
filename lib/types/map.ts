@@ -117,4 +117,3 @@ export type LocationSuggestion = {
     place_formatted: string;
     maki?: string;
 };
-

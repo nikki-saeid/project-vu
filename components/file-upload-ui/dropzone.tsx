@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
 import Image from 'next/image';
 import { Avatar, AvatarImage } from '../ui/avatar';
+import { ProjectImage } from '@/lib/types/db';
 
 export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB') => {
     const k = 1000;
@@ -82,7 +83,7 @@ const DropzoneContent = ({
                                             <AvatarImage src={file.preview} alt={file.name} className="object-cover" />
                                         </Avatar>
                                     ) : (
-                                        //
+                                        // eslint-disable-next-line @next/next/no-img-element
                                         <img
                                             src={file.preview}
                                             alt={file.name}

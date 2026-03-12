@@ -4,7 +4,7 @@ import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { uploadProjectImages } from '@/lib/api-fetcher/user/file-upload';
-import { createProject } from '@/lib/api-fetcher/user/user-projects';
+import { createProject, getUserProjects, updateProject } from '@/lib/api-fetcher/user/user-projects';
 import { usePublic } from '@/lib/contexts/public-context';
 import type { LocationFeature } from '@/lib/types/map';
 import type { ProjectFormProps } from '@/lib/types/forms';
@@ -12,25 +12,29 @@ import { cn } from '@/lib/utils';
 import { projectCreateSchema, type ProjectCreateInput } from '@/lib/validators/user/project';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconAlignLeft, IconClipboardText } from '@tabler/icons-react';
+import type { FileError } from 'react-dropzone';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
+import { ProjectWithImages } from '@/lib/types/api';
 
-export default function ProjectForm({ onSuccess, className, id, setIsLoading }: ProjectFormProps) {
+type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
+
+export default function ProjectForm({ onSuccess, className, id, setIsLoading, project }: ProjectFormProps) {
     const [searchedLocation, setSearchedLocation] = useState<LocationFeature | null>(null);
     const { projects, setProjects, business } = usePublic();
 
     const form = useForm<ProjectCreateInput>({
         resolver: zodResolver(projectCreateSchema),
         defaultValues: {
-            title: '',
-            description: '',
-            address: '',
-            latitude: 0,
-            longitude: 0,
-            isImagesUploaded: false,
+            title: project?.title ?? '',
+            description: project?.description ?? '',
+            address: project?.address ?? '',
+            latitude: project?.lat ?? 0,
+            longitude: project?.lng ?? 0,
+            isImagesUploaded: project?.project_image?.length ? project?.project_image?.length > 0 : false,
         },
     });
 
@@ -42,32 +46,105 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading }: 
         maxFiles: 10,
         maxFileSize: 5 * 1000 * 1000,
     });
-    const { files } = dropZoneProps;
+    const { files, setFiles } = dropZoneProps;
+
+    // set project images to the dropzone
+    useEffect(() => {
+        if (!project?.project_image?.length) {
+            setFiles([]);
+            return;
+        }
+
+        const controller = new AbortController();
+        let cancelled = false;
+
+        (async () => {
+            const fetchedFiles = await Promise.all(
+                project.project_image.map(async (image, idx) => {
+                    try {
+                        const response = await fetch(image.image_url, { signal: controller.signal });
+                        const blob = await response.blob();
+                        const urlName = (() => {
+                            try {
+                                return new URL(image.image_url).pathname.split('/').pop();
+                            } catch {
+                                return image.image_url.split('/').pop();
+                            }
+                        })();
+                        const filename = urlName && urlName.length > 0 ? urlName : `project-image-${image.id ?? idx}.jpg`;
+                        const file = new File([blob], filename, { type: blob.type || 'image/jpeg' }) as FileWithPreview;
+                        file.preview = URL.createObjectURL(file);
+                        file.errors = [];
+                        return file as FileWithPreview;
+                    } catch {
+                        // If the fetch fails (CORS/offline), still create a placeholder so the UI shows "existing" images.
+                        const file = new File([image.image_url], `project-image-${image.id ?? idx}.txt`, {
+                            type: 'text/plain',
+                        }) as FileWithPreview;
+                        file.preview = undefined;
+                        file.errors = [];
+                        return file as FileWithPreview;
+                    }
+                }),
+            );
+
+            if (!cancelled) setFiles(fetchedFiles);
+        })();
+
+        return () => {
+            cancelled = true;
+            controller.abort();
+        };
+    }, [project?.project_image, setFiles]);
 
     // ------------------------------
     // On submit
     // ------------------------------
 
+    const handleAdd = async (data: ProjectCreateInput) => {
+        // Create project
+        const created = await createProject(data);
+
+        // Upload images
+        const formData = new FormData();
+        files.forEach((file) => {
+            formData.append('files', file);
+        });
+        formData.append('projectId', created.id);
+        formData.append('businessId', business?.id ?? '');
+
+        await uploadProjectImages(formData);
+        toast.success('Project created successfully');
+    };
+
+    const handleUpdate = async (data: ProjectCreateInput) => {
+        // Create project
+        const updated = await updateProject(data, project?.id ?? '');
+
+        // Upload images
+        const formData = new FormData();
+        files.forEach((file) => {
+            formData.append('files', file);
+        });
+        formData.append('projectId', updated.id);
+        formData.append('businessId', business?.id ?? '');
+
+        await uploadProjectImages(formData);
+        toast.success('Project updated successfully');
+    };
     const onSubmit = async (data: ProjectCreateInput) => {
         setIsLoading(true);
         try {
-            // Create project
-            const created = await createProject(data);
+            if (!project) {
+                await handleAdd(data);
+            } else {
+                await handleUpdate(data);
+            }
 
-            // Upload images
-            const formData = new FormData();
-            files.forEach((file) => {
-                formData.append('files', file);
-            });
-            formData.append('projectId', created.id);
-            formData.append('businessId', business?.id ?? '');
-
-            const uploadedImages = await uploadProjectImages(formData);
-            console.log('uploadedImages', uploadedImages);
-            setProjects([...projects, { ...created, project_image: uploadedImages }]);
+            const newProject = await getUserProjects();
+            setProjects(newProject);
 
             // Success
-            toast.success('Project created successfully');
             form.reset();
             onSuccess?.();
         } catch (error) {
@@ -78,10 +155,15 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading }: 
     };
 
     useEffect(() => {
+        console.log('searchedLocation', searchedLocation);
+
         if (searchedLocation) {
             form.setValue('latitude', searchedLocation.geometry.coordinates[1]);
             form.setValue('longitude', searchedLocation.geometry.coordinates[0]);
-            form.setValue('address', searchedLocation.properties.name);
+            form.setValue(
+                'address',
+                searchedLocation.properties.full_address || searchedLocation.properties.address || searchedLocation.properties.name,
+            );
         }
     }, [searchedLocation, form]);
 
@@ -160,7 +242,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading }: 
             <Field data-invalid={!!form.formState.errors.isImagesUploaded}>
                 <FieldLabel htmlFor="project-images">Images</FieldLabel>
                 <FieldDescription>Upload images for your project.</FieldDescription>
-                <ImageUpload dropZoneProps={dropZoneProps} />
+                <ImageUpload dropZoneProps={dropZoneProps} isLogo={false} />
                 {form.formState.errors.isImagesUploaded && <FieldError errors={[form.formState.errors.isImagesUploaded]} />}
             </Field>
         </form>

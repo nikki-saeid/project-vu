@@ -10,9 +10,11 @@ export default function ImageUpload({
     onChooseImage?: () => void;
     isLogo?: boolean;
 }) {
+    const totalImages = dropZoneProps.files.length;
+
     return (
         <Dropzone {...dropZoneProps}>
-            {dropZoneProps.files.length < dropZoneProps.maxFiles && <DropzoneEmptyState />}
+            {totalImages < dropZoneProps.maxFiles && <DropzoneEmptyState />}
             <DropzoneContent isLogo={isLogo} onChooseImage={onChooseImage} />
         </Dropzone>
     );

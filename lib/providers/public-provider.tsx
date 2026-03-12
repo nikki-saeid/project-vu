@@ -9,9 +9,10 @@ type UserProviderProps = {
     children: React.ReactNode;
     initialBusiness: Business | null;
     initialProjects: ProjectWithImages[] | [];
+    isPublic: boolean;
 };
 
-export function PublicProvider({ children, initialBusiness, initialProjects = [] }: UserProviderProps) {
+export function PublicProvider({ children, initialBusiness, initialProjects = [], isPublic = false }: UserProviderProps) {
     const [business, setBusiness] = useState<Business | null>(initialBusiness);
     const [projects, setProjects] = useState<ProjectWithImages[]>(initialProjects);
 
@@ -29,8 +30,9 @@ export function PublicProvider({ children, initialBusiness, initialProjects = []
             setBusiness,
             projects,
             setProjects,
+            isPublic,
         }),
-        [business, projects],
+        [business, projects, isPublic],
     );
 
     return <PublicContext.Provider value={value}>{children}</PublicContext.Provider>;

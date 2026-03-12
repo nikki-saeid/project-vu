@@ -11,6 +11,7 @@ export async function POST(request: Request) {
     try {
         const supabase = await createClient();
 
+        // check if the user is signed in
         const {
             data: { user },
         } = await supabase.auth.getUser();
@@ -22,10 +23,12 @@ export async function POST(request: Request) {
             });
         }
 
+        // get the form data
         const formData = await request.formData();
         const files = formData.getAll('files');
         const projectId = formData.get('projectId');
 
+        // check if the files are present
         if (!files || files.length === 0) {
             return errorHandler({
                 error: new Error('Missing files'),
@@ -33,6 +36,7 @@ export async function POST(request: Request) {
             });
         }
 
+        // check if the project id is present
         if (!projectId) {
             return errorHandler({
                 error: new Error('Project ID is required'),
@@ -40,7 +44,28 @@ export async function POST(request: Request) {
             });
         }
 
-        const path = `${user.id}/projects/${projectId}`;
+        // check if the project exists
+        const { data: project } = await supabase.from('projects').select('id').eq('id', projectId).maybeSingle();
+        if (!project) {
+            return errorHandler({
+                error: new Error('Project not found'),
+                defaultValue: { status: StatusCodes.NOT_FOUND, message: ReasonPhrases.NOT_FOUND },
+            });
+        }
+
+        // when updating a project, delete the existing images first
+        const { error: deleteError, data: deletedImages } = await supabase.from('project_image').delete().eq('project_id', project.id).select('image_url');
+        if (deleteError) return errorHandler({ error: deleteError });
+
+         // delete the project images
+         if (deletedImages && deletedImages.length > 0) {
+            const { error: deleteError } = await supabase.storage.from(BUCKET_NAME).remove(deletedImages.map((image) => image.image_url));
+            if (deleteError) return errorHandler({ error: deleteError });
+        }
+
+
+        // create the path for the project images
+        const path = `${user.id}/projects/${project.id}`;
 
         // Save each image in the formData 'files' array to Supabase storage, one-by-one:
         const uploadResults = await Promise.all(
@@ -69,7 +94,8 @@ export async function POST(request: Request) {
         let displayOrder = 0;
         for (const result of uploadResults) {
             if (!result.error) {
-                const url = supabase.storage.from(BUCKET_NAME).getPublicUrl(`${path}/${result.name}`).data.publicUrl;
+                // const url = supabase.storage.from(BUCKET_NAME).getPublicUrl(`${path}/${result.name}`);
+                const url = `${path}/${result.name}`;
                 const { error: insertError } = await supabase.from('project_image').insert({
                     image_url: url,
                     project_id: projectId as string,

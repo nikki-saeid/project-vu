@@ -18,18 +18,20 @@ export default function ProjectCard({ action, title, description, project_image 
                     )}
 
                     <CarouselContent>
-                        {project_image.map((image) => (
-                            <CarouselItem key={image.image_url}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                    src={image.image_url ?? '/placeholder.svg'}
-                                    width={180}
-                                    height={100}
-                                    alt="Event cover"
-                                    className="relative z-90 aspect-video w-full object-cover"
-                                />
-                            </CarouselItem>
-                        ))}
+                        {project_image.map((image) => {
+                            return (
+                                <CarouselItem key={image.image_url}>
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={image.image_url ?? '/placeholder.svg'}
+                                        width={180}
+                                        height={100}
+                                        alt={title ?? 'Project image'}
+                                        className="relative z-90 aspect-video w-full object-cover"
+                                    />
+                                </CarouselItem>
+                            );
+                        })}
                     </CarouselContent>
                 </Carousel>
             ) : (
@@ -37,7 +39,7 @@ export default function ProjectCard({ action, title, description, project_image 
                     width={180}
                     height={100}
                     src={'/placeholder.svg'}
-                    alt="Event cover"
+                    alt={title ?? 'Project image'}
                     className="relative z-20 aspect-video w-full object-cover"
                 />
             )}

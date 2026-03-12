@@ -9,6 +9,7 @@ export type PublicContextValue = {
     setBusiness: (business: Business | null) => void;
     projects: ProjectWithImages[];
     setProjects: (projects: ProjectWithImages[]) => void;
+    isPublic: boolean;
 };
 
 export const PublicContext = createContext<PublicContextValue | null>(null);

@@ -1,5 +1,6 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
+import { getStoragePublicUrl } from '@/lib/helpers/image-public-url';
 import { parsePostGisPoint } from '@/lib/helpers/postgis';
 import { createClient } from '@/lib/supabase/server';
 import type { ProjectWithImages } from '@/lib/types/api';
@@ -65,19 +66,24 @@ export async function GET() {
         if (projectsError) return errorHandler({ error: projectsError });
 
         // Ensure every project has project_image array (ordered by display_order) and lng/lat from PostGIS
-        const projectsWithImages: ProjectWithImages[] = (projects ?? []).map((p) => {
-            const images = (p.project_image ?? []).sort(
+
+        for (let i = 0; i < projects.length; i++) {
+            const project = projects[i];
+            const images = (project.project_image ?? []).sort(
                 (a: { display_order: number }, b: { display_order: number }) => a.display_order - b.display_order,
             );
-            const coords = parsePostGisPoint(p.location as string | null);
-            return {
-                ...p,
-                project_image: images,
-                ...(coords && { lng: coords.lng, lat: coords.lat }),
-            } as ProjectWithImages;
-        });
+            const coords = parsePostGisPoint(project.location as string | null);
 
-        return new SuccessResponse<ProjectWithImages[]>('profile fetched successfully', projectsWithImages).send();
+            const publicUrls = await Promise.all(images.map(async (image) => await getStoragePublicUrl(image.image_url)));
+
+            projects[i] = {
+                ...project,
+                project_image: images.map((image, index) => ({ ...image, image_url: publicUrls[index] })),
+                ...(coords && { lng: coords.lng, lat: coords.lat }),
+            };
+        }
+
+        return new SuccessResponse<ProjectWithImages[]>('profile fetched successfully', projects).send();
     } catch (error) {
         return errorHandler({ error });
     }

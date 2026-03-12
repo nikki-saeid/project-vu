@@ -3,6 +3,7 @@ import type { UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
 import type { Business, Project, ProjectImage } from './db';
 import type { ClassNameProp } from './common';
 import type { LocationFeature } from './map';
+import type { ProjectWithImages } from './api';
 
 export type PasswordInputProps = React.ComponentProps<'input'>;
 
@@ -33,6 +34,7 @@ export type CardFormProps = {
 export type ProjectFormProps = {
     onSuccess?: () => void;
     id: string;
+    project?: ProjectWithImages;
     setIsLoading: (about: boolean) => void;
 } & ClassNameProp;
 
@@ -56,13 +58,19 @@ export type DialogFormProps = {
     title: string;
     trigger?: ReactNode;
     action: (id: string, isLoading: boolean) => ReactNode;
-    form: (id: string, setIsLoading: (about: boolean) => void) => ReactNode;
+    form?: (id: string, setIsLoading: (about: boolean) => void) => ReactNode;
     id: string;
     open: boolean;
     onOpenChange: (open: boolean) => void;
 };
 
 export type BusinessDeleteFormProps = {
+    onSuccess?: () => void;
+    id: string;
+    setIsLoading: (about: boolean) => void;
+};
+
+export type ProjectDeleteFormProps = {
     onSuccess?: () => void;
     id: string;
     setIsLoading: (about: boolean) => void;

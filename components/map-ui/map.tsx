@@ -6,8 +6,9 @@ import { cn } from '@/lib/utils';
 import { memo, useRef } from 'react';
 import MapCotrols from './map-controls';
 import MapSearch from './map-search';
+import { MAP_DEFAULT_VIEW_STATE } from '@/lib/constants/map';
 
-function Map({ children, className = '', isSearchable = true, fullHeight = false }: MapWrapperProps) {
+function Map({ children, className = '', isSearchable = true, fullHeight = false, initialViewState }: MapWrapperProps) {
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
     return (
@@ -20,14 +21,7 @@ function Map({ children, className = '', isSearchable = true, fullHeight = false
         >
             <div id="map-container" ref={mapContainerRef} className="absolute inset-0 h-full w-full" />
 
-            <MapProvider
-                mapContainerRef={mapContainerRef}
-                initialViewState={{
-                    longitude: -122.4194,
-                    latitude: 37.7749,
-                    zoom: 10,
-                }}
-            >
+            <MapProvider mapContainerRef={mapContainerRef} initialViewState={initialViewState ?? MAP_DEFAULT_VIEW_STATE}>
                 <div className="z-50 absolute bottom-6 right-6">
                     <MapCotrols />
                 </div>

@@ -9,5 +9,9 @@ export type DashboardSidebarGroupProps = { label?: string; data: SidebarNavigati
 export type DashboardHeaderProps = { pagesMetadata: Omit<SidebarNavigationItem, 'Icon'>[] };
 export type SidebarCustomButtonProps = Omit<SidebarNavigationItem, 'Icon'> & ChildrenProp;
 export type NavbarWrapperProps = ChildrenProp & ClassNameProp;
-export type MapWrapperProps = ChildrenProp & ClassNameProp & { isSearchable?: boolean; fullHeight?: boolean };
-
+export type MapWrapperProps = ChildrenProp &
+    ClassNameProp & {
+        isSearchable?: boolean;
+        fullHeight?: boolean;
+        initialViewState?: { longitude: number; latitude: number; zoom: number };
+    };

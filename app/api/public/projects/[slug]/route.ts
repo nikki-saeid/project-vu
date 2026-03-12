@@ -1,18 +1,29 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
-import { parsePostGisPoint } from '@/lib/helpers/postgis';
+import { getStoragePublicUrls } from '@/lib/helpers/image-public-url';
 import { createClient } from '@/lib/supabase/server';
 import type { ProjectWithImages } from '@/lib/types/api';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { NextRequest } from 'next/server';
 
-type Params = {
+type PublicProjectsRouteParams = {
     params: Promise<{ slug: string }>;
 };
 
-export async function GET(_request: Request, { params }: Params) {
+export async function GET(request: NextRequest, { params }: PublicProjectsRouteParams) {
     try {
         const { slug } = await params;
+        const searchParams = request.nextUrl.searchParams;
+        const user_view = searchParams.get('user_view');
+        const isUserView = user_view === 'true';
 
+        // check if the slug is present
+        if (!slug?.trim()) {
+            return errorHandler({
+                error: new Error('Slug is required'),
+                defaultValue: { status: StatusCodes.BAD_REQUEST, message: ReasonPhrases.BAD_REQUEST },
+            });
+        }
         if (!slug?.trim()) {
             return errorHandler({
                 error: new Error('Slug is required'),
@@ -21,25 +32,58 @@ export async function GET(_request: Request, { params }: Params) {
         }
 
         const supabase = await createClient();
+        let business: { id: string } | null = null;
+        // --------------------------------------------------------- if user view ---------------------------------------------------------
+        if (isUserView) {
+            // Get the user
+            const {
+                data: { user },
+            } = await supabase.auth.getUser();
+            if (!user) {
+                return errorHandler({
+                    error: new Error('Unauthorized'),
+                    defaultValue: { status: StatusCodes.UNAUTHORIZED, message: 'You must be signed in to view this projects' },
+                });
+            }
 
-        // Fetch the profile
-        const { data: business, error: businessError } = await supabase
-            .from('businesses')
-            .select('id')
-            .eq('slug', slug.trim())
-            .eq('page_status', 'live')
-            .maybeSingle();
+            // Get the business
+            const { data: _business, error: businessError } = await supabase
+                .from('businesses')
+                .select('id')
+                .eq('user_id', user.id)
+                .maybeSingle();
+            if (businessError) return errorHandler({ error: businessError });
+            if (!_business) {
+                return errorHandler({
+                    error: new Error('Business not found'),
+                    defaultValue: { status: StatusCodes.NOT_FOUND, message: ReasonPhrases.NOT_FOUND },
+                });
+            }
+            business = _business;
+        }
+        // --------------------------------------------------------- if user view ---------------------------------------------------------
+        else {
+            // Fetch the profile
+            const { data: _business, error: businessError } = await supabase
+                .from('businesses')
+                .select('id')
+                .eq('slug', slug.trim())
+                .eq('page_status', 'live')
+                .maybeSingle();
 
-        if (!business) {
-            return errorHandler({
-                error: new Error('Business not found'),
-                defaultValue: { status: StatusCodes.NOT_FOUND, message: ReasonPhrases.NOT_FOUND },
-            });
+            if (!_business) {
+                return errorHandler({
+                    error: new Error('Business not found'),
+                    defaultValue: { status: StatusCodes.NOT_FOUND, message: ReasonPhrases.NOT_FOUND },
+                });
+            }
+
+            // Fetching error handling
+            if (businessError) return errorHandler({ error: businessError });
+            business = _business;
         }
 
-        // Fetching error handling
-        if (businessError) return errorHandler({ error: businessError });
-
+        // --------------------------------------------------------- get projects ---------------------------------------------------------
         const { data: projects, error: projectsError } = await supabase
             .from('projects')
             .select(
@@ -66,17 +110,7 @@ export async function GET(_request: Request, { params }: Params) {
         if (projectsError) return errorHandler({ error: projectsError });
 
         // Ensure every project has project_image array (ordered by display_order) and lng/lat from PostGIS
-        const projectsWithImages: ProjectWithImages[] = (projects ?? []).map((p) => {
-            const images = (p.project_image ?? []).sort(
-                (a: { display_order: number }, b: { display_order: number }) => a.display_order - b.display_order,
-            );
-            const coords = parsePostGisPoint(p.location as string | null);
-            return {
-                ...p,
-                project_image: images,
-                ...(coords && { lng: coords.lng, lat: coords.lat }),
-            } as ProjectWithImages;
-        });
+        const projectsWithImages = await getStoragePublicUrls(projects);
 
         return new SuccessResponse<ProjectWithImages[]>('profile fetched successfully', projectsWithImages).send();
     } catch (error) {

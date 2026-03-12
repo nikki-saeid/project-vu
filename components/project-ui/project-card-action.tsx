@@ -29,8 +29,8 @@ export default function ProjectCardAction({ project }: { project: Project }) {
                         Edit
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem onSelect={() => setDeleteDialogOpen(true)}>
-                        <IconTrash className="size-4" />
+                    <DropdownMenuItem variant="destructive" onSelect={() => setDeleteDialogOpen(true)}>
+                        <IconTrash className="size-4 " />
                         Delete
                     </DropdownMenuItem>
                 </DropdownMenuContent>

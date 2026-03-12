@@ -6,25 +6,24 @@ import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { uploadProjectImages } from '@/lib/api-fetcher/user/file-upload';
 import { createProject, getUserProjects, updateProject } from '@/lib/api-fetcher/user/user-projects';
 import { usePublic } from '@/lib/contexts/public-context';
-import type { LocationFeature } from '@/lib/types/map';
 import type { ProjectFormProps } from '@/lib/types/forms';
+import type { LocationFeature } from '@/lib/types/map';
 import { cn } from '@/lib/utils';
 import { projectCreateSchema, type ProjectCreateInput } from '@/lib/validators/user/project';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconAlignLeft, IconClipboardText } from '@tabler/icons-react';
-import type { FileError } from 'react-dropzone';
 import { useEffect, useState } from 'react';
+import type { FileError } from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
-import { ProjectWithImages } from '@/lib/types/api';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 
 export default function ProjectForm({ onSuccess, className, id, setIsLoading, project }: ProjectFormProps) {
     const [searchedLocation, setSearchedLocation] = useState<LocationFeature | null>(null);
-    const { projects, setProjects, business } = usePublic();
+    const { setProjects, business } = usePublic();
 
     const form = useForm<ProjectCreateInput>({
         resolver: zodResolver(projectCreateSchema),
@@ -155,8 +154,6 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     };
 
     useEffect(() => {
-        console.log('searchedLocation', searchedLocation);
-
         if (searchedLocation) {
             form.setValue('latitude', searchedLocation.geometry.coordinates[1]);
             form.setValue('longitude', searchedLocation.geometry.coordinates[0]);

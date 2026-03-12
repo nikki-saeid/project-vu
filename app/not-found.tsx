@@ -12,7 +12,7 @@ export default function NotFound() {
                 <P className="text-muted-foreground">The page you are looking for does not exist.</P>
             </EmptyData>
             <Button asChild variant="outline">
-                <Link href="/">Go home</Link>
+                <Link href="/">Take me back</Link>
             </Button>
         </div>
     );

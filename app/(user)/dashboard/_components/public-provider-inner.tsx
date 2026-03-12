@@ -8,7 +8,7 @@ export default async function PublicProviderInner({ children }: ChildrenProp) {
     const projects = await getUserProjects();
 
     return (
-        <PublicProvider initialBusiness={business} initialProjects={projects}>
+        <PublicProvider isPublic={false} initialBusiness={business} initialProjects={projects}>
             {children}
         </PublicProvider>
     );

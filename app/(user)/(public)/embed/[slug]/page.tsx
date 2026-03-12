@@ -30,7 +30,7 @@ export default async function EmbedMapPage({ params }: ChildrenProp & { params: 
     }
 
     return (
-        <PublicProvider initialBusiness={business} initialProjects={projects}>
+        <PublicProvider isPublic={true} initialBusiness={business} initialProjects={projects}>
             <div className="min-h-screen w-full">
                 <ProjectsMap embed />
             </div>

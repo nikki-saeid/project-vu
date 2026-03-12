@@ -14,8 +14,6 @@ function ProjectsMap({ embed = false }: ProjectsMapProps) {
     const centerLatLng = getCenterLatLng(projects);
     const zoomLevel = getZoomLevelForLocations(projects);
 
-    console.log('zoomLevel', zoomLevel);
-
     return (
         <>
             {projects.length > 0 ? (

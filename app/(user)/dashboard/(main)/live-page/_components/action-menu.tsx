@@ -11,7 +11,7 @@ import EditDialog from './edit-page-dialog';
 export default function ActionMenu() {
     const { business } = usePublic();
     const slug = business?.slug;
-    const livePageHref = slug ? `/page/${slug}` : null;
+    const livePageHref = slug ? `/page/${slug}?user_view=true` : null;
     const [dialogOpen, setDialogOpen] = useState(false);
 
     return (

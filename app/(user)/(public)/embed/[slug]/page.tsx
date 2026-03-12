@@ -5,6 +5,7 @@ import type { ChildrenProp } from '@/lib/types/common';
 import type { Business } from '@/lib/types/db';
 import type { ProjectWithImages } from '@/lib/types/api';
 import { notFound } from 'next/navigation';
+import PublicProviderInner from '../../_components/public-provider-inner';
 
 export function headers() {
     return {
@@ -17,23 +18,13 @@ export function headers() {
 }
 
 export default async function EmbedMapPage({ params }: ChildrenProp & { params: Promise<{ slug: string }> }) {
-    let business: Business | null = null;
-    let projects: ProjectWithImages[] | null = null;
     const { slug } = await params;
 
-    try {
-        business = await getPublicBusinessBySlug(slug);
-        projects = await getPublicProjectsBySlug(slug);
-    } catch (error) {
-        console.error(error);
-        notFound();
-    }
-
     return (
-        <PublicProvider isPublic={true} initialBusiness={business} initialProjects={projects}>
+        <PublicProviderInner slug={slug} user_view="false">
             <div className="min-h-screen w-full">
                 <ProjectsMap embed />
             </div>
-        </PublicProvider>
+        </PublicProviderInner>
     );
 }

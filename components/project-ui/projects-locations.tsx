@@ -22,7 +22,11 @@ function ProjectsLocations() {
     return (
         <>
             {locationFeatures.map((location) => (
-                <LocationMarker key={location.properties.mapbox_id} location={location} onClick={handlePopUpOn} />
+                <LocationMarker
+                    key={location.properties.mapbox_id}
+                    location={location}
+                    onClick={selectedLocation ? handlePopUpOff : handlePopUpOn}
+                />
             ))}
 
             {selectedLocation && (

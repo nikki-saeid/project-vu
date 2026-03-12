@@ -21,14 +21,11 @@ export default function BusinessHeader() {
             <div className="flex gap-4 items-center">
                 <BusinessAvatar logo_url={logo_url} name={name} />
                 <div className="flex flex-col gap-1">
-                    <H4>{name ?? 'Business name'}</H4>
-                    <Badge variant="secondary">{type ?? 'type'}</Badge>
+                    <H4>{name}</H4>
+                    <Badge variant="secondary">{type}</Badge>
                 </div>
             </div>
-            <P className="text-muted-foreground">
-                {description ??
-                    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque iste doloribus beatae deleniti, iusto reprehenderit fugit quas sapiente mollitia laudantium sunt voluptate velit nulla amet facere, in quae aperiam necessitatibus.'}
-            </P>
+            <P className="text-muted-foreground">{description}</P>
         </header>
     );
 }

@@ -6,24 +6,30 @@ import type { LocationFeature } from './map';
 import type { ProjectWithImages } from './api';
 
 export type PasswordInputProps = React.ComponentProps<'input'>;
+export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 'logo_url' | 'name'>> & ClassNameProp;
 
+// Project
+export type ProjectCardProps = { action?: ReactNode } & Partial<Pick<Project, 'title' | 'description' | 'address'>> & {
+        project_image: Partial<Pick<ProjectImage, 'image_url'>>[];
+    };
+export type ProjectLocationPickerProps = {
+    onSearchedLocationChange: (location: LocationFeature) => void;
+    onEditLocation?: LocationFeature;
+};
+export type NoProjectsUiProps = {
+    isAction?: boolean;
+};
+
+// Image
 export type ImageUploadProps = {
     dropZoneProps: UseSupabaseUploadReturn;
     isLogo?: boolean;
     trigger: (props: { onClick: () => void }) => ReactNode;
 };
+export type DropzoneContextType = Omit<UseSupabaseUploadReturn, 'getRootProps' | 'getInputProps'>;
+export type DropzoneProps = UseSupabaseUploadReturn & ClassNameProp;
 
-export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 'logo_url' | 'name'>> & ClassNameProp;
-
-export type ProjectCardProps = { action?: ReactNode } & Partial<Pick<Project, 'title' | 'description' | 'address'>> & {
-        project_image: Partial<Pick<ProjectImage, 'image_url'>>[];
-    };
-
-export type ProjectLocationPickerProps = {
-    onSearchedLocationChange: (location: LocationFeature) => void;
-    onEditLocation?: LocationFeature;
-};
-
+// form
 export type CardFormProps = {
     title: string;
     description: string;
@@ -31,30 +37,6 @@ export type CardFormProps = {
     form: (id: string, setIsLoading: (about: boolean) => void) => ReactNode;
     id: string;
 };
-
-export type ProjectFormProps = {
-    onSuccess?: () => void;
-    id: string;
-    project?: ProjectWithImages;
-    setIsLoading: (about: boolean) => void;
-} & ClassNameProp;
-
-export type NoProjectsUiProps = {
-    isAction?: boolean;
-};
-
-export type DropzoneContextType = Omit<UseSupabaseUploadReturn, 'getRootProps' | 'getInputProps'>;
-
-export type DropzoneProps = UseSupabaseUploadReturn & {
-    className?: string;
-};
-
-export type BusinessFormProps = {
-    onSuccess?: () => void;
-    id: string;
-    setIsLoading: (about: boolean) => void;
-};
-
 export type DialogFormProps = {
     title: string;
     trigger?: ReactNode;
@@ -65,14 +47,14 @@ export type DialogFormProps = {
     onOpenChange: (open: boolean) => void;
 };
 
-export type BusinessDeleteFormProps = {
+export type FormProps = {
     onSuccess?: () => void;
     id: string;
     setIsLoading: (about: boolean) => void;
 };
 
-export type ProjectDeleteFormProps = {
-    onSuccess?: () => void;
-    id: string;
-    setIsLoading: (about: boolean) => void;
-};
+export type ProjectFormProps = { project?: ProjectWithImages } & ClassNameProp & FormProps;
+export type BusinessFormProps = FormProps;
+export type BusinessDeleteFormProps = FormProps;
+export type ProjectDeleteFormProps = FormProps;
+export type AdminDisableUserFormProps = FormProps & { activate: boolean };

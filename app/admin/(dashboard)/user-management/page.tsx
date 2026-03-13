@@ -23,7 +23,7 @@ export default function UserManagement() {
                             <P>No users found.</P>
                         </EmptyData>
                     ) : (
-                        <DataTable data={usersWithPagination} />
+                        <DataTable />
                     )}
                 </Suspense>
             )}

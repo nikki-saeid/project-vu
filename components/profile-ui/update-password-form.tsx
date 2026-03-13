@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import PasswordInput from '../auth-ui/password-input';
+
 type UpdatePasswordFormProps = {
     id: string;
     setIsLoading: (v: boolean) => void;

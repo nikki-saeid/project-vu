@@ -1,3 +1,5 @@
+'use client';
+
 import CardForm from '@/components/card-form';
 import Logo from '@/components/logo';
 import UpdatePasswordForm from '@/components/profile-ui/update-password-form';

@@ -1,4 +1,4 @@
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import type { ProjectCardProps } from '@/lib/types/forms';
 import { IconMapPin } from '@tabler/icons-react';
@@ -11,9 +11,9 @@ export default function ProjectCard({ action, title, description, project_image 
             {project_image.length > 0 ? (
                 <Carousel className="relative">
                     {project_image.length > 1 && (
-                        <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-between w-[calc(100%-140px)]">
-                            <CarouselPrevious />
-                            <CarouselNext />
+                        <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-between w-[calc(100%-115px)]">
+                            <CarouselPrevious size="icon-xs" />
+                            <CarouselNext size="icon-xs" />
                         </div>
                     )}
 
@@ -45,20 +45,24 @@ export default function ProjectCard({ action, title, description, project_image 
             )}
 
             <CardHeader>
-                {/* <CardAction>
-                    <Badge variant="secondary">{type}</Badge>
-                </CardAction> */}
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>
-                    {description && description.length > 30 ? description.substring(0, 30) + '...' : description}
+                    {description && description.length > 50 ? description.substring(0, 50) + '...' : description}
                 </CardDescription>
             </CardHeader>
-            <CardFooter>
+            <CardContent>
                 <CardDescription className="flex items-center gap-1 text-xs">
-                    <IconMapPin className="size-4" />
-                    {address}
+                    <div>
+                        <IconMapPin className="w-3.5" />
+                    </div>
+                    <span>{address}</span>
                 </CardDescription>
-            </CardFooter>
+            </CardContent>
+            {/* <CardFooter>
+                <Button variant="outline" className="rounded-full">
+                    View Project
+                </Button>
+            </CardFooter> */}
         </Card>
     );
 }

@@ -1,7 +1,6 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
-import { getStoragePublicUrl, getStoragePublicUrls } from '@/lib/helpers/image-public-url';
-import { parsePostGisPoint } from '@/lib/helpers/postgis';
+import { getStoragePublicUrls } from '@/lib/helpers/image-public-url';
 import { createClient } from '@/lib/supabase/server';
 import type { ProjectWithImages } from '@/lib/types/api';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';

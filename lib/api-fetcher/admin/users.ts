@@ -7,9 +7,9 @@ import { Business } from '@/lib/types/db';
 
 export type AdminUsersResponse = { users: User[]; aud: string } & Pagination;
 
-export const getAdminUsers = async () => {
+export const getAdminUsers = async (page: number) => {
     const cookie = await cookies();
-    return await fetcher<AdminUsersResponse>(`${API_URL}/admin/user/all`, {
+    return await fetcher<AdminUsersResponse>(`${API_URL}/admin/user/all?page=${page ?? '1'}`, {
         headers: { Cookie: cookie.toString() },
     });
 };

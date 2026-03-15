@@ -176,7 +176,6 @@ export type Database = {
       access_token_with_role_hook: { Args: { event: Json }; Returns: Json }
     }
     Enums: {
-      business_role: "owner" | "staff"
       business_type:
         | "builder"
         | "roofer"
@@ -189,7 +188,6 @@ export type Database = {
         | "flooring_specialist"
         | "general_contractor"
       page_status: "draft" | "live"
-      user_role: "admin" | "member"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -317,7 +315,6 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      business_role: ["owner", "staff"],
       business_type: [
         "builder",
         "roofer",
@@ -331,7 +328,6 @@ export const Constants = {
         "general_contractor",
       ],
       page_status: ["draft", "live"],
-      user_role: ["admin", "member"],
     },
   },
 } as const

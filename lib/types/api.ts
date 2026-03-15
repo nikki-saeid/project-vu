@@ -14,6 +14,12 @@ export type ProjectWithImages = Database['public']['Tables']['projects']['Row'] 
     lat?: number;
 };
 
+export type ProjectWithImagesAndPagination = {
+    data: ProjectWithImages[];
+    lastPage: number;
+    total: number;
+};
+
 export type AdminAnalyticsResponse = {
     activeSubscriptions: number;
 };

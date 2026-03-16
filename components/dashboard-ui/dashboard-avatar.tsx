@@ -49,7 +49,7 @@ export default function DashboardAvatar() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Avatar className="cursor-pointer overflow-hidden bg-muted">
+                <Avatar className="border cursor-pointer overflow-hidden bg-muted">
                     {avatarUrl && <AvatarImage className="object-cover" src={avatarUrl} alt={initials} />}
                     <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>

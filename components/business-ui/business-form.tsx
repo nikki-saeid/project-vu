@@ -29,9 +29,12 @@ import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
+import { getUserAuth } from '@/lib/api-fetcher/user/user-auth';
+import { useUser } from '@/lib/contexts/user-context';
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const { business, setBusiness } = usePublic();
+    const { setUser } = useUser();
 
     const form = useForm({
         resolver: zodResolver(businessProfileSchema),
@@ -72,6 +75,9 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                 const response = await updateUserBusiness({ ...data, logo_url: business?.logo_url });
                 setBusiness(response);
             }
+
+            const newUser = await getUserAuth();
+            setUser(newUser);
             toast.success('Business updated successfully');
             onSuccess?.();
         } catch (error) {

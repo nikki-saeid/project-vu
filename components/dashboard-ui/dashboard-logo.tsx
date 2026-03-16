@@ -3,6 +3,11 @@ import Logo from '../logo';
 import { useSidebar } from '../ui/sidebar';
 
 export default function DashboardLogo() {
-    const { isMobile, state } = useSidebar();
-    return isMobile || state === 'collapsed' ? <Logo className="md:w-5" variant="icon" /> : <Logo className="md:w-26" variant="full" />;
+    const { state, isMobile } = useSidebar();
+
+    if (isMobile) {
+        return <Logo className="md:w-26" variant="full" />;
+    }
+
+    return state === 'collapsed' ? <Logo className="md:w-5" variant="icon" /> : <Logo className="md:w-26" variant="full" />;
 }

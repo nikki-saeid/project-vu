@@ -20,7 +20,7 @@ export default function EmbeddedMapPage() {
 
     const embedUrl = slug ? `${BASE_URL}/embed/${slug}` : '';
     const iframeCode = slug
-        ? `<iframe src="${BASE_URL}/embed/${slug}" width="100%" height="400" style="border:0;" allowfullscreen title="Map"></iframe>`
+        ? `<iframe src="${BASE_URL}/embed/${slug}" width="100%" height="400" title="Map"></iframe>`
         : '';
 
     const copyToClipboard = useCallback(async (text: string, setCopied: (v: boolean) => void) => {

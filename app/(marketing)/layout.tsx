@@ -6,7 +6,7 @@ import React from 'react';
 
 export default function Layout({ children }: ChildrenProp) {
     return (
-        <div className="flex flex-col md:gap-6 gap-4 min-h-screen overflow-x-hidden">
+        <div className="flex flex-col md:gap-6 gap-4 min-h-screen overflow-x-hidden bg-background">
             <Navbar />
             <main className="flex-1 mb-auto">
                 <Container>{children}</Container>

@@ -37,7 +37,7 @@ export async function POST(request: Request) {
                 defaultValue: { status: StatusCodes.BAD_REQUEST, message },
             });
         }
-        
+
         const { title, description, address, latitude, longitude } = parsed.data;
         const location = `POINT(${longitude} ${latitude})`;
 

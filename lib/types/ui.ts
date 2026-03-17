@@ -1,4 +1,4 @@
-import { Icon } from '@tabler/icons-react';
+import type { Icon } from '@tabler/icons-react';
 import type { ChildrenProp, ClassNameProp, IsWhiteProp } from './common';
 
 export type LogoProps = IsWhiteProp & ClassNameProp & { variant?: 'icon' | 'full' };

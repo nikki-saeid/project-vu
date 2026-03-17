@@ -185,8 +185,8 @@ export type Database = {
         | "carpenter"
         | "painter"
         | "hvac"
-        | "flooring_specialist"
-        | "general_contractor"
+        | "flooring specialist"
+        | "general contractor"
       page_status: "draft" | "live"
     }
     CompositeTypes: {
@@ -324,8 +324,8 @@ export const Constants = {
         "carpenter",
         "painter",
         "hvac",
-        "flooring_specialist",
-        "general_contractor",
+        "flooring specialist",
+        "general contractor",
       ],
       page_status: ["draft", "live"],
     },

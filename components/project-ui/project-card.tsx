@@ -20,7 +20,7 @@ export default function ProjectCard({ action, title, description, project_image 
                     <CarouselContent>
                         {project_image.map((image) => {
                             return (
-                                <CarouselItem key={image.image_url}>
+                                <CarouselItem key={image.id}>
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                         src={image.image_url ?? '/placeholder.svg'}

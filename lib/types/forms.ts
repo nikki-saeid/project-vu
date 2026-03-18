@@ -10,7 +10,7 @@ export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 
 
 // Project
 export type ProjectCardProps = { action?: ReactNode } & Partial<Pick<Project, 'title' | 'description' | 'address'>> & {
-        project_image: Partial<Pick<ProjectImage, 'image_url'>>[];
+        project_image: Partial<Pick<ProjectImage, 'image_url' | 'id'>>[];
     };
 export type ProjectLocationPickerProps = {
     onSearchedLocationChange: (location: LocationFeature) => void;

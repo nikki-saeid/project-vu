@@ -43,7 +43,7 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
 
         <div className="min-h-screen  bg-background flex flex-col gap-4 md:gap-6 items-center justify-center">
             <EmptyData className="flex min-w-sm flex-col gap-2">
-                {process.env.NODE_ENV === 'production' ? (
+                {/* {process.env.NODE_ENV === 'production' ? (
                     <>
                         <H1 className="text-7xl">Error</H1>
                         <P className="text-muted-foreground">Somthing went wrong</P>
@@ -54,7 +54,12 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
 
                         <P className="text-muted-foreground">{error.message}</P>
                     </>
-                )}
+                )} */}
+                <>
+                    <H1 className="text-7xl">{error.name}</H1>
+
+                    <P className="text-muted-foreground">{error.message}</P>
+                </>
             </EmptyData>
             <Button asChild variant="outline">
                 <Link href="/">Take me back</Link>

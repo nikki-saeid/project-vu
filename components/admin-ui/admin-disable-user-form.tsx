@@ -24,7 +24,6 @@ export default function AdminDisableUserForm({ onSuccess, id, setIsLoading, acti
             await adminDisableUser(id, activate);
             toast.success(`User ${activate ? 'activated' : 'deactivated'} successfully`);
             const users = await getAdminUsers(page);
-            console.log('users', users);
 
             setUsersWithPagination(users);
             onSuccess?.();

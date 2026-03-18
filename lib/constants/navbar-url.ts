@@ -1,10 +1,25 @@
+export const SECTIONS_IDS = {
+    aboutUs: 'about-us',
+    features: 'features',
+    liveMap: 'live-map',
+    pricing: 'pricing',
+};
+
 export const NAVBAR_URLS = [
     {
-        url: '/about-us',
+        url: `/#${SECTIONS_IDS.aboutUs}`,
         label: 'About Us',
     },
     {
-        url: '/pricing',
+        url: `/#${SECTIONS_IDS.features}`,
+        label: 'Features',
+    },
+    {
+        url: `/#${SECTIONS_IDS.liveMap}`,
+        label: 'Live map',
+    },
+    {
+        url: `/#${SECTIONS_IDS.pricing}`,
         label: 'Pricing',
     },
 ];

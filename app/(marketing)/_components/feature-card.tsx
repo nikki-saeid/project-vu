@@ -13,7 +13,7 @@ export default function FeatureCard({ Icon, title, description }: FeatureCardPro
         <Card className="border-0">
             <CardContent>
                 <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                    <StyledIcon Icon={Icon} />
+                    <StyledIcon Icon={Icon} className="bg-primary/10" IconProps={{ className: 'text-primary' }} />
                     <span>{title}</span>
                 </div>
                 <CardDescription>

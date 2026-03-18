@@ -95,12 +95,14 @@ export function getLongestDistance(projects: ProjectWithCoordinates[]): number {
 }
 
 export function getZoomLevelForLocations(projects: ProjectWithCoordinates[]) {
-    if (!projects.length) return 10; // Fallback default zoom
+    const BASE_ZOOM = 11;
+
+    if (!projects.length) return BASE_ZOOM; // Fallback default zoom
     const longestDistance = getLongestDistance(projects);
 
     const distanceTickMeters = 25000;
     const zoomTick = 0.5;
 
     const ticks = Math.floor(longestDistance / distanceTickMeters);
-    return Math.max(3.25, 10 - ticks * zoomTick);
+    return Math.max(3.25, BASE_ZOOM - ticks * zoomTick);
 }

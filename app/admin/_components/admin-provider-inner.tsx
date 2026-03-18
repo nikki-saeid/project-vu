@@ -5,7 +5,7 @@ import type { ChildrenProp } from '@/lib/types/common';
 
 export default async function AdminProviderInner({ children }: ChildrenProp) {
     const { activeSubscriptions } = await getAdminAnalytics();
-    const usersWithPagination = await getAdminUsers();
+    const usersWithPagination = await getAdminUsers(1);
 
     return (
         <AdminProvider initialActiveSubscriptions={activeSubscriptions} initialUsersWithPagination={usersWithPagination}>

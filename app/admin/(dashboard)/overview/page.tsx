@@ -4,7 +4,6 @@ import P from '@/components/typography/P';
 import { Badge } from '@/components/ui/badge';
 import { useAdmin } from '@/lib/contexts/admin-context';
 import { IconCurrencyDollar, IconTrendingUp, IconUsers } from '@tabler/icons-react';
-import RevenueChart from './_components/revenue-chart';
 
 export default function Overview() {
     const { activeSubscriptions } = useAdmin();

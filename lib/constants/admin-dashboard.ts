@@ -17,10 +17,5 @@ export const ADMIN_DASHBOARD_SIDEBAR_NAVIGATION = {
             url: '/admin/subscriptions',
             Icon: IconCreditCard,
         },
-        // {
-        //     title: 'Content moderation',
-        //     url: '/admin/content-moderation',
-        //     Icon: IconTextScan2,
-        // },
     ],
 };

@@ -1,3 +1,5 @@
+'use client';
+
 import DashboardHeader from '@/components/dashboard-ui/dashboard-header';
 import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
@@ -6,7 +8,7 @@ import { ADMIN_DASHBOARD_SIDEBAR_NAVIGATION } from '@/lib/constants/admin-dashbo
 import { ChildrenProp } from '@/lib/types/common';
 import React from 'react';
 
-export default async function UserLayout({ children }: ChildrenProp) {
+export default function UserLayout({ children }: ChildrenProp) {
     return (
         <SidebarProvider
             style={

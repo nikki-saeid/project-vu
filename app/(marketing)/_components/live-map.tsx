@@ -6,7 +6,7 @@ import { IconCircleFilled } from '@tabler/icons-react';
 export default function LiveMap() {
     return (
         <section id={SECTIONS_IDS.liveMap}>
-            <Badge variant="secondary">
+            <Badge variant="outline">
                 <IconCircleFilled className="size-3 text-green-500 animate-pulse" />
                 Live demo map
             </Badge>

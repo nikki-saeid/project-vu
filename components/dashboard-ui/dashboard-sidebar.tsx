@@ -8,9 +8,7 @@ export default function DashboardSidebar({ children, ...props }: DashboardSideba
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton className="data-[slot=sidebar-menu-button]:p-1.5!">
-                            <DashboardLogo />
-                        </SidebarMenuButton>
+                        <DashboardLogo />
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>

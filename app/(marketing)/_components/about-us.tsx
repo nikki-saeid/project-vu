@@ -129,7 +129,7 @@ const BG_IMAGES = [
 export default function AboutUs() {
     return (
         <div className="relative">
-            <section className="flex flex-col items-center gap-4 md:gap-6 z-1 p-10 bg-primary/10 rounded-lg" id={SECTIONS_IDS.aboutUs}>
+            <section className="flex flex-col items-center gap-4 md:gap-6 z-1" id={SECTIONS_IDS.aboutUs}>
                 <SectionHeader label="ABOUT US" title="ProjectVu turns your completed projects into a professional portfolio" />
                 {/* {BG_IMAGES.map(({ size, rotation, x, y }, index) => (
                     <Image
@@ -153,7 +153,7 @@ export default function AboutUs() {
                     compelling way . We turn your completed projects into a professional portfolio, combining photos, locations, and key
                     details all in one place. <strong>ProjectVu can act as a mini website if you don&apos;t have one</strong>, or it can{' '}
                     <strong>work alongside your existing website</strong> to enhance your online presence. Your projects can be viewed on an{' '}
-                    <strong>interactive map</strong>or in a <strong>clean list format</strong>, giving clients a complete picture of what
+                    <strong>interactive map </strong>or in a <strong>clean list format</strong>, giving clients a complete picture of what
                     you&apos;ve done and where you&apos;ve done it. Our goal is simple:{' '}
                     <strong>helping you showcase your work at its best and win more opportunities.</strong>
                 </P>

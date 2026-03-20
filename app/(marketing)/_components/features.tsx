@@ -5,16 +5,16 @@ import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
 
 export default function Features() {
     return (
-        <section className="grid md:grid-cols-2 rounded-lg gap-4 md:gap-6" id={SECTIONS_IDS.features}>
+        <section className="grid md:grid-cols-1 rounded-lg gap-4 md:gap-6 p-10 bg-primary/10" id={SECTIONS_IDS.features}>
             <SectionHeader
                 label="BUILT FOR LOCAL PROS"
                 title="Everything you need to turn finished projects into future work."
                 description="Whether you're a roofer, landscaper, electrician, or general contractor, your best marketing is the work
                     you've already completed. We help you show it off in the places your customers are already looking."
-                center={false}
+                // center={false}
             />
 
-            <div className="grid sm:grid-cols-2 flex-1 gap-4">
+            <div className="grid md:grid-cols-4 sm:grid-cols-2 flex-1 gap-4">
                 <FeatureCard
                     Icon={IconMapPin}
                     title="Visual map of trust"

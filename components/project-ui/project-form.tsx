@@ -233,7 +233,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             <Field data-invalid={!!form.formState.errors.address || !!form.formState.errors.latitude || !!form.formState.errors.longitude}>
                 <FieldLabel htmlFor="project-address">Location</FieldLabel>
                 <FieldDescription className="data-[invalid=true]:text-destructive">
-                    Search for an address or click on the map to set the project location.
+                    Search for an address to set the project location.
                 </FieldDescription>
                 <ProjectLocationPicker onEditLocation={searchedLocation ?? undefined} onSearchedLocationChange={setSearchedLocation} />
 

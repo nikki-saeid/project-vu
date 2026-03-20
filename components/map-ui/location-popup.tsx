@@ -26,7 +26,7 @@ export function LocationPopup({ location, onClose, project }: LocationPopupProps
                 {...project}
                 project_image={project?.project_image ?? []}
                 action={
-                    <Button size="icon-xs" className="rounded-full shadow-xs" variant="secondary" onClick={onClose}>
+                    <Button size="icon-xs" className="rounded-full shadow-xs" variant="outline" onClick={onClose}>
                         <IconX />
                     </Button>
                 }

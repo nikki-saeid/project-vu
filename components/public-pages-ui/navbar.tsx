@@ -1,23 +1,19 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import NavbarWrapper from './navbar-wrapper';
-import Link from 'next/link';
+import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTrigger } from '@/components/ui/drawer';
 import { NAVBAR_URLS } from '@/lib/constants/navbar-url';
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from '@/components/ui/drawer';
-import { IconMenu, IconMenu2 } from '@tabler/icons-react';
+import { IconMenu2 } from '@tabler/icons-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import NavbarWrapper from './navbar-wrapper';
 
 function MobileNavbar() {
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-        <Drawer direction="right">
-            <DrawerTrigger>
+        <Drawer open={isOpen} direction="right" onOpenChange={setIsOpen}>
+            <DrawerTrigger asChild>
                 <Button variant="outline" size="icon" className="rounded-full">
                     <IconMenu2 />
                 </Button>
@@ -26,7 +22,7 @@ function MobileNavbar() {
                 <DrawerHeader>
                     <div className="flex flex-col gap-2">
                         {NAVBAR_URLS.map(({ label, url }) => (
-                            <Link key={url} href={url}>
+                            <Link key={url} href={url} onClick={() => setIsOpen(false)}>
                                 <Button size="lg" variant="link">
                                     {label}
                                 </Button>

@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { Separator } from '@/components/ui/separator';
 import { BASE_URL } from '@/lib/constants/urls';
 import { createClient } from '@/lib/supabase/client';
 import { signUpSchema } from '@/lib/validators/auth';
@@ -19,7 +18,6 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import GoogleButton from '../../../components/auth-ui/google-button';
 import PasswordInput from '../../../components/auth-ui/password-input';
 
 export default function SignUpForm() {
@@ -78,9 +76,9 @@ export default function SignUpForm() {
     }
 
     return (
-        <div>
-            <Logo className="mx-auto mb-6" />
-            <Card>
+        <div className="flex flex-col gap-4 items-center">
+            <Logo />
+            <Card className="self-stretch">
                 <CardHeader>
                     <CardTitle>
                         <H3 className="text-primary">Create an account</H3>
@@ -184,13 +182,13 @@ export default function SignUpForm() {
                             </Link>
                         </P>
 
-                        <div className="flex items-center gap-2 w-full">
+                        {/* <div className="flex items-center gap-2 w-full">
                             <Separator className="flex-1" />
                             <P className="text-center text-xs text-muted-foreground">Or</P>
                             <Separator className="flex-1" />
                         </div>
 
-                        <GoogleButton className="flex-1" />
+                        <GoogleButton className="flex-1" /> */}
                     </div>
                 </CardContent>
 

@@ -9,24 +9,23 @@ import Image from 'next/image';
 
 export default function Hero() {
     return (
-        <section className="grid md:grid-cols-5 items-center grid-cols-1 md:gap-6 gap-4">
+        <section className="mx-auto max-w-5xl grid md:grid-cols-4 items-center grid-cols-1 md:gap-6 gap-4">
             <div className="flex flex-col col-span-2">
-                <H1 className="max-w-3xl text-balance  text-4xl sm:text-5xl md:text-6xl">Put your work on the map ... literally.</H1>
+                <H1 className="max-w-3xl text-balance leading-9 text-4xl sm:text-5xl md:text-6xl">Map it. Share it. Vu it.</H1>
 
-                <P className="text-balance max-w-3xl mt-4  text-muted-foreground leading-5">
-                    Showcase every job you&apos;ve completed on a beautiful, shareable map. Help customers discover nearby projects, build
-                    trust, and win more business in your service area.
+                <P className="text-balance max-w-3xl mt-4 text-xl text-muted-foreground leading-7">
+                    Showcase your projects with photos, maps, and a professional profile.
                 </P>
 
-                <div className="mt-8 flex gap-2">
+                <div className="mt-8 flex gap-2 sm:flex-row flex-col">
                     <Link href="/signup" className="flex-1">
                         <Button size="lg" className="w-full">
-                            Get started now
+                            Create my map
                             <IconArrowRight className="size-4" />
                         </Button>
                     </Link>
                     <Link href={DEMO_URL} className="flex-1" target="_blank">
-                        <Button size="lg" variant="outline" className="w-full">
+                        <Button size="lg" variant="outlinePrimary" className="w-full">
                             See live example
                             <IconAppWindow className="size-4" />
                         </Button>
@@ -34,7 +33,7 @@ export default function Hero() {
                 </div>
             </div>
 
-            <div className="col-span-3">
+            <div className="col-span-2">
                 <Image src="/home/hero.webp" alt="hero image an illustration of a map and project" width={1000} height={500} />
             </div>
         </section>

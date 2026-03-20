@@ -5,13 +5,15 @@ import LiveMap from './_components/live-map';
 import AboutUs from './_components/about-us';
 
 export default function Home() {
+ 
+
     return (
-        <div className="flex flex-col gap-20 mb-20">
+        <div className="flex flex-col gap-20 my-20">
             <Hero />
-            <AboutUs />
             <Features />
             <LiveMap />
-            <Cta />
+            <AboutUs />
+            {/* <Cta /> */}
         </div>
     );
 }

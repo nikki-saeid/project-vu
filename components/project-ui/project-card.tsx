@@ -53,7 +53,7 @@ export default function ProjectCard({ action, title, description, project_image 
             <CardContent>
                 <CardDescription className="flex items-center gap-1 text-xs">
                     <div>
-                        <IconMapPin className="w-3.5" />
+                        <IconMapPin className="text-secondary w-3.5" />
                     </div>
                     <span>{address}</span>
                 </CardDescription>

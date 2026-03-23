@@ -8,28 +8,30 @@ import { fetcher } from '../../helpers/fetcher';
 import { Project } from '../../types/db';
 
 // private api fetcher for user
+// *****  ------------------------------------------------------------------ WORKING
 export const getUserProjects = async () => {
     const cookie = await cookies();
-    return await fetcher<ProjectWithImages[]>(`${API_URL}/user/projects/many`, {
+    const response = await fetcher<ProjectWithImages[]>(`${API_URL}/user/projects/many`, {
         headers: { Cookie: cookie.toString() },
     });
+
+    return response.data;
 };
 
 // private api fetcher
-export async function createProject(input: ProjectCreateInput): Promise<Project> {
+export async function createProject(formData: FormData) {
     const cookie = await cookies();
     const response = await fetcher<Project>(`${API_URL}/user/projects`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             Cookie: cookie.toString(),
         },
-        body: JSON.stringify(input),
+        body: formData,
     });
     return response;
 }
 
-export async function updateProject(input: ProjectCreateInput, id: string): Promise<Project> {
+export async function updateProject(input: ProjectCreateInput, id: string) {
     const cookie = await cookies();
     const response = await fetcher<Project>(`${API_URL}/user/projects/${id}`, {
         method: 'PUT',
@@ -42,7 +44,7 @@ export async function updateProject(input: ProjectCreateInput, id: string): Prom
     return response;
 }
 
-export async function deleteProject(id: string): Promise<void> {
+export async function deleteProject(id: string) {
     const cookie = await cookies();
     await fetcher<void>(`${API_URL}/user/projects/${id}`, {
         method: 'DELETE',

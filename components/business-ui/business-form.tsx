@@ -72,18 +72,12 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                 formData.append('logo', files[0]);
             }
 
-            //     const response = await updateUserBusiness(formData);
-            //     setBusiness(response);
-            // else {
-            //     formData.append('body', JSON.stringify({ ...data, logo_url: business?.logo_url }));
-
-            // }
             const response = await updateUserBusiness(formData);
-            setBusiness(response);
+            setBusiness(response.data);
 
             const newUser = await getUserAuth();
             setUser(newUser);
-            toast.success('Business updated successfully');
+            toast.success(response.message);
             onSuccess?.();
         } catch (error) {
             toast.error(error instanceof Error ? error.message : 'An error occurred while updating your business');

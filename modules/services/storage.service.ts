@@ -1,9 +1,8 @@
+import { parsePostGisPoint } from '@/lib/helpers/postgis';
+import { ProjectWithImages } from '@/lib/types/api';
 import { StatusCodes } from 'http-status-codes';
 import sharp from 'sharp';
 import { storageRepository } from '../repositories/storage.repository';
-import { ProjectWithImages } from '@/lib/types/api';
-import { parsePostGisPoint } from '@/lib/helpers/postgis';
-import { createClient } from '@/lib/supabase/server';
 
 export const storageService = {
     // resize image to webp format

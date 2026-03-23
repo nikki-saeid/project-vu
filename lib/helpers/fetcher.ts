@@ -1,4 +1,6 @@
-export async function fetcher<T>(url: string, options?: RequestInit): Promise<T> {
+import { APIResponseSend } from './api-response';
+
+export async function fetcher<T>(url: string, options?: RequestInit): Promise<APIResponseSend<T>> {
     const res = await fetch(url, { ...options });
 
     const data = await res.json();
@@ -7,5 +9,5 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<T>
         throw new Error(data?.message || 'Request failed');
     }
 
-    return data?.data;
+    return data;
 }

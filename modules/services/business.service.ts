@@ -1,8 +1,8 @@
 import { generateUniqueSlug } from '@/lib/helpers/unique-slug';
 import { Business } from '@/lib/types/db';
 import { businessRepository } from '../repositories/business.repository';
+import { storageRepository } from '../repositories/storage.repository';
 import { storageService } from './storage.service';
-import { userService } from './user.service';
 
 export const businessService = {
     // get business by user id or create if not exists
@@ -15,6 +15,7 @@ export const businessService = {
                 ...data,
             });
         }
+        business.logo_url = await storageRepository.getStoragePublicUrl(business.logo_url);
         return business;
     },
 
@@ -32,12 +33,14 @@ export const businessService = {
 
         // logo
         if (logo) {
-            const path = `${data.user_id}/logo.png`;
+            const path = `${data.user_id}/logo.webp`;
+            await storageService.removeMany([path]);
             data.logo_url = await storageService.uploadAfterResize(path, logo, 500, 500);
-            // update user metadata
-            await userService.updateUser({ avatar_url: data.logo_url ?? '' });
         }
 
-        return await businessRepository.update(data);
+        // update
+        const business = await businessRepository.update(data);
+        business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;
+        return business;
     },
 };

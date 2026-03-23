@@ -11,9 +11,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useUser } from '@/lib/contexts/user-context';
 import { createClient } from '@/lib/supabase/client';
-import { IconLogout } from '@tabler/icons-react';
+import { IconLogout, IconUser } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import StyledIcon from '../styled-icon';
+import { Button } from '../ui/button';
 
 export default function DashboardAvatar() {
     // user metadata
@@ -21,13 +23,7 @@ export default function DashboardAvatar() {
     const { user } = useUser();
 
     const name = user?.user_metadata?.full_name ?? null;
-    const avatarUrl = user?.user_metadata?.avatar_url ?? null;
     const email = user?.email ?? null;
-    const initials = (name || email || 'U')
-        ?.split(' ')
-        ?.map((word: string) => word[0])
-        ?.join('')
-        ?.toUpperCase();
 
     // logout button
     const router = useRouter();
@@ -49,10 +45,9 @@ export default function DashboardAvatar() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Avatar className="border cursor-pointer overflow-hidden bg-muted">
-                    {avatarUrl && <AvatarImage className="object-cover" src={avatarUrl} alt={initials} />}
-                    <AvatarFallback>{initials}</AvatarFallback>
-                </Avatar>
+                <Button size="icon" variant="outline" className="rounded-full">
+                    <IconUser />
+                </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"

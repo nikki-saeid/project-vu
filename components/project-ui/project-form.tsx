@@ -3,7 +3,6 @@
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
-import { uploadProjectImages } from '@/lib/api-fetcher/user/file-upload';
 import { createProject, getUserProjects, updateProject } from '@/lib/api-fetcher/user/user-projects';
 import { usePublic } from '@/lib/contexts/public-context';
 import type { ProjectFormProps } from '@/lib/types/forms';
@@ -102,19 +101,25 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     // ------------------------------
 
     const handleAdd = async (data: ProjectCreateInput) => {
-        // Create project
-        const created = await createProject(data);
-
         // Upload images
         const formData = new FormData();
         files.forEach((file) => {
-            formData.append('files', file);
+            formData.append('images', file);
         });
-        formData.append('projectId', created.id);
-        formData.append('businessId', business?.id ?? '');
 
-        await uploadProjectImages(formData);
-        toast.success('Project created successfully');
+        // body
+        const body = JSON.stringify({
+            title: data.title,
+            description: data.description,
+            address: data.address,
+            latitude: data.latitude,
+            longitude: data.longitude,
+        });
+        formData.append('body', body);
+
+        // Create project
+        const created = await createProject(formData);
+        toast.success(created.message);
     };
 
     const handleUpdate = async (data: ProjectCreateInput) => {
@@ -129,7 +134,6 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
         formData.append('projectId', updated.id);
         formData.append('businessId', business?.id ?? '');
 
-        await uploadProjectImages(formData);
         toast.success('Project updated successfully');
     };
     const onSubmit = async (data: ProjectCreateInput) => {

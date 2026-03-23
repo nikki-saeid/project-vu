@@ -7,8 +7,14 @@ import { StatusCodes } from 'http-status-codes';
 export const projectService = {
     // get business by user id or create if not exists
     create: async function (userId: string, data: Partial<Project>, images: File[] = []) {
+        // get the business
+        const business = (await businessRepository.getByUserId(userId)) as Business;
+        if (!business) {
+            throw { error: new Error('Business not found'), status: StatusCodes.NOT_FOUND };
+        }
+
         // create project
-        const project = await projectRepository.create(data);
+        const project = await projectRepository.create({ ...data, business_id: business.id });
 
         // create images
         const path = `${userId}/projects/${project.id}`;

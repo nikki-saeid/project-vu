@@ -16,6 +16,7 @@ export async function updateSession(request: NextRequest) {
         if (isAuth(path)) {
             return response;
         }
+
         return redirection(request, '/login');
     }
 

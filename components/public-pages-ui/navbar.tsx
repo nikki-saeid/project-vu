@@ -23,7 +23,7 @@ function MobileNavbar() {
                     <div className="flex flex-col gap-2">
                         {NAVBAR_URLS.map(({ label, url }) => (
                             <Link key={url} href={url} onClick={() => setIsOpen(false)}>
-                                <Button size="lg" variant="link">
+                                <Button size="lg" className="text-foreground" variant="link">
                                     {label}
                                 </Button>
                             </Link>
@@ -31,7 +31,7 @@ function MobileNavbar() {
                     </div>
                 </DrawerHeader>
                 <DrawerFooter>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex gap-2">
                         <Link href="/login" className="w-full">
                             <Button className="w-full" variant="outline">
                                 Log in
@@ -50,17 +50,17 @@ function MobileNavbar() {
 function DesktopNavbar() {
     return (
         <>
-            <div className="items-center gap-2 hidden md:flex">
+            <div className="items-center gap-2 hidden lg:flex">
                 {NAVBAR_URLS.map(({ label, url }) => (
                     <Link key={url} href={url}>
-                        <Button size="lg" variant="link">
+                        <Button size="lg" className="text-foreground" variant="link">
                             {label}
                         </Button>
                     </Link>
                 ))}
             </div>
 
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-2">
                 <Link href="/login">
                     <Button variant="outline">Log in</Button>
                 </Link>
@@ -76,7 +76,7 @@ export default function Navbar() {
     return (
         <NavbarWrapper className="border-b">
             <DesktopNavbar />
-            <div className="md:hidden block">
+            <div className="lg:hidden block">
                 <MobileNavbar />
             </div>
         </NavbarWrapper>

@@ -9,7 +9,7 @@ export default function Footer() {
     return (
         <footer className="bg-gray-900 py-4 md:py-6">
             <Container className="flex flex-col gap-4 md:gap-6">
-                <div className="flex md:flex-row flex-col justify-between gap-4 md:gap-6">
+                <div className="flex md:flex-row items-center flex-col justify-between gap-4 md:gap-6">
                     <Logo isWhite />
 
                     <div className="flex sm:flex-row flex-col items-center gap-2">

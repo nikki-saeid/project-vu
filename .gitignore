@@ -45,5 +45,6 @@ next-env.d.ts
 
 /scripts/
 /supabase/
+.vscode
 
 index.html

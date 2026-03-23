@@ -1,5 +1,5 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { StepperProps } from '@/lib/types/ui';
 import { Fragment } from 'react';
 

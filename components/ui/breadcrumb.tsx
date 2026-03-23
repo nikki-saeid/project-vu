@@ -1,7 +1,7 @@
 import { Slot } from 'radix-ui';
 import * as React from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { IconChevronRight, IconDots } from '@tabler/icons-react';
 
 function Breadcrumb({ ...props }: React.ComponentProps<'nav'>) {

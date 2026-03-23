@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { IconBrandGoogleFilled } from '@tabler/icons-react';
 import { useState } from 'react';
 

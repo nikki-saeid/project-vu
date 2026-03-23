@@ -4,6 +4,8 @@ import type { ChildrenProp } from '@/lib/types/common';
 import { Business } from '@/lib/types/db';
 import { ProjectWithImages } from '@/lib/types/api';
 import { notFound } from 'next/navigation';
+import { getUserBusiness } from '@/lib/api-fetcher/user/user-business';
+import { getUserProjects } from '@/lib/api-fetcher/user/user-projects';
 
 type PublicProviderInnerProps = ChildrenProp & { slug: string; user_view?: string };
 
@@ -14,18 +16,9 @@ export default async function PublicProviderInner({ children, slug, user_view }:
     let projects: ProjectWithImages[] | null = null;
 
     try {
-        business = await getPublicBusinessBySlug(slug, isUserView);
-        projects = await getPublicProjectsBySlug(slug, isUserView);
+        business = isUserView ? await getUserBusiness() : await getPublicBusinessBySlug(slug);
+        projects = isUserView ? await getUserProjects() : await getPublicProjectsBySlug(slug);
     } catch (error) {
-        // console.error(error);
-        console.log('-----------------------------------');
-        // console.log('----------------------------------- error', error);
-        console.log(error);
-        console.log('-----------------------------------');
-
-        if (error instanceof Error) {
-            return notFound();
-        }
         return notFound();
     }
 

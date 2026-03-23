@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 
 type UpdateUserType = {
-    avatar_url: string;
+    avatar_url?: string;
+    full_time?: string;
 };
 
 export const userService = {
@@ -24,9 +25,7 @@ export const userService = {
         const {
             error: updateUserError,
             data: { user },
-        } = await supabase.auth.updateUser({
-            data: { avatar_url: data.avatar_url },
-        });
+        } = await supabase.auth.updateUser({ data });
 
         // Update error handling
         if (updateUserError) throw updateUserError;

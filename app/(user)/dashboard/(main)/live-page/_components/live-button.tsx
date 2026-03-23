@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { updatePageStatus } from '@/lib/api-fetcher/user/page-status';
 import { usePublic } from '@/lib/contexts/public-context';
 import { Business, PageStatusEnum } from '@/lib/types/db';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { IconChevronDown, IconCircleFilled, IconLoader } from '@tabler/icons-react';
 import { useState } from 'react';
 import { toast } from 'sonner';

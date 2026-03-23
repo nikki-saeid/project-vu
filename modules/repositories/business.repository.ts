@@ -12,6 +12,21 @@ export const businessRepository = {
         return data;
     },
 
+    // get by slug
+    getBySlug: async function (slug: string) {
+        const supabase = await createClient();
+        const { data, error } = await supabase
+            .from('businesses')
+            .select('name, logo_url, type, description, facebook_url, instagram_url, x_url, website_url, phone, email')
+            .eq('slug', slug)
+            .eq('page_status', 'live')
+            .maybeSingle();
+
+        if (error) throw error;
+
+        return data;
+    },
+
     // create
     create: async function (business: Partial<Business>) {
         const supabase = await createClient();

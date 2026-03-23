@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import type { SidebarCustomButtonProps } from '@/lib/types/dashboard';
 import { SidebarMenuButton } from '../ui/sidebar';
 import { usePathname } from 'next/navigation';

@@ -2,7 +2,7 @@
 
 import MapProvider from '@/lib/providers/map-provider';
 import type { MapWrapperProps } from '@/lib/types/dashboard';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { memo, useRef } from 'react';
 import MapCotrols from './map-controls';
 import MapSearch from './map-search';

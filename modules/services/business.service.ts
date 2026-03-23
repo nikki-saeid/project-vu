@@ -18,8 +18,13 @@ export const businessService = {
         return business;
     },
 
+    // get business by slug
+    getBySlug: async function (slug: string) {
+        return await businessRepository.getBySlug(slug);
+    },
+
     // update business
-    update: async function (data: Partial<Business>, logo: File | null) {
+    update: async function (data: Partial<Business>, logo?: File) {
         // generate slug if name is present in the request body
         if (!data.slug) {
             data.slug = generateUniqueSlug(data.name ?? '');
@@ -29,10 +34,9 @@ export const businessService = {
         if (logo) {
             const path = `${data.user_id}/logo.png`;
             data.logo_url = await storageService.uploadAfterResize(path, logo, 500, 500);
+            // update user metadata
+            await userService.updateUser({ avatar_url: data.logo_url ?? '' });
         }
-
-        // update user metadata
-        await userService.updateUser({ avatar_url: data.logo_url ?? '' });
 
         return await businessRepository.update(data);
     },

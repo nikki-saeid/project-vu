@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import type { TypographyType } from '@/lib/types/typography';
 
 export default function H2({ children, className }: TypographyType) {

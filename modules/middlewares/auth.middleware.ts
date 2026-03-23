@@ -4,11 +4,12 @@ import { errorHandler } from '@/lib/helpers/error-handler';
 import { StatusCodes } from 'http-status-codes';
 import { NextRequest } from 'next/server';
 import { userService } from '../services/user.service';
+import { ContextParams } from '@/lib/types/api';
 
 export const authMiddleware = {
     // user auth middleware
-    user: function (next: Function) {
-        return async function (req: NextRequest) {
+    user: function <T>(next: Function) {
+        return async function (req: NextRequest, context?: ContextParams<T>) {
             const user = await userService.getUser();
 
             if (!user) {
@@ -18,13 +19,13 @@ export const authMiddleware = {
                 });
             }
 
-            return next(req, user);
+            return next(req, user, context);
         };
     },
 
     // admin auth middleware
-    admin: function (next: Function) {
-        return async function (req: NextRequest) {
+    admin: function <T>(next: Function) {
+        return async function (req: NextRequest, context?: ContextParams<T>) {
             const user = await userService.getUser();
 
             if (!user || user.app_metadata?.role !== 'admin') {
@@ -34,7 +35,7 @@ export const authMiddleware = {
                 });
             }
 
-            return next(req, user);
+            return next(req, user, context);
         };
     },
 };

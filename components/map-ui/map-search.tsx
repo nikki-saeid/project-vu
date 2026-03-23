@@ -9,7 +9,7 @@ import { retrieveLocation, searchLocations } from '@/lib/api-fetcher/map';
 import { MAP_CONSTANTS } from '@/lib/constants/map';
 import { useMap } from '@/lib/contexts/map-context';
 import type { LocationSuggestion } from '@/lib/types/map';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { IconLoader, IconMapPin, IconX } from '@tabler/icons-react';
 
 export default function MapSearch() {

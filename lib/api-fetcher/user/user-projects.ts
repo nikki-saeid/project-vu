@@ -10,7 +10,7 @@ import { Project } from '../../types/db';
 // private api fetcher for user
 export const getUserProjects = async () => {
     const cookie = await cookies();
-    return await fetcher<ProjectWithImages[]>(`${API_URL}/user/projects/all`, {
+    return await fetcher<ProjectWithImages[]>(`${API_URL}/user/projects/many`, {
         headers: { Cookie: cookie.toString() },
     });
 };
@@ -41,7 +41,6 @@ export async function updateProject(input: ProjectCreateInput, id: string): Prom
     });
     return response;
 }
-
 
 export async function deleteProject(id: string): Promise<void> {
     const cookie = await cookies();

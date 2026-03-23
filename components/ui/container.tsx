@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import type { ContainerProps } from '@/lib/types/ui';
 
 export default function Container({ children, className = '' }: ContainerProps) {

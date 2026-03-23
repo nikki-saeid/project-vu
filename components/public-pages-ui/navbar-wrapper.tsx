@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import type { NavbarWrapperProps } from '@/lib/types/dashboard';
 import Container from '../ui/container';
 import Logo from '../logo';

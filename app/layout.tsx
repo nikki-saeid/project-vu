@@ -1,6 +1,6 @@
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { mainFont } from '@/styles/fonts';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';

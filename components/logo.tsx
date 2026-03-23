@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import type { LogoProps } from '@/lib/types/ui';
 import Image from 'next/image';
 import Link from 'next/link';

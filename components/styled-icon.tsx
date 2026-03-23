@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import type { StyledIconProps } from '@/lib/types/ui';
 
 export default function StyledIcon({ className, IconProps, Icon }: StyledIconProps) {

@@ -1,5 +1,5 @@
 import { ChildrenProp, ClassNameProp } from '@/lib/types/common';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 
 type EmptyDataProps = ChildrenProp & ClassNameProp;
 

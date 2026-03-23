@@ -10,18 +10,15 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useUser } from '@/lib/contexts/user-context';
-import { getStoragePublicUrl } from '@/lib/helpers/image-public-url';
 import { createClient } from '@/lib/supabase/client';
 import { IconLogout } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function DashboardAvatar() {
     // user metadata
 
     const { user } = useUser();
-    const [publicUrl, setPublicUrl] = useState<string | null>(null);
 
     const name = user?.user_metadata?.full_name ?? null;
     const avatarUrl = user?.user_metadata?.avatar_url ?? null;
@@ -49,23 +46,11 @@ export default function DashboardAvatar() {
         }
     };
 
-    useEffect(() => {
-        if (!publicUrl) {
-            async function getAvatarPublicUrl() {
-                const avatar = await getStoragePublicUrl(avatarUrl);
-                setPublicUrl(avatar);
-            }
-
-            getAvatarPublicUrl();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [avatarUrl]);
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar className="border cursor-pointer overflow-hidden bg-muted">
-                    {avatarUrl && <AvatarImage className="object-cover" src={publicUrl || ''} alt={initials} />}
+                    {avatarUrl && <AvatarImage className="object-cover" src={avatarUrl} alt={initials} />}
                     <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>

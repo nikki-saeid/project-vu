@@ -1,7 +1,7 @@
 import type { ProfileAvatarProps } from '@/lib/types/forms';
 import { IconPhoto } from '@tabler/icons-react';
 import { Avatar, AvatarImage } from '../ui/avatar';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 
 export default function BusinessAvatar({ logo_url, name, badge, className }: ProfileAvatarProps) {
     return (

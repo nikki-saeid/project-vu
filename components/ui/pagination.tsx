@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { buttonVariants, type Button } from '@/components/ui/button';
 import { IconChevronLeft, IconChevronRight, IconDots } from '@tabler/icons-react';
 

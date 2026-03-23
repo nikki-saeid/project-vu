@@ -1,4 +1,4 @@
 import { projectController } from '@/modules/controllers/project.controller';
 import { authMiddleware } from '@/modules/middlewares/auth.middleware';
 
-export const POST = authMiddleware.user(projectController.create);
+export const GET = authMiddleware.user(projectController.getMany);

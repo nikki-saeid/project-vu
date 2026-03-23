@@ -1,7 +1,7 @@
 import H2 from '@/components/typography/H2';
 import P from '@/components/typography/P';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 
 type SectionHeaderProps = {
     label: string;

@@ -8,7 +8,7 @@ import { createProject, getUserProjects, updateProject } from '@/lib/api-fetcher
 import { usePublic } from '@/lib/contexts/public-context';
 import type { ProjectFormProps } from '@/lib/types/forms';
 import type { LocationFeature } from '@/lib/types/map';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/classes-merge';
 import { projectCreateSchema, type ProjectCreateInput } from '@/lib/validators/user/project';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconAlignLeft, IconClipboardText } from '@tabler/icons-react';

@@ -66,15 +66,20 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
     const onSubmit = async (data: z.infer<typeof businessProfileSchema>) => {
         setIsLoading(true);
         try {
+            const formData = new FormData();
+            formData.append('body', JSON.stringify(data));
             if (files[0]) {
-                const logo = new FormData();
-                logo.append('file', files[0]);
-                const response = await updateUserBusiness({ ...data, logo });
-                setBusiness(response);
-            } else {
-                const response = await updateUserBusiness({ ...data, logo_url: business?.logo_url });
-                setBusiness(response);
+                formData.append('logo', files[0]);
             }
+
+            //     const response = await updateUserBusiness(formData);
+            //     setBusiness(response);
+            // else {
+            //     formData.append('body', JSON.stringify({ ...data, logo_url: business?.logo_url }));
+
+            // }
+            const response = await updateUserBusiness(formData);
+            setBusiness(response);
 
             const newUser = await getUserAuth();
             setUser(newUser);
@@ -205,7 +210,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
             />
             <Separator />
             <div className="flex flex-col gap-2">
-                <H4 className="text-primary">Socials (optional)</H4>
+                <H4 className="text-foreground">Socials (optional)</H4>
                 <P className="text-muted-foreground">Add your business social media links to help customers find you online.</P>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">

@@ -3,6 +3,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import type { ProjectCardProps } from '@/lib/types/forms';
 import { IconMapPin } from '@tabler/icons-react';
 import Image from 'next/image';
+import { Suspense } from 'react';
+import ProjectImageSkeleton from '../skeleton-ui/project-image-skeleton';
 
 export default function ProjectCard({ action, title, description, project_image = [], address }: ProjectCardProps) {
     return (
@@ -21,14 +23,16 @@ export default function ProjectCard({ action, title, description, project_image 
                         {project_image.map((image) => {
                             return (
                                 <CarouselItem key={image.id}>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={image.image_url ?? '/placeholder.svg'}
-                                        width={180}
-                                        height={100}
-                                        alt={title ?? 'Project image'}
-                                        className="relative z-90 aspect-video w-full object-cover"
-                                    />
+                                    <Suspense fallback={<ProjectImageSkeleton />}>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            src={image.image_url ?? '/placeholder.svg'}
+                                            width={180}
+                                            height={100}
+                                            alt={title ?? 'Project image'}
+                                            className="relative z-90 aspect-video w-full object-cover"
+                                        />
+                                    </Suspense>
                                 </CarouselItem>
                             );
                         })}

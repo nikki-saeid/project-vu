@@ -15,10 +15,11 @@ export default function UpdatePassword() {
         router.push(redirectUrl);
     };
     return (
-        <div>
-            <Logo className="mx-auto mb-6" />
+        <div className="flex flex-col gap-4 items-center">
+            <Logo />
 
             <CardForm
+                className="self-stretch"
                 action={(id, isLoading) => (
                     <Button type="submit" form={id} disabled={isLoading}>
                         {isLoading ? 'Updating password...' : 'Update password'}

@@ -1,11 +1,12 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import ProjectImageSkeleton from './project-image-skeleton';
 
 export default function ProjectCardSkeleton() {
     return (
         <Card className="relative pt-0 border-0 overflow-hidden">
             <div className="absolute top-2 right-2 z-50">
-                <Skeleton className="h-8 w-8 rounded-md" />
+                <ProjectImageSkeleton />
             </div>
             <Skeleton className="aspect-video w-full rounded-none" />
 

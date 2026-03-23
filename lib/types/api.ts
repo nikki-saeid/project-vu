@@ -1,11 +1,6 @@
 import type { Database } from './supabase';
 
 // Shared API response types
-
-export type LogoUploadResponse = {
-    logo_url: string;
-};
-
 export type ProjectImageResponse = Omit<Database['public']['Tables']['project_image']['Row'], 'created_at' | 'id'>;
 
 export type ProjectWithImages = Database['public']['Tables']['projects']['Row'] & {

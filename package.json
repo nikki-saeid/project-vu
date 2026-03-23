@@ -9,7 +9,7 @@
         "lint": "eslint",
         "supa-gen-types": "pnpx supabase gen types --lang typescript --local --schema=public > ./lib/types/supabase.ts",
         "supa-db-reset": "pnpx supabase db reset --local &&  node scripts/seed.ts && pnpm run supa-gen-types",
-        "supa-db-push": "pnpx supabase link && pnpx supabase config push",
+        "supa-db-push": "pnpx supabase db reset --linked && pnpx supabase config push",
         "supa-reset": "pnpx supabase stop && pnpx supabase start",
         "supa-seed": "node scripts/seed.ts"
     },
@@ -40,6 +40,7 @@
         "react-dropzone": "^15.0.0",
         "react-hook-form": "^7.71.2",
         "recharts": "2.15.4",
+        "sharp": "^0.34.5",
         "sonner": "^2.0.7",
         "tailwind-merge": "^3.5.0",
         "vaul": "^1.1.2",

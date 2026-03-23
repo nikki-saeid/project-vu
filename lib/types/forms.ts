@@ -36,7 +36,7 @@ export type CardFormProps = {
     action: (id: string, isLoading: boolean) => ReactNode;
     form: (id: string, setIsLoading: (about: boolean) => void) => ReactNode;
     id: string;
-};
+} & ClassNameProp;
 export type DialogFormProps = {
     title: string;
     trigger?: ReactNode;

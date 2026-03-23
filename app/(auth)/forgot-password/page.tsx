@@ -55,10 +55,10 @@ export default function ForgotPasswordForm() {
     }
 
     return (
-        <div>
-            <Logo className="mx-auto mb-6" />
+        <div className="flex flex-col gap-4 items-center">
+            <Logo />
             {success ? (
-                <Card>
+                <Card className="self-stretch">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <StyledIcon IconProps={{ className: 'text-success' }} className="bg-success/5" Icon={IconCheck} />
@@ -77,7 +77,7 @@ export default function ForgotPasswordForm() {
                     </CardContent>
                 </Card>
             ) : (
-                <Card>
+                <Card className="self-stretch">
                     <CardHeader>
                         <CardTitle>
                             <H3 className="text-primary">Reset Your Password</H3>

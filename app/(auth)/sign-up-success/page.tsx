@@ -65,9 +65,9 @@ export default function SignUpSuccess() {
     }
 
     return (
-        <div>
-            <Logo className="mx-auto mb-6" />
-            <Card>
+        <div className="flex flex-col gap-4 items-center">
+            <Logo />
+            <Card className="self-stretch">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <StyledIcon IconProps={{ className: 'text-success' }} className="bg-success/5" Icon={IconCheck} />

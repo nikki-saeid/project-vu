@@ -17,7 +17,12 @@ export default async function PublicProviderInner({ children, slug, user_view }:
         business = await getPublicBusinessBySlug(slug, isUserView);
         projects = await getPublicProjectsBySlug(slug, isUserView);
     } catch (error) {
-        console.error(error);
+        // console.error(error);
+        console.log('-----------------------------------');
+        // console.log('----------------------------------- error', error);
+        console.log(error);
+        console.log('-----------------------------------');
+
         if (error instanceof Error) {
             return notFound();
         }

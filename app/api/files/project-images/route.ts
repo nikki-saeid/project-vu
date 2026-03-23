@@ -3,6 +3,7 @@ import { errorHandler } from '@/lib/helpers/error-handler';
 import { createClient } from '@/lib/supabase/server';
 import type { ProjectImageResponse } from '@/lib/types/api';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
+import sharp from 'sharp';
 
 const BUCKET_NAME = 'businesses';
 const CACHE_CONTROL = '0';
@@ -54,15 +55,18 @@ export async function POST(request: Request) {
         }
 
         // when updating a project, delete the existing images first
-        const { error: deleteError, data: deletedImages } = await supabase.from('project_image').delete().eq('project_id', project.id).select('image_url');
+        const { error: deleteError, data: deletedImages } = await supabase
+            .from('project_image')
+            .delete()
+            .eq('project_id', project.id)
+            .select('image_url');
         if (deleteError) return errorHandler({ error: deleteError });
 
-         // delete the project images
-         if (deletedImages && deletedImages.length > 0) {
+        // delete the project images
+        if (deletedImages && deletedImages.length > 0) {
             const { error: deleteError } = await supabase.storage.from(BUCKET_NAME).remove(deletedImages.map((image) => image.image_url));
             if (deleteError) return errorHandler({ error: deleteError });
         }
-
 
         // create the path for the project images
         const path = `${user.id}/projects/${project.id}`;
@@ -71,15 +75,38 @@ export async function POST(request: Request) {
         const uploadResults = await Promise.all(
             files.map(async (file) => {
                 if (!(file instanceof File)) {
-                    return { name: (file as unknown as File)?.name ?? 'unknown', error: new Error('Not a valid file') };
+                    return {
+                        name: (file as unknown as File)?.name ?? 'unknown',
+                        error: new Error('Not a valid file'),
+                    };
                 }
-                // The storage path should separate files (keep distinct names)
-                const filePath = `${path}/${file.name}`;
-                const { error } = await supabase.storage.from(BUCKET_NAME).upload(filePath, file, {
-                    cacheControl: CACHE_CONTROL,
-                    upsert: true,
-                });
-                return { name: file.name, error };
+
+                try {
+                    // convert File → Buffer
+                    const arrayBuffer = await file.arrayBuffer();
+                    const buffer = Buffer.from(arrayBuffer);
+
+                    // process with sharp
+                    const processedBuffer = await sharp(buffer)
+                        .resize(580, 400) // width, height
+                        .webp({ quality: 80 }) // convert to webp
+                        .toBuffer();
+
+                    // change extension to .webp
+                    const fileName = file.name.replace(/\.[^/.]+$/, '');
+                    const filePath = `${path}/${fileName}-${Date.now()}.webp`;
+
+                    // upload processed file
+                    const { error } = await supabase.storage.from(BUCKET_NAME).upload(filePath, processedBuffer, {
+                        contentType: 'image/webp',
+                        cacheControl: CACHE_CONTROL,
+                        upsert: true,
+                    });
+
+                    return { name: fileName, error };
+                } catch (error) {
+                    return { name: file.name, error };
+                }
             }),
         );
 
@@ -94,8 +121,9 @@ export async function POST(request: Request) {
         let displayOrder = 0;
         for (const result of uploadResults) {
             if (!result.error) {
-                // const url = supabase.storage.from(BUCKET_NAME).getPublicUrl(`${path}/${result.name}`);
                 const url = `${path}/${result.name}`;
+                console.log('url', url);
+
                 const { error: insertError } = await supabase.from('project_image').insert({
                     image_url: url,
                     project_id: projectId as string,

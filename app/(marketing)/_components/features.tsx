@@ -14,11 +14,11 @@ export default function Features() {
                 // center={false}
             />
 
-            <div className="grid md:grid-cols-4 sm:grid-cols-2 flex-1 gap-4">
+            <div className="grid lg:grid-cols-4 sm:grid-cols-2 flex-1 gap-4">
                 <FeatureCard
                     Icon={IconMapPin}
                     title="Visual map of trust"
-                    description="Show exactly where you’ve worked so new customers can see you’re active in their neighborhood."
+                    description="Show exactly where you've worked so new customers can see you're active in their neighborhood."
                 />
                 <FeatureCard
                     Icon={IconShield}

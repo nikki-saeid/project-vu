@@ -12,9 +12,11 @@ type PublicBusinessRouteParams = {
 export async function GET(request: NextRequest, { params }: PublicBusinessRouteParams) {
     try {
         const { slug } = await params;
+        console.log('----------------------------------- slug ', slug);
         const searchParams = request.nextUrl.searchParams;
         const user_view = searchParams.get('user_view');
         const isUserView = user_view === 'true';
+
 
         if (!slug?.trim()) {
             return errorHandler({
@@ -45,6 +47,7 @@ export async function GET(request: NextRequest, { params }: PublicBusinessRouteP
                 .eq('slug', slug.trim())
                 .maybeSingle();
             if (error) return errorHandler({ error });
+
             if (!data) {
                 return errorHandler({
                     error: new Error('Business not found'),
@@ -68,6 +71,7 @@ export async function GET(request: NextRequest, { params }: PublicBusinessRouteP
                 defaultValue: { status: StatusCodes.NOT_FOUND, message: ReasonPhrases.NOT_FOUND },
             });
         }
+
         return new SuccessResponse<Business>('Business fetched successfully', data as Business).send();
     } catch (error) {
         return errorHandler({ error });

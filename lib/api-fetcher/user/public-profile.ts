@@ -9,6 +9,8 @@ import { cookies } from 'next/headers';
 // public api fetcher for user
 export const getPublicBusinessBySlug = async (slug: string, isUserView?: boolean) => {
     const cookie = await cookies();
+    console.log("----------------------- ok ok");
+    
     return await fetcher<Business>(
         `${API_URL}/public/business/${slug}?user_view=${isUserView}`,
         isUserView ? { headers: { Cookie: cookie.toString() } } : {},

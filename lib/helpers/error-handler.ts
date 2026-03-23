@@ -4,18 +4,18 @@ import { ErrorResponse } from './api-response';
 
 type ErrorHandler = {
     error: unknown;
-    defaultValue?: { status: number; message: string };
+    statusCode?: number;
+    defaultMessage?: string;
 };
 
 export function errorHandler({
     error,
-    defaultValue = { status: StatusCodes.INTERNAL_SERVER_ERROR, message: ReasonPhrases.INTERNAL_SERVER_ERROR },
+    statusCode = StatusCodes.INTERNAL_SERVER_ERROR,
+    defaultMessage = ReasonPhrases.INTERNAL_SERVER_ERROR,
 }: ErrorHandler) {
-    const { status, message } = defaultValue;
-
     if (error) {
         if (error instanceof Error) {
-            return new ErrorResponse(status, error.message || message).send();
+            return new ErrorResponse(statusCode, error.message || defaultMessage).send();
         }
         if (typeof error === 'object' && 'code' in error && 'message' in error) {
             const pgError = error as PostgrestError;
@@ -26,11 +26,11 @@ export function errorHandler({
                     pgStatus = StatusCodes.NOT_FOUND;
                     break;
                 default:
-                    pgStatus = status;
+                    pgStatus = statusCode;
             }
 
-            return new ErrorResponse(pgStatus, pgError.message || message).send();
+            return new ErrorResponse(pgStatus, pgError.message || defaultMessage).send();
         }
     }
-    return new ErrorResponse(defaultValue.status, defaultValue.message).send();
+    return new ErrorResponse(statusCode, defaultMessage).send();
 }

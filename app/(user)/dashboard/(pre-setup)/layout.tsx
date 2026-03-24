@@ -1,12 +1,12 @@
 'use client';
 import DashboardAvatar from '@/components/dashboard-ui/dashboard-avatar';
 import NavbarWrapper from '@/components/public-pages-ui/navbar-wrapper';
-import { usePublic } from '@/lib/contexts/public-context';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
 import type { ChildrenProp } from '@/lib/types/common';
 import { redirect } from 'next/navigation';
 
 export default function PreSetupLayout({ children }: ChildrenProp) {
-    const { business } = usePublic();
+    const { business } = useDashboard();
 
     if (business && business.is_onboarded) {
         redirect('/dashboard/live-page');

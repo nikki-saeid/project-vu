@@ -8,7 +8,7 @@ export function redirection(request: NextRequest, path: string) {
 }
 
 export function isPublic(path: string) {
-    return PUBLIC_URLS.includes(path) || path.startsWith('/embed') || path.startsWith('/page');
+    return PUBLIC_URLS.includes(path) || path.startsWith('/embed') || path.startsWith('/page') || path.startsWith('/api/public');
 }
 
 export function isAuth(path: string) {

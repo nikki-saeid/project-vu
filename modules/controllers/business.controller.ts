@@ -14,11 +14,11 @@ export const businessController = {
     }),
 
     // get by slug
-    getBySlug: tryCatchWrapper(async (req: NextRequest, _, { params }: ParamsSlug) => {
+    getBySlug: tryCatchWrapper(async (_, user: User | null, { params }: ParamsSlug) => {
         // param
         const { slug } = await params;
 
-        const business = (await businessService.getBySlug(slug)) as Business;
+        const business = (await businessService.getBySlug(slug, user ? user.id : null)) as Business;
         return new SuccessResponse<Business>('business fetched successfully', business).send();
     }),
 
@@ -41,7 +41,7 @@ export const businessController = {
         const status = body?.status as PageStatusEnum | undefined;
 
         // Update the business
-        const business = await businessService.update({ user_id: user.id, page_status: status });
+        const business = await businessService.updatePageStatus({ user_id: user.id, page_status: status });
         return new SuccessResponse<Business>('Page status updated successfully', business).send();
     }),
 };

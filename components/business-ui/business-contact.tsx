@@ -1,14 +1,14 @@
-'use client';
-import { usePublic } from '@/lib/contexts/public-context';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { IconMail, IconPhone } from '@tabler/icons-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
-export default function BusinessContact() {
-    const { business } = usePublic();
-    const { phone, email } = business ?? { phone: null, email: null };
+type BusinessContactProps = {
+    phone: string | null;
+    email: string | null;
+};
 
+export default function BusinessContact({ phone, email }: BusinessContactProps) {
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4">
             <Tooltip>

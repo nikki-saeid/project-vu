@@ -3,6 +3,7 @@ import { Business } from '@/lib/types/db';
 import { businessRepository } from '../repositories/business.repository';
 import { storageRepository } from '../repositories/storage.repository';
 import { storageService } from './storage.service';
+import { StatusCodes } from 'http-status-codes';
 
 export const businessService = {
     // get business by user id or create if not exists
@@ -20,8 +21,17 @@ export const businessService = {
     },
 
     // get business by slug
-    getBySlug: async function (slug: string) {
-        return await businessRepository.getBySlug(slug);
+    getBySlug: async function (slug: string, userId: string | null) {
+        const business = await businessRepository.getBySlug(slug);
+        if (business) {
+            business.logo_url = await storageRepository.getStoragePublicUrl(business.logo_url);
+
+            if (business?.user_id === userId || business?.page_status === 'live') {
+                return business;
+            }
+        }
+
+        throw { error: new Error('Portfolio is not live'), status: StatusCodes.NOT_FOUND };
     },
 
     // update business
@@ -38,6 +48,14 @@ export const businessService = {
             data.logo_url = await storageService.uploadAfterResize(path, logo, 500, 500);
         }
 
+        // update
+        const business = await businessRepository.update(data);
+        business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;
+        return business;
+    },
+
+    // update business
+    updatePageStatus: async function (data: Partial<Business>) {
         // update
         const business = await businessRepository.update(data);
         business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;

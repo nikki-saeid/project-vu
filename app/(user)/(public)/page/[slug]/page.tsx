@@ -1,15 +1,14 @@
-import BusinessProfile from '@/components/business-ui/business-profile';
-import PublicProviderInner from '../../_components/public-provider-inner';
+import PublicProviderInner from '@/components/providers-inner/public-provider-inner';
+import MainPage from './_components/main-page';
 
-type BusinessPageProps = { params: Promise<{ slug: string }>; searchParams: Promise<{ user_view?: string }> };
+type BusinessPageProps = { params: Promise<{ slug: string }> };
 
-export default async function BusinessPage({ params, searchParams }: BusinessPageProps) {
+export default async function BusinessPage({ params }: BusinessPageProps) {
     const { slug } = await params;
-    const { user_view } = await searchParams;
 
     return (
-        <PublicProviderInner slug={slug} user_view={user_view}>
-            <BusinessProfile />
+        <PublicProviderInner slug={slug}>
+            <MainPage />
         </PublicProviderInner>
     );
 }

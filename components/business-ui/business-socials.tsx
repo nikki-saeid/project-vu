@@ -1,18 +1,15 @@
-'use client';
-
-import { usePublic } from '@/lib/contexts/public-context';
 import { IconBrandFacebook, IconBrandInstagram, IconBrandX, IconWorld } from '@tabler/icons-react';
-import { Button } from '../ui/button';
 import Link from 'next/link';
+import { Button } from '../ui/button';
 
-export default function BusinessSocials() {
-    const { business } = usePublic();
-    const { website_url, facebook_url, instagram_url, x_url } = business ?? {
-        website_url: null,
-        facebook_url: null,
-        instagram_url: null,
-        x_url: null,
-    };
+type BusinessSocialsProps = {
+    website_url: string | null;
+    facebook_url: string | null;
+    instagram_url: string | null;
+    x_url: string | null;
+};
+
+export default function BusinessSocials({ website_url, facebook_url, instagram_url, x_url }: BusinessSocialsProps) {
     const socials = Boolean(x_url) || Boolean(facebook_url) || Boolean(instagram_url) || Boolean(website_url);
 
     if (!socials) return null;

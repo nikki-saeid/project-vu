@@ -1,3 +1,4 @@
 import { businessController } from '@/modules/controllers/business.controller';
+import { publicMiddleware } from '@/modules/middlewares/public.middleware';
 
-export const GET = businessController.getBySlug;
+export const GET = publicMiddleware.public(businessController.getBySlug);

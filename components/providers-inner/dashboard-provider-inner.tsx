@@ -1,15 +1,15 @@
 import { getUserBusiness } from '@/lib/api-fetcher/user/user-business';
 import { getUserProjects } from '@/lib/api-fetcher/user/user-projects';
-import { PublicProvider } from '@/lib/providers/public-provider';
+import { DashboardProvider } from '@/lib/providers/dashboard-provider';
 import type { ChildrenProp } from '@/lib/types/common';
 
-export default async function PublicProviderInner({ children }: ChildrenProp) {
+export default async function DashboardProviderInner({ children }: ChildrenProp) {
     const business = await getUserBusiness();
     const projects = await getUserProjects();
 
     return (
-        <PublicProvider isPublic={false} initialBusiness={business} initialProjects={projects}>
+        <DashboardProvider initialBusiness={business} initialProjects={projects}>
             {children}
-        </PublicProvider>
+        </DashboardProvider>
     );
 }

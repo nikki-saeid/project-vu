@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { updatePageStatus } from '@/lib/api-fetcher/user/user-business';
-import { usePublic } from '@/lib/contexts/public-context';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { PageStatusEnum } from '@/lib/types/db';
 import { cn } from '@/lib/utils/classes-merge';
 import { IconChevronDown, IconCircleFilled, IconLoader } from '@tabler/icons-react';
@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 
 export default function LiveButton() {
     const [isLoading, setIsLoading] = useState(false);
-    const { business, setBusiness } = usePublic();
+    const { business, setBusiness } = useDashboard();
     const { page_status } = business ?? {};
 
     const handleStatusChange = async (newStatus: PageStatusEnum) => {

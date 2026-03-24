@@ -3,15 +3,15 @@
 import type { ProjectWithImages } from '@/lib/types/api';
 import type { Business } from '@/lib/types/db';
 import React, { useEffect, useMemo, useState } from 'react';
-import { PublicContext, PublicContextValue } from '../contexts/public-context';
+import { DashboardContext, DashboardContextValue } from '../contexts/dashboard-context';
 
-type PublicProviderProps = {
+type DashboardProviderProps = {
     children: React.ReactNode;
     initialBusiness: Business | null;
     initialProjects: ProjectWithImages[] | null;
 };
 
-export function PublicProvider({ children, initialBusiness, initialProjects = [] }: PublicProviderProps) {
+export function DashboardProvider({ children, initialBusiness, initialProjects = [] }: DashboardProviderProps) {
     const [business, setBusiness] = useState<Business | null>(initialBusiness);
     const [projects, setProjects] = useState<ProjectWithImages[]>(initialProjects ?? []);
 
@@ -23,7 +23,7 @@ export function PublicProvider({ children, initialBusiness, initialProjects = []
         setProjects(initialProjects ?? []);
     }, [initialProjects]);
 
-    const value = useMemo<PublicContextValue>(
+    const value = useMemo<DashboardContextValue>(
         () => ({
             business,
             setBusiness,
@@ -33,5 +33,5 @@ export function PublicProvider({ children, initialBusiness, initialProjects = []
         [business, projects],
     );
 
-    return <PublicContext.Provider value={value}>{children}</PublicContext.Provider>;
+    return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>;
 }

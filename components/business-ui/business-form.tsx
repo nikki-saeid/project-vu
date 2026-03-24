@@ -31,9 +31,10 @@ import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
 import { getUserAuth } from '@/lib/api-fetcher/user/user-auth';
 import { useUser } from '@/lib/contexts/user-context';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
-    const { business, setBusiness } = usePublic();
+    const { business, setBusiness } = useDashboard();
     const { setUser } = useUser();
 
     const form = useForm({
@@ -67,7 +68,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
         setIsLoading(true);
         try {
             const formData = new FormData();
-            formData.append('body', JSON.stringify(data));
+            formData.append('body', JSON.stringify({ ...data, slug: business?.slug }));
             if (files[0]) {
                 formData.append('logo', files[0]);
             }

@@ -56,7 +56,6 @@ export async function POST(request: Request, { params }: Params) {
             ban_duration: activate ? 'none' : '876600h',
         });
 
-        console.log('data', data);
 
         if (error) return errorHandler({ error });
 

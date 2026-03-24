@@ -2,12 +2,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { IconLayoutList, IconMap2 } from '@tabler/icons-react';
 import ProjectsList from './projects-list';
 import ProjectsMap from './projects-map';
+import { ProjectWithImages } from '@/lib/types/api';
 
-export default function ProjectsTabs() {
+type ProjectsTabsProps = {
+    projects: ProjectWithImages[];
+    isPublic: boolean;
+};
+
+export default function ProjectsTabs({ projects, isPublic }: ProjectsTabsProps) {
     return (
         <Tabs defaultValue="map">
             <TabsList className="mb-3 w-full">
-                <TabsTrigger value="map" >
+                <TabsTrigger value="map">
                     <IconMap2 />
                     Projects map
                 </TabsTrigger>
@@ -17,10 +23,10 @@ export default function ProjectsTabs() {
                 </TabsTrigger>
             </TabsList>
             <TabsContent forceMount value="map" className="data-[state=inactive]:hidden">
-                <ProjectsMap />
+                <ProjectsMap embed={false} projects={projects} isPublic={isPublic} />
             </TabsContent>
             <TabsContent forceMount value="list" className="data-[state=inactive]:hidden">
-                <ProjectsList />
+                <ProjectsList projects={projects} isPublic={isPublic} />
             </TabsContent>
         </Tabs>
     );

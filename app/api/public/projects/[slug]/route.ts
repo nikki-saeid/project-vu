@@ -1,3 +1,4 @@
 import { projectController } from '@/modules/controllers/project.controller';
+import { publicMiddleware } from '@/modules/middlewares/public.middleware';
 
-export const GET = projectController.getManyByBusinessSlug;
+export const GET = publicMiddleware.public(projectController.getManyByBusinessSlug);

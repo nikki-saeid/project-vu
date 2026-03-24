@@ -1,10 +1,10 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
+import { ParamsId, ParamsSlug, ProjectWithImages } from '@/lib/types/api';
 import { Project } from '@/lib/types/db';
 import { User } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
 import { projectService } from '../services/project.service';
-import { ParamsId, ParamsSlug, ProjectWithImages } from '@/lib/types/api';
 
 export const projectController = {
     // get by user id

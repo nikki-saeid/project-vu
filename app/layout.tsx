@@ -1,3 +1,4 @@
+import UserProviderInner from '@/components/providers-inner/user-provider-inner';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils/classes-merge';
@@ -14,7 +15,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en">
             <body className={cn('antialiased overflow-x-hidden text-foreground bg-muted', mainFont.className)}>
-                <TooltipProvider>{children}</TooltipProvider>
+                <TooltipProvider>
+                    <UserProviderInner>{children}</UserProviderInner>
+                </TooltipProvider>
                 <Toaster theme="light" richColors position="top-right" />
             </body>
         </html>

@@ -8,20 +8,18 @@ import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { BASE_URL } from '@/lib/constants/urls';
-import { usePublic } from '@/lib/contexts/public-context';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { IconAlertTriangle, IconCheck, IconCopy } from '@tabler/icons-react';
 import { useCallback, useState } from 'react';
 
 export default function EmbeddedMapPage() {
-    const { business } = usePublic();
+    const { business } = useDashboard();
     const slug = business?.slug;
     const [copiedUrl, setCopiedUrl] = useState(false);
     const [copiedIframe, setCopiedIframe] = useState(false);
 
     const embedUrl = slug ? `${BASE_URL}/embed/${slug}` : '';
-    const iframeCode = slug
-        ? `<iframe src="${BASE_URL}/embed/${slug}" width="100%" height="400" title="Map"></iframe>`
-        : '';
+    const iframeCode = slug ? `<iframe src="${BASE_URL}/embed/${slug}" width="100%" height="400" title="Map"></iframe>` : '';
 
     const copyToClipboard = useCallback(async (text: string, setCopied: (v: boolean) => void) => {
         try {

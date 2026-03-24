@@ -1,21 +1,16 @@
-'use client';
-
-import { usePublic } from '@/lib/contexts/public-context';
 import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Badge } from '../ui/badge';
 import BusinessAvatar from './business-avatar';
 
-export default function BusinessHeader() {
-    const { business } = usePublic();
+type BusinessHeaderProps = {
+    name: string | null;
+    logo_url: string | null;
+    type: string | null;
+    description: string | null;
+};
 
-    const { name, logo_url, type, description } = business ?? {
-        name: null,
-        logo_url: null,
-        type: null,
-        description: null,
-    };
-
+export default function BusinessHeader({ name, logo_url, type, description }: BusinessHeaderProps) {
     return (
         <header className="flex flex-col gap-4">
             <div className="flex gap-4 items-center">

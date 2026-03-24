@@ -2,16 +2,16 @@
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { usePublic } from '@/lib/contexts/public-context';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { IconDotsVertical, IconEdit, IconExternalLink } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import EditDialog from './edit-page-dialog';
 
 export default function ActionMenu() {
-    const { business } = usePublic();
+    const { business } = useDashboard();
     const slug = business?.slug;
-    const livePageHref = slug ? `/page/${slug}?user_view=true` : null;
+    const livePageHref = slug ? `/page/${slug}` : null;
     const [dialogOpen, setDialogOpen] = useState(false);
 
     return (

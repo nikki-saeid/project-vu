@@ -1,15 +1,18 @@
 'use client';
 
-import { usePublic } from '@/lib/contexts/public-context';
+import { ProjectWithImages } from '@/lib/types/api';
 import { memo, Suspense } from 'react';
 import ProjectsListSkeleton from '../skeleton-ui/projects-list-skeleton';
 import NoProjectsUi from './no-projects-ui';
 import ProjectCard from './project-card';
 import ProjectCardAction from './project-card-action';
 
-function ProjectsList() {
-    const { projects, isPublic } = usePublic();
+type ProjectsListProps = {
+    projects: ProjectWithImages[];
+    isPublic: boolean;
+};
 
+function ProjectsList({ projects, isPublic }: ProjectsListProps) {
     return (
         <section>
             {/* <div className="flex items-center gap-1 flex-1 justify-between mb-3">

@@ -1,16 +1,17 @@
-'use client';
-
-import { usePublic } from '@/lib/contexts/public-context';
+import { getCenterLatLng, getZoomLevelForLocations } from '@/lib/helpers/project-map';
+import { ProjectWithImages } from '@/lib/types/api';
 import { memo } from 'react';
 import Map from '../map-ui/map';
 import NoProjectsUi from './no-projects-ui';
 import ProjectsLocations from './projects-locations';
-import { getCenterLatLng, getZoomLevelForLocations } from '@/lib/helpers/project-map';
 
-type ProjectsMapProps = { embed?: boolean };
+type ProjectsMapProps = {
+    embed: boolean;
+    projects: ProjectWithImages[];
+    isPublic: boolean;
+};
 
-function ProjectsMap({ embed = false }: ProjectsMapProps) {
-    const { projects, isPublic } = usePublic();
+function ProjectsMap({ embed = false, projects, isPublic }: ProjectsMapProps) {
     const centerLatLng = getCenterLatLng(projects);
     const zoomLevel = getZoomLevelForLocations(projects);
 
@@ -23,7 +24,7 @@ function ProjectsMap({ embed = false }: ProjectsMapProps) {
                     fullHeight={embed}
                     className={embed ? 'rounded-none' : ''}
                 >
-                    <ProjectsLocations />
+                    <ProjectsLocations projects={projects} />
                 </Map>
             ) : (
                 <NoProjectsUi isAction={!embed && !isPublic} />

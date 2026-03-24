@@ -45,8 +45,7 @@ export const projectService = {
         }
 
         // get the projects
-        const projects = await projectRepository.getManyWithBusinessId(business.id);
-        return projects;
+        return await projectRepository.getManyWithBusinessId(business.id);
     },
 
     // update project by id

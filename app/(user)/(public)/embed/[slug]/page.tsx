@@ -1,6 +1,6 @@
-import ProjectsMap from '@/components/project-ui/projects-map';
+import PublicProviderInner from '@/components/providers-inner/public-provider-inner';
 import type { ChildrenProp } from '@/lib/types/common';
-import PublicProviderInner from '../../_components/public-provider-inner';
+import MainPage from './_components/main-page';
 
 export function headers() {
     return {
@@ -16,10 +16,8 @@ export default async function EmbedMapPage({ params }: ChildrenProp & { params: 
     const { slug } = await params;
 
     return (
-        <PublicProviderInner slug={slug} user_view="false">
-            <div className="min-h-screen w-full">
-                <ProjectsMap embed />
-            </div>
+        <PublicProviderInner slug={slug}>
+            <MainPage />
         </PublicProviderInner>
     );
 }

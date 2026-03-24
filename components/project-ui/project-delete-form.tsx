@@ -1,14 +1,14 @@
 'use clien';
 
 import { deleteProject } from '@/lib/api-fetcher/user/user-projects';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
 import type { ProjectDeleteFormProps } from '@/lib/types/forms';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import P from '../typography/P';
-import { usePublic } from '@/lib/contexts/public-context';
 
 export default function ProjectDeleteForm({ onSuccess, id, setIsLoading }: ProjectDeleteFormProps) {
-    const { projects, setProjects } = usePublic();
+    const { projects, setProjects } = useDashboard();
     const form = useForm({});
 
     const onSubmit = async () => {

@@ -35,8 +35,8 @@ export default function UpdateProfileForm({ id, setIsLoading, onSuccess }: Updat
         setIsLoading(true);
         try {
             const response = await updateUser(data);
-            setUser(response);
-            toast.success('Profile updated successfully');
+            setUser(response.data);
+            toast.success(response.message);
             onSuccess?.();
         } catch (error) {
             toast.error(error instanceof Error ? error.message : 'An error occurred while updating your profile');

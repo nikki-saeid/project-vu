@@ -16,8 +16,12 @@ export const businessService = {
                 ...data,
             });
         }
-        business.logo_url = await storageRepository.getStoragePublicUrl(business.logo_url);
+        business.logo_url = business.logo_url ? await storageRepository.getStoragePublicUrl(business.logo_url) : business.logo_url;
         return business;
+    },
+
+    getByUserId: async function (userId: string) {
+        return await businessRepository.getByUserId(userId);
     },
 
     // get business by slug

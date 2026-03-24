@@ -18,12 +18,13 @@ import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
 import { projectToLocationFeature } from '@/lib/helpers/project-map';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 
 export default function ProjectForm({ onSuccess, className, id, setIsLoading, project }: ProjectFormProps) {
     const [searchedLocation, setSearchedLocation] = useState<LocationFeature | null>(null);
-    const { setProjects, business } = usePublic();
+    const { setProjects } = useDashboard();
 
     const form = useForm<ProjectCreateInput>({
         resolver: zodResolver(projectCreateSchema),

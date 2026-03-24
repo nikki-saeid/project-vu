@@ -3,11 +3,10 @@
 import P from '@/components/typography/P';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import UpdatePasswordDialog from './_components/update-password-dialog';
-import UpdateProfileDialog from './_components/update-profile-dialog';
 import { useUser } from '@/lib/contexts/user-context';
 import DeleteAccountDialog from './_components/delete-account-dialog';
-import { Separator } from '@/components/ui/separator';
+import UpdatePasswordDialog from './_components/update-password-dialog';
+import UpdateProfileDialog from './_components/update-profile-dialog';
 
 export default function Profile() {
     const { user } = useUser();

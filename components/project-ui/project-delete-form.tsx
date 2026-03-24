@@ -14,8 +14,8 @@ export default function ProjectDeleteForm({ onSuccess, id, setIsLoading }: Proje
     const onSubmit = async () => {
         setIsLoading(true);
         try {
-            await deleteProject(id);
-            toast.success('Project deleted successfully');
+            const deletedProject = await deleteProject(id);
+            toast.success(deletedProject.message);
             onSuccess?.();
             setProjects(projects.filter((project) => project.id !== id));
         } catch (error) {

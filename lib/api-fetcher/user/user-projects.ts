@@ -15,10 +15,11 @@ export const getUserProjects = async () => {
         headers: { Cookie: cookie.toString() },
     });
 
-    return response.data;
+    return response.data ?? [];
 };
 
 // private api fetcher
+// *****  ------------------------------------------------------------------ WORKING
 export async function createProject(formData: FormData) {
     const cookie = await cookies();
     const response = await fetcher<Project>(`${API_URL}/user/projects`, {
@@ -31,23 +32,25 @@ export async function createProject(formData: FormData) {
     return response;
 }
 
-export async function updateProject(input: ProjectCreateInput, id: string) {
+// *****  ------------------------------------------------------------------ WORKING
+export async function updateProject(formData: FormData, id: string) {
     const cookie = await cookies();
     const response = await fetcher<Project>(`${API_URL}/user/projects/${id}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
             Cookie: cookie.toString(),
         },
-        body: JSON.stringify(input),
+        body: formData,
     });
     return response;
 }
 
+// *****  ------------------------------------------------------------------ WORKING
 export async function deleteProject(id: string) {
     const cookie = await cookies();
-    await fetcher<void>(`${API_URL}/user/projects/${id}`, {
+    const response = await fetcher<void>(`${API_URL}/user/projects/${id}`, {
         method: 'DELETE',
         headers: { Cookie: cookie.toString() },
     });
+    return response;
 }

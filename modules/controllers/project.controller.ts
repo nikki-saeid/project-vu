@@ -65,6 +65,6 @@ export const projectController = {
 
         const project = await projectService.deleteById(id);
 
-        return new SuccessResponse<ProjectWithImages[]>('Project updated successfully', project).send();
+        return new SuccessResponse<ProjectWithImages[]>('Project deleted successfully', project).send();
     }),
 };

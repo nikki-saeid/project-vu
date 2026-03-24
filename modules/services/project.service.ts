@@ -66,11 +66,11 @@ export const projectService = {
 
     // delete project by id
     deleteById: async function (id: string) {
+        // remove images
+        await projectImagesService.removeImagesByProjectId(id);
+
         // delete project
         const project = await projectRepository.deleteById(id);
-
-        // remove images
-        await projectImagesService.removeImagesByProjectId(project.id);
 
         return project;
     },

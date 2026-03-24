@@ -16,9 +16,10 @@ export const projectImagesService = {
 
                 try {
                     // change extension to .webp
-                    const fileName = file.name.replace(/\.[^/.]+$/, '');
-                    const filePath = `${path}/${fileName}-${Date.now()}.webp`;
-                    return { name: await storageService.uploadAfterResize(filePath, file, 500, 460) };
+                    const fileName = `${file.name.replace(/\.[^/.]+$/, '')}-${Date.now()}.webp`;
+                    const filePath = `${path}/${fileName}`;
+                    await storageService.uploadAfterResize(filePath, file, 500, 460);
+                    return { name: fileName };
                 } catch (error) {
                     return { name: file.name, error };
                 }

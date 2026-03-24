@@ -123,18 +123,25 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     };
 
     const handleUpdate = async (data: ProjectCreateInput) => {
-        // Create project
-        const updated = await updateProject(data, project?.id ?? '');
-
         // Upload images
         const formData = new FormData();
         files.forEach((file) => {
-            formData.append('files', file);
+            formData.append('images', file);
         });
-        formData.append('projectId', updated.id);
-        formData.append('businessId', business?.id ?? '');
 
-        toast.success('Project updated successfully');
+        // body
+        const body = JSON.stringify({
+            title: data.title,
+            description: data.description,
+            address: data.address,
+            latitude: data.latitude,
+            longitude: data.longitude,
+        });
+        formData.append('body', body);
+
+        // Create project
+        const updated = await updateProject(formData, project?.id ?? '');
+        toast.success(updated.message);
     };
     const onSubmit = async (data: ProjectCreateInput) => {
         setIsLoading(true);

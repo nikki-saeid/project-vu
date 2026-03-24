@@ -8,6 +8,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import PasswordInput from '../auth-ui/password-input';
+import { use } from 'react';
+import { useUser } from '@/lib/contexts/user-context';
 
 type UpdatePasswordFormProps = {
     id: string;
@@ -16,7 +18,9 @@ type UpdatePasswordFormProps = {
 };
 
 export default function UpdatePasswordForm({ id, setIsLoading, onSuccess }: UpdatePasswordFormProps) {
+    const { setUser } = useUser();
     // Define the form schema using zod
+
     const form = useForm({
         resolver: zodResolver(updatePasswordSchema),
         defaultValues: {
@@ -36,12 +40,16 @@ export default function UpdatePasswordForm({ id, setIsLoading, onSuccess }: Upda
             const supabase = createClient();
 
             // Use updateUser to change the password
-            const { error } = await supabase.auth.updateUser({
+            const {
+                error,
+                data: { user },
+            } = await supabase.auth.updateUser({
                 password: data.password,
             });
 
             // Handle any errors that occur during password update
             if (error) throw error;
+            setUser(user);
 
             // Dismiss the loading toast and show success message
             toast.dismiss();

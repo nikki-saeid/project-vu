@@ -3,13 +3,15 @@
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTrigger } from '@/components/ui/drawer';
 import { NAVBAR_URLS } from '@/lib/constants/navbar-url';
-import { IconMenu2 } from '@tabler/icons-react';
+import { IconArrowRight, IconMenu2 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import NavbarWrapper from './navbar-wrapper';
+import { useUser } from '@/lib/contexts/user-context';
 
 function MobileNavbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const { user } = useUser();
 
     return (
         <Drawer open={isOpen} direction="right" onOpenChange={setIsOpen}>
@@ -31,16 +33,25 @@ function MobileNavbar() {
                     </div>
                 </DrawerHeader>
                 <DrawerFooter>
-                    <div className="flex gap-2">
-                        <Link href="/login" className="w-full">
+                    {user ? (
+                        <Link href="/dashboard/live-page" className="w-full">
                             <Button className="w-full" variant="outline">
-                                Log in
+                                <IconArrowRight />
+                                Dashboard
                             </Button>
                         </Link>
-                        <Link href="/sign-up" className="w-full">
-                            <Button className="w-full">Sign up</Button>
-                        </Link>
-                    </div>
+                    ) : (
+                        <div className="flex gap-2">
+                            <Link href="/login" className="w-full">
+                                <Button className="w-full" variant="outline">
+                                    Log in
+                                </Button>
+                            </Link>
+                            <Link href="/sign-up" className="w-full">
+                                <Button className="w-full">Sign up</Button>
+                            </Link>
+                        </div>
+                    )}
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
@@ -48,6 +59,7 @@ function MobileNavbar() {
 }
 
 function DesktopNavbar() {
+    const { user } = useUser();
     return (
         <>
             <div className="items-center gap-2 hidden lg:flex">
@@ -61,12 +73,23 @@ function DesktopNavbar() {
             </div>
 
             <div className="hidden lg:flex items-center gap-2">
-                <Link href="/login">
-                    <Button variant="outline">Log in</Button>
-                </Link>
-                <Link href="/sign-up">
-                    <Button>Sign up</Button>
-                </Link>
+                {user ? (
+                    <Link href="/dashboard/live-page">
+                        <Button className="w-full" variant="outline">
+                            Dashboard
+                            <IconArrowRight />
+                        </Button>
+                    </Link>
+                ) : (
+                    <>
+                        <Link href="/login">
+                            <Button variant="outline">Log in</Button>
+                        </Link>
+                        <Link href="/sign-up">
+                            <Button>Sign up</Button>
+                        </Link>
+                    </>
+                )}
             </div>
         </>
     );

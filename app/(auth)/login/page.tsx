@@ -19,11 +19,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import PasswordInput from '../../../components/auth-ui/password-input';
+import { useUser } from '@/lib/contexts/user-context';
 
 export default function LoginForm() {
     // State to track loading status
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+    const { setUser } = useUser();
 
     // Initialize the form with react-hook-form and zod validation
     const form = useForm({
@@ -45,8 +47,13 @@ export default function LoginForm() {
             const supabase = createClient();
 
             // Use signInWithPassword for email/password authentication
-            const { error } = await supabase.auth.signInWithPassword({ email: formData.email, password: formData.password });
+            const {
+                error,
+                data: { user },
+            } = await supabase.auth.signInWithPassword({ email: formData.email, password: formData.password });
             if (error) throw error;
+
+            setUser(user);
 
             // Dismiss the loading toast and show success message
             toast.dismiss();

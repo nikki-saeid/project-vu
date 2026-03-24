@@ -1,6 +1,5 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,13 +13,11 @@ import { createClient } from '@/lib/supabase/client';
 import { IconLogout, IconUser } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import StyledIcon from '../styled-icon';
 import { Button } from '../ui/button';
 
 export default function DashboardAvatar() {
     // user metadata
-
-    const { user } = useUser();
+    const { user, setUser } = useUser();
 
     const name = user?.user_metadata?.full_name ?? null;
     const email = user?.email ?? null;
@@ -34,6 +31,7 @@ export default function DashboardAvatar() {
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
+            setUser(null);
             toast.dismiss();
             router.push('/login');
         } catch (error: unknown) {

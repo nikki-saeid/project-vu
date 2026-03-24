@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { useUser } from '@/lib/contexts/user-context';
 import { createClient } from '@/lib/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconCheck } from '@tabler/icons-react';
@@ -25,6 +26,7 @@ const formSchema = z.object({
 export default function SignUpSuccess() {
     const searchParams = useSearchParams();
     const email = searchParams.get('email') ?? '';
+    const { setUser } = useUser();
 
     if (!email) {
         redirect('/sign-up');
@@ -46,12 +48,17 @@ export default function SignUpSuccess() {
 
         try {
             const supabase = await createClient();
-            const { error } = await supabase.auth.verifyOtp({
+            const {
+                error,
+                data: { user },
+            } = await supabase.auth.verifyOtp({
                 email: email,
                 token: data.otp,
                 type: 'signup',
             });
             if (error) throw error;
+            setUser(user);
+
             toast.dismiss();
             toast.success('Successfully verified.');
 

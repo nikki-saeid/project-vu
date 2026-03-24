@@ -2,9 +2,9 @@
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { updatePageStatus } from '@/lib/api-fetcher/user/page-status';
+import { updatePageStatus } from '@/lib/api-fetcher/user/user-business';
 import { usePublic } from '@/lib/contexts/public-context';
-import { Business, PageStatusEnum } from '@/lib/types/db';
+import { PageStatusEnum } from '@/lib/types/db';
 import { cn } from '@/lib/utils/classes-merge';
 import { IconChevronDown, IconCircleFilled, IconLoader } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -18,10 +18,10 @@ export default function LiveButton() {
     const handleStatusChange = async (newStatus: PageStatusEnum) => {
         setIsLoading(true);
         try {
-            const response = (await updatePageStatus(newStatus)) as unknown as Business;
-            if (response.page_status === newStatus) {
-                setBusiness(response);
-                toast.success('Page status updated successfully');
+            const response = await updatePageStatus(newStatus);
+            if (response.data?.page_status === newStatus) {
+                setBusiness(response.data);
+                toast.success(response.message);
             }
         } catch (error) {
             toast.error(error instanceof Error ? error.message : 'Failed to update page status');

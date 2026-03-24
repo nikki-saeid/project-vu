@@ -3,6 +3,7 @@
 import { usePublic } from '@/lib/contexts/public-context';
 import { IconBrandFacebook, IconBrandInstagram, IconBrandX, IconWorld } from '@tabler/icons-react';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export default function BusinessSocials() {
     const { business } = usePublic();
@@ -18,24 +19,32 @@ export default function BusinessSocials() {
     return (
         <div className="flex gap-1">
             {website_url && (
-                <Button variant="outline" className="rounded-full" size="icon-xs">
-                    <IconWorld />
-                </Button>
+                <Link href={website_url} target="_blank">
+                    <Button variant="outline" className="rounded-full" size="icon-xs">
+                        <IconWorld />
+                    </Button>
+                </Link>
             )}
             {x_url && (
-                <Button variant="outline" className="rounded-full" size="icon-xs">
-                    <IconBrandX />
-                </Button>
+                <Link href={x_url} target="_blank">
+                    <Button variant="outline" className="rounded-full" size="icon-xs">
+                        <IconBrandX />
+                    </Button>
+                </Link>
             )}
             {facebook_url && (
-                <Button variant="outline" className="rounded-full" size="icon-xs">
-                    <IconBrandFacebook />
-                </Button>
+                <Link href={facebook_url} target="_blank">
+                    <Button variant="outline" className="rounded-full" size="icon-xs">
+                        <IconBrandFacebook />
+                    </Button>
+                </Link>
             )}
             {instagram_url && (
-                <Button variant="outline" className="rounded-full" size="icon-xs">
-                    <IconBrandInstagram />
-                </Button>
+                <Link href={instagram_url} target="_blank">
+                    <Button variant="outline" className="rounded-full" size="icon-xs">
+                        <IconBrandInstagram />
+                    </Button>
+                </Link>
             )}
         </div>
     );

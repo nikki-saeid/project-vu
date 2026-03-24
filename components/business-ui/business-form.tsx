@@ -120,7 +120,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                 <SelectTrigger id="form-type" className="w-full" aria-invalid={fieldState.invalid}>
                                     <SelectValue placeholder="Select business type" />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="z-1000">
                                     {BUSINESS_TYPE.map((t) => (
                                         <SelectItem key={t} value={t}>
                                             {t.charAt(0).toUpperCase() + t.slice(1)}

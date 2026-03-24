@@ -22,7 +22,7 @@ export default function BusinessHeader() {
                 <BusinessAvatar logo_url={logo_url} name={name} />
                 <div className="flex flex-col gap-1">
                     <H4>{name}</H4>
-                    <Badge variant="default">{type}</Badge>
+                    <Badge variant="outline">{type}</Badge>
                 </div>
             </div>
             <P className="text-muted-foreground">{description}</P>

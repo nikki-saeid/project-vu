@@ -2,7 +2,6 @@ import { SuccessResponse } from '@/lib/helpers/api-response';
 import { errorHandler } from '@/lib/helpers/error-handler';
 import { createClient } from '@/lib/supabase/server';
 import { AdminAnalyticsResponse } from '@/lib/types/api';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 export async function GET() {
     try {
@@ -15,14 +14,12 @@ export async function GET() {
         if (!user) {
             return errorHandler({
                 error: new Error('You must be signed in'),
-                defaultValue: { status: StatusCodes.UNAUTHORIZED, message: ReasonPhrases.UNAUTHORIZED },
             });
         }
 
         if (user.app_metadata?.role !== 'admin') {
             return errorHandler({
                 error: new Error('You are not authorized to access this resource'),
-                defaultValue: { status: StatusCodes.FORBIDDEN, message: ReasonPhrases.FORBIDDEN },
             });
         }
 

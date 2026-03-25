@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import P from '../typography/P';
 import { useAdmin } from '@/lib/contexts/admin-context';
 import { useSearchParams } from 'next/navigation';
+import { AdminUsersResponse } from '@/lib/api-fetcher/admin/analytics';
 
 export default function AdminDisableUserForm({ onSuccess, id, setIsLoading, activate }: AdminDisableUserFormProps) {
     const { setUsersWithPagination } = useAdmin();
@@ -23,7 +24,7 @@ export default function AdminDisableUserForm({ onSuccess, id, setIsLoading, acti
         try {
             await adminDisableUser(id, activate);
             toast.success(`User ${activate ? 'activated' : 'deactivated'} successfully`);
-            const users = await getAdminUsers(page);
+            const users = (await getAdminUsers(page)) as AdminUsersResponse;
 
             setUsersWithPagination(users);
             onSuccess?.();

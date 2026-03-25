@@ -17,7 +17,6 @@ export async function GET(request: Request, { params }: Params) {
         if (!id?.trim()) {
             return errorHandler({
                 error: new Error('Project ID is required'),
-                defaultValue: { status: StatusCodes.BAD_REQUEST, message: ReasonPhrases.BAD_REQUEST },
             });
         }
 
@@ -28,7 +27,6 @@ export async function GET(request: Request, { params }: Params) {
         if (!user) {
             return errorHandler({
                 error: new Error('You must be signed in'),
-                defaultValue: { status: StatusCodes.UNAUTHORIZED, message: ReasonPhrases.UNAUTHORIZED },
             });
         }
 
@@ -36,7 +34,6 @@ export async function GET(request: Request, { params }: Params) {
         if (user.app_metadata?.role !== 'admin') {
             return errorHandler({
                 error: new Error('You are not authorized to access this resource'),
-                defaultValue: { status: StatusCodes.FORBIDDEN, message: ReasonPhrases.FORBIDDEN },
             });
         }
 

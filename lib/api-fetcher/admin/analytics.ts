@@ -9,7 +9,8 @@ export type AdminUsersResponse = { users: User[]; aud: string } & Pagination;
 
 export const getAdminAnalytics = async () => {
     const cookie = await cookies();
-    return await fetcher<AdminAnalyticsResponse>(`${API_URL}/admin/analytics`, {
+    const response = await fetcher<AdminAnalyticsResponse>(`${API_URL}/admin/analytics`, {
         headers: { Cookie: cookie.toString() },
     });
+    return response.data;
 };

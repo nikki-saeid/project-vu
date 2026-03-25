@@ -12,6 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import DataTable from './_components/data-table';
+import { AdminUsersResponse } from '@/lib/api-fetcher/admin/analytics';
 
 export default function UserManagement() {
     const { usersWithPagination, setUsersWithPagination } = useAdmin();
@@ -29,7 +30,7 @@ export default function UserManagement() {
         async function _getAdminUsers() {
             try {
                 setIsLoading(true);
-                const newUsers = await getAdminUsers(page);
+                const newUsers = (await getAdminUsers(page)) as AdminUsersResponse;
                 setIsLoading(false);
                 setUsersWithPagination(newUsers);
             } catch (error) {

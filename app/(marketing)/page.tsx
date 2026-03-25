@@ -3,6 +3,7 @@ import Cta from './_components/cta';
 import Features from './_components/features';
 import Hero from './_components/hero';
 import LiveMap from './_components/live-map';
+import PricingPlans from './_components/pricing-plans';
 
 export default function Home() {
     return (
@@ -11,6 +12,7 @@ export default function Home() {
             <Features />
             <LiveMap />
             <AboutUs />
+            <PricingPlans />
             <Cta />
         </div>
     );

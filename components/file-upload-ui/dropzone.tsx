@@ -39,7 +39,7 @@ const Dropzone = ({ className, children, getRootProps, getInputProps, ...restPro
                         'border-2 border-gray-300 rounded-lg p-6 text-center bg-card transition-colors duration-300 text-foreground',
                         className,
                         'border-dashed',
-                        isActive && 'border-primary bg-primary/10',
+                        isActive && 'border-primary bg-primary/5',
                         isInvalid && 'border-destructive bg-destructive/10',
                     ),
                 })}

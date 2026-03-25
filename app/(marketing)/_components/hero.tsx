@@ -12,8 +12,8 @@ export default function Hero() {
             <div className="flex flex-col">
                 <H1 className="max-w-3xl text-center leading-9 text-3xl sm:text-4xl md:text-5xl">Map it. Share it. Vu it.</H1>
 
-                <P className="text-balance text-center max-w-3xl mt-4 text-md text-muted-foreground leading-7">
-                    Showcase your projects with photos, maps, and a professional profile.
+                <P className="text-balance text-center max-w-3xl mt-4 text-lg text-foreground leading-7">
+                    Show your projects on a map, in a list, and in one professional profile.
                 </P>
 
                 <div className="mt-8 flex gap-2">

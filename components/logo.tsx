@@ -12,7 +12,7 @@ export default function Logo({ isWhite, variant = 'full', className }: LogoProps
                     width={130}
                     height={130}
                     alt="ProjectVu logo"
-                    className="aspect-square size-10.5 rounded-full"
+                    className="aspect-square size-8"
                     loading="eager"
                 />
                 {variant !== 'icon' && (

@@ -12,7 +12,7 @@ export default function Cta() {
                 description="Create your business, drop your first few projects on the map, and share a link with your next lead. We'll handle the map — you focus on the work."
             />
 
-            <Button asChild size="lg" className="w-full sm:w-auto">
+            <Button asChild size="lg" className="">
                 <Link href="/signup" className="inline-flex items-center gap-2">
                     Create my map
                     <IconArrowRight className="size-4" />

@@ -197,7 +197,7 @@ export default function MapSearch() {
                                         className="flex items-center py-3 px-2 cursor-pointer hover:bg-accent rounded-md"
                                     >
                                         <div className="flex items-center space-x-2">
-                                            <div className="bg-primary/10 p-1.5 rounded-full shrink-0">
+                                            <div className="bg-primary/5 p-1.5 rounded-full shrink-0">
                                                 <IconMapPin className="size-4 text-primary" />
                                             </div>
                                             <div className="flex flex-col min-w-0">

@@ -11,7 +11,7 @@ export default function Hero() {
     return (
         <section className="from-primary/10 to-transparent bg-linear-to-b">
             <Container>
-                <div className="flex flex-col mt-10">
+                <div className="flex flex-col mt-20">
                     <H1 className="text-center leading-9 text-3xl sm:text-4xl md:text-5xl">Map it. Share it. Vu it.</H1>
 
                     <P className="text-balance text-center mt-4 text-lg text-foreground leading-7">

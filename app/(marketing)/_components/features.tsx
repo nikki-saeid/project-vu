@@ -7,30 +7,33 @@ import SectionHeader from './section-header';
 export default function Features() {
     return (
         <Container>
-            <section className="grid lg:grid-cols-2 items-center rounded-lg gap-4 md:gap-6 p-10 bg-muted" id={SECTIONS_IDS.features}>
+            <section className="grid lg:grid-cols-1 items-center rounded-lg gap-4 md:gap-6 p-10 bg-muted" id={SECTIONS_IDS.features}>
                 <SectionHeader
                     label="FEATURES"
-                    title="Turn your finished projects into future work with photos, maps, and a shareable profile clients can explore instantly."
+                    // title="Turn your finished projects into future work with photos, maps, and a shareable profile clients can explore instantly."
                     description="Whether you're a builder, designer, electrician, joiner, or any professional, show your projects with photos, maps, and a shareable profile so clients can view and contact you instantly."
                     center={false}
                     secondary
                 />
 
-                <div className="flex flex-col flex-1 gap-4">
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 flex-1 gap-4">
                     <FeatureCard
                         Icon={IconAppWindow}
-                        title="Your own professional page"
-                        description="Create a shareable profile with your logo, project portfolio, and project details. Share it with clients, use it as a mini website, or embed it into your existing site, no coding needed."
+                        title="Your Profile"
+                        description="Create a shareable profile with your logo and projects. Share it, use it as a mini website, or embed it into your site, no coding needed"
+                        subTitle="Your professional page"
                     />
                     <FeatureCard
                         Icon={IconMap2}
-                        title="Explore projects on a map"
-                        description="Display your projects on an interactive map where clients can see every location, photos, and project details at a glance."
+                        title="Map View"
+                        description="Display your projects on an interactive map with locations, photos, and key details at a glance."
+                        subTitle="Explore projects on a map"
                     />
                     <FeatureCard
                         Icon={IconLayoutList}
-                        title="Browse projects in a list"
-                        description="Show your work in a clean, visual list with photos and key project details for easy browsing."
+                        title="List View"
+                        description="Show your work in a clean list with photos and key project details for easy browsing."
+                        subTitle="Browse projects in a list"
                     />
                 </div>
             </section>

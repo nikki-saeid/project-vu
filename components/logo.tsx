@@ -6,18 +6,18 @@ import Link from 'next/link';
 export default function Logo({ isWhite, variant = 'full', className }: LogoProps) {
     return (
         <Link href="/">
-            <div className={cn('flex items-end gap-1', className)}>
+            <div className={cn('flex items-end gap-2', className)}>
                 <Image
                     src={isWhite ? '/brand/logo-white.webp' : '/brand/logo.webp'}
                     width={130}
                     height={130}
                     alt="ProjectVu logo"
-                    className="aspect-square size-8"
+                    className="aspect-square size-6"
                     loading="eager"
                 />
                 {variant !== 'icon' && (
                     <div
-                        className={cn('text-2xl text-nowrap font-bold text-center leading-6.5', isWhite ? 'text-white' : 'text-foreground')}
+                        className={cn('text-2xl text-nowrap font-bold text-center leading-4.5', isWhite ? 'text-white' : 'text-foreground')}
                     >
                         Project <span className={isWhite ? 'text-white' : 'text-primary'}>Vu</span>
                     </div>

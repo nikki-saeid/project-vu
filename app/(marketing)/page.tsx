@@ -7,10 +7,10 @@ import PricingPlans from './_components/pricing-plans';
 
 export default function Home() {
     return (
-        <div className="flex flex-col gap-20 my-20">
+        <div className="flex flex-col gap-20 pb-20">
             <Hero />
-            <Features />
             <LiveMap />
+            <Features />
             <AboutUs />
             <PricingPlans />
             <Cta />

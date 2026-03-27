@@ -14,9 +14,9 @@ export default function SidebarCustomButton({ title, url, children }: SidebarCus
             isActive={pathname === url}
             className={cn(
                 'transition duration-100 ease-linear',
-                'active:bg-primary active:text-primary-foreground',
-                'data-[active=true]:bg-primary data-[active=true]:text-primary-foreground',
-                'hover:bg-primary/90 hover:text-primary-foreground',
+                'active:bg-primary/10 active:text-primary',
+                'data-[active=true]:bg-primary/10 data-[active=true]:text-primary',
+                'hover:bg-primary/5 hover:text-primary',
                 'bg-transparent text-foreground',
             )}
         >

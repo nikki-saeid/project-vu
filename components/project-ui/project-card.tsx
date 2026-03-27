@@ -8,7 +8,7 @@ import ProjectImageSkeleton from '../skeleton-ui/project-image-skeleton';
 
 export default function ProjectCard({ action, title, description, project_image = [], address }: ProjectCardProps) {
     return (
-        <Card className="relative pt-0 border-0 overflow-hidden">
+        <Card className="relative pt-0 shadow-none overflow-hidden">
             {action && <div className="absolute top-2 right-2 z-54">{action}</div>}
             {project_image.length > 0 ? (
                 <Carousel className="relative">

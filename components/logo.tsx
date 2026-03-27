@@ -14,13 +14,12 @@ export default function Logo({ isWhite, variant = 'full', className }: LogoProps
                     className="aspect-square size-6"
                     loading="eager"
                 /> */}
-                {variant !== 'icon' && (
-                    <div
-                        className={cn('text-2xl text-nowrap font-bold text-center leading-4.5', isWhite ? 'text-white' : 'text-foreground')}
-                    >
-                        Project <span className={isWhite ? 'text-white' : 'text-primary'}>Vu</span>
-                    </div>
-                )}
+
+                <div className={cn('text-2xl text-nowrap font-bold text-center leading-4.5', isWhite ? 'text-white' : 'text-foreground')}>
+                    {variant !== 'icon' && 'Project '}
+
+                    <span className={isWhite ? 'text-white' : 'text-primary'}>Vu</span>
+                </div>
             </div>
         </Link>
     );

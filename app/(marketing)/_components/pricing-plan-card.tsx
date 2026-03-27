@@ -33,7 +33,7 @@ export default function PricingPlanCard({
                     <span className="font-light text-md leading-4">/month</span>
                 </div>
                 <P className="text-sm mb-5 font-bold">{billing}</P>
-                <div className="h-21">
+                <div className="md:h-23 md:mb-0 mb-6">
                     <P className="text-md leading-6 ">{description}</P>
                 </div>
                 <Button variant={ctaVariant} className="w-full">

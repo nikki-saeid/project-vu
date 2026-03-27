@@ -9,7 +9,7 @@ import Container from '@/components/ui/container';
 
 export default function Hero() {
     return (
-        <section className="from-primary/10 to-transparent bg-linear-to-b">
+        <section className="from-primary/6 to-transparent bg-linear-to-b">
             <Container>
                 <div className="flex flex-col mt-20">
                     <H1 className="text-center leading-9 text-3xl sm:text-4xl md:text-5xl">Map it. Share it. Vu it.</H1>
@@ -18,7 +18,7 @@ export default function Hero() {
                         Show your projects on a map, in a list, and in one professional profile.
                     </P>
 
-                    <div className="mt-8 flex gap-2 max-w-md mx-auto">
+                    <div className="mt-16 flex gap-2 max-w-md mx-auto">
                         <Link href="/signup" className="flex-1">
                             <Button
                                 size="lg"

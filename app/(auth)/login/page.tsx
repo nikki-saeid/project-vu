@@ -74,7 +74,7 @@ export default function LoginForm() {
     return (
         <div className="flex flex-col gap-4 items-center">
             <Logo />
-            <Card className="self-stretch">
+            <Card className="self-stretch shadow-none">
                 <CardHeader>
                     <CardTitle>
                         <H3 className="text-primary">Welcome back</H3>

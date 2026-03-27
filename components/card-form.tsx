@@ -7,7 +7,7 @@ export default function CardForm({ action, id, form, title, description }: CardF
     const [isLoading, setIsLoading] = useState(false);
 
     return (
-        <Card className="border-0">
+        <Card className="shadow-none">
             <CardHeader>
                 <CardTitle>
                     <H3>{title}</H3>

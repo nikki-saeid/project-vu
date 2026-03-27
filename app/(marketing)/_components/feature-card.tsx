@@ -13,16 +13,15 @@ type FeatureCardProps = {
 
 export default function FeatureCard({ Icon, title, description, subTitle }: FeatureCardProps) {
     return (
-        <Card className="border-0 relative overflow-hidden">
-            <CardContent className="z-1">
-                <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                    <StyledIcon Icon={Icon} className="bg-primary/5 size-10" IconProps={{ className: 'text-primary size-5' }} />
-                    <H3 className="text-lg leading-5">{title}</H3>
-                </div>
+        <Card className="shadow-none relative overflow-hidden">
+            <CardContent className="z-1 flex flex-col items-center">
+                <StyledIcon Icon={Icon} className="bg-primary/5 size-10" IconProps={{ className: 'text-primary size-5' }} />
 
-                <P className="text-md text-foreground leading-6 mt-3 mb-2">{subTitle}</P>
+                <H3 className="text-lg font-semibold text-foreground mt-4  leading-5">{title}</H3>
 
-                <P className="text-md text-foreground leading-6">{description}</P>
+                <P className="text-md text-center text-foreground leading-6 mt-3">{subTitle}</P>
+
+                <P className="text-md text-center text-foreground leading-6">{description}</P>
             </CardContent>
         </Card>
     );

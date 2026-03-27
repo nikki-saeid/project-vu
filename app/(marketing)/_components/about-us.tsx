@@ -5,39 +5,24 @@ import Container from '@/components/ui/container';
 export default function AboutUs() {
     return (
         <Container>
-            <div className="relative bg-primary/5 p-10 rounded-lg ">
+            <div className="relative bg-primary/5 p-10 rounded-lg">
                 <section className="flex flex-col items-center gap-4 md:gap-6 z-1" id={SECTIONS_IDS.aboutUs}>
-                    <div className="sm:hidden block">
-                        <SectionHeader
-                            center={false}
-                            label="ABOUT US"
-                            title={
-                                <span>
-                                    Project <span className="text-primary">Vu</span> turns your completed projects into a professional
-                                    portfolio
-                                </span>
-                            }
-                        />
-                    </div>
-                    <div className="sm:block hidden">
-                        <SectionHeader label="ABOUT US" title="ProjectVu turns your completed projects into a professional portfolio" />
-                    </div>
+                    <SectionHeader
+                        label="ABOUT US"
+                        title={
+                            <span>
+                                Project <span className="text-primary">Vu</span> turns your completed projects into a professional portfolio
+                            </span>
+                        }
+                    />
 
-                    <P className="text text-md sm:text-center font-light leading-7 text-foreground">
-                        <strong className="font-semibold">
-                            Project <span className="text-primary">Vu</span>
-                        </strong>{' '}
-                        is a modern platform that helps professionals showcase their work in a clear, visual, and compelling way . We turn
-                        your completed projects into a professional portfolio, combining photos, locations, and key details all in one
-                        place.{' '}
-                        <strong className="font-semibold">
-                            Project <span className="text-primary">Vu</span> can act as a mini website if you don&apos;t have one
-                        </strong>
-                        , or it can <strong className="font-semibold">work alongside your existing website</strong> to enhance your online
-                        presence. Your projects can be viewed on an <strong className="font-semibold">interactive map </strong>or in a{' '}
-                        <strong className="font-semibold">clean list format</strong>, giving clients a complete picture of what you&apos;ve
-                        done and where you&apos;ve done it. Our goal is simple:{' '}
-                        <strong className="font-semibold">helping you showcase your work at its best and win more opportunities.</strong>
+                    <P className="text text-md text-center font-light leading-7.5 text-foreground">
+                        Project Vu is a modern platform that helps professionals showcase their work in a clear, visual, and compelling way
+                        . We turn your completed projects into a professional portfolio, combining photos, locations, and key details all in
+                        one place. Project Vu can act as a mini website if you don&apos;t have one, or it can work alongside your existing
+                        website to enhance your online presence. Your projects can be viewed on an interactive map or in a clean list
+                        format, giving clients a complete picture of what you&apos;ve done and where you&apos;ve done it. Our goal is
+                        simple: helping you showcase your work at its best and win more opportunities.
                     </P>
                 </section>
             </div>

@@ -4,7 +4,7 @@ import { ChildrenProp } from '@/lib/types/common';
 
 export default function Layout({ children }: ChildrenProp) {
     return (
-        <div className="flex flex-col  bg-background">
+        <div className="flex flex-col bg-muted">
             <Navbar />
             <main className="flex-1 overflow-x-hidden mb-auto">{children}</main>
             <Footer />

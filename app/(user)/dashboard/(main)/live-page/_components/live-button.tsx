@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { updatePageStatus } from '@/lib/api-fetcher/user/user-business';
+import { updatePageStatus } from '@/lib/api-fetcher/user/client/business';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { PageStatusEnum } from '@/lib/types/db';
 import { cn } from '@/lib/utils/classes-merge';

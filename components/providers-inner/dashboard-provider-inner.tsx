@@ -1,5 +1,5 @@
-import { getUserBusiness } from '@/lib/api-fetcher/user/user-business';
-import { getUserProjects } from '@/lib/api-fetcher/user/user-projects';
+import { getUserBusiness } from '@/lib/api-fetcher/user/server/business';
+import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
 import { DashboardProvider } from '@/lib/providers/dashboard-provider';
 import type { ChildrenProp } from '@/lib/types/common';
 

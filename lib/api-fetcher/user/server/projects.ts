@@ -1,18 +1,17 @@
 'use server';
 
-import { cookies } from 'next/headers';
+import { API_URL } from '@/lib/constants/urls';
+import { fetcher } from '@/lib/helpers/fetcher';
 import type { ProjectWithImages } from '@/lib/types/api';
-import { API_URL } from '../../constants/urls';
-import { fetcher } from '../../helpers/fetcher';
-import { Business } from '../../types/db';
+import { cookies } from 'next/headers';
 
-// public api fetcher for user
-export const getPublicBusinessBySlug = async (slug: string) => {
+export const getUserProjects = async () => {
     const cookie = await cookies();
-    const response = await fetcher<Business>(`${API_URL}/public/business/${slug}`, {
+    const response = await fetcher<ProjectWithImages[]>(`${API_URL}/user/projects/many`, {
         headers: { Cookie: cookie.toString() },
     });
-    return response.data;
+
+    return response.data ?? [];
 };
 
 export const getPublicProjectsBySlug = async (slug: string) => {

@@ -1,4 +1,5 @@
-import { getPublicBusinessBySlug, getPublicProjectsBySlug } from '@/lib/api-fetcher/user/public-profile';
+import { getPublicBusinessBySlug } from '@/lib/api-fetcher/user/server/business';
+import { getPublicProjectsBySlug } from '@/lib/api-fetcher/user/server/projects';
 import { PublicProvider } from '@/lib/providers/public-provider';
 import { ProjectWithImages } from '@/lib/types/api';
 import type { ChildrenProp } from '@/lib/types/common';

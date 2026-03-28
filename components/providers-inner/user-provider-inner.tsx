@@ -1,4 +1,4 @@
-import { getUserAuth } from '@/lib/api-fetcher/user/user-auth';
+import { getUserAuth } from '@/lib/api-fetcher/user/server/auth';
 import { UserProvider } from '@/lib/providers/user-provider';
 import type { ChildrenProp } from '@/lib/types/common';
 

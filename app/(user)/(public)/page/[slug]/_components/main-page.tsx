@@ -21,7 +21,7 @@ export default function MainPage() {
                     </div>
                 </Alert>
             )}
-            <BusinessProfile business={business} projects={projects} isPublic={true} />;
+            <BusinessProfile business={business} projects={projects} isPublic={true} />
         </div>
     );
 }

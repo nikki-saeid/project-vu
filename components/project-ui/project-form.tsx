@@ -3,8 +3,8 @@
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
-import { createProject, getUserProjects, updateProject } from '@/lib/api-fetcher/user/user-projects';
-import { usePublic } from '@/lib/contexts/public-context';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
+import { projectToLocationFeature } from '@/lib/helpers/project-map';
 import type { ProjectFormProps } from '@/lib/types/forms';
 import type { LocationFeature } from '@/lib/types/map';
 import { cn } from '@/lib/utils/classes-merge';
@@ -17,8 +17,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
-import { projectToLocationFeature } from '@/lib/helpers/project-map';
-import { useDashboard } from '@/lib/contexts/dashboard-context';
+import { createProject, updateProject } from '@/lib/api-fetcher/user/client/projects';
+import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 
@@ -44,7 +44,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     const dropZoneProps = useSupabaseUpload({
         allowedMimeTypes: ['image/*'],
         maxFiles: 10,
-        maxFileSize: 1 * 1000 * 1000,
+        maxFileSize: 5 * 1000 * 1000,
     });
     const { files, setFiles } = dropZoneProps;
 

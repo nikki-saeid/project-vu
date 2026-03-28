@@ -1,6 +1,6 @@
 'use clien';
 
-import { deleteUser } from '@/lib/api-fetcher/user/profile';
+import { deleteUser } from '@/lib/api-fetcher/user/client/profile';
 import { createClient } from '@/lib/supabase/client';
 import type { BusinessDeleteFormProps } from '@/lib/types/forms';
 import { businessDeleteSchema } from '@/lib/validators/user/business-profile';

@@ -5,9 +5,10 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
-import { updateUserBusiness } from '@/lib/api-fetcher/user/user-business';
+import { updateUserBusiness } from '@/lib/api-fetcher/user/client/business';
 import { BUSINESS_TYPE } from '@/lib/constants/user-dashboard';
-import { usePublic } from '@/lib/contexts/public-context';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
+import { useUser } from '@/lib/contexts/user-context';
 import type { BusinessFormProps } from '@/lib/types/forms';
 import { businessProfileSchema } from '@/lib/validators/user/business-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -29,9 +30,7 @@ import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
-import { getUserAuth } from '@/lib/api-fetcher/user/user-auth';
-import { useUser } from '@/lib/contexts/user-context';
-import { useDashboard } from '@/lib/contexts/dashboard-context';
+import { getUserAuth } from '@/lib/api-fetcher/user/server/auth';
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const { business, setBusiness } = useDashboard();

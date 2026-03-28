@@ -1,11 +1,11 @@
-'use clien';
+'use client';
 
-import { deleteProject } from '@/lib/api-fetcher/user/user-projects';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import type { ProjectDeleteFormProps } from '@/lib/types/forms';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import P from '../typography/P';
+import { deleteProject } from '@/lib/api-fetcher/user/client/projects';
 
 export default function ProjectDeleteForm({ onSuccess, id, setIsLoading }: ProjectDeleteFormProps) {
     const { projects, setProjects } = useDashboard();

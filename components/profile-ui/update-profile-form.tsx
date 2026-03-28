@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '../ui/input-group';
 import { useUser } from '@/lib/contexts/user-context';
-import { updateUser } from '@/lib/api-fetcher/user/profile';
+import { updateUser } from '@/lib/api-fetcher/user/client/profile';
 
 type UpdateProfileFormProps = {
     id: string;

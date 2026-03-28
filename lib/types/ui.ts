@@ -1,7 +1,7 @@
 import type { Icon } from '@tabler/icons-react';
 import type { ChildrenProp, ClassNameProp, IsWhiteProp } from './common';
 
-export type LogoProps = IsWhiteProp & ClassNameProp & { variant?: 'icon' | 'full' };
+export type LogoProps = IsWhiteProp & { variant?: 'icon' | 'full' };
 export type ContainerProps = ChildrenProp & ClassNameProp;
 export type StyledIconProps = ClassNameProp & { IconProps?: ClassNameProp; Icon: Icon };
 export type StepperProps = { stepIndex: number; steps: string[] };
@@ -19,12 +19,11 @@ export type PricingPlanProps = {
     ctaVariant: 'default' | 'outline' | 'outlinePrimary';
 };
 
-
 export type Plan = {
-  plan: string;
-  price: string;
-  billing: string;
-  description: string;
-  benefits: string[];
-  savings: string;
+    plan: string;
+    price: string;
+    billing: string;
+    description: string;
+    benefits: string[];
+    savings: string;
 };

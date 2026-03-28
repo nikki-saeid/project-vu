@@ -1,25 +1,23 @@
 import type { LogoProps } from '@/lib/types/ui';
-import { cn } from '@/lib/utils/classes-merge';
+import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Logo({ isWhite, variant = 'full', className }: LogoProps) {
+export default function Logo({ isWhite, variant = 'full' }: LogoProps) {
     return (
         <Link href="/">
-            <div className={cn('flex items-end gap-2', className)}>
-                {/* <Image
+            <div className="text-2xl text-nowrap font-bold text-center ">
+                {variant !== 'icon' && <span className={isWhite ? 'text-white' : 'text-foreground'}>Project </span>}
+
+                <Image
                     src={isWhite ? '/brand/logo-white.webp' : '/brand/logo.webp'}
-                    width={130}
-                    height={130}
+                    width={210}
+                    height={352}
                     alt="ProjectVu logo"
-                    className="aspect-square size-6"
+                    className="w-4.25 inline mb-3.75"
                     loading="eager"
-                /> */}
+                />
 
-                <div className={cn('text-2xl text-nowrap font-bold text-center leading-4.5', isWhite ? 'text-white' : 'text-foreground')}>
-                    {variant !== 'icon' && 'Project '}
-
-                    <span className={isWhite ? 'text-white' : 'text-primary'}>Vu</span>
-                </div>
+                {variant !== 'icon' && <span className={isWhite ? 'text-white' : 'text-primary'}>u</span>}
             </div>
         </Link>
     );

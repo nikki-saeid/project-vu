@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import NavbarWrapper from './navbar-wrapper';
 import { useUser } from '@/lib/contexts/user-context';
+import { NavbarProps } from '@/lib/types/dashboard';
 
 function MobileNavbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -95,9 +96,9 @@ function DesktopNavbar() {
     );
 }
 
-export default function Navbar() {
+export default function Navbar({ variant }: NavbarProps) {
     return (
-        <NavbarWrapper className="border-b">
+        <NavbarWrapper variant={variant}>
             <DesktopNavbar />
             <div className="lg:hidden block">
                 <MobileNavbar />

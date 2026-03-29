@@ -22,6 +22,7 @@ export type Database = {
           name: string | null
           page_status: Database["public"]["Enums"]["page_status"]
           phone: string | null
+          project_types_tags: string[] | null
           slug: string | null
           type: string | null
           user_id: string
@@ -40,6 +41,7 @@ export type Database = {
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]
           phone?: string | null
+          project_types_tags?: string[] | null
           slug?: string | null
           type?: string | null
           user_id: string
@@ -58,6 +60,7 @@ export type Database = {
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]
           phone?: string | null
+          project_types_tags?: string[] | null
           slug?: string | null
           type?: string | null
           user_id?: string
@@ -66,38 +69,6 @@ export type Database = {
         }
         Relationships: []
       }
-      project_image: {
-        Row: {
-          created_at: string
-          display_order: number
-          id: string
-          image_url: string
-          project_id: string
-        }
-        Insert: {
-          created_at?: string
-          display_order: number
-          id?: string
-          image_url: string
-          project_id: string
-        }
-        Update: {
-          created_at?: string
-          display_order?: number
-          id?: string
-          image_url?: string
-          project_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "project_image_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       projects: {
         Row: {
           address: string
@@ -105,6 +76,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          images_urls: string[] | null
           location: unknown
           title: string
         }
@@ -114,6 +86,7 @@ export type Database = {
           created_at?: string
           description: string
           id?: string
+          images_urls?: string[] | null
           location: unknown
           title: string
         }
@@ -123,6 +96,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          images_urls?: string[] | null
           location?: unknown
           title?: string
         }

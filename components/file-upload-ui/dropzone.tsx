@@ -7,9 +7,7 @@ import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
 import type { DropzoneProps } from '@/lib/types/forms';
 import { cn } from '@/lib/utils/classes-merge';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
-import Image from 'next/image';
 import { Avatar, AvatarImage } from '../ui/avatar';
-import { ProjectImage } from '@/lib/types/db';
 
 export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB') => {
     const k = 1000;

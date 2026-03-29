@@ -3,6 +3,15 @@ import { Project } from '@/lib/types/db';
 import { storageService } from '../services/storage.service';
 
 export const projectRepository = {
+    getById: async function (id: string) {
+        const supabase = await createClient();
+        const { data, error } = await supabase.from('projects').select().eq('id', id).maybeSingle();
+
+        if (error) throw error;
+
+        return data;
+    },
+
     // create
     create: async function (project: Partial<Project>) {
         const supabase = await createClient();
@@ -18,24 +27,7 @@ export const projectRepository = {
         const supabase = await createClient();
         const { data, error } = await supabase
             .from('projects')
-            .select(
-                `
-                id,
-                created_at,
-                title,
-                description,
-                address,
-                location,
-                business_id,
-                project_image (
-                    id,
-                    created_at,
-                    image_url,
-                    project_id,
-                    display_order
-                )
-            `,
-            )
+            .select('*')
             .eq('business_id', businessId)
             .order('created_at', { ascending: false });
 

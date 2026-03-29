@@ -1,17 +1,15 @@
 import type { ReactNode } from 'react';
 import type { UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
-import type { Business, Project, ProjectImage } from './db';
+import type { Business, Project } from './db';
 import type { ClassNameProp } from './common';
 import type { LocationFeature } from './map';
-import type { ProjectWithImages } from './api';
+import type { ProjectWithLatLng } from './api';
 
 export type PasswordInputProps = React.ComponentProps<'input'>;
 export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 'logo_url' | 'name'>> & ClassNameProp;
 
 // Project
-export type ProjectCardProps = { action?: ReactNode } & Partial<Pick<Project, 'title' | 'description' | 'address'>> & {
-        project_image: Partial<Pick<ProjectImage, 'image_url' | 'id'>>[];
-    };
+export type ProjectCardProps = { action?: ReactNode } & Partial<Pick<Project, 'title' | 'description' | 'address' | 'images_urls'>>;
 export type ProjectLocationPickerProps = {
     onSearchedLocationChange: (location: LocationFeature) => void;
     onEditLocation?: LocationFeature;
@@ -53,7 +51,7 @@ export type FormProps = {
     setIsLoading: (about: boolean) => void;
 };
 
-export type ProjectFormProps = { project?: ProjectWithImages } & ClassNameProp & FormProps;
+export type ProjectFormProps = { project?: ProjectWithLatLng } & ClassNameProp & FormProps;
 export type BusinessFormProps = FormProps;
 export type BusinessDeleteFormProps = FormProps;
 export type ProjectDeleteFormProps = FormProps;

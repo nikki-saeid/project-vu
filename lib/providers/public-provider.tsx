@@ -1,6 +1,6 @@
 'use client';
 
-import type { ProjectWithImages } from '@/lib/types/api';
+import type { ProjectWithLatLng } from '@/lib/types/api';
 import type { Business } from '@/lib/types/db';
 import React, { useEffect, useMemo, useState } from 'react';
 import { PublicContext, PublicContextValue } from '../contexts/public-context';
@@ -8,12 +8,12 @@ import { PublicContext, PublicContextValue } from '../contexts/public-context';
 type PublicProviderProps = {
     children: React.ReactNode;
     initialBusiness: Business | null;
-    initialProjects: ProjectWithImages[] | null;
+    initialProjects: ProjectWithLatLng[] | null;
 };
 
 export function PublicProvider({ children, initialBusiness, initialProjects = [] }: PublicProviderProps) {
     const [business, setBusiness] = useState<Business | null>(initialBusiness);
-    const [projects, setProjects] = useState<ProjectWithImages[]>(initialProjects ?? []);
+    const [projects, setProjects] = useState<ProjectWithLatLng[]>(initialProjects ?? []);
 
     useEffect(() => {
         setBusiness(initialBusiness);

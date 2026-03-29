@@ -1,6 +1,6 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
-import { ParamsId, ParamsSlug, ProjectWithImages } from '@/lib/types/api';
+import { ParamsId, ParamsSlug, ProjectWithLatLng } from '@/lib/types/api';
 import { Project } from '@/lib/types/db';
 import { User } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
@@ -26,7 +26,7 @@ export const projectController = {
     //  get many projects with pagination
     getMany: tryCatchWrapper(async function (_, user: User) {
         const projects = await projectService.getMany(user.id);
-        return new SuccessResponse<ProjectWithImages[]>('Projects fetched successfully', projects).send();
+        return new SuccessResponse<ProjectWithLatLng[]>('Projects fetched successfully', projects).send();
     }),
 
     //  get many projects with pagination
@@ -35,7 +35,7 @@ export const projectController = {
         const { slug } = await params;
 
         const projects = await projectService.getManyByBusinessSlug(slug);
-        return new SuccessResponse<ProjectWithImages[]>('Projects fetched successfully', projects).send();
+        return new SuccessResponse<ProjectWithLatLng[]>('Projects fetched successfully', projects).send();
     }),
 
     // update
@@ -55,7 +55,7 @@ export const projectController = {
         // update the project
         const project = await projectService.updateById(user.id, id, { title, description, address, location }, images as File[]);
 
-        return new SuccessResponse<ProjectWithImages[]>('Project updated successfully', project).send();
+        return new SuccessResponse<Project>('Project updated successfully', project).send();
     }),
 
     // delete
@@ -65,6 +65,6 @@ export const projectController = {
 
         const project = await projectService.deleteById(id);
 
-        return new SuccessResponse<ProjectWithImages[]>('Project deleted successfully', project).send();
+        return new SuccessResponse<[]>('Project deleted successfully', project).send();
     }),
 };

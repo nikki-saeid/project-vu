@@ -2,10 +2,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { IconLayoutList, IconMap2 } from '@tabler/icons-react';
 import ProjectsList from './projects-list';
 import ProjectsMap from './projects-map';
-import { ProjectWithImages } from '@/lib/types/api';
+import { ProjectWithLatLng } from '@/lib/types/api';
 
 type ProjectsTabsProps = {
-    projects: ProjectWithImages[];
+    projects: ProjectWithLatLng[];
     isPublic: boolean;
 };
 

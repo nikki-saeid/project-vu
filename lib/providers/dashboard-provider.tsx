@@ -1,6 +1,6 @@
 'use client';
 
-import type { ProjectWithImages } from '@/lib/types/api';
+import type { ProjectWithLatLng } from '@/lib/types/api';
 import type { Business } from '@/lib/types/db';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DashboardContext, DashboardContextValue } from '../contexts/dashboard-context';
@@ -8,12 +8,12 @@ import { DashboardContext, DashboardContextValue } from '../contexts/dashboard-c
 type DashboardProviderProps = {
     children: React.ReactNode;
     initialBusiness: Business | null;
-    initialProjects: ProjectWithImages[] | null;
+    initialProjects: ProjectWithLatLng[] | null;
 };
 
 export function DashboardProvider({ children, initialBusiness, initialProjects = [] }: DashboardProviderProps) {
     const [business, setBusiness] = useState<Business | null>(initialBusiness);
-    const [projects, setProjects] = useState<ProjectWithImages[]>(initialProjects ?? []);
+    const [projects, setProjects] = useState<ProjectWithLatLng[]>(initialProjects ?? []);
 
     useEffect(() => {
         setBusiness(initialBusiness);

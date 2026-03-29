@@ -1,16 +1,13 @@
 import type { Database } from './supabase';
 
 // Shared API response types
-export type ProjectImageResponse = Omit<Database['public']['Tables']['project_image']['Row'], 'created_at' | 'id'>;
-
-export type ProjectWithImages = Database['public']['Tables']['projects']['Row'] & {
-    project_image: Database['public']['Tables']['project_image']['Row'][];
+export type ProjectWithLatLng = Database['public']['Tables']['projects']['Row'] & {
     lng?: number;
     lat?: number;
 };
 
-export type ProjectWithImagesAndPagination = {
-    data: ProjectWithImages[];
+export type ProjectWithLatLngAndPagination = {
+    data: ProjectWithLatLng[];
     lastPage: number;
     total: number;
 };

@@ -6,13 +6,13 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 import ProjectImageSkeleton from '../skeleton-ui/project-image-skeleton';
 
-export default function ProjectCard({ action, title, description, project_image = [], address }: ProjectCardProps) {
+export default function ProjectCard({ action, title, description, images_urls = [], address }: ProjectCardProps) {
     return (
         <Card className="relative pt-0 shadow-none overflow-hidden">
             {action && <div className="absolute top-2 right-2 z-54">{action}</div>}
-            {project_image.length > 0 ? (
+            {images_urls && images_urls.length > 0 ? (
                 <Carousel className="relative">
-                    {project_image.length > 1 && (
+                    {images_urls.length > 1 && (
                         <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-between w-[calc(100%-115px)]">
                             <CarouselPrevious size="icon-xs" />
                             <CarouselNext size="icon-xs" />
@@ -20,13 +20,13 @@ export default function ProjectCard({ action, title, description, project_image 
                     )}
 
                     <CarouselContent>
-                        {project_image.map((image) => {
+                        {images_urls.map((image) => {
                             return (
-                                <CarouselItem key={image.id}>
+                                <CarouselItem key={image}>
                                     <Suspense fallback={<ProjectImageSkeleton />}>
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
-                                            src={image.image_url ?? '/placeholder.svg'}
+                                            src={image ?? '/placeholder.svg'}
                                             width={180}
                                             height={100}
                                             alt={title ?? 'Project image'}

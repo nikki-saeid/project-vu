@@ -24,7 +24,6 @@ export function LocationPopup({ location, onClose, project }: LocationPopupProps
         >
             <ProjectCard
                 {...project}
-                project_image={project?.project_image ?? []}
                 action={
                     <Button size="icon-xs" className="rounded-full shadow-xs" variant="outline" onClick={onClose}>
                         <IconX />

@@ -8,11 +8,12 @@ import { Separator } from '../ui/separator';
 import BusinessContact from './business-contact';
 import BusinessHeader from './business-header';
 import BusinessSocials from './business-socials';
-import { ProjectWithImages } from '@/lib/types/api';
+import { ProjectWithLatLng } from '@/lib/types/api';
+import { Badge } from '../ui/badge';
 
 type BusinessProfileProps = {
     business: Business | null;
-    projects: ProjectWithImages[];
+    projects: ProjectWithLatLng[];
     isPublic: boolean;
 };
 
@@ -36,6 +37,12 @@ export default function BusinessProfile({ business, projects, isPublic }: Busine
                             instagram_url={business.instagram_url}
                             x_url={business.x_url}
                         />
+                        {business.project_types_tags &&
+                            business.project_types_tags.map((tag) => (
+                                <Badge key={tag} className="bg-green-500 text-white">
+                                    {tag}
+                                </Badge>
+                            ))}
                         <BusinessContact phone={business.phone} email={business.email} />
                     </div>
                     <Separator />

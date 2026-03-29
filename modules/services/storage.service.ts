@@ -1,8 +1,10 @@
 import { parsePostGisPoint } from '@/lib/helpers/postgis';
-import { ProjectWithImages } from '@/lib/types/api';
+import { ProjectWithLatLng } from '@/lib/types/api';
 import { StatusCodes } from 'http-status-codes';
 import sharp from 'sharp';
 import { storageRepository } from '../repositories/storage.repository';
+import { Project } from '@/lib/types/db';
+import { randomUUID } from 'crypto';
 
 export const storageService = {
     // resize image to webp format
@@ -24,26 +26,74 @@ export const storageService = {
         return await storageRepository.upload(path, buffer);
     },
 
+    // bulk upload
+    uploadMany: async function (images: File[] = [], path: string) {
+        // Save each image in the formData 'files' array to Supabase storage, one-by-one:
+        const uploadResults = await Promise.all(
+            images.map(async (file) => {
+                const id = randomUUID();
+                if (!(file instanceof File)) {
+                    return {
+                        name: (file as unknown as File)?.name ?? 'unknown',
+                        error: new Error('Not a valid file'),
+                    };
+                }
+
+                try {
+                    // change extension to .webp
+                    const fileName = `image-${id}.webp`;
+                    const filePath = `${path}/${fileName}`;
+
+                    console.log(' filePath ', filePath);
+
+                    await storageService.uploadAfterResize(filePath, file, 500, 460);
+                    return { name: fileName };
+                } catch (error) {
+                    return { name: file.name, error };
+                }
+            }),
+        );
+
+        // Collect the first error if any
+        const uploadError = uploadResults.find((r) => r.error)?.error;
+        if (uploadError) throw uploadError;
+
+        // Store the uploadResults public urls to project_image
+        const projectImages = [];
+        for (const result of uploadResults) {
+            if (!result.error) {
+                const url = `${path}/${result.name}`;
+                projectImages.push(url);
+            }
+        }
+
+        return projectImages;
+    },
+
     // remove many
     removeMany: async function (paths: string[]) {
         return await storageRepository.removeMany(paths);
     },
 
     // get storage public urls
-    getStoragePublicUrls: async function (projects: ProjectWithImages[]) {
-        const _projects: ProjectWithImages[] = [];
+    getStoragePublicUrls: async function (projects: Project[]) {
+        const _projects: ProjectWithLatLng[] = [];
         for (let i = 0; i < projects.length; i++) {
+            // get the project
             const project = projects[i];
-            const images = (project.project_image ?? []).sort(
-                (a: { display_order: number }, b: { display_order: number }) => a.display_order - b.display_order,
-            );
+
+            // project location
             const coords = parsePostGisPoint(project.location as string | null);
 
-            const publicUrls = await Promise.all(images.map(async (image) => await storageRepository.getStoragePublicUrl(image.image_url)));
+            // get the images
+            const images = project.images_urls ?? [];
+
+            // get the public urls
+            const publicUrls = await Promise.all(images.map(async (image) => await storageRepository.getStoragePublicUrl(image)));
 
             _projects.push({
                 ...project,
-                project_image: images.map((image, index) => ({ ...image, image_url: publicUrls[index] })),
+                images_urls: publicUrls,
                 ...(coords && { lng: coords.lng, lat: coords.lat }),
             });
         }

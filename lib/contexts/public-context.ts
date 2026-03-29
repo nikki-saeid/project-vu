@@ -1,14 +1,14 @@
 'use client';
 
-import type { ProjectWithImages } from '@/lib/types/api';
+import type { ProjectWithLatLng } from '@/lib/types/api';
 import type { Business } from '@/lib/types/db';
 import { createContext, useContext } from 'react';
 
 export type PublicContextValue = {
     business: Business | null;
     setBusiness: (business: Business | null) => void;
-    projects: ProjectWithImages[];
-    setProjects: (projects: ProjectWithImages[]) => void;
+    projects: ProjectWithLatLng[];
+    setProjects: (projects: ProjectWithLatLng[]) => void;
 };
 
 export const PublicContext = createContext<PublicContextValue | null>(null);

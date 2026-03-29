@@ -1,6 +1,5 @@
 import { adminRepository } from '../repositories/admin.repository';
 import { businessService } from './business.service';
-import { projectImagesService } from './project-images.service';
 import { projectService } from './project.service';
 import { storageService } from './storage.service';
 
@@ -14,8 +13,8 @@ export const adminService = {
         // get projects to delete images
         const projects = await projectService.getMany(userId);
         for (let i = 0; i < projects.length; i++) {
-            const { id } = projects[i];
-            await projectImagesService.removeImagesByProjectId(id);
+            const { images_urls } = projects[i];
+            await storageService.removeMany(images_urls ?? []);
         }
 
         // remove user

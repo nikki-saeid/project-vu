@@ -34,7 +34,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             address: project?.address ?? '',
             latitude: project?.lat ?? 0,
             longitude: project?.lng ?? 0,
-            isImagesUploaded: project?.project_image?.length ? project?.project_image?.length > 0 : false,
+            isImagesUploaded: project?.images_urls?.length ? project?.images_urls?.length > 0 : false,
         },
     });
 
@@ -47,10 +47,11 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
         maxFileSize: 5 * 1000 * 1000,
     });
     const { files, setFiles } = dropZoneProps;
+    console.log(' Files ', files);
 
     // set project images to the dropzone
     useEffect(() => {
-        if (!project?.project_image?.length) {
+        if (!project?.images_urls?.length) {
             setFiles([]);
             return;
         }
@@ -60,32 +61,36 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
 
         (async () => {
             const fetchedFiles = await Promise.all(
-                project.project_image.map(async (image, idx) => {
-                    try {
-                        const response = await fetch(image.image_url, { signal: controller.signal });
-                        const blob = await response.blob();
-                        const urlName = (() => {
-                            try {
-                                return new URL(image.image_url).pathname.split('/').pop();
-                            } catch {
-                                return image.image_url.split('/').pop();
-                            }
-                        })();
-                        const filename = urlName && urlName.length > 0 ? urlName : `project-image-${image.id ?? idx}.jpg`;
-                        const file = new File([blob], filename, { type: blob.type || 'image/jpeg' }) as FileWithPreview;
-                        file.preview = URL.createObjectURL(file);
-                        file.errors = [];
-                        return file as FileWithPreview;
-                    } catch {
-                        // If the fetch fails (CORS/offline), still create a placeholder so the UI shows "existing" images.
-                        const file = new File([image.image_url], `project-image-${image.id ?? idx}.txt`, {
-                            type: 'text/plain',
-                        }) as FileWithPreview;
-                        file.preview = undefined;
-                        file.errors = [];
-                        return file as FileWithPreview;
-                    }
-                }),
+                project.images_urls
+                    ? project.images_urls.map(async (image, idx) => {
+                          try {
+                              const response = await fetch(image, { signal: controller.signal });
+                              const blob = await response.blob();
+                              const urlName = (() => {
+                                  try {
+                                      console.log('---- HERE:', new URL(image).pathname.split('/').pop());
+
+                                      return new URL(image).pathname.split('/').pop();
+                                  } catch {
+                                      return image.split('/').pop();
+                                  }
+                              })();
+                              const filename = urlName && urlName.length > 0 ? urlName : `project-image-${image ?? idx}.jpg`;
+                              const file = new File([blob], filename, { type: blob.type || 'image/jpeg' }) as FileWithPreview;
+                              file.preview = URL.createObjectURL(file);
+                              file.errors = [];
+                              return file as FileWithPreview;
+                          } catch {
+                              // If the fetch fails (CORS/offline), still create a placeholder so the UI shows "existing" images.
+                              const file = new File([image], `project-image-${image ?? idx}.txt`, {
+                                  type: 'text/plain',
+                              }) as FileWithPreview;
+                              file.preview = undefined;
+                              file.errors = [];
+                              return file as FileWithPreview;
+                          }
+                      })
+                    : [],
             );
 
             if (!cancelled) setFiles(fetchedFiles);
@@ -95,7 +100,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             cancelled = true;
             controller.abort();
         };
-    }, [project?.project_image, setFiles]);
+    }, [project?.images_urls, setFiles]);
 
     // ------------------------------
     // On submit

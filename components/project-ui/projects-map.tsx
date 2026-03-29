@@ -1,5 +1,5 @@
 import { getCenterLatLng, getZoomLevelForLocations } from '@/lib/helpers/project-map';
-import { ProjectWithImages } from '@/lib/types/api';
+import { ProjectWithLatLng } from '@/lib/types/api';
 import { memo } from 'react';
 import Map from '../map-ui/map';
 import NoProjectsUi from './no-projects-ui';
@@ -7,7 +7,7 @@ import ProjectsLocations from './projects-locations';
 
 type ProjectsMapProps = {
     embed: boolean;
-    projects: ProjectWithImages[];
+    projects: ProjectWithLatLng[];
     isPublic: boolean;
 };
 

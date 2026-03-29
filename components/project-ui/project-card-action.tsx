@@ -7,7 +7,7 @@ import { useState } from 'react';
 import DialogForm from '../dialog-form';
 import ProjectForm from './project-form';
 import type { Project } from '@/lib/types/db';
-import type { ProjectWithImages } from '@/lib/types/api';
+import type { ProjectWithLatLng } from '@/lib/types/api';
 import ProjectDeleteForm from './project-delete-form';
 
 export default function ProjectCardAction({ project }: { project: Project }) {
@@ -46,7 +46,7 @@ export default function ProjectCardAction({ project }: { project: Project }) {
                 form={(id, setIsLoading) => (
                     <ProjectForm
                         id={id}
-                        project={project as ProjectWithImages}
+                        project={project as ProjectWithLatLng}
                         setIsLoading={setIsLoading}
                         onSuccess={() => setEditDialogOpen(false)}
                     />

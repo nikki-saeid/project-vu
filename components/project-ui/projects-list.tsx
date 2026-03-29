@@ -1,6 +1,6 @@
 'use client';
 
-import { ProjectWithImages } from '@/lib/types/api';
+import { ProjectWithLatLng } from '@/lib/types/api';
 import { memo, Suspense } from 'react';
 import ProjectsListSkeleton from '../skeleton-ui/projects-list-skeleton';
 import NoProjectsUi from './no-projects-ui';
@@ -8,7 +8,7 @@ import ProjectCard from './project-card';
 import ProjectCardAction from './project-card-action';
 
 type ProjectsListProps = {
-    projects: ProjectWithImages[];
+    projects: ProjectWithLatLng[];
     isPublic: boolean;
 };
 

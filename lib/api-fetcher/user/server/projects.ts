@@ -2,12 +2,12 @@
 
 import { API_URL } from '@/lib/constants/urls';
 import { fetcher } from '@/lib/helpers/fetcher';
-import type { ProjectWithImages } from '@/lib/types/api';
+import type { ProjectWithLatLng } from '@/lib/types/api';
 import { cookies } from 'next/headers';
 
 export const getUserProjects = async () => {
     const cookie = await cookies();
-    const response = await fetcher<ProjectWithImages[]>(`${API_URL}/user/projects/many`, {
+    const response = await fetcher<ProjectWithLatLng[]>(`${API_URL}/user/projects/many`, {
         headers: { Cookie: cookie.toString() },
     });
 
@@ -16,7 +16,7 @@ export const getUserProjects = async () => {
 
 export const getPublicProjectsBySlug = async (slug: string) => {
     const cookie = await cookies();
-    const response = await fetcher<ProjectWithImages[]>(`${API_URL}/public/projects/${slug}`, {
+    const response = await fetcher<ProjectWithLatLng[]>(`${API_URL}/public/projects/${slug}`, {
         headers: { Cookie: cookie.toString() },
     });
     return response.data;

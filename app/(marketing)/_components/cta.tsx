@@ -11,7 +11,7 @@ export default function Cta() {
                 <SectionHeader
                     label="READY WHEN YOU ARE"
                     title="Start mapping your work in under 5 minutes."
-                    description="Create your business, drop your first few projects on the map, and share a link with your next lead. We'll handle the map — you focus on the work."
+                    description="Create your business, drop your first few projects on the map, and share a link with your next lead."
                 />
 
                 <Button asChild size="lg" className="">

@@ -1,18 +1,18 @@
 'use client';
 
-import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Slot } from 'radix-ui';
+import * as React from 'react';
 
-import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils/classes-merge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { IconLayoutSidebar } from '@tabler/icons-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils/classes-merge';
+import { IconMenu2 } from '@tabler/icons-react';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -240,16 +240,16 @@ function SidebarTrigger({ className, onClick, ...props }: React.ComponentProps<t
         <Button
             data-sidebar="trigger"
             data-slot="sidebar-trigger"
-            variant="ghost"
+            variant="outline"
             size="icon"
-            className={cn('size-7', className)}
+            className={cn('size-7 rounded-full', className)}
             onClick={(event) => {
                 onClick?.(event);
                 toggleSidebar();
             }}
             {...props}
         >
-            <IconLayoutSidebar />
+            <IconMenu2 />
             <span className="sr-only">Toggle Sidebar</span>
         </Button>
     );

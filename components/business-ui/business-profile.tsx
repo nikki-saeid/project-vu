@@ -1,5 +1,6 @@
 'use client';
 
+import { ProjectWithLatLng } from '@/lib/types/api';
 import { Business } from '@/lib/types/db';
 import { Suspense } from 'react';
 import ProjectsTabs from '../project-ui/projects-tabs';
@@ -8,8 +9,7 @@ import { Separator } from '../ui/separator';
 import BusinessContact from './business-contact';
 import BusinessHeader from './business-header';
 import BusinessSocials from './business-socials';
-import { ProjectWithLatLng } from '@/lib/types/api';
-import { Badge } from '../ui/badge';
+import BusinessTags from './business-tags';
 
 type BusinessProfileProps = {
     business: Business | null;
@@ -31,18 +31,13 @@ export default function BusinessProfile({ business, projects, isPublic }: Busine
                             type={business.type}
                             description={business.description}
                         />
+                        <BusinessTags project_type_tags={business.project_type_tags} service_type_tags={business.service_type_tags} />
                         <BusinessSocials
                             website_url={business.website_url}
                             facebook_url={business.facebook_url}
                             instagram_url={business.instagram_url}
                             x_url={business.x_url}
                         />
-                        {business.project_types_tags &&
-                            business.project_types_tags.map((tag) => (
-                                <Badge key={tag} className="bg-green-500 text-white">
-                                    {tag}
-                                </Badge>
-                            ))}
                         <BusinessContact phone={business.phone} email={business.email} />
                     </div>
                     <Separator />

@@ -1,12 +1,24 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import {
+    Combobox,
+    ComboboxChips,
+    ComboboxContent,
+    ComboboxEmpty,
+    ComboboxInput,
+    ComboboxItem,
+    ComboboxList,
+    ComboboxChip,
+    ComboboxChipsInput,
+    ComboboxValue,
+} from '@/components/ui/combobox';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { updateUserBusiness } from '@/lib/api-fetcher/user/client/business';
-import { BUSINESS_TYPE } from '@/lib/constants/user-dashboard';
+import { getUserAuth } from '@/lib/api-fetcher/user/server/auth';
+import { BUSINESS_TYPE, PROJECT_TYPE_TAGS, SERVICE_TYPE_TAGS } from '@/lib/constants/user-dashboard';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { useUser } from '@/lib/contexts/user-context';
 import type { BusinessFormProps } from '@/lib/types/forms';
@@ -30,8 +42,6 @@ import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
-import { getUserAuth } from '@/lib/api-fetcher/user/server/auth';
-import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from '@/components/ui/combobox';
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const { business, setBusiness } = useDashboard();
@@ -44,6 +54,8 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
             description: business?.description ?? '',
             type: business?.type ?? BUSINESS_TYPE[0],
             phone: business?.phone ?? '',
+            service_type_tags: business?.service_type_tags ?? [],
+            project_type_tags: business?.project_type_tags ?? [],
             website_url: business?.website_url ?? undefined,
             instagram_url: business?.instagram_url ?? undefined,
             facebook_url: business?.facebook_url ?? undefined,
@@ -110,29 +122,6 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                         />
                     }
                 />
-
-                {/* <Controller
-                    name="type"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="form-type">Business type</FieldLabel>
-                            <Select value={field.value} onValueChange={field.onChange} name={field.name}>
-                                <SelectTrigger id="form-type" className="w-full" aria-invalid={fieldState.invalid}>
-                                    <SelectValue placeholder="Select business type" />
-                                </SelectTrigger>
-                                <SelectContent className="z-1000">
-                                    {BUSINESS_TYPE.map((t) => (
-                                        <SelectItem key={t} value={t}>
-                                            {t.charAt(0).toUpperCase() + t.slice(1)}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                        </Field>
-                    )}
-                /> */}
 
                 <Controller
                     name="type"
@@ -230,6 +219,88 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                 <IconBuildings />
                             </InputGroupAddon>
                         </InputGroup>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                )}
+            />
+            <Separator />
+            <div className="flex flex-col gap-2">
+                <H4 className="text-foreground">Business tags (optional)</H4>
+                <P className="text-muted-foreground">Add your tags related to your business.</P>
+            </div>
+
+            <Controller
+                name="project_type_tags"
+                control={form.control}
+                render={({ field, fieldState }) => {
+                    return (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="form-type">Project types</FieldLabel>
+                            <Combobox
+                                items={PROJECT_TYPE_TAGS}
+                                value={field.value}
+                                onValueChange={field.onChange}
+                                name={field.name}
+                                multiple
+                            >
+                                <ComboboxChips>
+                                    <ComboboxValue>
+                                        {Array.isArray(field.value) &&
+                                            field.value.map((item) => <ComboboxChip key={item}>{item}</ComboboxChip>)}
+                                    </ComboboxValue>
+                                    <ComboboxChipsInput placeholder="Select project types" />
+                                </ComboboxChips>
+
+                                {/*  ----------------------------  */}
+                                <ComboboxContent className="pointer-events-auto overflow-scroll">
+                                    {/* if empty */}
+                                    <ComboboxEmpty>No items found.</ComboboxEmpty>
+
+                                    {/* if not empty */}
+                                    <ComboboxList>
+                                        {(item: string) => (
+                                            <ComboboxItem key={item} value={item}>
+                                                {item}
+                                            </ComboboxItem>
+                                        )}
+                                    </ComboboxList>
+                                </ComboboxContent>
+                            </Combobox>
+                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                        </Field>
+                    );
+                }}
+            />
+            <Controller
+                name="service_type_tags"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="form-type">Service type</FieldLabel>
+                        <Combobox items={SERVICE_TYPE_TAGS} value={field.value} onValueChange={field.onChange} name={field.name} multiple>
+                            <ComboboxChips>
+                                <ComboboxValue>
+                                    {Array.isArray(field.value) &&
+                                        field.value.map((item) => <ComboboxChip key={item}>{item}</ComboboxChip>)}
+                                </ComboboxValue>
+                                <ComboboxChipsInput placeholder="Select service type" />
+                            </ComboboxChips>
+
+                            {/*  ----------------------------  */}
+                            <ComboboxContent className="pointer-events-auto overflow-scroll">
+                                {/* if empty */}
+                                <ComboboxEmpty>No items found.</ComboboxEmpty>
+
+                                {/* if not empty */}
+                                <ComboboxList>
+                                    {(item: string) => (
+                                        <ComboboxItem key={item} value={item}>
+                                            {item}
+                                        </ComboboxItem>
+                                    )}
+                                </ComboboxList>
+                            </ComboboxContent>
+                        </Combobox>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                 )}

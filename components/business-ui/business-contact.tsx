@@ -2,11 +2,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { IconMail, IconPhone } from '@tabler/icons-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
+import { Business } from '@/lib/types/db';
 
-type BusinessContactProps = {
-    phone: string | null;
-    email: string | null;
-};
+type BusinessContactProps = Pick<Business, 'phone' | 'email'>;
 
 export default function BusinessContact({ phone, email }: BusinessContactProps) {
     return (

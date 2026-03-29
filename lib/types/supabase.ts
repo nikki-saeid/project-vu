@@ -22,7 +22,8 @@ export type Database = {
           name: string | null
           page_status: Database["public"]["Enums"]["page_status"]
           phone: string | null
-          project_types_tags: string[] | null
+          project_type_tags: string[] | null
+          service_type_tags: string[] | null
           slug: string | null
           type: string | null
           user_id: string
@@ -41,7 +42,8 @@ export type Database = {
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]
           phone?: string | null
-          project_types_tags?: string[] | null
+          project_type_tags?: string[] | null
+          service_type_tags?: string[] | null
           slug?: string | null
           type?: string | null
           user_id: string
@@ -60,7 +62,8 @@ export type Database = {
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]
           phone?: string | null
-          project_types_tags?: string[] | null
+          project_type_tags?: string[] | null
+          service_type_tags?: string[] | null
           slug?: string | null
           type?: string | null
           user_id?: string

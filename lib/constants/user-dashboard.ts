@@ -59,3 +59,6 @@ export const BUSINESS_TYPE = [
     'Photographer',
     'Videographer',
 ];
+
+export const PROJECT_TYPE_TAGS = ['Residential', 'Commercial', 'Industrial', 'Fitout', 'Renovation', 'New Build'];
+export const SERVICE_TYPE_TAGS = ['Design', 'Installation', 'Construction', 'Maintenance', 'Repair', 'Consultation'];

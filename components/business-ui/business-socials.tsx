@@ -1,13 +1,9 @@
 import { IconBrandFacebook, IconBrandInstagram, IconBrandX, IconWorld } from '@tabler/icons-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
+import { Business } from '@/lib/types/db';
 
-type BusinessSocialsProps = {
-    website_url: string | null;
-    facebook_url: string | null;
-    instagram_url: string | null;
-    x_url: string | null;
-};
+type BusinessSocialsProps = Pick<Business, 'website_url' | 'facebook_url' | 'instagram_url' | 'x_url'>;
 
 export default function BusinessSocials({ website_url, facebook_url, instagram_url, x_url }: BusinessSocialsProps) {
     const socials = Boolean(x_url) || Boolean(facebook_url) || Boolean(instagram_url) || Boolean(website_url);

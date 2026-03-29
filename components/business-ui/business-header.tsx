@@ -1,14 +1,10 @@
+import { Business } from '@/lib/types/db';
 import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Badge } from '../ui/badge';
 import BusinessAvatar from './business-avatar';
 
-type BusinessHeaderProps = {
-    name: string | null;
-    logo_url: string | null;
-    type: string | null;
-    description: string | null;
-};
+type BusinessHeaderProps = Pick<Business, 'name' | 'logo_url' | 'type' | 'description'>;
 
 export default function BusinessHeader({ name, logo_url, type, description }: BusinessHeaderProps) {
     return (
@@ -20,7 +16,7 @@ export default function BusinessHeader({ name, logo_url, type, description }: Bu
                     <Badge variant="outline">{type}</Badge>
                 </div>
             </div>
-            <P className="text-muted-foreground">{description}</P>
+            <P className="text-foreground">{description}</P>
         </header>
     );
 }

@@ -23,7 +23,7 @@ export type Database = {
           page_status: Database["public"]["Enums"]["page_status"]
           phone: string | null
           slug: string | null
-          type: Database["public"]["Enums"]["business_type"] | null
+          type: string | null
           user_id: string
           website_url: string | null
           x_url: string | null
@@ -41,7 +41,7 @@ export type Database = {
           page_status?: Database["public"]["Enums"]["page_status"]
           phone?: string | null
           slug?: string | null
-          type?: Database["public"]["Enums"]["business_type"] | null
+          type?: string | null
           user_id: string
           website_url?: string | null
           x_url?: string | null
@@ -59,7 +59,7 @@ export type Database = {
           page_status?: Database["public"]["Enums"]["page_status"]
           phone?: string | null
           slug?: string | null
-          type?: Database["public"]["Enums"]["business_type"] | null
+          type?: string | null
           user_id?: string
           website_url?: string | null
           x_url?: string | null
@@ -176,17 +176,6 @@ export type Database = {
       access_token_with_role_hook: { Args: { event: Json }; Returns: Json }
     }
     Enums: {
-      business_type:
-        | "builder"
-        | "roofer"
-        | "landscaper"
-        | "electrician"
-        | "plumber"
-        | "carpenter"
-        | "painter"
-        | "hvac"
-        | "flooring specialist"
-        | "general contractor"
       page_status: "draft" | "live"
     }
     CompositeTypes: {
@@ -315,18 +304,6 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      business_type: [
-        "builder",
-        "roofer",
-        "landscaper",
-        "electrician",
-        "plumber",
-        "carpenter",
-        "painter",
-        "hvac",
-        "flooring specialist",
-        "general contractor",
-      ],
       page_status: ["draft", "live"],
     },
   },

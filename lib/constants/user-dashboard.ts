@@ -35,4 +35,27 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
     ],
 };
 
-export const BUSINESS_TYPE = Constants.public.Enums.business_type;
+export const BUSINESS_TYPE = [
+    'Builder',
+    'Architect',
+    'Interior Designer',
+    'Designer',
+    'Developer',
+    'Project Manager',
+    'Draftsperson',
+    'Electrician',
+    'Plumber',
+    'Carpenter',
+    'Joiner',
+    'Cabinet Maker',
+    'Roofer',
+    'Painter',
+    'Tiler',
+    'Landscaper',
+    'Flooring Specialist',
+    'Shopfitter',
+    'Refrigeration & HVAC',
+    'Mechanical services',
+    'Photographer',
+    'Videographer',
+];

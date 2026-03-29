@@ -31,6 +31,7 @@ import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
 import { getUserAuth } from '@/lib/api-fetcher/user/server/auth';
+import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from '@/components/ui/combobox';
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const { business, setBusiness } = useDashboard();
@@ -110,7 +111,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                     }
                 />
 
-                <Controller
+                {/* <Controller
                     name="type"
                     control={form.control}
                     render={({ field, fieldState }) => (
@@ -128,6 +129,37 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                     ))}
                                 </SelectContent>
                             </Select>
+                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                        </Field>
+                    )}
+                /> */}
+
+                <Controller
+                    name="type"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="form-type">Business type</FieldLabel>
+                            <Combobox items={BUSINESS_TYPE} value={field.value} onValueChange={field.onChange} name={field.name}>
+                                <ComboboxInput placeholder="Select business type" onChange={(e) => field.onChange(e.target.value)} />
+                                <ComboboxContent className="pointer-events-auto overflow-scroll">
+                                    {/* if empty */}
+                                    <ComboboxEmpty className="p-1">
+                                        <ComboboxItem className="text-foreground py-1.5 px-2.5 bg-accent" value={form.getValues('type')}>
+                                            {form.getValues('type')}
+                                        </ComboboxItem>
+                                    </ComboboxEmpty>
+
+                                    {/* if not empty */}
+                                    <ComboboxList>
+                                        {(item: string) => (
+                                            <ComboboxItem key={item} value={item}>
+                                                {item}
+                                            </ComboboxItem>
+                                        )}
+                                    </ComboboxList>
+                                </ComboboxContent>
+                            </Combobox>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
                     )}

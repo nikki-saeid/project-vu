@@ -195,11 +195,11 @@ export default function SignUpForm() {
                 <CardFooter className="border-t">
                     <P className="text-center text-muted-foreground text-xs w-full">
                         By signing up, you agree to our{' '}
-                        <Link href="/terms" className="underline underline-offset-2">
-                            Terms of Service
+                        <Link target="_blank" href="/terms-and-conditions" className="underline underline-offset-2">
+                            Terms and Conditions
                         </Link>{' '}
                         and{' '}
-                        <Link href="/terms" className="underline underline-offset-2">
+                        <Link target="_blank" href="/privacy-policy" className="underline underline-offset-2">
                             Privacy Policy
                         </Link>
                         .

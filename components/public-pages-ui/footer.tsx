@@ -22,7 +22,20 @@ export default function Footer() {
                         ))}
                     </div>
                 </div>
-                <P className="text-white text-center">© {new Date().getFullYear()} All rights reserved.</P>
+                <div>
+                    <P className="text-white text-xs text-center mb-1">© {new Date().getFullYear()} All rights reserved.</P>
+                    <P className="text-center text-white text-xs w-full">
+                        By using Project Vu, you agree to our{' '}
+                        <Link target="_blank" href="/terms-and-conditions" className="underline underline-offset-2">
+                            Terms and Conditions
+                        </Link>{' '}
+                        and{' '}
+                        <Link target="_blank" href="/privacy-policy" className="underline underline-offset-2">
+                            Privacy Policy
+                        </Link>
+                        .
+                    </P>
+                </div>
             </Container>
         </footer>
     );

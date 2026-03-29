@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import { useUser } from '@/lib/contexts/user-context';
 import { roleRedirect } from '@/lib/helpers/role-redirect';
 import { createClient } from '@/lib/supabase/client';
 import { loginSchema } from '@/lib/validators/auth';
@@ -19,7 +20,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import PasswordInput from '../../../components/auth-ui/password-input';
-import { useUser } from '@/lib/contexts/user-context';
 
 export default function LoginForm() {
     // State to track loading status
@@ -158,11 +158,11 @@ export default function LoginForm() {
                 <CardFooter className="border-t">
                     <P className="text-center text-muted-foreground text-xs w-full">
                         By logging in, you agree to our{' '}
-                        <Link href="/terms" className="underline underline-offset-2">
-                            Terms of Service
+                        <Link target="_blank" href="/terms-and-conditions" className="underline underline-offset-2">
+                            Terms and Conditions
                         </Link>{' '}
                         and{' '}
-                        <Link href="/terms" className="underline underline-offset-2">
+                        <Link target="_blank" href="/privacy-policy" className="underline underline-offset-2">
                             Privacy Policy
                         </Link>
                         .

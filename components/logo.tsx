@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Logo({ isWhite, variant = 'full' }: LogoProps) {
     return (
         <Link href="/">
-            <div className="text-2xl text-nowrap font-bold text-center ">
+            <div className="text-lg sm:text-xl md:text-2xl text-nowrap font-bold text-center ">
                 {variant !== 'icon' && <span className={isWhite ? 'text-white' : 'text-foreground'}>Project </span>}
 
                 <Image
@@ -13,7 +13,7 @@ export default function Logo({ isWhite, variant = 'full' }: LogoProps) {
                     width={210}
                     height={352}
                     alt="ProjectVu logo"
-                    className="w-4.25 inline mb-3.75"
+                    className="inline md:w-4.25 md:mb-3.75 sm:w-3.5 sm:mb-3.25 w-3.25 mb-2.75 "
                     loading="eager"
                 />
 

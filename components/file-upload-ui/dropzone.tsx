@@ -34,7 +34,7 @@ const Dropzone = ({ className, children, getRootProps, getInputProps, ...restPro
             <div
                 {...getRootProps({
                     className: cn(
-                        'border-2 border-gray-300 rounded-lg p-6 text-center bg-card transition-colors duration-300 text-foreground',
+                        'rounded-lg border border-dashed bg-card p-6 text-center transition-colors duration-300 text-foreground',
                         className,
                         'border-dashed',
                         isActive && 'border-primary bg-primary/5',
@@ -144,19 +144,18 @@ const DropzoneEmptyState = ({ className }: { className?: string }) => {
         <div className={cn('flex flex-col items-center gap-y-2', className)}>
             <IconUpload size={20} className="text-muted-foreground" />
             <p className="text-sm">
-                Upload {!!maxFiles && maxFiles > 1 ? `up to ${maxFiles}` : ''} file
+                Upload {!!maxFiles && maxFiles > 1 ? `up to ${maxFiles}` : ''} image
                 {!maxFiles || maxFiles > 1 ? 's' : ''}
             </p>
-            <div className="flex flex-col items-center gap-y-1">
-                <p className="text-xs text-muted-foreground">
-                    Drag and drop or{' '}
-                    <a onClick={() => inputRef.current?.click()} className="underline cursor-pointer transition hover:text-foreground">
-                        select {maxFiles === 1 ? `file` : 'files'}
-                    </a>{' '}
-                    to upload
-                </p>
+            <div className="flex flex-col items-center gap-2">
+                <div className="flex gap-1 items-center">
+                    <p className="text-xs text-muted-foreground">Drag and drop or</p>
+                    <Button variant="outline" size="xs" onClick={() => inputRef.current?.click()}>
+                        Select {maxFiles === 1 ? `image` : 'images'}
+                    </Button>
+                </div>
                 {maxFileSize !== Number.POSITIVE_INFINITY && (
-                    <p className="text-xs text-muted-foreground">Maximum file size: {formatBytes(maxFileSize, 2)}</p>
+                    <p className="text-xs text-muted-foreground">Maximum image size: {formatBytes(maxFileSize, 2)}</p>
                 )}
             </div>
         </div>

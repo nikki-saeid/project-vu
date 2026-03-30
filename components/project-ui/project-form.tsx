@@ -46,7 +46,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
         maxFiles: 10,
         maxFileSize: 5 * 1000 * 1000,
     });
-    const { files, setFiles } = dropZoneProps;
+    const { files, setFiles, errors } = dropZoneProps;
 
     // set project images to the dropzone
     useEffect(() => {
@@ -147,24 +147,26 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
         toast.success(updated.message);
     };
     const onSubmit = async (data: ProjectCreateInput) => {
-        setIsLoading(true);
-        try {
-            if (!project) {
-                await handleAdd(data);
-            } else {
-                await handleUpdate(data);
+        if (errors.length === 0 && files.length <= 10) {
+            setIsLoading(true);
+            try {
+                if (!project) {
+                    await handleAdd(data);
+                } else {
+                    await handleUpdate(data);
+                }
+
+                const newProject = await getUserProjects();
+                setProjects(newProject);
+
+                // Success
+                form.reset();
+                onSuccess?.();
+            } catch (error) {
+                toast.error(error instanceof Error ? error.message : 'Failed to create project');
+            } finally {
+                setIsLoading(false);
             }
-
-            const newProject = await getUserProjects();
-            setProjects(newProject);
-
-            // Success
-            form.reset();
-            onSuccess?.();
-        } catch (error) {
-            toast.error(error instanceof Error ? error.message : 'Failed to create project');
-        } finally {
-            setIsLoading(false);
         }
     };
 

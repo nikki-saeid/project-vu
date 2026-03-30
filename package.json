@@ -8,9 +8,10 @@
         "start": "next start",
         "lint": "eslint",
         "supa-gen-types": "pnpx supabase gen types --lang typescript --local --schema=public > ./lib/types/supabase.ts",
-        "supa-db-reset": "pnpx supabase db reset --local &&  node scripts/seed.ts && pnpm run supa-gen-types",
-        "supa-db-push": "pnpx supabase db reset --linked && pnpx supabase config push",
+        "supa-config-push": "pnpx supabase config push",
         "supa-reset": "pnpx supabase stop && pnpx supabase start",
+        "supa-db-reset": "pnpx supabase db reset --local && pnpm run supa-seed && pnpm run supa-gen-types",
+        "supa-db-remote-reset": "pnpx supabase db reset --linked && pnpm run supa-seed",
         "supa-seed": "node scripts/seed.ts"
     },
     "dependencies": {

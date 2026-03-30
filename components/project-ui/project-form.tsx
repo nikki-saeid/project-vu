@@ -19,6 +19,7 @@ import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
 import { createProject, updateProject } from '@/lib/api-fetcher/user/client/projects';
 import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
+import { compressImage } from '@/lib/helpers/image-compression';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 
@@ -106,8 +107,9 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     const handleAdd = async (data: ProjectCreateInput) => {
         // Upload images
         const formData = new FormData();
-        files.forEach((file) => {
-            formData.append('images', file);
+        const compressedImages = await Promise.all(files.map((file) => compressImage(file)));
+        compressedImages.forEach((img) => {
+            formData.append('images', img);
         });
 
         // body
@@ -128,8 +130,9 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     const handleUpdate = async (data: ProjectCreateInput) => {
         // Upload images
         const formData = new FormData();
-        files.forEach((file) => {
-            formData.append('images', file);
+        const compressedImages = await Promise.all(files.map((file) => compressImage(file)));
+        compressedImages.forEach((img) => {
+            formData.append('images', img);
         });
 
         // body

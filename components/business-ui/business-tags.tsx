@@ -4,6 +4,9 @@ import { Badge } from '../ui/badge';
 type BusinessTagsProps = Pick<Business, 'project_type_tags' | 'service_type_tags'>;
 
 export default function BusinessTags({ project_type_tags, service_type_tags }: BusinessTagsProps) {
+    const tags = (Boolean(project_type_tags) && project_type_tags?.length) || (Boolean(service_type_tags) && service_type_tags?.length);
+
+    if (!tags) return null;
     return (
         <section className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-1 items-center">

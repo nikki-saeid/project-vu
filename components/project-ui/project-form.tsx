@@ -47,7 +47,6 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
         maxFileSize: 5 * 1000 * 1000,
     });
     const { files, setFiles } = dropZoneProps;
-    console.log(' Files ', files);
 
     // set project images to the dropzone
     useEffect(() => {
@@ -68,8 +67,6 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
                               const blob = await response.blob();
                               const urlName = (() => {
                                   try {
-                                      console.log('---- HERE:', new URL(image).pathname.split('/').pop());
-
                                       return new URL(image).pathname.split('/').pop();
                                   } catch {
                                       return image.split('/').pop();
@@ -199,6 +196,17 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
         }
     }, [files, form]);
 
+    useEffect(() => {
+        const firstError = Object.keys(form.formState.errors)[0];
+        if (!firstError) return;
+
+        if (firstError === 'isImagesUploaded') {
+            const el = document.getElementById('project-images');
+            el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+    }, [form.formState.errors]);
+
     return (
         <form id={id} className={cn('flex flex-col gap-4 md:gap-6', className)} onSubmit={form.handleSubmit(onSubmit)}>
             <Controller
@@ -265,7 +273,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
 
             <Field data-invalid={!!form.formState.errors.isImagesUploaded}>
                 <FieldLabel htmlFor="project-images">Images</FieldLabel>
-                <FieldDescription>Upload images for your project.</FieldDescription>
+                <FieldDescription id="project-images">Upload images for your project.</FieldDescription>
                 <ImageUpload dropZoneProps={dropZoneProps} isLogo={false} />
                 {form.formState.errors.isImagesUploaded && <FieldError errors={[form.formState.errors.isImagesUploaded]} />}
             </Field>

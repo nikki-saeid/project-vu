@@ -44,8 +44,6 @@ export const storageService = {
                     const fileName = `image-${id}.webp`;
                     const filePath = `${path}/${fileName}`;
 
-                    console.log(' filePath ', filePath);
-
                     await storageService.uploadAfterResize(filePath, file, 500, 460);
                     return { name: fileName };
                 } catch (error) {

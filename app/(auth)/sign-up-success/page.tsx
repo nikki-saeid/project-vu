@@ -62,7 +62,7 @@ export default function SignUpSuccess() {
             toast.dismiss();
             toast.success('Successfully verified.');
 
-            router.push('/dashboard/onboarding/business-profile');
+            router.push('/onboarding/business-profile');
         } catch (error: unknown) {
             toast.dismiss();
             toast.error(error instanceof Error ? error.message : 'An error occurred while verifying.');

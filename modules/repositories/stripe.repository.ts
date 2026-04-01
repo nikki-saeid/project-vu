@@ -6,12 +6,13 @@ type CheckoutSessionMetadata = {
 
 export const stripeRepository = {
     // get stripe
-    checkoutSession: async function (priceId: string, metadata: CheckoutSessionMetadata, quantity = 1) {
+    checkoutSession: async function (priceId: string, email: string, metadata: CheckoutSessionMetadata, quantity = 1) {
         const stripe = await createsStripeServer();
         return await stripe.checkout.sessions.create({
             mode: 'subscription',
             ui_mode: 'embedded_page',
             payment_method_types: ['card'],
+            customer_email: email,
             line_items: [
                 {
                     price: priceId,
@@ -26,21 +27,16 @@ export const stripeRepository = {
         });
     },
 
-    checkoutSessionMonthly: async function (metadata: CheckoutSessionMetadata) {
-        return await this.checkoutSession(process.env.STRIPE_MONTHLY_PRICE_ID!, metadata, 1);
+    checkoutSessionMonthly: async function (email: string, metadata: CheckoutSessionMetadata) {
+        return await this.checkoutSession(process.env.STRIPE_MONTHLY_PRICE_ID!, email, metadata, 1);
     },
 
-    checkoutSession6Monthly: async function (metadata: CheckoutSessionMetadata) {
-        return await this.checkoutSession(process.env.STRIPE_6_MONTHLY_PRICE_ID!, metadata, 6);
+    checkoutSession6Monthly: async function (email: string, metadata: CheckoutSessionMetadata) {
+        return await this.checkoutSession(process.env.STRIPE_6_MONTHLY_PRICE_ID!, email, metadata, 6);
     },
 
-    checkoutSessionYearly: async function (metadata: CheckoutSessionMetadata) {
-        return await this.checkoutSession(process.env.STRIPE_YEARLY_PRICE_ID!, metadata, 12);
-    },
-
-    getSubscriptionById: async function (subscriptionId: string) {
-        const stripe = await createsStripeServer();
-        return await stripe.subscriptions.retrieve(subscriptionId);
+    checkoutSessionYearly: async function (email: string, metadata: CheckoutSessionMetadata) {
+        return await this.checkoutSession(process.env.STRIPE_YEARLY_PRICE_ID!, email, metadata, 12);
     },
 
     webhook: async function (requestBuffer: string, stripeSignature: string) {

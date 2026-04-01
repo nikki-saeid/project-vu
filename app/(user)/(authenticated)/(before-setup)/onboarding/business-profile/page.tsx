@@ -9,7 +9,7 @@ export default function BusinessProfile() {
     const router = useRouter();
 
     const handleNext = () => {
-        router.push('/dashboard/onboarding/subscription-plan');
+        router.push('/onboarding/subscription-plan');
     };
 
     return (

@@ -14,6 +14,10 @@ export const signUpSchema = z
     })
     .refine((data) => data.password === data.repeatPassword, {
         message: 'Passwords do not match.',
+        path: ['password'],
+    })
+    .refine((data) => data.password === data.repeatPassword, {
+        message: 'Passwords do not match.',
         path: ['repeatPassword'],
     });
 

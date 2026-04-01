@@ -22,12 +22,12 @@ export default function SubscriptionPlan() {
             <CardLayouts
                 action={
                     <div className="flex justify-between w-full">
-                        <Link href="/dashboard/onboarding/business-profile">
+                        <Link href="/onboarding/business-profile">
                             <Button size="sm" variant="outline" type="submit">
                                 Back
                             </Button>
                         </Link>
-                        <Link href={`/dashboard/onboarding/checkout?plan=${plan}`}>
+                        <Link href={`/onboarding/checkout?plan=${plan}`}>
                             <Button size="sm" type="submit">
                                 Proceed to payment
                             </Button>

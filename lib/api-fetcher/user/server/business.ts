@@ -21,3 +21,13 @@ export const getPublicBusinessBySlug = async (slug: string) => {
     });
     return response.data;
 };
+
+export const updateOnboardingStatus = async (is_onboarded: boolean) => {
+    const cookie = await cookies();
+    const response = await fetcher<Business>(`${API_URL}/user/business/is-onboarded`, {
+        method: 'PUT',
+        body: JSON.stringify({ is_onboarded }),
+        headers: { Cookie: cookie.toString() },
+    });
+    return response.data;
+};

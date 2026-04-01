@@ -11,7 +11,7 @@ export default async function Checkout({ searchParams }: CheckoutProps) {
 
     // redirect to subscription plan page if plan is not selected
     if (!plan) {
-        redirect('/dashboard/onboarding/subscription-plan');
+        redirect('/onboarding/subscription-plan');
     }
 
     return <CheckoutContent plan={plan} />;

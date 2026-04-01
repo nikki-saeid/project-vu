@@ -13,7 +13,7 @@ export const stripeController = {
         const params = await context.params;
         const { plan } = params;
 
-        const session = await stripeService.getCheckoutSessionByPlan(plan, user.id);
+        const session = await stripeService.getCheckoutSessionByPlan(plan, { userId: user.id, email: user.email ?? '' });
 
         return new SuccessResponse<Stripe.Checkout.Session>('Checkout Session retrieved successfully', session).send();
     }),

@@ -2,8 +2,17 @@ import { createServiceRoleClient } from '@/lib/supabase/server';
 import { Subscription } from '@/lib/types/db';
 
 export const subscriptionRepository = {
+    getByBusinessId: async function (businessId: string) {
+        const adminSupabase = await createServiceRoleClient();
+        const { data, error } = await adminSupabase.from('subscriptions').select().eq('business_id', businessId).maybeSingle();
+
+        if (error) throw error;
+
+        return data;
+    },
+
     // create
-    create: async function (subscription: Partial<Subscription>) {
+    adminCreate: async function (subscription: Partial<Subscription>) {
         const adminSupabase = await createServiceRoleClient();
         const { data, error } = await adminSupabase.from('subscriptions').insert(subscription).select().maybeSingle();
 
@@ -13,7 +22,7 @@ export const subscriptionRepository = {
     },
 
     // create
-    updateByBusinessId: async function (businessId: string, subscription: Partial<Subscription>) {
+    adminUpdateByBusinessId: async function (businessId: string, subscription: Partial<Subscription>) {
         const adminSupabase = await createServiceRoleClient();
         const { data, error } = await adminSupabase
             .from('subscriptions')

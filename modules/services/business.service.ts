@@ -21,12 +21,26 @@ export const businessService = {
     },
 
     getByUserId: async function (userId: string) {
-        return await businessRepository.getByUserId(userId);
+        const business = await businessRepository.getByUserId(userId);
+        return await this.makeBusinessLogoPublic(business);
+    },
+
+    makeBusinessLogoPublic: async function (business: Business) {
+        if (!business.logo_url) return business;
+
+        business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;
+        return business;
     },
 
     // get business by slug
     getBySlug: async function (slug: string, userId: string | null) {
-        const business = await businessRepository.getBySlug(slug);
+        // get business
+        let business = await businessRepository.getBySlug(slug);
+
+        // make business logo public
+        business = await this.makeBusinessLogoPublic(business);
+
+        // check if business is live
         if (business) {
             business.logo_url = await storageRepository.getStoragePublicUrl(business.logo_url);
 
@@ -53,16 +67,10 @@ export const businessService = {
         }
 
         // update
-        const business = await businessRepository.update(data);
-        business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;
-        return business;
-    },
+        let business = await businessRepository.update(data);
 
-    // update business
-    updatePageStatus: async function (data: Partial<Business>) {
-        // update
-        const business = await businessRepository.update(data);
-        business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;
+        // make business logo public
+        business = await this.makeBusinessLogoPublic(business);
         return business;
     },
 };

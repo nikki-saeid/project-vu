@@ -6,9 +6,14 @@ import { businessService } from './business.service';
 import { subscriptionService } from './subscription.service';
 import { unixToDBString } from '@/lib/utils/unixToString';
 
+type UserInfo = {
+    userId: string;
+    email: string;
+};
+
 export const stripeService = {
     // get stripe
-    getCheckoutSessionByPlan: async function (plan: string, userId: string) {
+    getCheckoutSessionByPlan: async function (plan: string, { userId, email }: UserInfo) {
         // get business
         const business = await businessService.getByUserId(userId);
         if (!business) {
@@ -17,18 +22,14 @@ export const stripeService = {
 
         switch (plan) {
             case PRICING_PLANS_IDS.monthly:
-                return await stripeRepository.checkoutSessionMonthly({ businessId: business.id });
+                return await stripeRepository.checkoutSessionMonthly(email, { businessId: business.id });
             case PRICING_PLANS_IDS.six_month:
-                return await stripeRepository.checkoutSession6Monthly({ businessId: business.id });
+                return await stripeRepository.checkoutSession6Monthly(email, { businessId: business.id });
             case PRICING_PLANS_IDS.annual:
-                return await stripeRepository.checkoutSessionYearly({ businessId: business.id });
+                return await stripeRepository.checkoutSessionYearly(email, { businessId: business.id });
             default:
                 throw new Error('Invalid plan');
         }
-    },
-
-    getSubscriptionById: async function (subscriptionId: string) {
-        return await stripeRepository.getSubscriptionById(subscriptionId);
     },
 
     createSubscription: async function (subscription: Stripe.Subscription) {
@@ -41,7 +42,7 @@ export const stripeService = {
         // create subscription
         const product = subscription.items.data[0].price.product;
         const customer = subscription.customer;
-        return await subscriptionService.create({
+        return await subscriptionService.adminCreate({
             business_id: businessId,
             stripe_subscription_id: subscription.id,
             status: subscription.status,
@@ -63,7 +64,7 @@ export const stripeService = {
         // create subscription
         const product = subscription.items.data[0].price.product;
         const customer = subscription.customer;
-        return await subscriptionService.updateByBusinessId(businessId, {
+        return await subscriptionService.adminUpdateByBusinessId(businessId, {
             stripe_subscription_id: subscription.id,
             status: subscription.status,
             price_id: subscription.items.data[0].price.id,
@@ -81,7 +82,7 @@ export const stripeService = {
         }
 
         // create subscription
-        return await subscriptionService.updateByBusinessId(businessId, {
+        return await subscriptionService.adminUpdateByBusinessId(businessId, {
             current_period_start: unixToDBString(invoice.lines.data[0].period.start),
             current_period_end: unixToDBString(invoice.lines.data[0].period.end),
         });

@@ -41,7 +41,17 @@ export const businessController = {
         const status = body?.status as PageStatusEnum | undefined;
 
         // Update the business
-        const business = await businessService.updatePageStatus({ user_id: user.id, page_status: status });
+        const business = await businessService.update({ user_id: user.id, page_status: status });
+        return new SuccessResponse<Business>('Page status updated successfully', business).send();
+    }),
+
+    updateIsOnboarded: tryCatchWrapper(async ({ req, user }: ControllerProps) => {
+        // Get the body
+        const body = await req.json();
+        const is_onboarded = body?.is_onboarded as boolean | undefined;
+
+        // Update the business
+        const business = await businessService.update({ user_id: user.id, is_onboarded });
         return new SuccessResponse<Business>('Page status updated successfully', business).send();
     }),
 };

@@ -1,3 +1,4 @@
+import { Business } from '@/lib/types/db';
 import { adminRepository } from '../repositories/admin.repository';
 import { businessService } from './business.service';
 import { projectService } from './project.service';
@@ -19,5 +20,13 @@ export const adminService = {
 
         // remove user
         return await adminRepository.deleteUserById(userId);
+    },
+
+    updateBusinessByUserId: async function (userId: string, data: Partial<Business>) {
+        return await adminRepository.updateBusinessByUserId(userId, data);
+    },
+
+    updateBusinessById: async function (id: string, data: Partial<Business>) {
+        return await adminRepository.updateBusinessById(id, data);
     },
 };

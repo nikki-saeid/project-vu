@@ -1,9 +1,7 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
 import { ControllerProps, ParamsPlan } from '@/lib/types/api';
-import { User } from '@supabase/supabase-js';
 import { headers } from 'next/headers';
-import { NextRequest } from 'next/server';
 import Stripe from 'stripe';
 import { stripeService } from '../services/stripe.service';
 
@@ -25,8 +23,8 @@ export const stripeController = {
         const requestBuffer = await req.text();
         const stripeSignature = (await headers()).get('stripe-signature')!;
 
-        const checkoutSessionId = await stripeService.webhook(requestBuffer, stripeSignature);
+        await stripeService.webhook(requestBuffer, stripeSignature);
 
-        return new SuccessResponse<string>('Payment successful', checkoutSessionId).send();
+        return new SuccessResponse('Payment successful', null).send();
     }),
 };

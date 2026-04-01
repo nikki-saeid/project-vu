@@ -2,8 +2,6 @@ import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
 import { ControllerProps, ParamsId, ParamsSlug, ProjectWithLatLng } from '@/lib/types/api';
 import { Project } from '@/lib/types/db';
-import { User } from '@supabase/supabase-js';
-import { NextRequest } from 'next/server';
 import { projectService } from '../services/project.service';
 
 export const projectController = {

@@ -13,7 +13,7 @@ export default function MainLayout({ children }: ChildrenProp) {
     const { business } = useDashboard();
 
     if (!business || !business.is_onboarded) {
-        redirect('/dashboard/onboarding');
+        redirect('/dashboard/onboarding/business-profile');
     }
 
     return (

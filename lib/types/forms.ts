@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
 import type { Business, Project } from './db';
-import type { ClassNameProp } from './common';
+import type { ChildrenProp, ClassNameProp } from './common';
 import type { LocationFeature } from './map';
 import type { ProjectWithLatLng } from './api';
 
@@ -35,6 +35,13 @@ export type CardFormProps = {
     form: (id: string, setIsLoading: (about: boolean) => void) => ReactNode;
     id: string;
 } & ClassNameProp;
+export type CardLayoutsProps = {
+    title?: string;
+    description?: string;
+    action: ReactNode;
+} & ClassNameProp &
+    ChildrenProp;
+
 export type DialogFormProps = {
     title: string;
     trigger?: ReactNode;

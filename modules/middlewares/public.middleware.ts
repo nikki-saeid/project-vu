@@ -9,7 +9,7 @@ export const publicMiddleware = {
     public: function <T>(next: Function) {
         return async function (req: NextRequest, context?: ContextParams<T>) {
             const user = await userService.getUser();
-            return next(req, user, context);
+            return next({ req, user, context });
         };
     },
 };

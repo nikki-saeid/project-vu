@@ -30,13 +30,13 @@ export async function createClient() {
 /**
  * Service role client for server-only admin operations (e.g. auth.admin.listUsers()).
  * Use only in API routes after verifying the requesting user is an admin.
- * Requires SUPABASE_SERVICE_ROLE_KEY (or NEXT_PUBLIC_SUPABASE_SECRET_KEY as fallback).
+ * Requires SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_SECRET_KEY as fallback).
  */
 
-export function createServiceRoleClient() {
-    const serviceRoleKey = process.env.NEXT_PUBLIC_SUPABASE_SECRET_KEY;
+export async function createServiceRoleClient() {
+    const serviceRoleKey = process.env.SUPABASE_SECRET_KEY;
     if (!serviceRoleKey) {
-        throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_SECRET_KEY');
+        throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY or SUPABASE_SECRET_KEY');
     }
     return createSupabaseClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey);
 }

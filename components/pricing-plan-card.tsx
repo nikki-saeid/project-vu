@@ -20,6 +20,7 @@ export default function PricingPlanCard({
     cta,
     highlight,
     ctaVariant,
+    noAction,
 }: PricingPlanProps) {
     return (
         <Card className="w-full  shadow-none">
@@ -33,12 +34,17 @@ export default function PricingPlanCard({
                     <span className="font-light text-md leading-4">/month</span>
                 </div>
                 <P className="text-sm mb-5 font-bold">{billing}</P>
-                <div className="h-20">
+                <div className={noAction ? 'sm:h-fit h-15' : 'h-20'}>
                     <P className="text-sm leading-5.5 ">{description}</P>
                 </div>
-                <Button variant={ctaVariant} className="w-full">
-                    {cta}
-                </Button>
+
+                {!noAction && (
+                    <>
+                        <Button variant={ctaVariant} className="w-full">
+                            {cta}
+                        </Button>
+                    </>
+                )}
                 <Separator className="my-6" />
                 <div className="flex flex-col gap-4">
                     {benefits.map((benefit) => (

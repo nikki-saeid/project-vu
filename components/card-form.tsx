@@ -1,3 +1,5 @@
+'use client';
+
 import type { CardFormProps } from '@/lib/types/forms';
 import { useState } from 'react';
 import H3 from './typography/H3';

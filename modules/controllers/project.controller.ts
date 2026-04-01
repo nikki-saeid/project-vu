@@ -1,6 +1,6 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
-import { ParamsId, ParamsSlug, ProjectWithLatLng } from '@/lib/types/api';
+import { ControllerProps, ParamsId, ParamsSlug, ProjectWithLatLng } from '@/lib/types/api';
 import { Project } from '@/lib/types/db';
 import { User } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
@@ -8,7 +8,7 @@ import { projectService } from '../services/project.service';
 
 export const projectController = {
     // get by user id
-    create: tryCatchWrapper(async (req: NextRequest, user: User) => {
+    create: tryCatchWrapper(async ({ req, user }: ControllerProps) => {
         // Get the body
         const formData = await req.formData();
         const images = formData.getAll('images');
@@ -24,24 +24,28 @@ export const projectController = {
     }),
 
     //  get many projects with pagination
-    getMany: tryCatchWrapper(async function (_, user: User) {
+    getMany: tryCatchWrapper(async function ({ user }: ControllerProps) {
         const projects = await projectService.getMany(user.id);
         return new SuccessResponse<ProjectWithLatLng[]>('Projects fetched successfully', projects).send();
     }),
 
     //  get many projects with pagination
-    getManyByBusinessSlug: tryCatchWrapper(async function (_, user: User, { params }: ParamsSlug) {
+    getManyByBusinessSlug: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsSlug>) {
         // Get the business slug
-        const { slug } = await params;
+        if (!context) throw new Error('Slug is required');
+        const params = await context.params;
+        const { slug } = params;
 
         const projects = await projectService.getManyByBusinessSlug(slug);
         return new SuccessResponse<ProjectWithLatLng[]>('Projects fetched successfully', projects).send();
     }),
 
     // update
-    update: tryCatchWrapper(async function (req: NextRequest, user: User, { params }: ParamsId) {
+    update: tryCatchWrapper(async function ({ req, user, context }: ControllerProps<ParamsId>) {
         // Get the project id
-        const { id } = await params;
+        if (!context) throw new Error('Id is required');
+        const params = await context.params;
+        const { id } = params;
 
         // Get the body
         const formData = await req.formData();
@@ -59,9 +63,11 @@ export const projectController = {
     }),
 
     // delete
-    delete: tryCatchWrapper(async function (req: NextRequest, user: User, { params }: ParamsId) {
+    delete: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsId>) {
         // Get the project id
-        const { id } = await params;
+        if (!context) throw new Error('Id is required');
+        const params = await context.params;
+        const { id } = params;
 
         const project = await projectService.deleteById(id);
 

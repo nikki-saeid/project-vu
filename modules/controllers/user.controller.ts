@@ -1,13 +1,13 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
+import { ControllerProps } from '@/lib/types/api';
 import { User } from '@supabase/supabase-js';
-import { NextRequest } from 'next/server';
 import { adminService } from '../services/admin.service';
 import { userService } from '../services/user.service';
 
 export const userController = {
     // update user
-    update: tryCatchWrapper(async (req: NextRequest) => {
+    update: tryCatchWrapper(async ({ req }: ControllerProps) => {
         // Get the body
         const body = await req.json();
 
@@ -17,7 +17,7 @@ export const userController = {
     }),
 
     // delete user
-    delete: tryCatchWrapper(async (_, user: User) => {
+    delete: tryCatchWrapper(async ({ user }: ControllerProps) => {
         // Update the user
         await adminService.deleteUserById(user.id);
         return new SuccessResponse('Your account deleted successfully', null).send();

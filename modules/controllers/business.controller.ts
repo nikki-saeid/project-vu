@@ -1,29 +1,29 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
-import { ParamsSlug } from '@/lib/types/api';
+import type { ControllerProps, ParamsSlug } from '@/lib/types/api';
 import { Business, PageStatusEnum } from '@/lib/types/db';
-import { User } from '@supabase/supabase-js';
-import { NextRequest } from 'next/server';
 import { businessService } from '../services/business.service';
 
 export const businessController = {
     // get by user id
-    getByUserId: tryCatchWrapper(async (_, user: User) => {
+    getByUserId: tryCatchWrapper(async ({ user }: ControllerProps) => {
         const business = await businessService.getByUserIdOrCreate(user.id, { email: user.email });
         return new SuccessResponse<Business>('business fetched successfully', business).send();
     }),
 
     // get by slug
-    getBySlug: tryCatchWrapper(async (_, user: User | null, { params }: ParamsSlug) => {
+    getBySlug: tryCatchWrapper(async ({ user, context }: ControllerProps<ParamsSlug>) => {
         // param
-        const { slug } = await params;
+        if (!context) throw new Error('Slug is required');
+        const params = await context.params;
+        const { slug } = params;
 
         const business = (await businessService.getBySlug(slug, user ? user.id : null)) as Business;
         return new SuccessResponse<Business>('business fetched successfully', business).send();
     }),
 
     // update business
-    update: tryCatchWrapper(async (req: NextRequest, user: User) => {
+    update: tryCatchWrapper(async ({ req, user }: ControllerProps) => {
         // Get the body
         const formData = await req.formData();
         const logo = formData.get('logo');
@@ -35,7 +35,7 @@ export const businessController = {
     }),
 
     // update page status
-    updatePageStatus: tryCatchWrapper(async (req: NextRequest, user: User) => {
+    updatePageStatus: tryCatchWrapper(async ({ req, user }: ControllerProps) => {
         // Get the body
         const body = await req.json();
         const status = body?.status as PageStatusEnum | undefined;

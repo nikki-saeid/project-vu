@@ -1,9 +1,9 @@
 import { PRICING_PLANS } from '@/lib/constants/pricing-plans';
-import PricingPlanCard from './pricing-plan-card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import SectionHeader from './section-header';
 import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
 import Container from '@/components/ui/container';
+import PricingPlanCard from '@/components/pricing-plan-card';
 
 export default function PricingPlans() {
     return (

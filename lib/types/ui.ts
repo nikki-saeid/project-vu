@@ -17,6 +17,7 @@ export type PricingPlanProps = {
     cta: string;
     highlight: boolean;
     ctaVariant: 'default' | 'outline' | 'outlinePrimary';
+    noAction?: boolean;
 };
 
 export type Plan = {

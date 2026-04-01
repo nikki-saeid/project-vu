@@ -19,7 +19,7 @@ export const authMiddleware = {
                 });
             }
 
-            return next(req, user, context);
+            return next({ req, user, context });
         };
     },
 
@@ -35,7 +35,7 @@ export const authMiddleware = {
                 });
             }
 
-            return next(req, user, context);
+            return next({ req, user, context });
         };
     },
 };

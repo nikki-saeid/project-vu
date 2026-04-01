@@ -1,8 +1,14 @@
 import type { PricingPlanProps } from '../types/ui';
 
+export const PRICING_PLANS_IDS = {
+    monthly: 'monthly',
+    six_month: 'six_month',
+    annual: 'annual',
+} as const;
+
 export const PRICING_PLANS: PricingPlanProps[] = [
     {
-        id: 'monthly',
+        id: PRICING_PLANS_IDS.monthly,
         name: 'Monthly',
         price: 18.95,
         billing: 'Billed monthly',
@@ -15,7 +21,7 @@ export const PRICING_PLANS: PricingPlanProps[] = [
         highlight: false,
     },
     {
-        id: 'six_month',
+        id: PRICING_PLANS_IDS.six_month,
         name: '6 Month',
         price: 14.95,
         billing: 'Billed every 6 months ($89.70 upfront)',
@@ -28,7 +34,7 @@ export const PRICING_PLANS: PricingPlanProps[] = [
         highlight: false,
     },
     {
-        id: 'annual',
+        id: PRICING_PLANS_IDS.annual,
         name: 'Annual',
         price: 11.95,
         billing: 'Billed yearly ($143.40 upfront)',

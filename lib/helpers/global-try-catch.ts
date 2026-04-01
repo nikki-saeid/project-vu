@@ -1,12 +1,10 @@
-import { User } from '@supabase/supabase-js';
-import { NextRequest } from 'next/server';
-import { ContextParams, isErrorThrown } from '../types/api';
+import { ControllerProps, isErrorThrown } from '../types/api';
 import { errorHandler } from './error-handler';
 
-export function tryCatchWrapper<T>(handler: (req: NextRequest, user: User, context: ContextParams<T>) => Promise<Response>) {
-    return async (req: NextRequest, user: User, context: ContextParams<T>) => {
+export function tryCatchWrapper<T>(handler: (props: ControllerProps<T>) => Promise<Response>) {
+    return async (props: ControllerProps<T>) => {
         try {
-            return await handler(req, user, context);
+            return await handler(props);
         } catch (error) {
             if (isErrorThrown(error)) {
                 return errorHandler({

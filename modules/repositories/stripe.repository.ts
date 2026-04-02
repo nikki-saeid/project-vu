@@ -2,6 +2,7 @@ import { createsStripeServer } from '@/lib/stripe/server';
 
 type CheckoutSessionMetadata = {
     businessId: string;
+    plan: string;
 };
 
 export const stripeRepository = {
@@ -44,5 +45,11 @@ export const stripeRepository = {
         const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
         return stripe.webhooks.constructEvent(requestBuffer, stripeSignature, webhookSecret);
+    },
+
+    getManyInvoicesByStripeCustomerId: async function (stripeCustomerId: string) {
+        const stripe = await createsStripeServer();
+        const invoices = await stripe.invoices.list({ customer: stripeCustomerId });
+        return invoices.data;
     },
 };

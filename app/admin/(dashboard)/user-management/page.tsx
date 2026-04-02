@@ -1,7 +1,7 @@
 'use client';
 
 import EmptyData from '@/components/empty-data';
-import DataTableSkeleton from '@/components/skeleton-ui/data-table-skeleton';
+import TableSkeleton from '@/components/skeleton-ui/table-skeleton';
 import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
 import { getAdminUsers } from '@/lib/api-fetcher/admin/users';
@@ -63,9 +63,9 @@ export default function UserManagement() {
                 </div>
             </div>
             {isLoading || !usersWithPagination ? (
-                <DataTableSkeleton />
+                <TableSkeleton />
             ) : (
-                <Suspense fallback={<DataTableSkeleton />}>
+                <Suspense fallback={<TableSkeleton />}>
                     {usersWithPagination.users.length === 0 ? (
                         <EmptyData>
                             <P>No users found.</P>

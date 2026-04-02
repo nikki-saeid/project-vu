@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useAdmin } from '@/lib/contexts/admin-context';
 import { format } from 'date-fns';
 import ActionMenu from './action-menu';
+import { DATE_FORMATS } from '@/lib/constants/date-formats';
 
 export default function DataTable() {
     const { usersWithPagination } = useAdmin();
@@ -57,11 +58,11 @@ export default function DataTable() {
                                     )}
                                 </TableCell>
                                 <TableCell className="p-4" colSpan={1}>
-                                    {format(new Date(user.created_at), 'MM/dd/yyyy (HH:mm)')}
+                                    {format(new Date(user.created_at), DATE_FORMATS.dateWithTime)}
                                 </TableCell>
                                 <TableCell className="p-4" colSpan={1}>
                                     {user.last_sign_in_at
-                                        ? format(new Date(user.last_sign_in_at), 'MM/dd/yyyy (HH:mm)')
+                                        ? format(new Date(user.last_sign_in_at), DATE_FORMATS.dateWithTime)
                                         : 'Not signed in yet'}
                                 </TableCell>
                                 <TableCell className="p-4" width="10">

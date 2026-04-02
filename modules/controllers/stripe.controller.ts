@@ -1,6 +1,6 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
-import { ControllerProps, ParamsPlan } from '@/lib/types/api';
+import { ControllerProps, ParamsPlan, ParamsStripeCustomerId } from '@/lib/types/api';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 import { stripeService } from '../services/stripe.service';
@@ -18,6 +18,7 @@ export const stripeController = {
         return new SuccessResponse<Stripe.Checkout.Session>('Checkout Session retrieved successfully', session).send();
     }),
 
+    // CHECKOUT webhook
     webhook: tryCatchWrapper(async function ({ req }: ControllerProps) {
         // Get the project id
         const requestBuffer = await req.text();
@@ -26,5 +27,16 @@ export const stripeController = {
         await stripeService.webhook(requestBuffer, stripeSignature);
 
         return new SuccessResponse('Payment successful', null).send();
+    }),
+
+    getManyInvoicesByStripeCustomerId: tryCatchWrapper(async function ({ req, context }: ControllerProps<ParamsStripeCustomerId>) {
+        // Get the project id
+        if (!context) throw new Error('Id is required');
+        const params = await context.params;
+        const { stripeCustomerId } = params;
+
+        const invoices = await stripeService.getManyInvoicesByStripeCustomerId(stripeCustomerId);
+
+        return new SuccessResponse<Stripe.Invoice[]>('Payment successful', invoices).send();
     }),
 };

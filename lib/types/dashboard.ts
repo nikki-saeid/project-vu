@@ -17,3 +17,14 @@ export type MapWrapperProps = ChildrenProp &
         fullHeight?: boolean;
         initialViewState?: { longitude: number; latitude: number; zoom: number };
     };
+
+export type IconCardProps = {
+    label: string;
+    title: string;
+    Icon: TablerIcon;
+};
+
+export type DashboardCardProps = ChildrenProp & {
+    title: string;
+    description: string;
+};

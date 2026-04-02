@@ -1,12 +1,12 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 
-type DataTableSkeletonProps = {
+type TableSkeletonProps = {
     columnCount?: number;
     rowCount?: number;
 };
 
-export default function DataTableSkeleton({ columnCount = 5, rowCount = 10 }: DataTableSkeletonProps) {
+export default function TableSkeleton({ columnCount = 5, rowCount = 10 }: TableSkeletonProps) {
     return (
         <div className="overflow-hidden rounded-lg border bg-card">
             <Table className="w-full">
@@ -24,7 +24,7 @@ export default function DataTableSkeleton({ columnCount = 5, rowCount = 10 }: Da
                         <TableRow key={rowIndex}>
                             {Array.from({ length: columnCount }).map((_, colIndex) => (
                                 <TableCell key={colIndex} className="p-4">
-                                    <Skeleton className="h-4 w-full max-w-[140px]" />
+                                    <Skeleton className="h-4 w-full max-w-35" />
                                 </TableCell>
                             ))}
                         </TableRow>

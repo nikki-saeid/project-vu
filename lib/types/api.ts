@@ -21,6 +21,7 @@ export type AdminAnalyticsResponse = {
 export type ParamsId = { id: string };
 export type ParamsSlug = { slug: string };
 export type ParamsPlan = { plan: string };
+export type ParamsStripeCustomerId = { stripeCustomerId: string };
 export type ContextParams<T> = {
     params: Promise<T>;
 };

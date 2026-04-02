@@ -1,13 +1,18 @@
+import { ReasonPhrases } from 'http-status-codes';
 import { APIResponseSend } from './api-response';
 
 export async function fetcher<T>(url: string, options?: RequestInit): Promise<APIResponseSend<T>> {
-    const res = await fetch(url, { ...options });
+    try {
+        const res = await fetch(url, { ...options });
 
-    const data = await res.json();
+        const data = await res.json();
 
-    if (!res.ok) {
-        throw new Error(data?.message || 'Request failed');
+        if (!res.ok) {
+            throw new Error(data?.message || 'Request failed');
+        }
+
+        return data;
+    } catch (error) {
+        throw new Error(ReasonPhrases.INTERNAL_SERVER_ERROR);
     }
-
-    return data;
 }

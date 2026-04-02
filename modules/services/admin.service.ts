@@ -9,7 +9,7 @@ export const adminService = {
     deleteUserById: async function (userId: string) {
         // get business to remove logo
         const business = await businessService.getByUserId(userId);
-        storageService.removeMany([business.logo_url]);
+        storageService.removeMany([business.logo_url ?? '']);
 
         // get projects to delete images
         const projects = await projectService.getMany(userId);

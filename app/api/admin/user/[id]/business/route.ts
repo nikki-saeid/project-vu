@@ -38,7 +38,7 @@ export async function GET(request: Request, { params }: Params) {
         }
 
         // admin access
-        const adminClient = createServiceRoleClient();
+        const adminClient = await createServiceRoleClient();
         // Fetch the profile
         const { data: business, error } = await adminClient.from('businesses').select('*').eq('user_id', id).maybeSingle();
 

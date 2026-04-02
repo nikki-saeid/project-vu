@@ -47,11 +47,10 @@ export async function POST(request: Request, { params }: Params) {
         }
 
         // admin update the user
-        const adminClient = createServiceRoleClient();
+        const adminClient = await createServiceRoleClient();
         const { error, data } = await adminClient.auth.admin.updateUserById(id, {
             ban_duration: activate ? 'none' : '876600h',
         });
-
 
         if (error) return errorHandler({ error });
 

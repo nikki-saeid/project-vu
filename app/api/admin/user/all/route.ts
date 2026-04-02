@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
         const page = searchParams.get('page');
 
         // fetch users
-        const adminClient = createServiceRoleClient();
+        const adminClient = await createServiceRoleClient();
         const { data, error } = await adminClient.auth.admin.listUsers({
             page: page ? Number(page) : 1,
             perPage: 10,

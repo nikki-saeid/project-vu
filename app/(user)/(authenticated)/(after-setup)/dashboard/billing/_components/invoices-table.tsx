@@ -49,10 +49,8 @@ export default function InvoicesTable({ invoices }: InvoicesTableProps) {
                                     {invoice.status}
                                 </Badge>
                             </TableCell>
-                            <TableCell className="p-3 lowercase ">
-                                {invoice.effective_at
-                                    ? unixToFormatString(invoice.effective_at, DATE_FORMATS.dateWithTime)
-                                    : 'Not paid yet'}
+                            <TableCell className="p-3">
+                                {invoice.effective_at ? unixToFormatString(invoice.effective_at, DATE_FORMATS.date) : 'Not paid yet'}
                             </TableCell>
                         </TableRow>
                     ))}

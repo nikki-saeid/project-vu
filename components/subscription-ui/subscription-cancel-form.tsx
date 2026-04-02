@@ -1,22 +1,21 @@
-'use clien';
+'use client';
 
-import { deleteUser } from '@/lib/api-fetcher/user/client/profile';
-import { createClient } from '@/lib/supabase/client';
+import { cancelSubscription } from '@/lib/api-fetcher/stripe/client';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
 import type { BusinessDeleteFormProps } from '@/lib/types/forms';
-import { businessDeleteSchema } from '@/lib/validators/user/business-profile';
+import { subscriptionCancelSchema } from '@/lib/validators/user/subscription';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IconTrash } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
+import { IconVipOff } from '@tabler/icons-react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import P from '../typography/P';
 import { Field, FieldDescription, FieldError, FieldLabel } from '../ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '../ui/input-group';
 
-export default function BusinessDeleteForm({ onSuccess, id, setIsLoading }: BusinessDeleteFormProps) {
-    const router = useRouter();
+export default function SubscriptionCancelForm({ onSuccess, id, setIsLoading }: BusinessDeleteFormProps) {
+    const { subscription } = useDashboard();
     const form = useForm({
-        resolver: zodResolver(businessDeleteSchema),
+        resolver: zodResolver(subscriptionCancelSchema),
         defaultValues: {
             confirm: '',
         },
@@ -25,12 +24,9 @@ export default function BusinessDeleteForm({ onSuccess, id, setIsLoading }: Busi
     const onSubmit = async () => {
         setIsLoading(true);
         try {
-            const response = await deleteUser();
+            const response = await cancelSubscription(subscription?.stripe_subscription_id ?? '');
             toast.success(response.message);
             onSuccess?.();
-            const supabase = createClient();
-            await supabase.auth.signOut();
-            router.push('/login');
         } catch (error) {
             toast.error(error instanceof Error ? error.message : 'An error occurred while deleting your account');
         } finally {
@@ -46,20 +42,23 @@ export default function BusinessDeleteForm({ onSuccess, id, setIsLoading }: Busi
                 render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                         <P className="text-destructive">
-                            This action is permanent. Your account will be deleted and you will be signed out. <br />
+                            The cancellation will take affect after the next billing cycle. <br />
                         </P>
-                        <FieldLabel htmlFor="delete-confirm">Type DELETE to confirm</FieldLabel>
-                        <FieldDescription>This helps prevent accidental deletions.</FieldDescription>
+                        <P className="text-destructive">
+                            Your business profile will be unpublished after the cancellation. <br />
+                        </P>
+                        <FieldLabel htmlFor="cancel-confirm">Type CANCEL to confirm</FieldLabel>
+                        <FieldDescription>This helps prevent accidental cancellation.</FieldDescription>
                         <InputGroup>
                             <InputGroupInput
                                 {...field}
-                                id="delete-confirm"
+                                id="cancel-confirm"
                                 aria-invalid={fieldState.invalid}
-                                placeholder="DELETE"
+                                placeholder="CANCEL"
                                 autoComplete="on"
                             />
                             <InputGroupAddon>
-                                <IconTrash />
+                                <IconVipOff />
                             </InputGroupAddon>
                         </InputGroup>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

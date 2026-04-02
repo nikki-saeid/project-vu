@@ -20,6 +20,8 @@ export type PricingPlanProps = {
     noAction?: boolean;
 };
 
+export type PricingPlanIDs = Pick<PricingPlanProps, 'id'>;
+
 export type Plan = {
     plan: string;
     price: string;

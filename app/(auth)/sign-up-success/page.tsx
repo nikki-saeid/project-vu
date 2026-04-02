@@ -47,7 +47,7 @@ export default function SignUpSuccess() {
         toast.loading('Verifying...');
 
         try {
-            const supabase = await createClient();
+            const supabase = createClient();
             const {
                 error,
                 data: { user },

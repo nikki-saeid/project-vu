@@ -15,10 +15,11 @@ export default function InvoiceHistory({ stripe_customer_id }: InvoiceHistoryPro
     const { data, isPending } = useQuery({
         queryKey: ['invoices', stripe_customer_id],
         queryFn: async () => await getInvoiceList(stripe_customer_id),
+        staleTime: Infinity,
     });
 
     return isPending ? (
-        <TableSkeleton columnCount={3} />
+        <TableSkeleton columnCount={3} rowCount={3} />
     ) : (
         <Suspense fallback={<TableSkeleton columnCount={3} />}>
             {!data || (data && data.length === 0) ? (

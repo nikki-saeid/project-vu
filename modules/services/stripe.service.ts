@@ -121,4 +121,12 @@ export const stripeService = {
     getManyInvoicesByStripeCustomerId: async function (stripeCustomerId: string) {
         return await stripeRepository.getManyInvoicesByStripeCustomerId(stripeCustomerId);
     },
+
+    cancelSubscriptionById: async function (id: string) {
+        return await stripeRepository.cancelSubscriptionById(id);
+    },
+
+    resumeSubscriptionById: async function (id: string) {
+        return await stripeRepository.resumeSubscriptionById(id);
+    },
 };

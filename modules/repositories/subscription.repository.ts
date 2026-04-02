@@ -1,16 +1,19 @@
-import { createServiceRoleClient } from '@/lib/supabase/server';
+import { createClient, createServiceRoleClient } from '@/lib/supabase/server';
 import { Subscription } from '@/lib/types/db';
 
 export const subscriptionRepository = {
     getByBusinessId: async function (businessId: string) {
-        const adminSupabase = await createServiceRoleClient();
-        const { data, error } = await adminSupabase.from('subscriptions').select().eq('business_id', businessId).maybeSingle();
+        const supabase = await createClient();
+        const { data, error } = await supabase.from('subscriptions').select().eq('business_id', businessId).maybeSingle();
 
+        console.log("->>>>>>> data", data)
+        
         if (error) throw error;
 
         return data;
     },
 
+    // ------------------------------------- Admin
     // create
     adminCreate: async function (subscription: Partial<Subscription>) {
         const adminSupabase = await createServiceRoleClient();

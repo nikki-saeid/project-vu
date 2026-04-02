@@ -5,14 +5,20 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<AP
     try {
         const res = await fetch(url, { ...options });
 
-        const data = await res.json();
+        let data: APIResponseSend<T> | null = null;
 
-        if (!res.ok) {
-            throw new Error(data?.message || 'Request failed');
+        try {
+            data = (await res.json()) as APIResponseSend<T>;
+        } catch {
+            data = null;
         }
 
-        return data;
+        if (!res.ok) {
+            throw new Error(data?.message || 'Something went wrong');
+        }
+
+        return data as APIResponseSend<T>;
     } catch (error) {
-        throw new Error(ReasonPhrases.INTERNAL_SERVER_ERROR);
+        throw new Error(error instanceof Error ? error.message : ReasonPhrases.INTERNAL_SERVER_ERROR);
     }
 }

@@ -2,14 +2,14 @@
 
 import EmptyData from '@/components/empty-data';
 import P from '@/components/typography/P';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import WarningAlert from '@/components/warning-alert';
 import { BASE_URL } from '@/lib/constants/urls';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
-import { IconAlertTriangle, IconCheck, IconCopy } from '@tabler/icons-react';
+import { IconCheck, IconCopy } from '@tabler/icons-react';
 import { useCallback, useState } from 'react';
 
 export default function EmbeddedMapPage() {
@@ -42,15 +42,10 @@ export default function EmbeddedMapPage() {
     return (
         <div className="flex flex-col md:gap-6 gap-4">
             {business.page_status === 'draft' && (
-                <Alert className="border-amber-200 bg-amber-50 text-amber-800 flex items-center gap-2">
-                    <IconAlertTriangle />
-                    <div className="flex-1">
-                        <AlertTitle>The map is not live yet.</AlertTitle>
-                        <AlertDescription className="text-amber-800">
-                            In order to show the map on your website, you need to publish your page.
-                        </AlertDescription>
-                    </div>
-                </Alert>
+                <WarningAlert
+                    title="The map is not live yet."
+                    description="In order to show the map on your website, you need to publish your page."
+                />
             )}
             <P className=" text-muted-foreground">Copy the link or embed code below to show your projects map on your own website.</P>
             <div className="rounded-lg border p-4 md:p-6">

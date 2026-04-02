@@ -1,5 +1,5 @@
 'use client';
-import DataCard from '@/components/data-ui/data-card';
+import DataCard from '@/components/dashboard-ui/data-card';
 import P from '@/components/typography/P';
 import { Badge } from '@/components/ui/badge';
 import { useAdmin } from '@/lib/contexts/admin-context';

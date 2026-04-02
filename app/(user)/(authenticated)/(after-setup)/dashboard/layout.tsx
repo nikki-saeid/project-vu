@@ -4,6 +4,7 @@ import DashboardHeader from '@/components/dashboard-ui/dashboard-header';
 import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { useSubscriptionChannel } from '@/hooks/channels/use-subscription-channel';
 import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/lib/constants/user-dashboard';
 import type { ChildrenProp } from '@/lib/types/common';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -11,6 +12,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const queryClient = new QueryClient();
 
 export default function MainLayout({ children }: ChildrenProp) {
+    useSubscriptionChannel();
+
     return (
         <QueryClientProvider client={queryClient}>
             <SidebarProvider

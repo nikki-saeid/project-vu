@@ -6,7 +6,7 @@ type CheckoutSessionMetadata = {
 };
 
 export const stripeRepository = {
-    // get stripe
+    // ------------------------------------ Checkout Session
     checkoutSession: async function (priceId: string, email: string, metadata: CheckoutSessionMetadata, quantity = 1) {
         const stripe = await createsStripeServer();
         return await stripe.checkout.sessions.create({
@@ -40,6 +40,8 @@ export const stripeRepository = {
         return await this.checkoutSession(process.env.STRIPE_YEARLY_PRICE_ID!, email, metadata, 12);
     },
 
+    // ------------------------------------ webhook
+
     webhook: async function (requestBuffer: string, stripeSignature: string) {
         const stripe = await createsStripeServer();
         const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -47,9 +49,25 @@ export const stripeRepository = {
         return stripe.webhooks.constructEvent(requestBuffer, stripeSignature, webhookSecret);
     },
 
+    // ------------------------------------ Invoice
+
     getManyInvoicesByStripeCustomerId: async function (stripeCustomerId: string) {
         const stripe = await createsStripeServer();
         const invoices = await stripe.invoices.list({ customer: stripeCustomerId });
         return invoices.data;
+    },
+
+    // ------------------------------------ Subscription
+    cancelSubscriptionById: async function (id: string) {
+        const stripe = await createsStripeServer();
+        return await stripe.subscriptions.update(id, {
+            cancel_at_period_end: true,
+        });
+    },
+    resumeSubscriptionById: async function (id: string) {
+        const stripe = await createsStripeServer();
+        return await stripe.subscriptions.update(id, {
+            cancel_at_period_end: false,
+        });
     },
 };

@@ -3,7 +3,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import SectionHeader from './section-header';
 import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
 import Container from '@/components/ui/container';
-import PricingPlanCard from '@/components/pricing-plan-card';
+import PricingPlanCard from '@/components/subscription-ui/pricing-plan-card';
 
 export default function PricingPlans() {
     return (
@@ -13,11 +13,14 @@ export default function PricingPlans() {
                     label="PRICING"
                     description="Choose the plan that best fits your needs and budget. We offer flexible pricing options to suit your project needs."
                 />
+                {/* DESKTOP */}
                 <div className="gap-4 lg:flex hidden">
                     {PRICING_PLANS.map((plan) => (
                         <PricingPlanCard key={plan.id} {...plan} />
                     ))}
                 </div>
+
+                {/* MOBILE */}
                 <div className="lg:hidden block max-w-sm mx-auto">
                     <Tabs defaultValue={PRICING_PLANS[0].id}>
                         <TabsList className="mb-3 w-full text-secondary-foreground bg-secondary/30">

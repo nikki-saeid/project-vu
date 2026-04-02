@@ -1,6 +1,6 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
-import { ControllerProps, ParamsPlan, ParamsStripeCustomerId } from '@/lib/types/api';
+import { ControllerProps, ParamsId, ParamsPlan, ParamsStripeCustomerId } from '@/lib/types/api';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 import { stripeService } from '../services/stripe.service';
@@ -29,7 +29,7 @@ export const stripeController = {
         return new SuccessResponse('Payment successful', null).send();
     }),
 
-    getManyInvoicesByStripeCustomerId: tryCatchWrapper(async function ({ req, context }: ControllerProps<ParamsStripeCustomerId>) {
+    getManyInvoicesByStripeCustomerId: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsStripeCustomerId>) {
         // Get the project id
         if (!context) throw new Error('Id is required');
         const params = await context.params;
@@ -37,6 +37,28 @@ export const stripeController = {
 
         const invoices = await stripeService.getManyInvoicesByStripeCustomerId(stripeCustomerId);
 
-        return new SuccessResponse<Stripe.Invoice[]>('Payment successful', invoices).send();
+        return new SuccessResponse<Stripe.Invoice[]>('Invoices retrieved successfully', invoices).send();
+    }),
+
+    cancelSubscriptionById: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsId>) {
+        // Get the project id
+        if (!context) throw new Error('Id is required');
+        const params = await context.params;
+        const { id } = params;
+
+        await stripeService.cancelSubscriptionById(id);
+
+        return new SuccessResponse('Subscription cancelled successfully', null).send();
+    }),
+
+    resumeSubscriptionById: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsId>) {
+        // Get the project id
+        if (!context) throw new Error('Id is required');
+        const params = await context.params;
+        const { id } = params;
+
+        await stripeService.resumeSubscriptionById(id);
+
+        return new SuccessResponse('Subscription resumed successfully', null).send();
     }),
 };

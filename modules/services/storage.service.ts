@@ -74,7 +74,7 @@ export const storageService = {
     },
 
     // get storage public urls
-    getStoragePublicUrls: async function (projects: Project[]) {
+    getProjectsStoragePublicUrls: async function (projects: Project[]) {
         const _projects: ProjectWithLatLng[] = [];
         for (let i = 0; i < projects.length; i++) {
             // get the project

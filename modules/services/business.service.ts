@@ -35,17 +35,12 @@ export const businessService = {
     // get business by slug
     getBySlug: async function (slug: string, userId: string | null) {
         // get business
-        let business = await businessRepository.getBySlug(slug);
-
-        // make business logo public
-        business = await this.makeBusinessLogoPublic(business);
+        const business = await businessRepository.getBySlug(slug);
 
         // check if business is live
         if (business) {
-            business.logo_url = await storageRepository.getStoragePublicUrl(business.logo_url);
-
             if (business?.user_id === userId || business?.page_status === 'live') {
-                return business;
+                return await this.makeBusinessLogoPublic(business);;
             }
         }
 

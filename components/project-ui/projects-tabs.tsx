@@ -13,11 +13,11 @@ export default function ProjectsTabs({ projects, isPublic }: ProjectsTabsProps) 
     return (
         <Tabs defaultValue="map">
             <TabsList className="mb-3 w-full">
-                <TabsTrigger value="map">
+                <TabsTrigger value="map" id="map">
                     <IconMap2 />
                     Projects map
                 </TabsTrigger>
-                <TabsTrigger value="list">
+                <TabsTrigger value="list" id="list">
                     <IconLayoutList />
                     Projects list
                 </TabsTrigger>

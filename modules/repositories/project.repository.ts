@@ -33,7 +33,7 @@ export const projectRepository = {
 
         if (error) throw error;
 
-        return await storageService.getStoragePublicUrls(data);
+        return await storageService.getProjectsStoragePublicUrls(data);
     },
 
     // update project by id

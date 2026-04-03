@@ -4,6 +4,7 @@ import EmptyData from '@/components/empty-data';
 import TableSkeleton from '@/components/skeleton-ui/table-skeleton';
 import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
+import { AdminUsersResponse } from '@/lib/api-fetcher/admin/analytics';
 import { getAdminUsers } from '@/lib/api-fetcher/admin/users';
 import { useAdmin } from '@/lib/contexts/admin-context';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
@@ -12,7 +13,6 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import DataTable from './_components/data-table';
-import { AdminUsersResponse } from '@/lib/api-fetcher/admin/analytics';
 
 export default function UserManagement() {
     const { usersWithPagination, setUsersWithPagination } = useAdmin();

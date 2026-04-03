@@ -17,7 +17,7 @@ export async function GET() {
             });
         }
 
-        if (user.app_metadata?.role !== 'admin') {
+        if (user?.role !== 'admin') {
             return errorHandler({
                 error: new Error('You are not authorized to access this resource'),
             });

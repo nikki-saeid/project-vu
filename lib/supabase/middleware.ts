@@ -20,7 +20,7 @@ export async function updateSession(request: NextRequest) {
         return redirection(request, '/login');
     }
 
-    const isAdmin = user?.app_metadata?.role === 'admin';
+    const isAdmin = user?.role === 'admin';
 
     // auth pages (login/register)
     if (isAuth(path)) {

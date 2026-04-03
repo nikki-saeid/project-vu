@@ -31,7 +31,7 @@ export async function GET(request: Request, { params }: Params) {
         }
 
         // check of the user admin
-        if (user.app_metadata?.role !== 'admin') {
+        if (user?.role !== 'admin') {
             return errorHandler({
                 error: new Error('You are not authorized to access this resource'),
             });

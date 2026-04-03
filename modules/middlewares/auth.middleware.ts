@@ -28,7 +28,7 @@ export const authMiddleware = {
         return async function (req: NextRequest, context?: ContextParams<T>) {
             const user = await userService.getUser();
 
-            if (!user || user.app_metadata?.role !== 'admin') {
+            if (!user || user?.role !== 'admin') {
                 return errorHandler({
                     error: new Error('You must be signed'),
                     statusCode: StatusCodes.UNAUTHORIZED,

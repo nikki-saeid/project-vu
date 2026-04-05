@@ -1,14 +1,15 @@
-import { AdminUsersResponse, getAdminUsers } from '@/lib/api-fetcher/admin/users';
+import { adminGetActiveSubscriptions } from '@/lib/api-fetcher/admin/server/subscription';
+import { adminGetUsers } from '@/lib/api-fetcher/admin/server/users';
 import { AdminProvider } from '@/lib/providers/admin-provider';
 import type { ChildrenProp } from '@/lib/types/common';
 
 export default async function AdminProviderInner({ children }: ChildrenProp) {
-    // const { activeSubscriptions } = await getAdminAnalytics() ;
-    const usersWithPagination = (await getAdminUsers(1)) as AdminUsersResponse;
+    const usersWithPagination = await adminGetUsers(1);
+    const activeSubscriptions = await adminGetActiveSubscriptions();
 
     return (
         // <AdminProvider initialActiveSubscriptions={activeSubscriptions} initialUsersWithPagination={usersWithPagination}>
-        <AdminProvider initialActiveSubscriptions={10} initialUsersWithPagination={usersWithPagination}>
+        <AdminProvider initialActiveSubscriptions={activeSubscriptions ?? []} initialUsersWithPagination={usersWithPagination}>
             {children}
         </AdminProvider>
     );

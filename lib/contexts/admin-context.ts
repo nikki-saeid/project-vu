@@ -1,13 +1,14 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { AdminUsersResponse } from '../api-fetcher/admin/users';
+import { UsersWithPagination } from '../types/api';
+import { Subscription } from '../types/db';
 
 export type AdminContextValue = {
-    activeSubscriptions: number;
-    usersWithPagination: AdminUsersResponse;
-    setActiveSubscriptions: (activeSubscriptions: number) => void;
-    setUsersWithPagination: (usersWithPagination: AdminUsersResponse) => void;
+    activeSubscriptions: Subscription[];
+    usersWithPagination: UsersWithPagination | null;
+    setActiveSubscriptions: (activeSubscriptions: Subscription[]) => void;
+    setUsersWithPagination: (usersWithPagination: UsersWithPagination | null) => void;
 };
 
 export const AdminContext = createContext<AdminContextValue | null>(null);

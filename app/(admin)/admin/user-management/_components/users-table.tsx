@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import ActionMenu from './action-menu';
 import { DATE_FORMATS } from '@/lib/constants/date-formats';
 
-export default function DataTable() {
+export default function UsersTable() {
     const { usersWithPagination } = useAdmin();
 
     return (
@@ -16,57 +16,53 @@ export default function DataTable() {
                 <Table className="w-full">
                     <TableHeader className="sticky top-0 z-10 bg-muted h-full">
                         <TableRow>
-                            <TableHead colSpan={1}></TableHead>
-                            <TableHead colSpan={1}>
-                                <P>Name</P>
+                            <TableHead></TableHead>
+                            <TableHead>
+                                <P className="text-xs">Name</P>
                             </TableHead>
-                            <TableHead colSpan={1}>
-                                <P>Email</P>
+                            <TableHead>
+                                <P className="text-xs">Email</P>
                             </TableHead>
-                            <TableHead colSpan={1}>
-                                <P>Status</P>
+                            <TableHead>
+                                <P className="text-xs">Status</P>
                             </TableHead>
-                            <TableHead colSpan={1}>
-                                <P>Created At</P>
+                            <TableHead>
+                                <P className="text-xs">Created At</P>
                             </TableHead>
-                            <TableHead colSpan={1}>
-                                <P>Last Sign In At</P>
+                            <TableHead>
+                                <P className="text-xs">Last Sign In At</P>
                             </TableHead>
-                            <TableHead colSpan={1}></TableHead>
+                            <TableHead></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {usersWithPagination.users.map((user) => (
+                        {usersWithPagination?.users.map((user) => (
                             <TableRow key={user.id}>
-                                <TableCell className="p-4" colSpan={1}>
+                                <TableCell className="p-3">
                                     <Avatar>
                                         <AvatarImage src={user.user_metadata.avatar_url ?? ''} />
                                         <AvatarFallback>{user.user_metadata.full_name.charAt(0)}</AvatarFallback>
                                     </Avatar>
                                 </TableCell>
-                                <TableCell className="p-4" colSpan={1}>
-                                    {user.user_metadata.full_name}
-                                </TableCell>
-                                <TableCell className="p-4" colSpan={1}>
-                                    {user.email}
-                                </TableCell>
-                                <TableCell className="p-4" colSpan={1}>
-                                    {user.banned_until ? (
-                                        <Badge variant="destructive">Banned</Badge>
+                                <TableCell className="p-3">{user.user_metadata.full_name}</TableCell>
+                                <TableCell className="p-3">{user.email}</TableCell>
+                                <TableCell className="p-3">
+                                    {user.role === 'admin' ? (
+                                        <Badge>ADMIN</Badge>
+                                    ) : user.banned_until ? (
+                                        <Badge className="bg-red-500/10 text-red-500">BANNED</Badge>
                                     ) : (
-                                        <Badge variant="default">Active</Badge>
+                                        <Badge className="bg-green-500/10 text-green-500">ACTIVE</Badge>
                                     )}
                                 </TableCell>
-                                <TableCell className="p-4" colSpan={1}>
-                                    {format(new Date(user.created_at), DATE_FORMATS.dateWithTime)}
-                                </TableCell>
-                                <TableCell className="p-4" colSpan={1}>
+                                <TableCell className="p-3">{format(new Date(user.created_at), DATE_FORMATS.dateWithTime)}</TableCell>
+                                <TableCell className="p-3">
                                     {user.last_sign_in_at
                                         ? format(new Date(user.last_sign_in_at), DATE_FORMATS.dateWithTime)
                                         : 'Not signed in yet'}
                                 </TableCell>
-                                <TableCell className="p-4" width="10">
-                                    <ActionMenu user={user} />
+                                <TableCell className="p-3" width="10">
+                                    {user.role !== 'admin' && <ActionMenu user={user} />}
                                 </TableCell>
                             </TableRow>
                         ))}

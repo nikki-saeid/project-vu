@@ -8,7 +8,7 @@ export const publicMiddleware = {
     // user auth middleware
     public: function <T>(next: Function) {
         return async function (req: NextRequest, context?: ContextParams<T>) {
-            const user = await userService.getUser();
+            const user = await userService.get();
             return next({ req, user, context });
         };
     },

@@ -28,10 +28,10 @@ export const projectController = {
     }),
 
     //  get many projects with pagination
-    getManyByBusinessSlug: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsSlug>) {
+    getManyByBusinessSlug: tryCatchWrapper(async function ({ contextParams }: ControllerProps<ParamsSlug>) {
         // Get the business slug
-        if (!context) throw new Error('Slug is required');
-        const params = await context.params;
+        if (!contextParams) throw new Error('Slug is required');
+        const params = await contextParams.params;
         const { slug } = params;
 
         const projects = await projectService.getManyByBusinessSlug(slug);
@@ -39,10 +39,10 @@ export const projectController = {
     }),
 
     // update
-    update: tryCatchWrapper(async function ({ req, user, context }: ControllerProps<ParamsId>) {
+    update: tryCatchWrapper(async function ({ req, user, contextParams }: ControllerProps<ParamsId>) {
         // Get the project id
-        if (!context) throw new Error('Id is required');
-        const params = await context.params;
+        if (!contextParams) throw new Error('Id is required');
+        const params = await contextParams.params;
         const { id } = params;
 
         // Get the body
@@ -61,10 +61,10 @@ export const projectController = {
     }),
 
     // delete
-    delete: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsId>) {
+    delete: tryCatchWrapper(async function ({ contextParams }: ControllerProps<ParamsId>) {
         // Get the project id
-        if (!context) throw new Error('Id is required');
-        const params = await context.params;
+        if (!contextParams) throw new Error('Id is required');
+        const params = await contextParams.params;
         const { id } = params;
 
         const project = await projectService.deleteById(id);

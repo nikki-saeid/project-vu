@@ -32,13 +32,28 @@ export default function Billing() {
 
             <DashboardCard title="Subscription details" description="This is your current subscription details.">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <IconCard Icon={IconSparkles} label="Plan" title={plan?.name ?? ''} />
-                    <IconCard Icon={IconCurrencyDollarAustralian} label="Fees" title={`${plan?.priceLabel}/month`} />
-                    <IconCard Icon={IconRefresh} label="Your plan renews" title={invoiceEndDate} />
+                    <IconCard
+                        StyledIconProps={{
+                            Icon: IconSparkles,
+                        }}
+                        label="Plan"
+                        title={plan?.name ?? ''}
+                    />
+                    <IconCard
+                        StyledIconProps={{
+                            Icon: IconCurrencyDollarAustralian,
+                        }}
+                        label="Fees"
+                        title={`${plan?.priceLabel}/month`}
+                    />
+                    <IconCard
+                        StyledIconProps={{
+                            Icon: IconRefresh,
+                        }}
+                        label="Your plan renews"
+                        title={invoiceEndDate}
+                    />
                 </div>
-                {/* <div className="flex justify-end">
-                    <Button variant="outline">Manage subscription</Button>
-                </div> */}
             </DashboardCard>
 
             <DashboardCard title="Invoice history" description="You can see your invoice history here.">

@@ -1,7 +1,7 @@
 import type { Icon as TablerIcon } from '@tabler/icons-react';
 import type { Sidebar } from '@/components/ui/sidebar';
 import type { ChildrenProp, ClassNameProp } from './common';
-import { LogoProps } from './ui';
+import { LogoProps, StyledIconProps } from './ui';
 
 type SidebarNavigationItem = { title: string; url: string; Icon: TablerIcon };
 
@@ -21,10 +21,19 @@ export type MapWrapperProps = ChildrenProp &
 export type IconCardProps = {
     label: string;
     title: string;
-    Icon: TablerIcon;
+    StyledIconProps: StyledIconProps;
 };
 
 export type DashboardCardProps = ChildrenProp & {
     title: string;
     description: string;
+    badge?: React.ReactNode;
+};
+
+export type DataCardProps = {
+    label: string;
+    description?: string;
+    title: string;
+    badge?: React.ReactNode;
+    StyledIconProps: StyledIconProps;
 };

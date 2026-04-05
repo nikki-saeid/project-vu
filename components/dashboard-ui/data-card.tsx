@@ -1,32 +1,30 @@
-import { type Icon as TablerIcon } from '@tabler/icons-react';
-
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import StyledIcon from '../styled-icon';
 import P from '../typography/P';
+import { DataCardProps } from '@/lib/types/dashboard';
+import { cn } from '@/lib/utils/classes-merge';
 
-type DataCardProps = {
-    title: string;
-    description: string;
-    value: string;
-    badge?: React.ReactNode;
-    Icon: TablerIcon;
-};
-
-export default function DataCard({ title, description, value, badge, Icon }: DataCardProps) {
+export default function DataCard({ title, description, label, badge, StyledIconProps }: DataCardProps) {
     return (
         <Card className="shadow-none">
             <CardHeader>
                 <CardDescription className="flex items-center gap-1">
-                    <StyledIcon Icon={Icon} className="bg-primary/5" IconProps={{ className: 'text-primary' }} />
-                    <P>{title}</P>
+                    <StyledIcon
+                        Icon={StyledIconProps.Icon}
+                        className={cn('size-9 bg-primary/5', StyledIconProps.className)}
+                        IconProps={{ className: cn('size-5 text-primary', StyledIconProps.IconProps?.className) }}
+                    />
+                    <P>{label}</P>
                 </CardDescription>
 
-                <CardTitle className="text-2xl font-semibold tabular-nums">{value}</CardTitle>
+                <CardTitle className="text-2xl font-semibold tabular-nums">{title}</CardTitle>
                 {badge && <CardAction>{badge}</CardAction>}
             </CardHeader>
-            <CardFooter>
-                <P className="text-muted-foreground">{description}</P>
-            </CardFooter>
+            {description && (
+                <CardFooter>
+                    <P className="text-muted-foreground">{description}</P>
+                </CardFooter>
+            )}
         </Card>
     );
 }

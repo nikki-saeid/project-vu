@@ -6,19 +6,7 @@ import Stripe from 'stripe';
 import { stripeService } from '../services/stripe.service';
 
 export const stripeController = {
-    // get by user id
-    getCheckoutSessionByPlan: tryCatchWrapper(async function ({ user, context }: ControllerProps<ParamsPlan>) {
-        // Get the project id
-        if (!context) throw new Error('Id is required');
-        const params = await context.params;
-        const { plan } = params;
-
-        const session = await stripeService.getCheckoutSessionByPlan(plan, { userId: user.id, email: user.email ?? '' });
-
-        return new SuccessResponse<Stripe.Checkout.Session>('Checkout Session retrieved successfully', session).send();
-    }),
-
-    // CHECKOUT webhook
+    // webhook
     webhook: tryCatchWrapper(async function ({ req }: ControllerProps) {
         // Get the project id
         const requestBuffer = await req.text();
@@ -29,36 +17,54 @@ export const stripeController = {
         return new SuccessResponse('Payment successful', null).send();
     }),
 
-    getManyInvoicesByStripeCustomerId: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsStripeCustomerId>) {
-        // Get the project id
-        if (!context) throw new Error('Id is required');
-        const params = await context.params;
-        const { stripeCustomerId } = params;
+    // get by user id
 
-        const invoices = await stripeService.getManyInvoicesByStripeCustomerId(stripeCustomerId);
+    checkoutSession: {
+        getByPlan: tryCatchWrapper(async function ({ user, contextParams }: ControllerProps<ParamsPlan>) {
+            // Get the project id
+            if (!contextParams) throw new Error('Id is required');
+            const params = await contextParams.params;
+            const { plan } = params;
 
-        return new SuccessResponse<Stripe.Invoice[]>('Invoices retrieved successfully', invoices).send();
-    }),
+            const session = await stripeService.checkoutSession.getByPlan(plan, { userId: user.id, email: user.email ?? '' });
 
-    cancelSubscriptionById: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsId>) {
-        // Get the project id
-        if (!context) throw new Error('Id is required');
-        const params = await context.params;
-        const { id } = params;
+            return new SuccessResponse<Stripe.Checkout.Session>('Checkout Session retrieved successfully', session).send();
+        }),
+    },
 
-        await stripeService.cancelSubscriptionById(id);
+    invoice: {
+        getManyByStripeCustomerId: tryCatchWrapper(async function ({ contextParams }: ControllerProps<ParamsStripeCustomerId>) {
+            // Get the project id
+            if (!contextParams) throw new Error('Id is required');
+            const params = await contextParams.params;
+            const { stripeCustomerId } = params;
 
-        return new SuccessResponse('Subscription cancelled successfully', null).send();
-    }),
+            const invoices = await stripeService.invoice.getManyByStripeCustomerId(stripeCustomerId);
 
-    resumeSubscriptionById: tryCatchWrapper(async function ({ context }: ControllerProps<ParamsId>) {
-        // Get the project id
-        if (!context) throw new Error('Id is required');
-        const params = await context.params;
-        const { id } = params;
+            return new SuccessResponse<Stripe.Invoice[]>('Invoices retrieved successfully', invoices).send();
+        }),
+    },
 
-        await stripeService.resumeSubscriptionById(id);
+    subscription: {
+        cancelById: tryCatchWrapper(async function ({ contextParams }: ControllerProps<ParamsId>) {
+            // Get the project id
+            if (!contextParams) throw new Error('Id is required');
+            const params = await contextParams.params;
+            const { id } = params;
 
-        return new SuccessResponse('Subscription resumed successfully', null).send();
-    }),
+            await stripeService.subscription.cancelById(id);
+
+            return new SuccessResponse('Subscription cancelled successfully', null).send();
+        }),
+        resumeById: tryCatchWrapper(async function ({ contextParams }: ControllerProps<ParamsId>) {
+            // Get the project id
+            if (!contextParams) throw new Error('Id is required');
+            const params = await contextParams.params;
+            const { id } = params;
+
+            await stripeService.subscription.resumeById(id);
+
+            return new SuccessResponse('Subscription resumed successfully', null).send();
+        }),
+    },
 };

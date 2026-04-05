@@ -1,4 +1,4 @@
-import { IconCreditCard, IconDashboard, IconUsersGroup } from '@tabler/icons-react';
+import { IconDashboard, IconUsersGroup } from '@tabler/icons-react';
 
 export const ADMIN_DASHBOARD_SIDEBAR_NAVIGATION = {
     main: [
@@ -11,11 +11,6 @@ export const ADMIN_DASHBOARD_SIDEBAR_NAVIGATION = {
             title: 'User management',
             url: '/admin/user-management',
             Icon: IconUsersGroup,
-        },
-        {
-            title: 'Subscriptions',
-            url: '/admin/subscriptions',
-            Icon: IconCreditCard,
         },
     ],
 };

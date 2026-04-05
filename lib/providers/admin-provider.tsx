@@ -2,17 +2,18 @@
 
 import { AdminContext, AdminContextValue } from '@/lib/contexts/admin-context';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AdminUsersResponse } from '../api-fetcher/admin/users';
+import type { UsersWithPagination } from '../types/api';
+import { Subscription } from '../types/db';
 
 type AdminProviderProps = {
     children: React.ReactNode;
-    initialActiveSubscriptions: number;
-    initialUsersWithPagination: AdminUsersResponse;
+    initialActiveSubscriptions: Subscription[];
+    initialUsersWithPagination: UsersWithPagination | null;
 };
 
 export function AdminProvider({ children, initialActiveSubscriptions, initialUsersWithPagination }: AdminProviderProps) {
-    const [activeSubscriptions, setActiveSubscriptions] = useState<number>(initialActiveSubscriptions);
-    const [usersWithPagination, setUsersWithPagination] = useState<AdminUsersResponse>(initialUsersWithPagination);
+    const [activeSubscriptions, setActiveSubscriptions] = useState<Subscription[]>(initialActiveSubscriptions);
+    const [usersWithPagination, setUsersWithPagination] = useState<UsersWithPagination | null>(initialUsersWithPagination);
 
     useEffect(() => {
         setActiveSubscriptions(initialActiveSubscriptions);

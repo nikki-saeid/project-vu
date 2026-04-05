@@ -7,7 +7,7 @@ type UpdateUserType = {
 
 export const userService = {
     // get user
-    getUser: async function () {
+    get: async function () {
         const supabase = await createClient();
 
         // Get the user
@@ -19,7 +19,7 @@ export const userService = {
     },
 
     // update user
-    updateUser: async function (data: UpdateUserType) {
+    update: async function (data: UpdateUserType) {
         const supabase = await createClient();
 
         const {

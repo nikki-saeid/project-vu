@@ -7,7 +7,7 @@ import { subscriptionService } from '../services/subscription.service';
 export const subscriptionController = {
     // get by user id
     get: tryCatchWrapper(async function ({ user }: ControllerProps) {
-        const subscription = await subscriptionService.getByUsedId(user.id);
+        const subscription = await subscriptionService.user.getByUsedId(user.id);
 
         return new SuccessResponse<Subscription>('subscription retrieved successfully', subscription).send();
     }),

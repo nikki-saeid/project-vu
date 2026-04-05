@@ -1,6 +1,6 @@
+import { Pagination, User } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
 import type { Database } from './supabase';
-import { User } from '@supabase/supabase-js';
 
 // Shared API response types
 export type ProjectWithLatLng = Database['public']['Tables']['projects']['Row'] & {
@@ -14,14 +14,11 @@ export type ProjectWithLatLngAndPagination = {
     total: number;
 };
 
-export type AdminAnalyticsResponse = {
-    activeSubscriptions: number;
-};
-
 export type ParamsId = { id: string };
 export type ParamsSlug = { slug: string };
 export type ParamsPlan = { plan: string };
 export type ParamsStripeCustomerId = { stripeCustomerId: string };
+export type SearchParamsMonth = { month: string };
 export type ContextParams<T> = {
     params: Promise<T>;
 };
@@ -29,8 +26,11 @@ export type ContextParams<T> = {
 export type ControllerProps<T = null> = {
     req: NextRequest;
     user: User;
-    context?: ContextParams<T>;
+    contextParams?: ContextParams<T>;
+    contextSearchParams?: URLSearchParams;
 };
+
+export type NextFunction<T> = (props: ControllerProps<T>) => Promise<Response>;
 
 export type ErrorThrown = {
     error: Error;
@@ -43,4 +43,4 @@ export function isErrorThrown(error: unknown): error is ErrorThrown {
 
 // ----------- service
 
-export type sls = { ok: 'l' };
+export type UsersWithPagination = { users: User[]; aud: string } & Pagination;

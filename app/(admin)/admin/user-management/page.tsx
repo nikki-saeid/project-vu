@@ -4,19 +4,18 @@ import EmptyData from '@/components/empty-data';
 import TableSkeleton from '@/components/skeleton-ui/table-skeleton';
 import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
-import { AdminUsersResponse } from '@/lib/api-fetcher/admin/analytics';
-import { getAdminUsers } from '@/lib/api-fetcher/admin/users';
+import { adminGetUsers } from '@/lib/api-fetcher/admin/server/users';
 import { useAdmin } from '@/lib/contexts/admin-context';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
-import { toast } from 'sonner';
-import DataTable from './_components/data-table';
+import { Suspense, useEffect } from 'react';
+import UsersTable from './_components/users-table';
+import { Badge } from '@/components/ui/badge';
 
 export default function UserManagement() {
     const { usersWithPagination, setUsersWithPagination } = useAdmin();
-    const [isLoading, setIsLoading] = useState(false);
 
     // get page from search params
     const searchParams = useSearchParams();
@@ -26,52 +25,60 @@ export default function UserManagement() {
     const page = pageQuery ? Number(pageQuery) : 1;
     const { total, lastPage } = usersWithPagination ?? {};
 
-    useEffect(() => {
-        async function _getAdminUsers() {
-            try {
-                setIsLoading(true);
-                const newUsers = (await getAdminUsers(page)) as AdminUsersResponse;
-                setIsLoading(false);
-                setUsersWithPagination(newUsers);
-            } catch (error) {
-                toast.error(error instanceof Error ? error.message : 'An error occurred while fetching users.');
-            } finally {
-                setIsLoading(false);
-            }
-        }
+    const { data, isPending } = useQuery({
+        queryKey: ['revenue', page],
+        queryFn: async () => await adminGetUsers(page),
+        initialData: usersWithPagination,
+    });
 
-        _getAdminUsers();
-    }, [page, setUsersWithPagination]);
+    // ! ------------- Not ideal
+    useEffect(() => {
+        if (data) {
+            setUsersWithPagination(data);
+        }
+    }, [data, setUsersWithPagination]);
 
     return (
         <section>
             <P className="text-muted-foreground mb-4 md:mb-6">Manage all users, their details, and statuses below.</P>
 
-            <div className="flex items-center gap-1 flex-1 justify-between mb-3">
-                <P>Total Users : {total}</P>
-                <div className="flex items-center gap-1">
-                    <Link href={page === 1 ? '' : `?page=${page - 1}`}>
-                        <Button disabled={page === 1} variant="outline" size="icon-sm">
+            <div className="flex items-center gap-1 flex-1 justify-between mb-2">
+                <Badge variant="outline">Total Users : {total}</Badge>
+                <div className="flex items-center gap-0.5">
+                    {page === 1 ? (
+                        <Button className="rounded-full" disabled variant="outline" size="icon-sm">
                             <IconChevronLeft />
                         </Button>
-                    </Link>
-                    <Link href={page === lastPage ? '' : `?page=${page + 1}`}>
-                        <Button disabled={page === lastPage} variant="outline" size="icon-sm">
+                    ) : (
+                        <Link href={`?page=${page - 1}`}>
+                            <Button className="rounded-full" variant="outline" size="icon-sm">
+                                <IconChevronLeft />
+                            </Button>
+                        </Link>
+                    )}
+                    {page === lastPage ? (
+                        <Button className="rounded-full" disabled variant="outline" size="icon-sm">
                             <IconChevronRight />
                         </Button>
-                    </Link>
+                    ) : (
+                        <Link href={`?page=${page + 1}`}>
+                            <Button className="rounded-full" variant="outline" size="icon-sm">
+                                <IconChevronRight />
+                            </Button>
+                        </Link>
+                    )}
                 </div>
             </div>
-            {isLoading || !usersWithPagination ? (
+            {isPending ? (
                 <TableSkeleton />
             ) : (
                 <Suspense fallback={<TableSkeleton />}>
-                    {usersWithPagination.users.length === 0 ? (
+                    {usersWithPagination?.users.length === 0 ? (
                         <EmptyData>
                             <P>No users found.</P>
                         </EmptyData>
                     ) : (
-                        <DataTable />
+                        <UsersTable />
                     )}
                 </Suspense>
             )}

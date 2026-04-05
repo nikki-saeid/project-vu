@@ -12,10 +12,10 @@ export const businessController = {
     }),
 
     // get by slug
-    getBySlug: tryCatchWrapper(async ({ user, context }: ControllerProps<ParamsSlug>) => {
+    getBySlug: tryCatchWrapper(async ({ user, contextParams }: ControllerProps<ParamsSlug>) => {
         // param
-        if (!context) throw new Error('Slug is required');
-        const params = await context.params;
+        if (!contextParams) throw new Error('Slug is required');
+        const params = await contextParams.params;
         const { slug } = params;
 
         const business = (await businessService.getBySlug(slug, user ? user.id : null)) as Business;

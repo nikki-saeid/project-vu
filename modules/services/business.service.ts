@@ -37,7 +37,6 @@ export const businessService = {
         // get business
         const business = await businessRepository.getBySlug(slug);
 
-
         // check if business is live
         if (business) {
             if (business?.user_id === userId || business?.page_status === 'live') {
@@ -51,8 +50,8 @@ export const businessService = {
     // update business
     update: async function (data: Partial<Business>, logo?: File) {
         // generate slug if name is present in the request body
-        if (!data.slug) {
-            data.slug = generateUniqueSlug(data.name ?? '');
+        if (!data.slug && data.name) {
+            data.slug = generateUniqueSlug(data.name);
         }
 
         // logo

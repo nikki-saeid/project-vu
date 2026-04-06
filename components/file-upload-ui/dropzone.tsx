@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
 import type { DropzoneProps } from '@/lib/types/forms';
 import { cn } from '@/lib/utils/classes-merge';
-import { IconPhoto, IconPlus, IconUpload, IconX } from '@tabler/icons-react';
+import { IconPhoto, IconPlus, IconTrash, IconUpload, IconX } from '@tabler/icons-react';
 import { Avatar, AvatarImage } from '../ui/avatar';
 
 export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB') => {
@@ -82,11 +82,7 @@ const DropzoneContent = ({
                                         </Avatar>
                                     ) : (
                                         // eslint-disable-next-line @next/next/no-img-element
-                                        <img
-                                            src={file.preview}
-                                            alt={file.name}
-                                            className="border aspect-video h-50 object-cover rounded-lg"
-                                        />
+                                        <img src={file.preview} alt={file.name} className="border aspect-video w-full  object-cover rounded-lg" />
                                     )}
                                 </>
                             ) : (
@@ -96,7 +92,7 @@ const DropzoneContent = ({
                             )}
 
                             <Button size="icon-xs" variant="outline" className="rounded-full" onClick={() => handleRemoveFile(file.name)}>
-                                <IconX />
+                                <IconTrash  />
                             </Button>
                         </div>
                         <div className="shrink grow flex flex-col items-start truncate">

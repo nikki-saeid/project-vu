@@ -39,7 +39,7 @@ function MobileNavbar() {
                         <Link href="/dashboard/live-page" className="w-full">
                             <Button className="w-full" variant="outline">
                                 <IconArrowRight />
-                                Dashboard
+                                Account
                             </Button>
                         </Link>
                     ) : (
@@ -78,7 +78,7 @@ function DesktopNavbar() {
                 {user ? (
                     <Link href="/dashboard/live-page">
                         <Button className="w-full" variant="outline">
-                            Dashboard
+                            Account
                             <IconArrowRight />
                         </Button>
                     </Link>

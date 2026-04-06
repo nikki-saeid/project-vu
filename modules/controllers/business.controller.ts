@@ -1,29 +1,29 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
-import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
-import type { ControllerProps, ParamsSlug } from '@/lib/types/api';
+import { tryCatchWrapperPrivate, tryCatchWrapperPublic } from '@/lib/helpers/global-try-catch';
+import type { ControllerPropsPrivate, ControllerPropsPublic, ParamsSlug } from '@/lib/types/api';
 import { Business, PageStatusEnum } from '@/lib/types/db';
 import { businessService } from '../services/business.service';
 
 export const businessController = {
     // get by user id
-    getByUserId: tryCatchWrapper(async ({ user }: ControllerProps) => {
+    getByUserId: tryCatchWrapperPrivate(async ({ user }: ControllerPropsPrivate) => {
         const business = await businessService.getByUserIdOrCreate(user.id, { email: user.email });
         return new SuccessResponse<Business>('business fetched successfully', business).send();
     }),
 
     // get by slug
-    getBySlug: tryCatchWrapper(async ({ user, contextParams }: ControllerProps<ParamsSlug>) => {
+    getBySlug: tryCatchWrapperPublic(async ({ user, contextParams }: ControllerPropsPublic<ParamsSlug>) => {
         // param
         if (!contextParams) throw new Error('Slug is required');
         const params = await contextParams.params;
         const { slug } = params;
 
-        const business = (await businessService.getBySlug(slug, user ? user.id : null)) as Business;
+        const business = await businessService.getBySlug(slug, user ? user.id : null);
         return new SuccessResponse<Business>('business fetched successfully', business).send();
     }),
 
     // update business
-    update: tryCatchWrapper(async ({ req, user }: ControllerProps) => {
+    update: tryCatchWrapperPrivate(async ({ req, user }: ControllerPropsPrivate) => {
         // Get the body
         const formData = await req.formData();
         const logo = formData.get('logo');
@@ -35,7 +35,7 @@ export const businessController = {
     }),
 
     // update page status
-    updatePageStatus: tryCatchWrapper(async ({ req, user }: ControllerProps) => {
+    updatePageStatus: tryCatchWrapperPrivate(async ({ req, user }: ControllerPropsPrivate) => {
         // Get the body
         const body = await req.json();
         const status = body?.status as PageStatusEnum | undefined;
@@ -45,7 +45,7 @@ export const businessController = {
         return new SuccessResponse<Business>('Page status updated successfully', business).send();
     }),
 
-    updateIsOnboarded: tryCatchWrapper(async ({ req, user }: ControllerProps) => {
+    updateIsOnboarded: tryCatchWrapperPrivate(async ({ req, user }: ControllerPropsPrivate) => {
         // Get the body
         const body = await req.json();
         const is_onboarded = body?.is_onboarded as boolean | undefined;

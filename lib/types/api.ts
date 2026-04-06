@@ -24,12 +24,15 @@ export type ContextParams<T = Record<string, string>> = {
 
 export type ControllerProps<T = Record<string, string>> = {
     req: NextRequest;
-    user: User;
     contextParams: ContextParams<T>;
     contextSearchParams?: URLSearchParams;
 };
 
-export type NextFunction<T = Record<string, string>> = (props: ControllerProps<T>) => Promise<Response>;
+export type ControllerPropsPrivate<T = Record<string, string>> = ControllerProps<T> & { user: User };
+export type ControllerPropsPublic<T = Record<string, string>> = ControllerProps<T> & { user: User | null };
+
+export type NextFunctionPrivate<T = Record<string, string>> = (props: ControllerPropsPrivate<T>) => Promise<Response>;
+export type NextFunctionPublic<T = Record<string, string>> = (props: ControllerPropsPublic<T>) => Promise<Response>;
 
 export type ErrorThrown = {
     error: Error;

@@ -1,12 +1,12 @@
 import { errorHandler } from '@/lib/helpers/error-handler';
-import type { ContextParams, NextFunction } from '@/lib/types/api';
+import type { ContextParams, NextFunctionPrivate } from '@/lib/types/api';
 import { StatusCodes } from 'http-status-codes';
 import { NextRequest } from 'next/server';
 import { userService } from '../services/user.service';
 
 export const authMiddleware = {
     // user auth middleware
-    user: function <T>(next: NextFunction<T>) {
+    user: function <T>(next: NextFunctionPrivate<T>) {
         return async function (req: NextRequest, context: ContextParams<T>) {
             const user = await userService.get();
 
@@ -22,7 +22,7 @@ export const authMiddleware = {
     },
 
     // admin auth middleware
-    admin: function <T>(next: NextFunction<T>) {
+    admin: function <T>(next: NextFunctionPrivate<T>) {
         return async function (req: NextRequest, context: ContextParams<T>) {
             const user = await userService.get();
 

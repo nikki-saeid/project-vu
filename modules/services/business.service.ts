@@ -37,10 +37,11 @@ export const businessService = {
         // get business
         const business = await businessRepository.getBySlug(slug);
 
+
         // check if business is live
         if (business) {
             if (business?.user_id === userId || business?.page_status === 'live') {
-                return await this.makeBusinessLogoPublic(business);;
+                return await this.makeBusinessLogoPublic(business);
             }
         }
 

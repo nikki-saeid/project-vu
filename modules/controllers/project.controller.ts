@@ -1,12 +1,12 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
-import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
-import { ControllerProps, ParamsId, ParamsSlug, ProjectWithLatLng } from '@/lib/types/api';
+import { tryCatchWrapperPrivate, tryCatchWrapperPublic } from '@/lib/helpers/global-try-catch';
+import { ControllerPropsPrivate, ControllerPropsPublic, ParamsId, ParamsSlug, ProjectWithLatLng } from '@/lib/types/api';
 import { Project } from '@/lib/types/db';
 import { projectService } from '../services/project.service';
 
 export const projectController = {
     // get by user id
-    create: tryCatchWrapper(async ({ req, user }: ControllerProps) => {
+    create: tryCatchWrapperPrivate(async ({ req, user }: ControllerPropsPrivate) => {
         // Get the body
         const formData = await req.formData();
         const images = formData.getAll('images');
@@ -22,13 +22,13 @@ export const projectController = {
     }),
 
     //  get many projects with pagination
-    getMany: tryCatchWrapper(async function ({ user }: ControllerProps) {
+    getMany: tryCatchWrapperPrivate(async function ({ user }: ControllerPropsPrivate) {
         const projects = await projectService.getMany(user.id);
         return new SuccessResponse<ProjectWithLatLng[]>('Projects fetched successfully', projects).send();
     }),
 
     //  get many projects with pagination
-    getManyByBusinessSlug: tryCatchWrapper(async function ({ contextParams }: ControllerProps<ParamsSlug>) {
+    getManyByBusinessSlug: tryCatchWrapperPublic(async function ({ contextParams }: ControllerPropsPublic<ParamsSlug>) {
         // Get the business slug
         if (!contextParams) throw new Error('Slug is required');
         const params = await contextParams.params;
@@ -39,7 +39,7 @@ export const projectController = {
     }),
 
     // update
-    update: tryCatchWrapper(async function ({ req, user, contextParams }: ControllerProps<ParamsId>) {
+    update: tryCatchWrapperPrivate(async function ({ req, user, contextParams }: ControllerPropsPrivate<ParamsId>) {
         // Get the project id
         if (!contextParams) throw new Error('Id is required');
         const params = await contextParams.params;
@@ -61,7 +61,7 @@ export const projectController = {
     }),
 
     // delete
-    delete: tryCatchWrapper(async function ({ contextParams }: ControllerProps<ParamsId>) {
+    delete: tryCatchWrapperPrivate(async function ({ contextParams }: ControllerPropsPrivate<ParamsId>) {
         // Get the project id
         if (!contextParams) throw new Error('Id is required');
         const params = await contextParams.params;

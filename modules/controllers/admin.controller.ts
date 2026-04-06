@@ -1,6 +1,6 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
-import { tryCatchWrapper } from '@/lib/helpers/global-try-catch';
-import { ControllerProps, ParamsId, UsersWithPagination } from '@/lib/types/api';
+import { tryCatchWrapperPrivate } from '@/lib/helpers/global-try-catch';
+import { ControllerPropsPrivate, ParamsId, UsersWithPagination } from '@/lib/types/api';
 import { adminService } from '../services/admin.service';
 import { Subscription } from '@/lib/types/db';
 import { User } from '@supabase/supabase-js';
@@ -8,7 +8,7 @@ import { User } from '@supabase/supabase-js';
 export const adminController = {
     // update user
     analytics: {
-        getNetRevenueByMonth: tryCatchWrapper(async ({ contextSearchParams }: ControllerProps) => {
+        getNetRevenueByMonth: tryCatchWrapperPrivate(async ({ contextSearchParams }: ControllerPropsPrivate) => {
             // Get the body
             if (!contextSearchParams) throw new Error('Month is required');
             const month = contextSearchParams.get('month');
@@ -19,7 +19,7 @@ export const adminController = {
         }),
     },
     user: {
-        getMany: tryCatchWrapper(async ({ contextSearchParams }: ControllerProps) => {
+        getMany: tryCatchWrapperPrivate(async ({ contextSearchParams }: ControllerPropsPrivate) => {
             // Get the body
             if (!contextSearchParams) throw new Error('Page is required');
             const page = contextSearchParams.get('page');
@@ -28,7 +28,7 @@ export const adminController = {
             const users = await adminService.user.getMany(Number(page));
             return new SuccessResponse<UsersWithPagination>('Users fetched successfully', users).send();
         }),
-        activateById: tryCatchWrapper(async ({ contextParams }: ControllerProps<ParamsId>) => {
+        activateById: tryCatchWrapperPrivate(async ({ contextParams }: ControllerPropsPrivate<ParamsId>) => {
             // Get the body
             if (!contextParams) throw new Error('Id is required');
             const params = await contextParams.params;
@@ -39,7 +39,7 @@ export const adminController = {
             return new SuccessResponse<User | null>('User activated successfully', user).send();
         }),
 
-        banById: tryCatchWrapper(async ({ contextParams }: ControllerProps<ParamsId>) => {
+        banById: tryCatchWrapperPrivate(async ({ contextParams }: ControllerPropsPrivate<ParamsId>) => {
             // Get the body
             if (!contextParams) throw new Error('Id is required');
             const params = await contextParams.params;
@@ -51,7 +51,7 @@ export const adminController = {
         }),
     },
     subscription: {
-        getAllActive: tryCatchWrapper(async () => {
+        getAllActive: tryCatchWrapperPrivate(async () => {
             const subscriptions = await adminService.subscription.getAllActive();
             return new SuccessResponse<Subscription[]>('Active subscriptions fetched successfully', subscriptions).send();
         }),

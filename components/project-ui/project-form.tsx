@@ -22,6 +22,7 @@ import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
 import { compressImage } from '@/lib/helpers/image-compression';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
+const MAX_IMAGES = 5;
 
 export default function ProjectForm({ onSuccess, className, id, setIsLoading, project }: ProjectFormProps) {
     const [searchedLocation, setSearchedLocation] = useState<LocationFeature | null>(null);
@@ -44,7 +45,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     // ------------------------------
     const dropZoneProps = useSupabaseUpload({
         allowedMimeTypes: ['image/*'],
-        maxFiles: 5,
+        maxFiles: MAX_IMAGES,
         maxFileSize: 5 * 1000 * 1000,
     });
     const { files, setFiles, errors } = dropZoneProps;
@@ -150,7 +151,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
         toast.success(updated.message);
     };
     const onSubmit = async (data: ProjectCreateInput) => {
-        if (errors.length === 0 && files.length <= 10) {
+        if (errors.length === 0 && files.length <= MAX_IMAGES) {
             setIsLoading(true);
             try {
                 if (!project) {

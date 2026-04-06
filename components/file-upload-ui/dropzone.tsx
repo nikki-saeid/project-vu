@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
 import type { DropzoneProps } from '@/lib/types/forms';
 import { cn } from '@/lib/utils/classes-merge';
-import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
+import { IconPhoto, IconPlus, IconUpload, IconX } from '@tabler/icons-react';
 import { Avatar, AvatarImage } from '../ui/avatar';
 
 export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB') => {
@@ -151,6 +151,7 @@ const DropzoneEmptyState = ({ className }: { className?: string }) => {
                 <div className="flex gap-1 items-center">
                     <p className="text-xs text-muted-foreground">Drag and drop or</p>
                     <Button variant="outline" size="xs" onClick={() => inputRef.current?.click()}>
+                        <IconPlus />
                         Select {maxFiles === 1 ? `image` : 'images'}
                     </Button>
                 </div>

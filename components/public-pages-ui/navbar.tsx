@@ -1,14 +1,14 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTrigger } from '@/components/ui/drawer';
+import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import { NAVBAR_URLS } from '@/lib/constants/navbar-url';
+import { useUser } from '@/lib/contexts/user-context';
+import { NavbarProps } from '@/lib/types/dashboard';
 import { IconArrowRight, IconMenu2 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import NavbarWrapper from './navbar-wrapper';
-import { useUser } from '@/lib/contexts/user-context';
-import { NavbarProps } from '@/lib/types/dashboard';
 
 function MobileNavbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -22,6 +22,7 @@ function MobileNavbar() {
                 </Button>
             </DrawerTrigger>
             <DrawerContent>
+                <DrawerTitle></DrawerTitle>
                 <DrawerHeader>
                     <div className="flex flex-col gap-2">
                         {NAVBAR_URLS.map(({ label, url }) => (

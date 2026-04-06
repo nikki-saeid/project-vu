@@ -1,9 +1,9 @@
 'use client';
 
 import BusinessProfile from '@/components/business-ui/business-profile';
-import LiveButton from './_components/live-button';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
-import EditPageDialog from './_components/edit-page-dialog';
+import ActionMenu from './_components/action-menu';
+import LiveButton from './_components/live-button';
 import ShareButtons from './_components/share-buttons';
 
 export default function LivePage() {
@@ -14,7 +14,7 @@ export default function LivePage() {
             <div className="flex justify-end gap-2">
                 <LiveButton />
                 <ShareButtons />
-                <EditPageDialog />
+                <ActionMenu />
             </div>
             <div className="border p-4 rounded-lg md:p-6">
                 <BusinessProfile business={business} projects={projects} isPublic={false} />

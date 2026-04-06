@@ -19,7 +19,7 @@ export default function Hero() {
                     </P>
 
                     <div className="mt-16 flex gap-2 max-w-md mx-auto">
-                        <Link href="/signup" className="flex-1">
+                        <Link href="/sign-up" className="flex-1">
                             <Button
                                 size="lg"
                                 className="w-full bg-primary-dark text-primary-foreground hover:bg-primary-dark hover:text-primary-foreground"

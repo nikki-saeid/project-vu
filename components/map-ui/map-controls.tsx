@@ -3,7 +3,7 @@ import { IconMinus, IconPlus } from '@tabler/icons-react';
 import { Button } from '../ui/button';
 import { ButtonGroup } from '../ui/button-group';
 
-export default function MapCotrols() {
+export default function MapControls() {
     const { map } = useMap();
 
     const zoomIn = () => map?.zoomIn();

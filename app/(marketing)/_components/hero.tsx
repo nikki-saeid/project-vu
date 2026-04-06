@@ -22,7 +22,7 @@ export default function Hero() {
                         <Link href="/sign-up" className="flex-1">
                             <Button
                                 size="lg"
-                                className="w-full bg-primary-dark text-primary-foreground hover:bg-primary-dark hover:text-primary-foreground"
+                                className="w-full bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
                             >
                                 Get started now
                                 <IconArrowRight className="size-4" />
@@ -33,7 +33,7 @@ export default function Hero() {
                                 size="lg"
                                 // className="w-full bg-primary-dark/10 border border-primary-dark text-primary-dark hover:bg-primary-dark/10 hover:text-primary-dark"
                                 className="w-full"
-                                variant="outlinePrimaryDark"
+                                variant="outlinePrimary"
                             >
                                 See live example
                                 <IconAppWindow className="size-4" />

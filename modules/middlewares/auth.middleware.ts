@@ -7,7 +7,7 @@ import { userService } from '../services/user.service';
 export const authMiddleware = {
     // user auth middleware
     user: function <T>(next: NextFunction<T>) {
-        return async function (req: NextRequest, contextParams?: ContextParams<T>) {
+        return async function (req: NextRequest, context: ContextParams<T>) {
             const user = await userService.get();
 
             if (!user) {
@@ -17,13 +17,13 @@ export const authMiddleware = {
                 });
             }
 
-            return next({ req, user, contextParams, contextSearchParams: req.nextUrl.searchParams });
+            return next({ req, user, contextParams: context, contextSearchParams: req.nextUrl.searchParams });
         };
     },
 
     // admin auth middleware
     admin: function <T>(next: NextFunction<T>) {
-        return async function (req: NextRequest, contextParams?: ContextParams<T>) {
+        return async function (req: NextRequest, context: ContextParams<T>) {
             const user = await userService.get();
 
             if (!user || user?.role !== 'admin') {
@@ -33,7 +33,7 @@ export const authMiddleware = {
                 });
             }
 
-            return next({ req, user, contextParams, contextSearchParams: req.nextUrl.searchParams });
+            return next({ req, user, contextParams: context, contextSearchParams: req.nextUrl.searchParams });
         };
     },
 };

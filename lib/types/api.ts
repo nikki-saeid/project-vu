@@ -18,19 +18,18 @@ export type ParamsId = { id: string };
 export type ParamsSlug = { slug: string };
 export type ParamsPlan = { plan: string };
 export type ParamsStripeCustomerId = { stripeCustomerId: string };
-export type SearchParamsMonth = { month: string };
-export type ContextParams<T> = {
+export type ContextParams<T = Record<string, string>> = {
     params: Promise<T>;
 };
 
-export type ControllerProps<T = null> = {
+export type ControllerProps<T = Record<string, string>> = {
     req: NextRequest;
     user: User;
-    contextParams?: ContextParams<T>;
+    contextParams: ContextParams<T>;
     contextSearchParams?: URLSearchParams;
 };
 
-export type NextFunction<T> = (props: ControllerProps<T>) => Promise<Response>;
+export type NextFunction<T = Record<string, string>> = (props: ControllerProps<T>) => Promise<Response>;
 
 export type ErrorThrown = {
     error: Error;

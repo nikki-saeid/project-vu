@@ -5,7 +5,7 @@ import { storageService } from '../services/storage.service';
 export const projectRepository = {
     getById: async function (id: string) {
         const supabase = await createClient();
-        const { data, error } = await supabase.from('projects').select().eq('id', id).maybeSingle();
+        const { data, error } = await supabase.from('projects').select("*").eq('id', id).maybeSingle();
 
         if (error) throw error;
 

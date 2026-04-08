@@ -21,3 +21,24 @@ export const getPublicProjectsBySlug = async (slug: string) => {
     });
     return response.data;
 };
+
+
+export const getProjectById = async (id: string) => {
+    const cookie = await cookies();
+    const response = await fetcher<ProjectWithLatLng>(`${API_URL}/user/projects/${id}`, {
+        headers: { Cookie: cookie.toString() },
+    });
+    return response.data;
+};
+
+
+
+
+export const getPublicProjectById = async (id: string) => {
+    const cookie = await cookies();
+    const response = await fetcher<ProjectWithLatLng>(`${API_URL}/public/projects/details/${id}`, {
+        headers: { Cookie: cookie.toString() },
+    });
+    return response.data;
+};
+

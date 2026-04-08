@@ -4,7 +4,7 @@ import ProjectImageSkeleton from './project-image-skeleton';
 
 export default function ProjectCardSkeleton() {
     return (
-        <Card className="relative pt-0 border-0 overflow-hidden">
+        <Card className="relative pt-0 overflow-hidden">
             <div className="absolute top-2 right-2 z-50">
                 <ProjectImageSkeleton />
             </div>

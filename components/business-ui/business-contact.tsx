@@ -3,12 +3,14 @@ import { IconMail, IconPhone } from '@tabler/icons-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { Business } from '@/lib/types/db';
+import { ClassNameProp } from '@/lib/types/common';
+import { cn } from '@/lib/utils/classes-merge';
 
-type BusinessContactProps = Pick<Business, 'phone' | 'email'>;
+type BusinessContactProps = Pick<Business, 'phone' | 'email'> & ClassNameProp;
 
-export default function BusinessContact({ phone, email }: BusinessContactProps) {
+export default function BusinessContact({ phone, email, className }: BusinessContactProps) {
     return (
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4">
+        <div className={cn('grid md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4', className)}>
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Link href={`tel:${phone}`}>

@@ -24,6 +24,10 @@ export const projectService = {
         return await projectRepository.create({ ...data, id, business_id: business.id, images_urls: projectImages });
     },
 
+    getById: async function (id: string) {
+        return storageService.getProjectStoragePublicUrls(await projectRepository.getById(id));
+    },
+
     // get many projects
     getMany: async function (userId: string) {
         // get the business

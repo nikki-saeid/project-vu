@@ -41,7 +41,7 @@ export default function BusinessProfile({ business, projects, isPublic }: Busine
                         <BusinessContact phone={business.phone} email={business.email} />
                     </div>
                     <Separator />
-                    <ProjectsTabs projects={projects} isPublic={isPublic} />
+                    <ProjectsTabs projects={projects} isPublic={isPublic} slug={business.slug ?? ''} />
                 </div>
             </section>
         </Suspense>

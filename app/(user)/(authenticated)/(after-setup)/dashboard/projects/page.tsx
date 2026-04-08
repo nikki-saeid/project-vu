@@ -6,7 +6,7 @@ import ProjectsList from '@/components/project-ui/projects-list';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 
 export default function Projects() {
-    const { projects } = useDashboard();
+    const { projects, business } = useDashboard();
 
     return (
         <div className="flex flex-col md:gap-6 gap-4">
@@ -14,7 +14,11 @@ export default function Projects() {
                 <AddProjectDialog />
             </div>
 
-            {projects.length > 0 ? <ProjectsList projects={projects} isPublic={false} /> : <NoProjectsUi />}
+            {projects.length > 0 ? (
+                <ProjectsList projects={projects} isPublic={false} slug={business?.slug ?? ''} />
+            ) : (
+                <NoProjectsUi isAction={false} />
+            )}
         </div>
     );
 }

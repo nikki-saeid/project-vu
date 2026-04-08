@@ -4,14 +4,18 @@ import { memo } from 'react';
 import Map from '../map-ui/map';
 import NoProjectsUi from './no-projects-ui';
 import ProjectsLocations from './projects-locations';
+import { ClassNameProp } from '@/lib/types/common';
+import { cn } from '@/lib/utils/classes-merge';
 
 type ProjectsMapProps = {
     embed: boolean;
     projects: ProjectWithLatLng[];
     isPublic: boolean;
-};
+    disablePopup?: boolean;
+    slug: string;
+} & ClassNameProp;
 
-function ProjectsMap({ embed = false, projects, isPublic }: ProjectsMapProps) {
+function ProjectsMap({ embed = false, projects, isPublic, className, disablePopup, slug }: ProjectsMapProps) {
     const centerLatLng = getCenterLatLng(projects);
     const zoomLevel = getZoomLevelForLocations(projects);
 
@@ -22,9 +26,9 @@ function ProjectsMap({ embed = false, projects, isPublic }: ProjectsMapProps) {
                     initialViewState={{ ...centerLatLng, zoom: zoomLevel }}
                     isSearchable={false}
                     fullHeight={embed}
-                    className={embed ? 'rounded-none' : ''}
+                    className={cn(embed ? 'rounded-none' : '', className)}
                 >
-                    <ProjectsLocations projects={projects} />
+                    <ProjectsLocations slug={slug} isPublic={isPublic} projects={projects} disablePopup={disablePopup} />
                 </Map>
             ) : (
                 <NoProjectsUi isAction={!embed && !isPublic} />

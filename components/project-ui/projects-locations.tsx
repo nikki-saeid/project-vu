@@ -9,9 +9,12 @@ import { LocationPopup } from '../map-ui/location-popup';
 
 type ProjectsLocationsProps = {
     projects: ProjectWithLatLng[];
+    disablePopup?: boolean;
+    isPublic?: boolean;
+    slug: string;
 };
 
-function ProjectsLocations({ projects }: ProjectsLocationsProps) {
+function ProjectsLocations({ projects, disablePopup, isPublic, slug }: ProjectsLocationsProps) {
     const [selectedLocation, setSelectedLocation] = useState<LocationFeature | null>(null);
 
     const locationFeatures = useMemo(
@@ -28,15 +31,17 @@ function ProjectsLocations({ projects }: ProjectsLocationsProps) {
                 <LocationMarker
                     key={location.properties.mapbox_id}
                     location={location}
-                    onClick={selectedLocation ? handlePopUpOff : handlePopUpOn}
+                    onClick={disablePopup ? undefined : selectedLocation ? handlePopUpOff : handlePopUpOn}
                 />
             ))}
 
-            {selectedLocation && (
+            {!disablePopup && selectedLocation && (
                 <LocationPopup
                     location={selectedLocation}
                     onClose={handlePopUpOff}
                     project={projects.find((p) => p.id === selectedLocation.properties.mapbox_id)}
+                    isPublic={isPublic}
+                    slug={slug}
                 />
             )}
         </>

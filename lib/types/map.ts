@@ -109,7 +109,13 @@ export type PopupProps = {
 } & PopupOptions;
 
 export type LocationMarkerProps = { location?: LocationFeature; onClick?: (data: LocationFeature | null) => void };
-export type LocationPopupProps = { location?: LocationFeature; onClose?: () => void; project?: ProjectWithLatLng | null };
+export type LocationPopupProps = {
+    location?: LocationFeature;
+    onClose?: () => void;
+    project?: ProjectWithLatLng | null;
+    isPublic?: boolean;
+    slug: string;
+};
 
 export type LocationSuggestion = {
     mapbox_id: string;

@@ -7,9 +7,10 @@ import { ProjectWithLatLng } from '@/lib/types/api';
 type ProjectsTabsProps = {
     projects: ProjectWithLatLng[];
     isPublic: boolean;
+    slug: string;
 };
 
-export default function ProjectsTabs({ projects, isPublic }: ProjectsTabsProps) {
+export default function ProjectsTabs({ projects, isPublic, slug }: ProjectsTabsProps) {
     return (
         <Tabs defaultValue="map">
             <TabsList className="mb-3 w-full">
@@ -23,10 +24,10 @@ export default function ProjectsTabs({ projects, isPublic }: ProjectsTabsProps) 
                 </TabsTrigger>
             </TabsList>
             <TabsContent forceMount value="map" className="data-[state=inactive]:hidden">
-                <ProjectsMap embed={false} projects={projects} isPublic={isPublic} />
+                <ProjectsMap embed={false} projects={projects} isPublic={isPublic} slug={slug} />
             </TabsContent>
             <TabsContent forceMount value="list" className="data-[state=inactive]:hidden">
-                <ProjectsList projects={projects} isPublic={isPublic} />
+                <ProjectsList projects={projects} isPublic={isPublic} slug={slug} />
             </TabsContent>
         </Tabs>
     );

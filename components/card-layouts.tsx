@@ -18,7 +18,7 @@ export default function CardLayouts({ action, children, title, description }: Ca
                 </CardHeader>
             )}
             <CardContent>{children}</CardContent>
-            <CardFooter className="flex justify-end">{action}</CardFooter>
+            {action && <CardFooter className="flex justify-end">{action}</CardFooter>}
         </Card>
     );
 }

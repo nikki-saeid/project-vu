@@ -15,6 +15,13 @@ export const storageService = {
         return await sharp(buffer).resize(width, height).webp({ quality: 80 }).toBuffer();
     },
 
+    qualityUpdateImageToWebp: async function (file: File, quality: number) {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        return await sharp(buffer).webp({ quality }).toBuffer();
+    },
+
     // upload after resize
     uploadAfterResize: async function (path: string, file: File | null, width: number, height: number) {
         if (!(file instanceof File)) {
@@ -22,6 +29,16 @@ export const storageService = {
         }
 
         const buffer = await this.resizeImageToWebp(file, width, height);
+
+        return await storageRepository.upload(path, buffer);
+    },
+
+    uploadAfterQualityUpdate: async function (path: string, file: File | null, quality: number) {
+        if (!(file instanceof File)) {
+            throw { error: new Error('Missing file'), status: StatusCodes.BAD_REQUEST };
+        }
+
+        const buffer = await this.qualityUpdateImageToWebp(file, quality);
 
         return await storageRepository.upload(path, buffer);
     },
@@ -44,7 +61,7 @@ export const storageService = {
                     const fileName = `image-${id}.webp`;
                     const filePath = `${path}/${fileName}`;
 
-                    await storageService.uploadAfterResize(filePath, file, 500, 460);
+                    await storageService.uploadAfterQualityUpdate(filePath, file, 80);
                     return { name: fileName };
                 } catch (error) {
                     return { name: file.name, error };
@@ -73,27 +90,27 @@ export const storageService = {
         return await storageRepository.removeMany(paths);
     },
 
+    getProjectStoragePublicUrls: async function (project: Project) {
+        // project location
+        const coords = parsePostGisPoint(project.location as string | null);
+        // get the images
+        const images = project.images_urls ?? [];
+
+        // get the public urls
+        const publicUrls = await Promise.all(images.map(async (image) => await storageRepository.getStoragePublicUrl(image)));
+
+        return {
+            ...project,
+            images_urls: publicUrls,
+            ...(coords && { lng: coords.lng, lat: coords.lat }),
+        };
+    },
+
     // get storage public urls
     getProjectsStoragePublicUrls: async function (projects: Project[]) {
         const _projects: ProjectWithLatLng[] = [];
         for (let i = 0; i < projects.length; i++) {
-            // get the project
-            const project = projects[i];
-
-            // project location
-            const coords = parsePostGisPoint(project.location as string | null);
-
-            // get the images
-            const images = project.images_urls ?? [];
-
-            // get the public urls
-            const publicUrls = await Promise.all(images.map(async (image) => await storageRepository.getStoragePublicUrl(image)));
-
-            _projects.push({
-                ...project,
-                images_urls: publicUrls,
-                ...(coords && { lng: coords.lng, lat: coords.lat }),
-            });
+            _projects.push(await this.getProjectStoragePublicUrls(projects[i]));
         }
 
         return _projects;

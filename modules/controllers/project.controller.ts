@@ -5,6 +5,24 @@ import { Project } from '@/lib/types/db';
 import { projectService } from '../services/project.service';
 
 export const projectController = {
+    getById: tryCatchWrapperPrivate(async function ({ contextParams }: ControllerPropsPrivate<ParamsId>) {
+        // Get the project id
+        if (!contextParams) throw new Error('Id is required');
+        const params = await contextParams.params;
+        const { id } = params;
+
+        const project = await projectService.getById(id);
+        return new SuccessResponse<ProjectWithLatLng>('Project fetched successfully', project).send();
+    }),
+    getPublicById: tryCatchWrapperPublic(async function ({ contextParams }: ControllerPropsPublic<ParamsId>) {
+        // Get the project id
+        if (!contextParams) throw new Error('Id is required');
+        const params = await contextParams.params;
+        const { id } = params;
+
+        const project = await projectService.getById(id);
+        return new SuccessResponse<ProjectWithLatLng>('Project fetched successfully', project).send();
+    }),
     // get by user id
     create: tryCatchWrapperPrivate(async ({ req, user }: ControllerPropsPrivate) => {
         // Get the body
@@ -39,7 +57,7 @@ export const projectController = {
     }),
 
     // update
-    update: tryCatchWrapperPrivate(async function ({ req, user, contextParams }: ControllerPropsPrivate<ParamsId>) {
+    updateById: tryCatchWrapperPrivate(async function ({ req, user, contextParams }: ControllerPropsPrivate<ParamsId>) {
         // Get the project id
         if (!contextParams) throw new Error('Id is required');
         const params = await contextParams.params;
@@ -61,7 +79,7 @@ export const projectController = {
     }),
 
     // delete
-    delete: tryCatchWrapperPrivate(async function ({ contextParams }: ControllerPropsPrivate<ParamsId>) {
+    deleteById: tryCatchWrapperPrivate(async function ({ contextParams }: ControllerPropsPrivate<ParamsId>) {
         // Get the project id
         if (!contextParams) throw new Error('Id is required');
         const params = await contextParams.params;
@@ -69,6 +87,6 @@ export const projectController = {
 
         const project = await projectService.deleteById(id);
 
-        return new SuccessResponse<[]>('Project deleted successfully', project).send();
+        return new SuccessResponse<Project>('Project deleted successfully', project).send();
     }),
 };

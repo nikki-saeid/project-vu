@@ -4,7 +4,7 @@ import ProjectCard from '../project-ui/project-card';
 import { Button } from '../ui/button';
 import Popup from './map-popup';
 
-export function LocationPopup({ location, onClose, project }: LocationPopupProps) {
+export function LocationPopup({ location, onClose, project, isPublic, slug }: LocationPopupProps) {
     if (!location) return null;
 
     const { properties, geometry } = location;
@@ -24,6 +24,8 @@ export function LocationPopup({ location, onClose, project }: LocationPopupProps
         >
             <ProjectCard
                 {...project}
+                isPublic={isPublic}
+                slug={slug}
                 action={
                     <Button size="icon-xs" className="rounded-full shadow-xs" variant="outline" onClick={onClose}>
                         <IconX />

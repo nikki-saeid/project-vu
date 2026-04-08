@@ -10,7 +10,7 @@ export default async function Page({ params }: ProjectsPageProps) {
 
     return (
         <PublicProviderInner slug={slug}>
-            <ProjectDetailsPageContent id={id} />;
+            <ProjectDetailsPageContent id={id} />
         </PublicProviderInner>
     );
 }

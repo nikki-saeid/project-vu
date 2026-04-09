@@ -25,7 +25,7 @@ export type IconCardProps = {
 };
 
 export type DashboardCardProps = ChildrenProp & {
-    title: string;
+    title: React.ReactNode;
     description: string;
     badge?: React.ReactNode;
 };

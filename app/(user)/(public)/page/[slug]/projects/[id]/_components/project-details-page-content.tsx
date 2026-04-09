@@ -15,5 +15,5 @@ export default function ProjectDetailsPageContent({ id }: ProjectDetailsPageCont
 
     if (!business || !project) return <EmptyData>Project not found</EmptyData>;
 
-    return <ProjectDetailsPage project={project} isPublic={true} business={business} />;
+    return <ProjectDetailsPage project={project} business={business} />;
 }

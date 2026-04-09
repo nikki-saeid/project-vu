@@ -3,7 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Logo({ isWhite, variant = 'full' }: LogoProps) {
-    return (
+    return variant === 'no-icon' ? (
+        <div></div>
+    ) : (
         <Link href="/">
             {variant === 'black' ? (
                 <Image

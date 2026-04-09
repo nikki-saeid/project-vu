@@ -241,8 +241,8 @@ function SidebarTrigger({ className, onClick, ...props }: React.ComponentProps<t
             data-sidebar="trigger"
             data-slot="sidebar-trigger"
             variant="outline"
-            size="icon"
-            className={cn('size-7 rounded-full', className)}
+            size="icon-sm"
+            className={cn('rounded-full', className)}
             onClick={(event) => {
                 onClick?.(event);
                 toggleSidebar();

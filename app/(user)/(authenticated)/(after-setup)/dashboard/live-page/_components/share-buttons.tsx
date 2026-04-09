@@ -17,7 +17,7 @@ export default function ShareButtons() {
 
     return (
         <ButtonGroup>
-            <Button asChild disabled={!livePageHref} variant="outline" size="xs">
+            <Button asChild disabled={!livePageHref} variant="outline" size="sm">
                 <Link
                     href={livePageHref ?? ''}
                     target="_blank"
@@ -27,7 +27,7 @@ export default function ShareButtons() {
                     Preview
                 </Link>
             </Button>
-            <Button disabled={!livePageHref} variant="outline" size="xs" onClick={handleCopyLink}>
+            <Button disabled={!livePageHref} variant="outline" size="sm" onClick={handleCopyLink}>
                 Copy link
             </Button>
         </ButtonGroup>

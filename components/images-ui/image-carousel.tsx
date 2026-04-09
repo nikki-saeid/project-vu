@@ -20,7 +20,7 @@ export default function ImageCarousel({ images_urls, title, className }: ImageCa
                             <img
                                 src={image ?? '/placeholder.svg'}
                                 alt={title ?? 'Project image'}
-                                className={cn('relative z-90 aspect-video h-40 w-full object-cover', className)}
+                                className={cn('relative z-1 aspect-video h-40 w-full object-cover', className)}
                             />
                         </Suspense>
                     </CarouselItem>

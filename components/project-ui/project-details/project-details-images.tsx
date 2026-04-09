@@ -23,8 +23,8 @@ export default function ProjectDetailsImages({ images_urls, title }: ProjectDeta
                 <Carousel>
                     {images_urls && images_urls.length > 1 && (
                         <>
-                            <CarouselPrevious size="icon-sm" className="absolute top-50 left-2 -translate-y-1/2 z-54" />
-                            <CarouselNext size="icon-sm" className="absolute top-50 right-2 -translate-y-1/2 z-54" />
+                            <CarouselPrevious size="icon-sm" className="absolute top-50 left-2 -translate-y-1/2 z-10" />
+                            <CarouselNext size="icon-sm" className="absolute top-50 right-2 -translate-y-1/2 z-10" />
                         </>
                     )}
                     <div className="cursor-pointer" onClick={() => setOpen(true)}>

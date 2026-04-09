@@ -9,6 +9,7 @@ import { IconArrowRight, IconMenu2 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import NavbarWrapper from './navbar-wrapper';
+import UserAvatar from '../auth-ui/user-avatar';
 
 function MobileNavbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -36,12 +37,7 @@ function MobileNavbar() {
                 </DrawerHeader>
                 <DrawerFooter>
                     {user ? (
-                        <Link href="/dashboard/live-page" className="w-full">
-                            <Button className="w-full" variant="outline">
-                                <IconArrowRight />
-                                Account
-                            </Button>
-                        </Link>
+                        <UserAvatar isDashboard />
                     ) : (
                         <div className="flex gap-2">
                             <Link href="/login" className="w-full">
@@ -76,12 +72,7 @@ function DesktopNavbar() {
 
             <div className="hidden lg:flex items-center gap-2">
                 {user ? (
-                    <Link href="/dashboard/live-page">
-                        <Button className="w-full" variant="outline">
-                            Account
-                            <IconArrowRight />
-                        </Button>
-                    </Link>
+                    <UserAvatar isAvatar isDashboard />
                 ) : (
                     <>
                         <Link href="/login">
@@ -97,9 +88,9 @@ function DesktopNavbar() {
     );
 }
 
-export default function Navbar({ variant }: NavbarProps) {
+export default function Navbar({ variant, className }: NavbarProps) {
     return (
-        <NavbarWrapper variant={variant}>
+        <NavbarWrapper variant={variant} className={className}>
             <DesktopNavbar />
             <div className="lg:hidden block">
                 <MobileNavbar />

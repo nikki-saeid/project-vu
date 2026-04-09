@@ -1,5 +1,6 @@
 'use client';
 
+import SubNavbar from '@/components/sub-navbar';
 import EmptyData from '@/components/empty-data';
 import ProjectDetailsPage from '@/components/project-ui/project-details/project-details-page';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
@@ -15,5 +16,12 @@ export default function ProjectDetailsPageContent({ id }: ProjectDetailsPageCont
 
     if (!business || !project) return <EmptyData>Project not found</EmptyData>;
 
-    return <ProjectDetailsPage project={project} business={business} />;
+    return (
+        <div>
+            <SubNavbar />
+            <div className="p-4 md:p-6">
+                <ProjectDetailsPage project={project} business={business} />;
+            </div>
+        </div>
+    );
 }

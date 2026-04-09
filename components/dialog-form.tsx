@@ -14,7 +14,7 @@ export default function DialogForm({ trigger, action, id, form, title, open, onO
                 <DialogHeader className="p-5 border-b">
                     <div className="flex items-center justify-between">
                         <DialogTitle>{title}</DialogTitle>
-                        <Button variant="outline" size="icon-xs" className="shadow-none rounded-full" onClick={() => onOpenChange(false)}>
+                        <Button variant="outline" size="icon-sm" className="shadow-none rounded-full" onClick={() => onOpenChange(false)}>
                             <IconX />
                         </Button>
                     </div>

@@ -4,7 +4,7 @@ import DashboardLogo from './dashboard-logo';
 
 export default function DashboardSidebar({ children, ...props }: DashboardSidebarProps) {
     return (
-        <Sidebar collapsible="icon" {...props}>
+        <Sidebar collapsible="icon" {...props} >
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

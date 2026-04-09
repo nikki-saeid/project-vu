@@ -33,7 +33,7 @@ export default function LiveButton() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button size="xs" variant="outline" className="capitalize">
+                <Button size="sm" variant="outline" className="capitalize">
                     {isLoading ? (
                         <IconLoader className="size-3 animate-spin" />
                     ) : (

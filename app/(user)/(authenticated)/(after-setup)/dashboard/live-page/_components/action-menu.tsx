@@ -15,7 +15,7 @@ export default function ActionMenu() {
         <>
             <DropdownMenu open={open} onOpenChange={setOpen}>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon-xs" className="rounded-full" onClick={() => setOpen(true)} aria-label="Open menu">
+                    <Button variant="outline" size="icon-sm" className="rounded-full" onClick={() => setOpen(true)} aria-label="Open menu">
                         <IconDotsVertical className="size-4" />
                         <span className="sr-only">Open menu</span>
                     </Button>

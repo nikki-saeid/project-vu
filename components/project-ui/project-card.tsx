@@ -9,11 +9,11 @@ export default function ProjectCard({ slug, action, title, description, images_u
     return (
         <Carousel>
             <div className="relative">
-                {action && <div className="absolute top-2 right-2 z-54">{action}</div>}
+                {action && <div className="absolute top-2 right-2 z-10">{action}</div>}
                 {images_urls && images_urls.length > 1 && (
                     <>
-                        <CarouselPrevious size="icon-xs" className="absolute top-20 left-2 -translate-y-1/2 z-50" />
-                        <CarouselNext size="icon-xs" className="absolute top-20 right-2 -translate-y-1/2 z-50" />
+                        <CarouselPrevious size="icon-xs" className="absolute top-20 left-2 -translate-y-1/2 z-10" />
+                        <CarouselNext size="icon-xs" className="absolute top-20 right-2 -translate-y-1/2 z-10" />
                     </>
                 )}
                 <Link href={isPublic ? `/page/${slug}/projects/${id}` : `/dashboard/projects/${id}`}>

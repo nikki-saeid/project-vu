@@ -2,7 +2,7 @@
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import type { DashboardHeaderProps } from '@/lib/types/dashboard';
-import DashboardAvatar from './dashboard-avatar';
+import UserAvatar from '../auth-ui/user-avatar';
 import { usePathname } from 'next/navigation';
 
 export default function DashboardHeader({ pagesMetadata }: DashboardHeaderProps) {
@@ -15,7 +15,7 @@ export default function DashboardHeader({ pagesMetadata }: DashboardHeaderProps)
                 <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
                 <h1 className="text-base font-medium">{title}</h1>
                 <div className="ml-auto flex items-center gap-2">
-                    <DashboardAvatar />
+                    <UserAvatar isAvatar />
                 </div>
             </div>
         </header>

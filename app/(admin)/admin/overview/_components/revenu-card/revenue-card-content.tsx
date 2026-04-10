@@ -32,6 +32,7 @@ export default function RevenueCardContent({ initialData }: RevenueCardContentPr
     const { data, isPending } = useQuery({
         queryKey: ['revenue', month],
         queryFn: async () => await adminGetAnalyticsRevenueByMonth(month),
+        staleTime: Infinity,
         initialData,
     });
 

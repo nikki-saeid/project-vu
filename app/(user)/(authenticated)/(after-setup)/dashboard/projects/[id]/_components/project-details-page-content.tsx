@@ -20,7 +20,7 @@ export default function ProjectDetailsPageContent({ id }: ProjectDetailsPageCont
         <div>
             <SubNavbar />
             <div className="p-4 md:p-6">
-                <ProjectDetailsPage project={project} business={business} />;
+                <ProjectDetailsPage project={project} business={business} />
             </div>
         </div>
     );

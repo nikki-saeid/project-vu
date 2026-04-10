@@ -1,25 +1,29 @@
 'use client';
 
+import { Calendar } from '@/components/ui/calendar';
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
+import { createProject, updateProject } from '@/lib/api-fetcher/user/client/projects';
+import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
+import { compressImage } from '@/lib/helpers/image-compression';
 import { projectToLocationFeature } from '@/lib/helpers/project-map';
 import type { ProjectFormProps } from '@/lib/types/forms';
 import type { LocationFeature } from '@/lib/types/map';
 import { cn } from '@/lib/utils/classes-merge';
 import { projectCreateSchema, type ProjectCreateInput } from '@/lib/validators/user/project';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IconAlignLeft, IconClipboardText } from '@tabler/icons-react';
+import { IconAlignLeft, IconCalendar, IconClipboardText, IconRectangle, IconRulerMeasure } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import type { FileError } from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
-import { createProject, updateProject } from '@/lib/api-fetcher/user/client/projects';
-import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
-import { compressImage } from '@/lib/helpers/image-compression';
+import { format } from 'date-fns';
+import { Button } from '../ui/button';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 const MAX_IMAGES = 5;
@@ -37,6 +41,8 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             latitude: project?.lat ?? 0,
             longitude: project?.lng ?? 0,
             isImagesUploaded: project?.images_urls?.length ? project?.images_urls?.length > 0 : false,
+            made_at: project?.made_at ? new Date(project?.made_at) : undefined,
+            size: project?.size ?? '',
         },
     });
 
@@ -120,6 +126,8 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             address: data.address,
             latitude: data.latitude,
             longitude: data.longitude,
+            size: data.size,
+            made_at: data.made_at,
         });
         formData.append('body', body);
 
@@ -143,6 +151,8 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             address: data.address,
             latitude: data.latitude,
             longitude: data.longitude,
+            size: data.size,
+            made_at: data.made_at,
         });
         formData.append('body', body);
 
@@ -283,6 +293,58 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
                 <ImageUpload dropZoneProps={dropZoneProps} isLogo={false} />
                 {form.formState.errors.isImagesUploaded && <FieldError errors={[form.formState.errors.isImagesUploaded]} />}
             </Field>
+
+            <Controller
+                name="made_at"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="project-made-at">
+                            Created On <i>(optional)</i>
+                        </FieldLabel>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" id="date-picker-simple" className="justify-start font-normal text-foreground">
+                                    <IconCalendar />
+                                    {field.value ? format(field.value, 'PPP') : <span className="text-muted-foreground">Pick a date</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0 z-1000" align="start">
+                                <Calendar mode="single" selected={field.value} onSelect={field.onChange} defaultMonth={new Date()} />
+                            </PopoverContent>
+                        </Popover>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                )}
+            />
+
+            <Controller
+                name="size"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="project-size">
+                            Size <i>(optional)</i>
+                        </FieldLabel>
+                        <InputGroup>
+                            <InputGroupAddon>
+                                <IconRulerMeasure className="size-4" />
+                            </InputGroupAddon>
+                            <InputGroupInput
+                                {...field}
+                                id="project-size"
+                                aria-invalid={fieldState.invalid}
+                                placeholder="Project size en sqm"
+                                autoComplete="off"
+                            />
+                            <InputGroupAddon align="inline-end">
+                                <span className="">sqm</span>
+                            </InputGroupAddon>
+                        </InputGroup>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                )}
+            />
         </form>
     );
 }

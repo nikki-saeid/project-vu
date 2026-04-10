@@ -7,6 +7,12 @@ import { ProjectWithLatLng } from '@/lib/types/api';
 import { Business } from '@/lib/types/db';
 import ProjectsMap from '../projects-map';
 import ProjectDetailsImages from './project-details-images';
+import IconTitle from '@/components/icon-title';
+import { format } from 'date-fns';
+import { DATE_FORMATS } from '@/lib/constants/date-formats';
+import { IconCalendar, IconMapPin, IconRulerMeasure } from '@tabler/icons-react';
+import IconCard from '@/components/dashboard-ui/icon-card';
+import StyledIconTitle from '@/components/styled-icon-title';
 
 type ProjectDetailsPageProps = {
     project: ProjectWithLatLng;
@@ -14,7 +20,12 @@ type ProjectDetailsPageProps = {
 };
 
 export default function ProjectDetailsPage({ project, business }: ProjectDetailsPageProps) {
-    const { images_urls, title, description, address } = project ?? { images_urls: [], title: '', description: '', address: '' };
+    const { images_urls, title, description, address, made_at, size } = project ?? {
+        images_urls: [],
+        title: '',
+        description: '',
+        address: '',
+    };
 
     return (
         <div className="flex flex-col md:gap-6 gap-4">
@@ -32,6 +43,22 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                     projects={[project]}
                 />
             </DashboardCard>
+            {(made_at || size) && (
+                <DashboardCard title="Details" description="More details about this project">
+                    <div className="flex flex-col gap-4">
+                        {made_at && (
+                            <StyledIconTitle
+                                StyledIconProps={{ Icon: IconCalendar }}
+                                label="Project Created On"
+                                title={format(new Date(made_at), DATE_FORMATS.date)}
+                            />
+                        )}
+                        {size && (
+                            <StyledIconTitle StyledIconProps={{ Icon: IconRulerMeasure }} label="Project Size" title={size + ' sqm'} />
+                        )}
+                    </div>
+                </DashboardCard>
+            )}
         </div>
     );
 }

@@ -7,6 +7,8 @@ export const projectCreateSchema = z.object({
     latitude: z.number({ required_error: 'Latitude is required' }).min(-90).max(90),
     longitude: z.number({ required_error: 'Longitude is required' }).min(-180).max(180),
     isImagesUploaded: z.boolean({ required_error: 'Images are required' }).refine((val) => val, { message: 'Images are required' }),
+    made_at: z.date().optional(),
+    size: z.string().regex(/^\d+$/, 'Size must be a number').optional().or(z.literal('')),
 });
 
 export type ProjectCreateInput = z.infer<typeof projectCreateSchema>;

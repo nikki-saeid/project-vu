@@ -81,6 +81,8 @@ export type Database = {
           id: string
           images_urls: string[] | null
           location: unknown
+          made_at: string | null
+          size: string | null
           title: string
         }
         Insert: {
@@ -91,6 +93,8 @@ export type Database = {
           id?: string
           images_urls?: string[] | null
           location: unknown
+          made_at?: string | null
+          size?: string | null
           title: string
         }
         Update: {
@@ -101,6 +105,8 @@ export type Database = {
           id?: string
           images_urls?: string[] | null
           location?: unknown
+          made_at?: string | null
+          size?: string | null
           title?: string
         }
         Relationships: [

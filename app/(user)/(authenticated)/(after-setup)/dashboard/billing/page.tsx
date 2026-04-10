@@ -18,7 +18,7 @@ export default function Billing() {
     const { subscription } = useDashboard();
     const plan = PRICING_PLANS.find((plan) => plan.id === subscription?.plan);
     const isCanceled = subscription?.cancel_at_period_end;
-    const invoiceEndDate = subscription?.current_period_end ? format(new Date(subscription.current_period_end), DATE_FORMATS.date) : '-';
+    const invoiceEndDate = subscription?.current_period_end ? format(new Date(subscription.current_period_end), DATE_FORMATS.dateWithTime) : '-';
     const id = subscription?.stripe_customer_id;
 
     return (

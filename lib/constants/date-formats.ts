@@ -1,4 +1,4 @@
 export const DATE_FORMATS = {
     date: 'MMM dd, yyyy',
-    dateWithTime: 'MM/dd/yyyy hh:mm a',
+    dateWithTime: 'MMM dd, yyyy hh:mm a',
 };

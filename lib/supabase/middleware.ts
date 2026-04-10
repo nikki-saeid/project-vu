@@ -6,6 +6,8 @@ export async function updateSession(request: NextRequest) {
     const { user, response } = await getUser(request);
     const path = request.nextUrl.pathname;
 
+    console.log('------------------------------------- path', path);
+
     // public routes
     if (isPublic(path)) {
         return response;

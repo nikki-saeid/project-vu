@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { useSidebar } from '../ui/sidebar';
 
 type DashboardAvatarProps = {
     isAvatar?: boolean;
@@ -32,6 +33,12 @@ function Content({
     logout: () => void;
     isDashboard?: boolean;
 }) {
+    const router = useRouter();
+
+    const handleRedirect = async () => {
+        router.push('/dashboard/live-page');
+    };
+
     return (
         <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -48,11 +55,9 @@ function Content({
             <DropdownMenuSeparator />
             {isDashboard && (
                 <>
-                    <DropdownMenuItem asChild>
-                        <Link href="/dashboard/live-page">
-                            <IconDashboard />
-                            My profile
-                        </Link>
+                    <DropdownMenuItem onClick={handleRedirect}>
+                        <IconDashboard />
+                        My profile
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                 </>
@@ -68,6 +73,7 @@ function Content({
 export default function UserAvatar({ isAvatar, isDashboard }: DashboardAvatarProps) {
     // user metadata
     const { user, setUser } = useUser();
+    // const { setOpen } = useSidebar();
 
     const name = user?.user_metadata?.full_name ?? null;
     const email = user?.email ?? null;
@@ -77,6 +83,7 @@ export default function UserAvatar({ isAvatar, isDashboard }: DashboardAvatarPro
     const logout = async () => {
         toast.loading('Logging out...');
         const supabase = createClient();
+        // setOpen(false);
 
         try {
             const { error } = await supabase.auth.signOut();

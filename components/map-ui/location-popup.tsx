@@ -21,6 +21,7 @@ export function LocationPopup({ location, onClose, project, isPublic, slug }: Lo
             closeButton={false}
             closeOnClick={false}
             focusAfterOpen={false}
+            className="min-w-75"
         >
             <ProjectCard
                 {...project}

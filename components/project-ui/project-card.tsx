@@ -12,13 +12,13 @@ export default function ProjectCard({ slug, action, title, description, images_u
                 {action && <div className="absolute top-2 right-2 z-10">{action}</div>}
                 {images_urls && images_urls.length > 1 && (
                     <>
-                        <CarouselPrevious size="icon-xs" className="absolute top-20 left-2 -translate-y-1/2 z-10" />
-                        <CarouselNext size="icon-xs" className="absolute top-20 right-2 -translate-y-1/2 z-10" />
+                        <CarouselPrevious size="icon-xs" className="absolute sm:top-25 top-30 left-2 -translate-y-1/2 z-10" />
+                        <CarouselNext size="icon-xs" className="absolute sm:top-25 top-30 right-2 -translate-y-1/2 z-10" />
                     </>
                 )}
                 <Link href={isPublic ? `/page/${slug}/projects/${id}` : `/dashboard/projects/${id}`}>
                     <Card className="pt-0 shadow-none overflow-hidden">
-                        <ImageCarousel images_urls={images_urls ?? []} title={title} />
+                        <ImageCarousel className="sm:h-50 h-60" images_urls={images_urls ?? []} title={title} />
 
                         <CardHeader>
                             <CardTitle>{title}</CardTitle>

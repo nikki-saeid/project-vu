@@ -1,9 +1,8 @@
 'use client';
 
-import BusinessIdentity from '@/components/business-ui/business-identity';
+import BusinessHeader from '@/components/business-ui/business-header';
 import DashboardCard from '@/components/dashboard-ui/dashboard-card';
 import H4 from '@/components/typography/H4';
-import { Separator } from '@/components/ui/separator';
 import { ProjectWithLatLng } from '@/lib/types/api';
 import { Business } from '@/lib/types/db';
 import ProjectsMap from '../projects-map';
@@ -19,10 +18,7 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
 
     return (
         <div className="flex flex-col md:gap-6 gap-4">
-            <BusinessIdentity business={business} />
-
-            <Separator />
-
+            <BusinessHeader name={business.name} logo_url={business.logo_url} type={business.type} description="" />
             <DashboardCard title={<H4 className="font-medium tracking-normal text-2xl">{title}</H4>} description={description}>
                 <ProjectDetailsImages images_urls={images_urls} title={title} />
             </DashboardCard>

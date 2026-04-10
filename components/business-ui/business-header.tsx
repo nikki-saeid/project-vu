@@ -16,7 +16,7 @@ export default function BusinessHeader({ name, logo_url, type, description }: Bu
                     <Badge variant="outline">{type}</Badge>
                 </div>
             </div>
-            <P className="text-foreground">{description}</P>
+            {description !== '' && <P className="text-foreground">{description}</P>}
         </header>
     );
 }

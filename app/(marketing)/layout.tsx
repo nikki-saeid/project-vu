@@ -1,11 +1,11 @@
 import Footer from '@/components/public-pages-ui/footer';
-import Navbar from '@/components/public-pages-ui/navbar';
+import NavbarMain from '@/components/public-pages-ui/navbars/navbar-main';
 import { ChildrenProp } from '@/lib/types/common';
 
 export default function Layout({ children }: ChildrenProp) {
     return (
         <div className="flex flex-col bg-muted">
-            <Navbar />
+            <NavbarMain />
             <main className="flex-1 overflow-x-hidden mb-auto">{children}</main>
             <Footer />
         </div>

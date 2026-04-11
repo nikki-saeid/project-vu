@@ -7,7 +7,7 @@ import { useUser } from '@/lib/contexts/user-context';
 import DeleteAccountDialog from './_components/delete-account-dialog';
 import UpdatePasswordDialog from './_components/update-password-dialog';
 import UpdateProfileDialog from './_components/update-profile-dialog';
-import SubNavbar from '@/components/sub-navbar';
+import DashboardSubNavbar from '@/components/dashboard-ui/dashboard-sub-navbar';
 
 export default function Profile() {
     const { user } = useUser();
@@ -15,7 +15,7 @@ export default function Profile() {
 
     return (
         <div>
-            <SubNavbar />
+            <DashboardSubNavbar />
             <div className="flex flex-col md:gap-6 gap-4 p-4 md:p-6">
                 <P className="text-muted-foreground">Manage your account details and security.</P>
                 <DashboardCard title="Full name" description="This is the name shown on your account">

@@ -1,7 +1,7 @@
 'use client';
 
 import BusinessProfile from '@/components/business-ui/business-profile';
-import SubNavbar from '@/components/sub-navbar';
+import DashboardSubNavbar from '@/components/dashboard-ui/dashboard-sub-navbar';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import ActionMenu from './_components/action-menu';
 import LiveButton from './_components/live-button';
@@ -12,14 +12,14 @@ export default function LivePage() {
 
     return (
         <div>
-            <SubNavbar noBack>
+            <DashboardSubNavbar noBack>
                 <div></div>
                 <div className="flex justify-end gap-2">
                     <LiveButton />
                     <ShareButtons />
                     <ActionMenu />
                 </div>
-            </SubNavbar>
+            </DashboardSubNavbar>
             <div className="flex flex-col gap-4 p-4 md:p-6">
                 <BusinessProfile business={business} projects={projects} isPublic={false} />
             </div>

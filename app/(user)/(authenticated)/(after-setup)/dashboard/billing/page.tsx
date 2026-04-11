@@ -12,18 +12,20 @@ import CancelSubscriptionDialog from './_components/cancel-subscription-dialog';
 import InvoiceHistory from './_components/invoice-history';
 import ResumeSubscriptionDialog from './_components/resume-subscription-dialog';
 import WarningAlert from '@/components/warning-alert';
-import SubNavbar from '@/components/sub-navbar';
+import DashboardSubNavbar from '@/components/dashboard-ui/dashboard-sub-navbar';
 
 export default function Billing() {
     const { subscription } = useDashboard();
     const plan = PRICING_PLANS.find((plan) => plan.id === subscription?.plan);
     const isCanceled = subscription?.cancel_at_period_end;
-    const invoiceEndDate = subscription?.current_period_end ? format(new Date(subscription.current_period_end), DATE_FORMATS.dateWithTime) : '-';
+    const invoiceEndDate = subscription?.current_period_end
+        ? format(new Date(subscription.current_period_end), DATE_FORMATS.dateWithTime)
+        : '-';
     const id = subscription?.stripe_customer_id;
 
     return (
         <div>
-            <SubNavbar />
+            <DashboardSubNavbar />
             <div className="flex flex-col md:gap-6 gap-4 p-4 md:p-6">
                 {isCanceled && (
                     <WarningAlert

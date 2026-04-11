@@ -1,6 +1,6 @@
 'use client';
 
-import SubNavbar from '@/components/sub-navbar';
+import DashboardSubNavbar from '@/components/dashboard-ui/dashboard-sub-navbar';
 import EmptyData from '@/components/empty-data';
 import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
@@ -44,7 +44,7 @@ export default function EmbeddedMapPage() {
 
     return (
         <div>
-            <SubNavbar />
+            <DashboardSubNavbar />
             <div className="flex flex-col md:gap-6 gap-4 p-4 md:p-6">
                 {business.page_status === 'draft' && (
                     <WarningAlert

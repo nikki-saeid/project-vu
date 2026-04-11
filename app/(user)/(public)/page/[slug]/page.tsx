@@ -8,7 +8,7 @@ export default async function BusinessPage({ params }: BusinessPageProps) {
 
     return (
         <PublicProviderInner slug={slug}>
-            <MainPage />
+            <MainPage slug={slug} />
         </PublicProviderInner>
     );
 }

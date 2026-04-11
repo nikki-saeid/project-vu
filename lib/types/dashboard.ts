@@ -9,8 +9,9 @@ export type DashboardSidebarProps = ChildrenProp & React.ComponentProps<typeof S
 export type DashboardSidebarGroupProps = { label?: string; data: SidebarNavigationItem[] };
 export type DashboardHeaderProps = { pagesMetadata: Omit<SidebarNavigationItem, 'Icon'>[] };
 export type SidebarCustomButtonProps = Omit<SidebarNavigationItem, 'Icon'> & ChildrenProp;
-export type NavbarProps = LogoProps & ClassNameProp;
-export type NavbarWrapperProps = ChildrenProp & ClassNameProp & NavbarProps;
+export type NavbarMainProps = LogoProps & ClassNameProp;
+export type NavbarLivePageProps = ClassNameProp & { url?: string };
+export type NavbarOnboardingProps = LogoProps & ClassNameProp;
 export type MapWrapperProps = ChildrenProp &
     ClassNameProp & {
         isSearchable?: boolean;

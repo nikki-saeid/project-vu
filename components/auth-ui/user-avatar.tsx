@@ -14,8 +14,6 @@ import { IconDashboard, IconDotsVertical, IconLogout, IconUser } from '@tabler/i
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
-import Link from 'next/link';
-import { useSidebar } from '../ui/sidebar';
 
 type DashboardAvatarProps = {
     isAvatar?: boolean;
@@ -55,15 +53,15 @@ function Content({
             <DropdownMenuSeparator />
             {isDashboard && (
                 <>
-                    <DropdownMenuItem onClick={handleRedirect}>
-                        <IconDashboard />
+                    <DropdownMenuItem onClick={handleRedirect} className="text-sm">
+                        <IconDashboard className="size-4.5" />
                         My profile
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                 </>
             )}
-            <DropdownMenuItem onClick={logout}>
-                <IconLogout />
+            <DropdownMenuItem onClick={logout} className="text-sm">
+                <IconLogout className="size-4.5" />
                 Log out
             </DropdownMenuItem>
         </DropdownMenuContent>

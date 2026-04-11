@@ -24,6 +24,16 @@ import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
 import { format } from 'date-fns';
 import { Button } from '../ui/button';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectSeparator,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 const MAX_IMAGES = 5;
@@ -302,17 +312,46 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
                         <FieldLabel htmlFor="project-made-at">
                             Created On <i>(optional)</i>
                         </FieldLabel>
-                        <Popover>
+                        <Select>
+                            {/* <SelectTrigger asChild>
+                                    <Button variant="outline" id="date-picker-simple" className="justify-start font-normal text-foreground">
+                                        <IconCalendar />
+                                        {field.value ? (
+                                            format(field.value, 'YY')
+                                        ) : (
+                                            <span className="text-muted-foreground">Pick a date</span>
+                                        )}
+                                    </Button>
+                            </SelectTrigger>
+                            <SelectContent className="z-1000">
+                                <SelectGroup>
+                                    <SelectLabel>Fruits</SelectLabel>
+                                    <SelectItem value="apple">Apple</SelectItem>
+                                    <SelectItem value="banana">Banana</SelectItem>
+                                    <SelectItem value="blueberry">Blueberry</SelectItem>
+                                    <SelectItem value="grapes">Grapes</SelectItem>
+                                    <SelectItem value="pineapple">Pineapple</SelectItem>
+                                </SelectGroup>
+                            </SelectContent> */}
+                        </Select>
+                        {/* YEARS */}
+                        {/* <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="outline" id="date-picker-simple" className="justify-start font-normal text-foreground">
                                     <IconCalendar />
-                                    {field.value ? format(field.value, 'PPP') : <span className="text-muted-foreground">Pick a date</span>}
+                                    {field.value ? format(field.value, 'YY') : <span className="text-muted-foreground">Pick a date</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0 z-1000" align="start">
-                                <Calendar mode="single" selected={field.value} onSelect={field.onChange} defaultMonth={new Date()} />
+                                <Calendar
+                                    captionLayout="dropdown-years"
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    defaultMonth={new Date()}
+                                />
                             </PopoverContent>
-                        </Popover>
+                        </Popover> */}
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                 )}

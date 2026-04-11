@@ -1,5 +1,5 @@
 import { createsStripeServer } from '@/lib/stripe/server';
-import { format, lastDayOfISOWeek, lastDayOfMonth } from 'date-fns';
+import { lastDayOfMonth } from 'date-fns';
 import Stripe from 'stripe';
 
 type CheckoutSessionMetadata = {
@@ -20,6 +20,7 @@ export const stripeRepository = {
             return await stripe.checkout.sessions.create({
                 mode: 'subscription',
                 ui_mode: 'embedded_page',
+                payment_method_types: ['card'],
                 customer_email: email,
                 line_items: [
                     {

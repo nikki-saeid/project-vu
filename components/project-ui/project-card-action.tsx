@@ -40,7 +40,7 @@ export default function ProjectCardAction({ project }: { project: Project }) {
                 title="Edit Project"
                 action={(id, isLoading) => (
                     <Button type="submit" form={id} disabled={isLoading}>
-                        {isLoading ? 'Editing project...' : 'Edit Project'}
+                        {isLoading ? 'Saving...' : 'Save'}
                     </Button>
                 )}
                 form={(id, setIsLoading) => (

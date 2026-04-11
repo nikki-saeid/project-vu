@@ -13,7 +13,9 @@ export default function BusinessHeader({ name, logo_url, type, description }: Bu
                 <BusinessAvatar logo_url={logo_url} name={name} />
                 <div className="flex flex-col gap-1">
                     <H4>{name}</H4>
-                    <Badge variant="outline">{type}</Badge>
+                    <Badge variant="outline" className="capitalize">
+                        {type}
+                    </Badge>
                 </div>
             </div>
             {description !== '' && <P className="text-foreground">{description}</P>}

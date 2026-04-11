@@ -23,6 +23,7 @@ const buttonVariants = cva(
                 link: 'text-primary underline-offset-4 hover:underline',
                 success: 'bg-green-500/20 hover:bg-green-500/30 focus-visible:ring-green-500/20 dark:focus-visible:ring-green-500/40',
                 muted: 'bg-gray-500/20 hover:bg-gray-500/30 focus-visible:ring-gray-500/20 dark:focus-visible:ring-gray-500/40',
+                grey: 'bg-gray-300/20 hover:bg-gray-300/30 focus-visible:ring-gray-300/20 dark:focus-visible:ring-gray-300/40',
             },
             size: {
                 default: 'h-9 px-4 py-2 has-[>svg]:px-3',

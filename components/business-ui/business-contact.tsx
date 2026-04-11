@@ -14,7 +14,7 @@ export default function BusinessContact({ phone, email, className }: BusinessCon
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Link href={`tel:${phone}`}>
-                        <Button className="w-full">
+                        <Button variant="grey" className="w-full" >
                             <IconPhone />
                             Phone
                         </Button>
@@ -26,7 +26,7 @@ export default function BusinessContact({ phone, email, className }: BusinessCon
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Link href={`mailto:${email}`}>
-                        <Button variant="outline" className="w-full">
+                        <Button variant="grey" className="w-full">
                             <IconMail />
                             Email
                         </Button>

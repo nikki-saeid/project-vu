@@ -2,17 +2,15 @@
 
 import BusinessHeader from '@/components/business-ui/business-header';
 import DashboardCard from '@/components/dashboard-ui/dashboard-card';
+import StyledIconTitle from '@/components/styled-icon-title';
 import H4 from '@/components/typography/H4';
+import { DATE_FORMATS } from '@/lib/constants/date-formats';
 import { ProjectWithLatLng } from '@/lib/types/api';
 import { Business } from '@/lib/types/db';
+import { IconCalendar, IconRulerMeasure } from '@tabler/icons-react';
+import { format } from 'date-fns';
 import ProjectsMap from '../projects-map';
 import ProjectDetailsImages from './project-details-images';
-import IconTitle from '@/components/icon-title';
-import { format } from 'date-fns';
-import { DATE_FORMATS } from '@/lib/constants/date-formats';
-import { IconCalendar, IconMapPin, IconRulerMeasure } from '@tabler/icons-react';
-import IconCard from '@/components/dashboard-ui/icon-card';
-import StyledIconTitle from '@/components/styled-icon-title';
 
 type ProjectDetailsPageProps = {
     project: ProjectWithLatLng;

@@ -33,7 +33,7 @@ import {
     IconPhone,
     IconRestore,
     IconUser,
-    IconWorld
+    IconWorld,
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -103,9 +103,9 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
     };
 
     const type = form.watch('type');
-    const [isOther, setIsOther] = useState(!BUSINESS_TYPE.find((item) => item === business?.type));
+    const [isOther, setIsOther] = useState(!business?.type ? false : !BUSINESS_TYPE.find((item) => item === business?.type));
     const handleRestore = () => {
-        form.setValue('type', business?.type ?? BUSINESS_TYPE[0]);
+        form.setValue('type', BUSINESS_TYPE[0]);
         setIsOther(false);
     };
     useEffect(() => {

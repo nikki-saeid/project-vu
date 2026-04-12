@@ -13,6 +13,8 @@
         "supa-db-reset": "pnpx supabase db reset --local && pnpm run supa-seed && pnpm run supa-gen-types",
         "supa-db-remote-reset": "pnpx supabase db reset --linked && pnpm run supa-seed",
         "supa-seed": "node scripts/seed.ts",
+        "supa-link": "pnpx supabase login && pnpx supabase link",
+        "supa-db-push": "pnpx supabase db diff --linked -f local_changes && ",
         "stripe-webhook-local": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
         "stripe-webhook-remote": "stripe listen --forward-to https://www.projectvu.com.au/api/stripe/webhook"
     },

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDropzone, type FileError, type FileRejection } from 'react-dropzone';
 
 interface FileWithPreview extends File {

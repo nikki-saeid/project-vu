@@ -19,8 +19,7 @@ export const stripeRepository = {
             const stripe = await createsStripeServer();
             return await stripe.checkout.sessions.create({
                 mode: 'subscription',
-                ui_mode: 'embedded_page',
-                payment_method_types: ['card'],
+                ui_mode: 'elements',
                 customer_email: email,
                 line_items: [
                     {

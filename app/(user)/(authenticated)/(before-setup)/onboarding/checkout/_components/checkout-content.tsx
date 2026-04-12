@@ -4,19 +4,23 @@ import CardLayouts from '@/components/card-layouts';
 import { Button } from '@/components/ui/button';
 import { getCheckoutSession } from '@/lib/api-fetcher/stripe/client';
 import { stripeClient } from '@/lib/stripe/client';
-import { EmbeddedCheckout, EmbeddedCheckoutProvider } from '@stripe/react-stripe-js';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import CheckoutForm from './checkout-form';
+import { CheckoutElementsProvider } from '@stripe/react-stripe-js/checkout';
 
 type CheckoutContentProps = {
     plan: string;
 };
 
 export default function CheckoutContent({ plan }: CheckoutContentProps) {
-    const fetchClientSecret = async () => {
-        const session = await getCheckoutSession(plan);
+    const [clientSecret, setClientSecret] = useState<string | null>(null);
 
-        return session?.client_secret ?? '';
-    };
+    useEffect(() => {
+        getCheckoutSession(plan).then((session) => {
+            setClientSecret(session?.client_secret ?? null);
+        });
+    }, [plan]);
 
     return (
         <CardLayouts
@@ -30,10 +34,12 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                 </div>
             }
         >
-            <div className="min-h-270">
-                <EmbeddedCheckoutProvider stripe={stripeClient} options={{ fetchClientSecret }}>
-                    <EmbeddedCheckout />
-                </EmbeddedCheckoutProvider>
+            <div className="min-h-100 flex justify-center items-center">
+                {clientSecret && stripeClient && (
+                    <CheckoutElementsProvider stripe={stripeClient} options={{ clientSecret }}>
+                        <CheckoutForm />
+                    </CheckoutElementsProvider>
+                )}
             </div>
         </CardLayouts>
     );

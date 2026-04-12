@@ -22,10 +22,10 @@ export default function ActionMenu() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent side="bottom" align="end">
                     <DropdownMenuGroup>
-                        <DropdownMenuItem onClick={() => setOpenEditPage(true)}>Edit page</DropdownMenuItem>
+                        <DropdownMenuItem className='text-sm' onClick={() => setOpenEditPage(true)}>Edit page</DropdownMenuItem>
 
                         <AddProjectButtonLink>
-                            <DropdownMenuItem>Add project</DropdownMenuItem>
+                            <DropdownMenuItem className='text-sm'>Add project</DropdownMenuItem>
                         </AddProjectButtonLink>
                     </DropdownMenuGroup>
                 </DropdownMenuContent>

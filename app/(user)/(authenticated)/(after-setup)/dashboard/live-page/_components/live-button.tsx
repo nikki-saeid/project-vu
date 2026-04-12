@@ -47,10 +47,18 @@ export default function LiveButton() {
             </DropdownMenuTrigger>
             <DropdownMenuContent side="bottom" align="end">
                 <DropdownMenuGroup>
-                    <DropdownMenuItem disabled={isLoading || page_status === 'live'} onClick={() => handleStatusChange('live')}>
+                    <DropdownMenuItem
+                        className="text-sm"
+                        disabled={isLoading || page_status === 'live'}
+                        onClick={() => handleStatusChange('live')}
+                    >
                         Live
                     </DropdownMenuItem>
-                    <DropdownMenuItem disabled={isLoading || page_status === 'draft'} onClick={() => handleStatusChange('draft')}>
+                    <DropdownMenuItem
+                        className="text-sm"
+                        disabled={isLoading || page_status === 'draft'}
+                        onClick={() => handleStatusChange('draft')}
+                    >
                         Draft
                     </DropdownMenuItem>
                 </DropdownMenuGroup>

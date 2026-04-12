@@ -4,9 +4,10 @@ import { createContext, useCallback, useContext, type PropsWithChildren } from '
 
 import { Button } from '@/components/ui/button';
 import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
+import { ChildrenProp, ClassNameProp } from '@/lib/types/common';
 import type { DropzoneProps } from '@/lib/types/forms';
 import { cn } from '@/lib/utils/classes-merge';
-import { IconPhoto, IconPlus, IconTrash, IconUpload, IconX } from '@tabler/icons-react';
+import { IconPhoto, IconPlus, IconTrash, IconUpload } from '@tabler/icons-react';
 import { Avatar, AvatarImage } from '../ui/avatar';
 
 export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB') => {
@@ -48,16 +49,37 @@ const Dropzone = ({ className, children, getRootProps, getInputProps, ...restPro
         </DropzoneContext.Provider>
     );
 };
-const DropzoneContent = ({
-    className,
-    onChooseImage,
-    isLogo = false,
-}: {
-    className?: string;
-    onChooseImage?: () => void;
-    isLogo?: boolean;
-}) => {
-    const { files, setFiles, maxFileSize, maxFiles } = useDropzoneContext();
+
+type UploadButtonProps = {
+    onClick?: () => void;
+    size?: 'default' | 'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg' | null | undefined;
+    variant?:
+        | 'link'
+        | 'outlinePrimary'
+        | 'outlinePrimaryDark'
+        | 'default'
+        | 'destructive'
+        | 'outline'
+        | 'secondary'
+        | 'ghost'
+        | 'success'
+        | 'muted'
+        | 'grey'
+        | null
+        | undefined;
+} & ChildrenProp &
+    ClassNameProp;
+
+const UploadButton = ({ children, onClick, variant, size, className }: UploadButtonProps) => {
+    return (
+        <Button className={className} variant={variant} size={size} onClick={onClick}>
+            {children}
+        </Button>
+    );
+};
+
+const DropzoneContent = ({ className, onChooseImage }: { className?: string; onChooseImage?: () => void }) => {
+    const { files, setFiles, maxFileSize, maxFiles, inputRef, isLogo } = useDropzoneContext();
 
     const exceedMaxFiles = files.length > maxFiles;
 
@@ -82,7 +104,11 @@ const DropzoneContent = ({
                                         </Avatar>
                                     ) : (
                                         // eslint-disable-next-line @next/next/no-img-element
-                                        <img src={file.preview} alt={file.name} className="border aspect-video w-full  object-cover rounded-lg" />
+                                        <img
+                                            src={file.preview}
+                                            alt={file.name}
+                                            className="border aspect-video w-full  object-cover rounded-lg"
+                                        />
                                     )}
                                 </>
                             ) : (
@@ -92,7 +118,7 @@ const DropzoneContent = ({
                             )}
 
                             <Button size="icon-xs" variant="outline" className="rounded-full" onClick={() => handleRemoveFile(file.name)}>
-                                <IconTrash  />
+                                <IconTrash />
                             </Button>
                         </div>
                         <div className="shrink grow flex flex-col items-start truncate">
@@ -123,10 +149,24 @@ const DropzoneContent = ({
                 </p>
             )}
             {isLogo && files.length > 0 && !exceedMaxFiles && (
-                <div className="mt-2">
-                    <Button variant="outline" disabled={files.some((file) => file.errors.length !== 0)} onClick={onChooseImage}>
-                        Choose image
+                <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
+                    <Button
+                        className="sm:w-50 w-full"
+                        variant="outline"
+                        disabled={files.some((file) => file.errors.length !== 0)}
+                        onClick={onChooseImage}
+                    >
+                        Save
                     </Button>
+                    <UploadButton
+                        className="sm:w-50 w-full"
+                        onClick={() => {
+                            inputRef.current?.click();
+                        }}
+                        variant="outline"
+                    >
+                        Choose different image
+                    </UploadButton>
                 </div>
             )}
         </div>
@@ -146,10 +186,10 @@ const DropzoneEmptyState = ({ className }: { className?: string }) => {
             <div className="flex flex-col items-center gap-2">
                 <div className="flex gap-1 items-center">
                     <p className="text-xs text-muted-foreground">Drag and drop or</p>
-                    <Button variant="outline" size="xs" onClick={() => inputRef.current?.click()}>
+                    <UploadButton onClick={() => inputRef.current?.click()} variant="outline" size="xs">
                         <IconPlus />
                         Select {maxFiles === 1 ? `image` : 'images'}
-                    </Button>
+                    </UploadButton>
                 </div>
                 {maxFileSize !== Number.POSITIVE_INFINITY && (
                     <p className="text-xs text-muted-foreground">Maximum image size: {formatBytes(maxFileSize, 2)}</p>

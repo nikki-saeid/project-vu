@@ -31,10 +31,9 @@ import {
     IconBuildings,
     IconPencil,
     IconPhone,
-    IconPick,
     IconRestore,
     IconUser,
-    IconWorld,
+    IconWorld
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -45,7 +44,6 @@ import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
-import { ScrollArea } from '@base-ui/react';
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const { business, setBusiness } = useDashboard();
@@ -74,6 +72,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
         allowedMimeTypes: ['image/*'],
         maxFiles: 1,
         maxFileSize: 1000 * 1000,
+        isLogo: true,
     });
     const { errors, files } = dropZoneProps;
 
@@ -130,7 +129,6 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                     badge={
                         <ImageUploadDialog
                             dropZoneProps={dropZoneProps}
-                            isLogo={true}
                             trigger={({ onClick }) => (
                                 <Button type="button" size="icon-sm" className="shadow-none rounded-full border-0" onClick={onClick}>
                                     <IconPencil />

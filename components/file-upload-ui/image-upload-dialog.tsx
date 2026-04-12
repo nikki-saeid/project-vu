@@ -7,7 +7,7 @@ import { IconX } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Button } from '../ui/button';
 
-export default function ImageUploadDialog({ dropZoneProps, trigger, isLogo = false }: ImageUploadProps) {
+export default function ImageUploadDialog({ dropZoneProps, trigger }: ImageUploadProps) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -25,7 +25,7 @@ export default function ImageUploadDialog({ dropZoneProps, trigger, isLogo = fal
                     </div>
                 </DialogHeader>
                 <div className="no-scrollbar max-h-[60vh] overflow-y-auto px-5 pb-5 pt-1">
-                    <ImageUpload dropZoneProps={dropZoneProps} onChooseImage={() => setOpen(false)} isLogo={isLogo} />
+                    <ImageUpload dropZoneProps={dropZoneProps} onChooseImage={() => setOpen(false)} />
                 </div>
             </DialogContent>
         </Dialog>

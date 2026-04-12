@@ -21,7 +21,6 @@ export type NoProjectsUiProps = {
 // Image
 export type ImageUploadProps = {
     dropZoneProps: UseSupabaseUploadReturn;
-    isLogo?: boolean;
     trigger: (props: { onClick: () => void }) => ReactNode;
 };
 export type DropzoneContextType = Omit<UseSupabaseUploadReturn, 'getRootProps' | 'getInputProps'>;

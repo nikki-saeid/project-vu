@@ -33,6 +33,8 @@ type UseSupabaseUploadOptions = {
      * When set to false, an error is thrown if the object already exists. Defaults to `false`
      */
     upsert?: boolean;
+
+    isLogo?: boolean;
 };
 
 type UseSupabaseUploadReturn = ReturnType<typeof useSupabaseUpload>;
@@ -42,6 +44,7 @@ const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
         allowedMimeTypes = [],
         maxFileSize = Number.POSITIVE_INFINITY,
         maxFiles = 1,
+        isLogo = false,
         // cacheControl = 3600,
         // upsert = false,
     } = options;
@@ -77,7 +80,7 @@ const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
                 return file as FileWithPreview;
             });
 
-            const newFiles = [...files, ...validFiles, ...invalidFiles];
+            const newFiles = isLogo ? [...validFiles, ...invalidFiles] : [...files, ...validFiles, ...invalidFiles];
 
             setFiles(newFiles);
         },
@@ -165,6 +168,7 @@ const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
         // successes,
         // isSuccess,
         // loading,
+        isLogo,
         errors,
         setErrors,
         maxFileSize: maxFileSize,

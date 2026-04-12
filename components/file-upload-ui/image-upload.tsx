@@ -4,18 +4,16 @@ import { UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload';
 export default function ImageUpload({
     dropZoneProps,
     onChooseImage,
-    isLogo = false,
 }: {
     dropZoneProps: UseSupabaseUploadReturn;
     onChooseImage?: () => void;
-    isLogo?: boolean;
 }) {
     const totalImages = dropZoneProps.files.length;
 
     return (
         <Dropzone {...dropZoneProps}>
             {totalImages < dropZoneProps.maxFiles && <DropzoneEmptyState />}
-            <DropzoneContent isLogo={isLogo} onChooseImage={onChooseImage} />
+            <DropzoneContent onChooseImage={onChooseImage} />
         </Dropzone>
     );
 }

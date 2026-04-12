@@ -278,7 +278,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             <Field data-invalid={!!form.formState.errors.isImagesUploaded}>
                 <FieldLabel htmlFor="project-images">Images</FieldLabel>
                 <FieldDescription id="project-images">Upload images for your project.</FieldDescription>
-                <ImageUpload dropZoneProps={dropZoneProps} isLogo={false} />
+                <ImageUpload dropZoneProps={dropZoneProps} />
                 {form.formState.errors.isImagesUploaded && <FieldError errors={[form.formState.errors.isImagesUploaded]} />}
             </Field>
 

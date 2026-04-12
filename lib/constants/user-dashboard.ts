@@ -1,5 +1,5 @@
 import { Constants } from '@/lib/types/supabase';
-import { IconAppWindow, IconBuildings, IconCode, IconCreditCard, IconUserCircle } from '@tabler/icons-react';
+import { IconAppWindow, IconBuildings, IconCode, IconCreditCard, IconPencil, IconUserCircle } from '@tabler/icons-react';
 
 export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
     main: [
@@ -21,7 +21,12 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
             Icon: IconCode,
         },
     ],
-    account: [
+    settings: [
+        {
+            title: 'Edit live page',
+            url: '/dashboard/live-page?open=true',
+            Icon: IconPencil,
+        },
         {
             title: 'Profile',
             url: '/dashboard/profile',

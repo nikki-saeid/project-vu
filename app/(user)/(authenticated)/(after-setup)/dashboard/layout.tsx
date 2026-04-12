@@ -27,7 +27,7 @@ export default function MainLayout({ children }: ChildrenProp) {
                 <DashboardSidebar variant="inset">
                     <DashboardSidebarGroup data={USER_DASHBOARD_SIDEBAR_NAVIGATION.main} />
                     <DashboardSidebarGroup label="Map" data={USER_DASHBOARD_SIDEBAR_NAVIGATION.map} />
-                    <DashboardSidebarGroup label="Account" data={USER_DASHBOARD_SIDEBAR_NAVIGATION.account} />
+                    <DashboardSidebarGroup label="Settings" data={USER_DASHBOARD_SIDEBAR_NAVIGATION.settings} />
                 </DashboardSidebar>
                 <SidebarInset>
                     <DashboardHeader

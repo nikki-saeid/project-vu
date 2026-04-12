@@ -148,11 +148,11 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                 <InputGroup>
                                     <InputGroupInput
                                         {...field}
-                                        id="form-phone"
-                                        type="tel"
+                                        id="form-type"
+                                        type="text"
                                         aria-invalid={fieldState.invalid}
                                         placeholder="Type a business type"
-                                        autoComplete="tel"
+                                        autoComplete="on"
                                     />
                                     <InputGroupAddon align="inline-end">
                                         <Button size="icon-sm" variant="ghost" onClick={handleRestore} className="rounded-full">

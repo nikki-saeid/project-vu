@@ -50,7 +50,7 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                             <StyledIconTitle
                                 StyledIconProps={{ Icon: IconCalendar }}
                                 label="Project Created On"
-                                title={format(new Date(made_at), DATE_FORMATS.date)}
+                                title={format(new Date(made_at), DATE_FORMATS.year)}
                             />
                         )}
                         {size && (

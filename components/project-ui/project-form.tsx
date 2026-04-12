@@ -1,12 +1,12 @@
 'use client';
 
-import { Calendar } from '@/components/ui/calendar';
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { createProject, updateProject } from '@/lib/api-fetcher/user/client/projects';
 import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
+import { YEARS } from '@/lib/constants/months';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { compressImage } from '@/lib/helpers/image-compression';
 import { projectToLocationFeature } from '@/lib/helpers/project-map';
@@ -15,25 +15,14 @@ import type { LocationFeature } from '@/lib/types/map';
 import { cn } from '@/lib/utils/classes-merge';
 import { projectCreateSchema, type ProjectCreateInput } from '@/lib/validators/user/project';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IconAlignLeft, IconCalendar, IconClipboardText, IconRectangle, IconRulerMeasure } from '@tabler/icons-react';
+import { IconAlignLeft, IconClipboardText, IconRulerMeasure } from '@tabler/icons-react';
+import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import type { FileError } from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
-import { format } from 'date-fns';
-import { Button } from '../ui/button';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectSeparator,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 const MAX_IMAGES = 5;
@@ -51,7 +40,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             latitude: project?.lat ?? 0,
             longitude: project?.lng ?? 0,
             isImagesUploaded: project?.images_urls?.length ? project?.images_urls?.length > 0 : false,
-            made_at: project?.made_at ? new Date(project?.made_at) : undefined,
+            made_at: project?.made_at ?? '',
             size: project?.size ?? '',
         },
     });
@@ -121,7 +110,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     // On submit
     // ------------------------------
 
-    const handleAdd = async (data: ProjectCreateInput) => {
+    const getFormData = async (data: ProjectCreateInput) => {
         // Upload images
         const formData = new FormData();
         const compressedImages = await Promise.all(files.map((file) => compressImage(file)));
@@ -137,9 +126,15 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             latitude: data.latitude,
             longitude: data.longitude,
             size: data.size,
-            made_at: data.made_at,
+            made_at: data.made_at ? new Date(data.made_at).toISOString() : undefined,
         });
         formData.append('body', body);
+
+        return formData;
+    };
+
+    const handleAdd = async (data: ProjectCreateInput) => {
+        const formData = await getFormData(data);
 
         // Create project
         const created = await createProject(formData);
@@ -147,24 +142,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     };
 
     const handleUpdate = async (data: ProjectCreateInput) => {
-        // Upload images
-        const formData = new FormData();
-        const compressedImages = await Promise.all(files.map((file) => compressImage(file)));
-        compressedImages.forEach((img) => {
-            formData.append('images', img);
-        });
-
-        // body
-        const body = JSON.stringify({
-            title: data.title,
-            description: data.description,
-            address: data.address,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            size: data.size,
-            made_at: data.made_at,
-        });
-        formData.append('body', body);
+        const formData = await getFormData(data);
 
         // Create project
         const updated = await updateProject(formData, project?.id ?? '');
@@ -312,46 +290,19 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
                         <FieldLabel htmlFor="project-made-at">
                             Created On <i>(optional)</i>
                         </FieldLabel>
-                        <Select>
-                            {/* <SelectTrigger asChild>
-                                    <Button variant="outline" id="date-picker-simple" className="justify-start font-normal text-foreground">
-                                        <IconCalendar />
-                                        {field.value ? (
-                                            format(field.value, 'YY')
-                                        ) : (
-                                            <span className="text-muted-foreground">Pick a date</span>
-                                        )}
-                                    </Button>
+                        <Select onValueChange={field.onChange} value={field.value ? format(field.value, 'yyyy') : ''}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Pick a year" />
                             </SelectTrigger>
-                            <SelectContent className="z-1000">
-                                <SelectGroup>
-                                    <SelectLabel>Fruits</SelectLabel>
-                                    <SelectItem value="apple">Apple</SelectItem>
-                                    <SelectItem value="banana">Banana</SelectItem>
-                                    <SelectItem value="blueberry">Blueberry</SelectItem>
-                                    <SelectItem value="grapes">Grapes</SelectItem>
-                                    <SelectItem value="pineapple">Pineapple</SelectItem>
-                                </SelectGroup>
-                            </SelectContent> */}
+                            <SelectContent className="z-1000" {...field} id="project-title" aria-invalid={fieldState.invalid}>
+                                {YEARS.map((year) => (
+                                    <SelectItem value={year + ''} key={year}>
+                                        {year}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
                         </Select>
-                        {/* YEARS */}
-                        {/* <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="outline" id="date-picker-simple" className="justify-start font-normal text-foreground">
-                                    <IconCalendar />
-                                    {field.value ? format(field.value, 'YY') : <span className="text-muted-foreground">Pick a date</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0 z-1000" align="start">
-                                <Calendar
-                                    captionLayout="dropdown-years"
-                                    mode="single"
-                                    selected={field.value}
-                                    onSelect={field.onChange}
-                                    defaultMonth={new Date()}
-                                />
-                            </PopoverContent>
-                        </Popover> */}
+
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                 )}

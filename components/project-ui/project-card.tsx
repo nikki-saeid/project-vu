@@ -42,7 +42,7 @@ export default function ProjectCard({
                         </CardHeader>
                         <CardContent className="flex flex-col gap-2">
                             <IconTitle Icon={IconMapPin} title={address ?? ''} />
-                            {made_at && <IconTitle Icon={IconCalendar} title={format(new Date(made_at), DATE_FORMATS.date)} />}
+                            {made_at && <IconTitle Icon={IconCalendar} title={format(new Date(made_at), DATE_FORMATS.year)} />}
                             {size && <IconTitle Icon={IconRulerMeasure} title={size + ' sqm'} />}
                         </CardContent>
                     </Card>

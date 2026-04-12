@@ -3,18 +3,18 @@
 import { Button } from '@/components/ui/button';
 import {
     Combobox,
+    ComboboxChip,
     ComboboxChips,
+    ComboboxChipsInput,
     ComboboxContent,
     ComboboxEmpty,
-    ComboboxInput,
     ComboboxItem,
     ComboboxList,
-    ComboboxChip,
-    ComboboxChipsInput,
     ComboboxValue,
 } from '@/components/ui/combobox';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { updateUserBusiness } from '@/lib/api-fetcher/user/client/business';
 import { getUserAuth } from '@/lib/api-fetcher/user/server/auth';
@@ -31,9 +31,12 @@ import {
     IconBuildings,
     IconPencil,
     IconPhone,
+    IconPick,
+    IconRestore,
     IconUser,
     IconWorld,
 } from '@tabler/icons-react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
@@ -42,6 +45,7 @@ import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
+import { ScrollArea } from '@base-ui/react';
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const { business, setBusiness } = useDashboard();
@@ -99,6 +103,19 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
         }
     };
 
+    const type = form.watch('type');
+    const [isOther, setIsOther] = useState(!BUSINESS_TYPE.find((item) => item === business?.type));
+    const handleRestore = () => {
+        form.setValue('type', business?.type ?? BUSINESS_TYPE[0]);
+        setIsOther(false);
+    };
+    useEffect(() => {
+        if (type === 'Other') {
+            form.setValue('type', '');
+            setIsOther(true);
+        }
+    }, [type, form]);
+
     return (
         <form className="flex flex-col gap-4 md:gap-6" id={id} onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
@@ -129,26 +146,36 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel htmlFor="form-type">Business type</FieldLabel>
-                            <Combobox items={BUSINESS_TYPE} value={field.value} onValueChange={field.onChange} name={field.name}>
-                                <ComboboxInput placeholder="Select business type" onChange={(e) => field.onChange(e.target.value)} />
-                                <ComboboxContent className="pointer-events-auto overflow-scroll">
-                                    {/* if empty */}
-                                    <ComboboxEmpty className="p-1">
-                                        <ComboboxItem className="text-foreground py-1.5 px-2.5 bg-accent" value={form.getValues('type')}>
-                                            {form.getValues('type')}
-                                        </ComboboxItem>
-                                    </ComboboxEmpty>
-
-                                    {/* if not empty */}
-                                    <ComboboxList>
-                                        {(item: string) => (
-                                            <ComboboxItem key={item} value={item}>
-                                                {item}
-                                            </ComboboxItem>
-                                        )}
-                                    </ComboboxList>
-                                </ComboboxContent>
-                            </Combobox>
+                            {isOther ? (
+                                <InputGroup>
+                                    <InputGroupInput
+                                        {...field}
+                                        id="form-phone"
+                                        type="tel"
+                                        aria-invalid={fieldState.invalid}
+                                        placeholder="Type a business type"
+                                        autoComplete="tel"
+                                    />
+                                    <InputGroupAddon align="inline-end">
+                                        <Button size="icon-sm" variant="ghost" onClick={handleRestore} className="rounded-full">
+                                            <IconRestore />
+                                        </Button>
+                                    </InputGroupAddon>
+                                </InputGroup>
+                            ) : (
+                                <Select onValueChange={field.onChange} value={field.value}>
+                                    <SelectTrigger className="data-placeholder:text-[15px]">
+                                        <SelectValue placeholder="Pick a business type" />
+                                    </SelectTrigger>
+                                    <SelectContent className="z-1000" {...field} id="project-title" aria-invalid={fieldState.invalid}>
+                                        {BUSINESS_TYPE.map((year) => (
+                                            <SelectItem value={year + ''} key={year}>
+                                                {year}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
                     )}
@@ -252,12 +279,12 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                 </ComboboxChips>
 
                                 {/*  ----------------------------  */}
-                                <ComboboxContent className="pointer-events-auto overflow-scroll">
+                                <ComboboxContent className="pointer-events-auto overflow-auto min-h-50">
                                     {/* if empty */}
                                     <ComboboxEmpty>No items found.</ComboboxEmpty>
 
                                     {/* if not empty */}
-                                    <ComboboxList>
+                                    <ComboboxList className="max-h-50 overflow-y-auto">
                                         {(item: string) => (
                                             <ComboboxItem key={item} value={item}>
                                                 {item}
@@ -292,7 +319,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                 <ComboboxEmpty>No items found.</ComboboxEmpty>
 
                                 {/* if not empty */}
-                                <ComboboxList>
+                                <ComboboxList className="max-h-50 overflow-y-auto">
                                     {(item: string) => (
                                         <ComboboxItem key={item} value={item}>
                                             {item}

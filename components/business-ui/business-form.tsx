@@ -1,17 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-    Combobox,
-    ComboboxChip,
-    ComboboxChips,
-    ComboboxChipsInput,
-    ComboboxContent,
-    ComboboxEmpty,
-    ComboboxItem,
-    ComboboxList,
-    ComboboxValue,
-} from '@/components/ui/combobox';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -44,6 +33,10 @@ import H4 from '../typography/H4';
 import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessAvatar from './business-avatar';
+import TagsCombobox from './combobox-helpers/tags-combobox';
+
+const ProjectTagsCombobox = TagsCombobox<'project_type_tags'>;
+const ServicesTagsCombobox = TagsCombobox<'service_type_tags'>;
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const { business, setBusiness } = useDashboard();
@@ -254,6 +247,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                 <P className="text-muted-foreground">Add your tags related to your business.</P>
             </div>
 
+            {/* // !----------------------- PROJECT TAGS */}
             <Controller
                 name="project_type_tags"
                 control={form.control}
@@ -261,71 +255,34 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                     return (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel htmlFor="form-type">Project types</FieldLabel>
-                            <Combobox
+                            <ProjectTagsCombobox
+                                form={form}
+                                field={field}
+                                name="project_type_tags"
                                 items={PROJECT_TYPE_TAGS}
-                                value={field.value}
-                                onValueChange={field.onChange}
-                                name={field.name}
-                                multiple
-                            >
-                                <ComboboxChips>
-                                    <ComboboxValue>
-                                        {Array.isArray(field.value) &&
-                                            field.value.map((item) => <ComboboxChip key={item}>{item}</ComboboxChip>)}
-                                    </ComboboxValue>
-                                    <ComboboxChipsInput placeholder="Select project types" />
-                                </ComboboxChips>
-
-                                {/*  ----------------------------  */}
-                                <ComboboxContent className="pointer-events-auto overflow-auto min-h-50">
-                                    {/* if empty */}
-                                    <ComboboxEmpty>No items found.</ComboboxEmpty>
-
-                                    {/* if not empty */}
-                                    <ComboboxList className="max-h-50 overflow-y-auto">
-                                        {(item: string) => (
-                                            <ComboboxItem key={item} value={item}>
-                                                {item}
-                                            </ComboboxItem>
-                                        )}
-                                    </ComboboxList>
-                                </ComboboxContent>
-                            </Combobox>
+                                placeholder="Select project types"
+                            />
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
                     );
                 }}
             />
+
+            {/* // !----------------------- Services TAGS */}
             <Controller
                 name="service_type_tags"
                 control={form.control}
                 render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                         <FieldLabel htmlFor="form-type">Service type</FieldLabel>
-                        <Combobox items={SERVICE_TYPE_TAGS} value={field.value} onValueChange={field.onChange} name={field.name} multiple>
-                            <ComboboxChips>
-                                <ComboboxValue>
-                                    {Array.isArray(field.value) &&
-                                        field.value.map((item) => <ComboboxChip key={item}>{item}</ComboboxChip>)}
-                                </ComboboxValue>
-                                <ComboboxChipsInput placeholder="Select service type" />
-                            </ComboboxChips>
 
-                            {/*  ----------------------------  */}
-                            <ComboboxContent className="pointer-events-auto overflow-scroll">
-                                {/* if empty */}
-                                <ComboboxEmpty>No items found.</ComboboxEmpty>
-
-                                {/* if not empty */}
-                                <ComboboxList className="max-h-50 overflow-y-auto">
-                                    {(item: string) => (
-                                        <ComboboxItem key={item} value={item}>
-                                            {item}
-                                        </ComboboxItem>
-                                    )}
-                                </ComboboxList>
-                            </ComboboxContent>
-                        </Combobox>
+                        <ServicesTagsCombobox
+                            form={form}
+                            field={field}
+                            name="service_type_tags"
+                            items={SERVICE_TYPE_TAGS}
+                            placeholder="Select services types"
+                        />
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                 )}

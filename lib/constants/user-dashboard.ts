@@ -66,5 +66,5 @@ export const BUSINESS_TYPE = [
     'Other',
 ];
 
-export const PROJECT_TYPE_TAGS = ['Residential', 'Commercial', 'Industrial', 'Fitout', 'Renovation', 'New Build'];
-export const SERVICE_TYPE_TAGS = ['Design', 'Installation', 'Construction', 'Maintenance', 'Repair', 'Consultation'];
+export const PROJECT_TYPE_TAGS = ['Residential', 'Commercial', 'Industrial', 'Fitout', 'Renovation', 'New Build', 'Other'];
+export const SERVICE_TYPE_TAGS = ['Design', 'Installation', 'Construction', 'Maintenance', 'Repair', 'Consultation', 'Other'];

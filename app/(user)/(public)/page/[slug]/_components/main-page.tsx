@@ -14,7 +14,7 @@ export default function MainPage({ slug }: MainPageProps) {
     const { user } = useUser();
 
     return (
-        <div className="flex flex-col bg-background ">
+        <div className="flex flex-col bg-background min-h-screen">
             <NavbarLivePage url={user && business?.slug === slug ? '/dashboard/live-page' : '/'} />
 
             <div className="py-4 md:py-6">

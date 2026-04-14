@@ -27,7 +27,13 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
 
     return (
         <div className="flex flex-col md:gap-6 gap-4">
-            <BusinessHeader name={business.name} logo_url={business.logo_url} type={business.type} description="" />
+            <BusinessHeader
+                url={'/page/' + business.slug}
+                name={business.name}
+                logo_url={business.logo_url}
+                type={business.type}
+                description=""
+            />
             <DashboardCard title={<H4 className="font-medium tracking-normal text-2xl">{title}</H4>} description={description}>
                 <ProjectDetailsImages images_urls={images_urls} title={title} />
             </DashboardCard>

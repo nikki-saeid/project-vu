@@ -81,7 +81,7 @@ type ComboProps<T extends Fields> = {
 export default function TagsCombobox<T extends Fields>({ form, field, name, items, placeholder }: ComboProps<T>) {
     const [otherTag, setOtherTag] = useState('');
     const [open, setOpen] = useState(false);
-    const [openTooltip, setOpenTooltip] = useState(true);
+    const [openTooltip, setOpenTooltip] = useState(false);
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOpenTooltip(false);
         setOtherTag(e.target.value);

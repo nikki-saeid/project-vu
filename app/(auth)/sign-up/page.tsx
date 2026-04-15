@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { BASE_URL } from '@/lib/constants/urls';
 import { createClient } from '@/lib/supabase/client';
 import { signUpSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -50,12 +49,12 @@ export default function SignUpForm() {
             const { error } = await supabase.auth.signUp({
                 email: data.email,
                 password: data.password,
-                options: {
-                    emailRedirectTo: `${BASE_URL}/protected`,
-                    data: {
-                        full_name: data.full_name,
-                    },
-                },
+                // options: {
+                //     emailRedirectTo: `${BASE_URL}/dashboard/live-page`,
+                //     data: {
+                //         full_name: data.full_name,
+                //     },
+                // },
             });
 
             // Handle any errors that occur during sign-up

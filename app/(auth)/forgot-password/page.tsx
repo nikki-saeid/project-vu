@@ -57,6 +57,7 @@ export default function ForgotPasswordForm() {
     return (
         <div className="flex flex-col gap-4 items-center">
             <Logo />
+            {BASE_URL}
             {success ? (
                 <Card className="self-stretch shadow-none">
                     <CardHeader>

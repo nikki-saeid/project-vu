@@ -1,11 +1,12 @@
 'use client';
 
+import Loader from '@/components/loader-ui/loader';
 import { Button } from '@/components/ui/button';
 import { PaymentElement, useCheckout } from '@stripe/react-stripe-js/checkout';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import CheckoutDetails from './checkout-details';
-import Loader from '@/components/loader';
-import { useState } from 'react';
+import AbsoluteLoader from '@/components/loader-ui/absolute-loader';
 
 export default function CheckoutForm() {
     const checkoutState = useCheckout();
@@ -40,7 +41,9 @@ export default function CheckoutForm() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-4 max-w-sm m-auto">
+            <div className="flex flex-col gap-4 max-w-sm m-auto relative">
+                {isLoading && <AbsoluteLoader />}
+
                 <CheckoutDetails details={checkoutState.checkout.lineItems[0]} />
 
                 <PaymentElement

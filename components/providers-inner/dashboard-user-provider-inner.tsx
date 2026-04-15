@@ -12,7 +12,7 @@ export default async function DashboardUserProviderInner({ children }: ChildrenP
     const projects = await getUserProjects();
     const subscription = await getUserSubscription();
 
-    if (!subscription || !business) {
+    if (!subscription || !business || subscription.status !== 'active') {
         redirect('/onboarding/business-profile');
     }
 

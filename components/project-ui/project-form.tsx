@@ -22,6 +22,7 @@ import type { FileError } from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
+import FormLoader from '../loader-ui/fixed-loader';
 import ProjectLocationPicker from './project-location-picker';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };

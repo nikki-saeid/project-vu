@@ -1,4 +1,3 @@
-import { generateUniqueSlug } from '@/lib/helpers/unique-slug';
 import { Business } from '@/lib/types/db';
 import { businessRepository } from '../repositories/business.repository';
 import { storageRepository } from '../repositories/storage.repository';
@@ -47,11 +46,36 @@ export const businessService = {
         throw { error: new Error('Portfolio is not live'), status: StatusCodes.NOT_FOUND };
     },
 
+    slug: {
+        slugIncrement: function (slug: string, increment?: number) {
+            if (!increment) {
+                return slug;
+            }
+            return slug + '-' + increment;
+        },
+        generateUnique: async function (name: string) {
+            const slugBase = name
+                .toLowerCase()
+                .replace(/[\s\W-]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+            let i = 0;
+            while (true) {
+                const slug = this.slugIncrement(slugBase, i === 0 ? undefined : i);
+
+                if (!(await businessRepository.getBySlug(slug))) {
+                    return slug;
+                }
+                i++;
+            }
+        },
+    },
+
     // update business
     update: async function (data: Partial<Business>, logo?: File) {
         // generate slug if name is present in the request body
         if (!data.slug && data.name) {
-            data.slug = generateUniqueSlug(data.name);
+            data.slug = await this.slug.generateUnique(data.name);
         }
 
         // logo

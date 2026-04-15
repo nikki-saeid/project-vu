@@ -1,6 +1,7 @@
 'use client';
 
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { useUser } from '@/lib/contexts/user-context';
 import { createClient } from '@/lib/supabase/client';
 import { updatePasswordSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,8 +9,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import PasswordInput from '../auth-ui/password-input';
-import { use } from 'react';
-import { useUser } from '@/lib/contexts/user-context';
 
 type UpdatePasswordFormProps = {
     id: string;

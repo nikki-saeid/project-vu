@@ -6,7 +6,6 @@ import UpdatePasswordForm from '@/components/profile-ui/update-password-form';
 import { Button } from '@/components/ui/button';
 import { roleRedirect } from '@/lib/helpers/role-redirect';
 import { useRouter } from 'next/navigation';
-
 export default function UpdatePassword() {
     const router = useRouter();
 

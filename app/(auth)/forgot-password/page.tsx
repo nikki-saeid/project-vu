@@ -14,10 +14,33 @@ import { forgotPasswordSchema } from '@/lib/validators/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconCheck, IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+
+const SendAgainButton = ({ onClick }: { onClick: () => void }) => {
+    const [seconds, setSeconds] = useState(30);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSeconds((seconds) => seconds - 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleOnClick = () => {
+        setSeconds(30);
+        onClick();
+    };
+
+    return (
+        <Button type="button" className="w-full md:mt-6 mt-4" disabled={seconds > 0} onClick={handleOnClick}>
+            {seconds <= 0 ? <span>Send reset email again</span> : <span>Send reset email again in ({seconds}) seconds</span>}
+        </Button>
+    );
+};
 
 export default function ForgotPasswordForm() {
     // State to track loading and success status
@@ -32,16 +55,16 @@ export default function ForgotPasswordForm() {
         },
     });
 
-    // Handle form submission
-    async function onSubmit(data: z.infer<typeof forgotPasswordSchema>) {
-        const supabase = createClient();
+    const sendEmail = async (email: string) => {
         setIsLoading(true);
+        const supabase = createClient();
         toast.loading('Sending password reset email...');
 
         try {
-            const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo: `${BASE_URL}/update-password`,
             });
+
             if (error) throw error;
             toast.dismiss();
             toast.success('Successfully sent password reset email.');
@@ -52,12 +75,20 @@ export default function ForgotPasswordForm() {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    // Handle form submission
+    async function onSubmit(data: z.infer<typeof forgotPasswordSchema>) {
+        sendEmail(data.email);
     }
+
+    const handleSendAgain = () => {
+        sendEmail(form.getValues('email'));
+    };
 
     return (
         <div className="flex flex-col gap-4 items-center">
             <Logo />
-            {BASE_URL}
             {success ? (
                 <Card className="self-stretch shadow-none">
                     <CardHeader>
@@ -66,7 +97,7 @@ export default function ForgotPasswordForm() {
                             <H3 className="text-primary">Check Your Email</H3>
                         </CardTitle>
                         <CardDescription>
-                            If you registered using your email and password, you will receive a password reset email.
+                            If you registered using this <b>{form.getValues('email')}</b>, you will receive a password reset email.
                         </CardDescription>
                     </CardHeader>
 
@@ -75,6 +106,8 @@ export default function ForgotPasswordForm() {
                             We have sent you an email with instructions to reset your password. Please check your inbox and follow the
                             instructions to create a new password for your account.
                         </P>
+
+                        <SendAgainButton onClick={handleSendAgain} />
                     </CardContent>
                 </Card>
             ) : (

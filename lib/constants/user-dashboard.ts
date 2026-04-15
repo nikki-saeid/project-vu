@@ -28,8 +28,8 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
             Icon: IconPencil,
         },
         {
-            title: 'Profile',
-            url: '/dashboard/profile',
+            title: 'Account',
+            url: '/dashboard/account',
             Icon: IconUserCircle,
         },
         {

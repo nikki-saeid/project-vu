@@ -46,22 +46,25 @@ export default function SignUpForm() {
             const supabase = createClient();
 
             // Use signUp for email/password authentication
-            const { error } = await supabase.auth.signUp({
+            const {
+                error,
+                data: { user },
+            } = await supabase.auth.signUp({
                 email: data.email,
                 password: data.password,
-                // options: {
-                //     emailRedirectTo: `${BASE_URL}/dashboard/live-page`,
-                //     data: {
-                //         full_name: data.full_name,
-                //     },
-                // },
             });
 
-            // Handle any errors that occur during sign-up
             if (error) throw error;
 
-            // Dismiss the loading toast and show success message
+            const isExistingUser = !user || user.identities?.length === 0;
+
             toast.dismiss();
+
+            if (isExistingUser) {
+                toast.error('User already exist try login');
+                return;
+            }
+
             toast.success('Successfully signed up.');
 
             // Redirect the user to a success page or dashboard after successful sign-up

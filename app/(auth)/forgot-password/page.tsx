@@ -107,7 +107,7 @@ export default function ForgotPasswordForm() {
                             instructions to create a new password for your account.
                         </P>
 
-                        <SendAgainButton onClick={handleSendAgain} />
+                        {/* <SendAgainButton onClick={handleSendAgain} /> */}
                     </CardContent>
                 </Card>
             ) : (

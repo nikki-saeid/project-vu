@@ -7,10 +7,9 @@ import { ReactNode } from 'react';
 type SectionHeaderProps = {
     label: string;
     title?: ReactNode;
-    description?: string;
+    description?: ReactNode;
     center?: boolean;
     isWhite?: boolean;
-    secondary?: boolean;
 };
 
 export default function SectionHeader({ label, title, description, center = true, isWhite = false }: SectionHeaderProps) {

@@ -5,12 +5,13 @@ import Features from './_components/features';
 import Hero from './_components/hero';
 import LiveMap from './_components/live-map';
 import PricingPlans from './_components/pricing-plans';
+import Contact from './_components/contact';
 
 export default function Home() {
     return (
         <div className="flex flex-col gap-20 pb-20">
             {/* Appzi: Capture Insightful Feedback */}
-            <Script async src="https://w.appzi.io/w.js?token=F8RdR" />
+            <Script async src="https://w.appzi.io/w.js?token=b3nV4" />
             {/* End Appzi */}
             <Hero />
             <LiveMap />
@@ -18,6 +19,7 @@ export default function Home() {
             <AboutUs />
             <PricingPlans />
             <Cta />
+            <Contact />
         </div>
     );
 }

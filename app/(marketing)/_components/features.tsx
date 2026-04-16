@@ -14,7 +14,6 @@ export default function Features() {
                         label="FEATURES"
                         // title="Turn your finished projects into future work with photos, maps, and a shareable profile clients can explore instantly."
                         description="Whether you're a builder, designer, electrician, joiner, or any professional, show your projects with photos, maps, and a shareable profile so clients can view and contact you instantly."
-                        secondary
                     />
 
                     <div className="grid lg:grid-cols-3 md:grid-cols-2 flex-1 gap-4">

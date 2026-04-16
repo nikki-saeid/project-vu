@@ -3,6 +3,7 @@ export const SECTIONS_IDS = {
     features: 'features',
     liveMap: 'live-map',
     pricing: 'pricing',
+    contact: 'contact',
 };
 
 export const NAVBAR_URLS = [
@@ -21,5 +22,9 @@ export const NAVBAR_URLS = [
     {
         url: `/#${SECTIONS_IDS.pricing}`,
         label: 'Pricing',
+    },
+    {
+        url: `/#${SECTIONS_IDS.contact}`,
+        label: 'Contact',
     },
 ];

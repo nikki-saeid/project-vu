@@ -18,8 +18,7 @@ export default function Contact() {
                 <div className="p-10 rounded-lg border shadow-none bg-transparent flex flex-col gap-4 md:gap-6 items-center ">
                     <SectionHeader
                         label="CONTCAT"
-                        title="We are here for you, connect with us at any time."
-                        description="Email us at the address below and we will get back to you as soon as possible."
+                        description="We are here for you, connect with us at any time, Email us at the address below and we will get back to you as soon as possible."
                     />
 
                     <Badge variant="outline">

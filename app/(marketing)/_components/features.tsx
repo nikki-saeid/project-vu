@@ -1,4 +1,3 @@
-import { Card, CardContent } from '@/components/ui/card';
 import Container from '@/components/ui/container';
 import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
 import { IconAppWindow, IconLayoutList, IconMap2 } from '@tabler/icons-react';

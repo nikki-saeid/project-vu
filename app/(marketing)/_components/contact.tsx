@@ -1,15 +1,11 @@
-import Container from '@/components/ui/container';
-import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
-import React from 'react';
-import SectionHeader from './section-header';
-import H4 from '@/components/typography/H4';
-import IconCard from '@/components/dashboard-ui/icon-card';
-import { IconMail, IconSend } from '@tabler/icons-react';
-import DataCard from '@/components/dashboard-ui/data-card';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import P from '@/components/typography/P';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import Container from '@/components/ui/container';
+import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
+import { IconSend } from '@tabler/icons-react';
+import Link from 'next/link';
+import SectionHeader from './section-header';
 
 export default function Contact() {
     return (
@@ -22,8 +18,8 @@ export default function Contact() {
                     />
 
                     <Badge variant="outline">
-                        <P className="text-lg">
-                            <strong className="font-semibold text-center">support@projectvu.com.au</strong>
+                        <P className="">
+                            <strong className="font-semibold text-center text-md">support@projectvu.com.au</strong>
                         </P>
                         <Link href="mailto:support@projectvu.com.au">
                             <Button variant="outline" size="icon-xs" className="rounded-full">

@@ -12,23 +12,21 @@ type InvoiceHistoryProps = {
 };
 
 export default function InvoiceHistory({ stripe_customer_id }: InvoiceHistoryProps) {
-    const { data, isPending } = useQuery({
+    const { data, isFetching } = useQuery({
         queryKey: ['invoices', stripe_customer_id],
         queryFn: async () => await getInvoiceList(stripe_customer_id),
         staleTime: Infinity,
     });
 
-    return isPending ? (
+    return isFetching ? (
         <TableSkeleton columnCount={3} rowCount={3} />
+    ) : !data || (data && data.length === 0) ? (
+        <EmptyData>
+            <P>No invoices found.</P>
+        </EmptyData>
     ) : (
         <Suspense fallback={<TableSkeleton columnCount={3} />}>
-            {!data || (data && data.length === 0) ? (
-                <EmptyData>
-                    <P>No invoices found.</P>
-                </EmptyData>
-            ) : (
-                <InvoicesTable invoices={data} />
-            )}
+            <InvoicesTable invoices={data} />
         </Suspense>
     );
 }

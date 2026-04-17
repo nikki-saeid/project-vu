@@ -44,7 +44,6 @@ next-env.d.ts
 /.trunk/
 
 /scripts/
-/supabase/
 .vscode
 
 index.html

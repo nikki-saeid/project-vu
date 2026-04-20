@@ -1,4 +1,4 @@
-import { getUserBusiness, updateOnboardingStatus } from '@/lib/api-fetcher/user/server/business';
+import { getUserBusiness, updateOnboardingStatus, updatePageStatus } from '@/lib/api-fetcher/user/server/business';
 import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
 import { getUserSubscription } from '@/lib/api-fetcher/user/server/subscription';
 import { DashboardProvider } from '@/lib/providers/dashboard-provider';
@@ -12,12 +12,19 @@ export default async function DashboardUserProviderInner({ children }: ChildrenP
     const projects = await getUserProjects();
     const subscription = await getUserSubscription();
 
-    if (!subscription || !business || subscription.status !== 'active') {
+    if (!subscription || !business) {
         redirect('/onboarding/business-profile');
     }
 
     // get subscription status
     const status = subscription.status as Stripe.Subscription.Status;
+    const currentPeriodEnd = new Date(subscription?.current_period_end ?? '');
+
+    // if subscription is not active
+    if (status !== 'active' || currentPeriodEnd.getTime() < new Date().getTime()) {
+        await updatePageStatus('draft');
+        redirect('/payment-failed');
+    }
 
     // if subscription became active and business is not onboarded
     if (status === 'active' && !business.is_onboarded) {

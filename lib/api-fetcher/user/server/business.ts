@@ -2,7 +2,7 @@
 
 import { API_URL } from '@/lib/constants/urls';
 import { fetcher } from '@/lib/helpers/fetcher';
-import { Business } from '@/lib/types/db';
+import { Business, PageStatusEnum } from '@/lib/types/db';
 import { cookies } from 'next/headers';
 
 export const getUserBusiness = async () => {
@@ -30,4 +30,14 @@ export const updateOnboardingStatus = async (is_onboarded: boolean) => {
         headers: { Cookie: cookie.toString() },
     });
     return response.data;
+};
+
+export const updatePageStatus = async (status: PageStatusEnum) => {
+    const cookie = await cookies();
+    const response = await fetcher<Business>(`${API_URL}/user/business/page-status`, {
+        method: 'PUT',
+        body: JSON.stringify({ status }),
+        headers: { Cookie: cookie.toString() },
+    });
+    return response;
 };

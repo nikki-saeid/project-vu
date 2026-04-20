@@ -1,10 +1,6 @@
-import P from '@/components/typography/P';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import ContactBagde from '@/components/contact-bagde';
 import Container from '@/components/ui/container';
 import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
-import { IconSend } from '@tabler/icons-react';
-import Link from 'next/link';
 import SectionHeader from './section-header';
 
 export default function Contact() {
@@ -17,16 +13,7 @@ export default function Contact() {
                         description="We are here for you, connect with us at any time, Email us at the address below and we will get back to you as soon as possible."
                     />
 
-                    <Badge variant="outline">
-                        <P className="">
-                            <strong className="font-semibold text-center text-md">support@projectvu.com.au</strong>
-                        </P>
-                        <Link href="mailto:support@projectvu.com.au">
-                            <Button variant="outline" size="icon-xs" className="rounded-full">
-                                <IconSend />
-                            </Button>
-                        </Link>
-                    </Badge>
+                    <ContactBagde />
                 </div>
             </Container>
         </section>

@@ -6,7 +6,7 @@ import P from './typography/P';
 
 type IconTitleProps = {
     label: string;
-    title: string;
+    title?: string;
     StyledIconProps: StyledIconProps;
 };
 
@@ -20,7 +20,7 @@ export default function StyledIconTitle({ StyledIconProps, label, title }: IconT
             />
             <div className="flex flex-col">
                 <P className="text-xs text-muted-foreground">{label}</P>
-                <P className="text-sm font-medium">{title}</P>
+                {title && <P className="text-sm font-medium">{title}</P>}
             </div>
         </div>
     );

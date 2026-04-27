@@ -1,12 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { DATE_FORMATS } from '@/lib/constants/date-formats';
 import type { ProjectCardProps } from '@/lib/types/forms';
 import { IconCalendar, IconMapPin, IconRulerMeasure } from '@tabler/icons-react';
+import { format } from 'date-fns';
 import Link from 'next/link';
 import ImageCarousel from '../images-ui/image-carousel';
+import StyledIconTitle from '../styled-icon-title';
 import { Carousel, CarouselNext, CarouselPrevious } from '../ui/carousel';
-import IconTitle from '../icon-title';
-import { format } from 'date-fns';
-import { DATE_FORMATS } from '@/lib/constants/date-formats';
 
 export default function ProjectCard({
     slug,
@@ -41,9 +41,35 @@ export default function ProjectCard({
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="flex flex-col gap-2">
-                            <IconTitle Icon={IconMapPin} title={address ?? ''} />
-                            {made_at && <IconTitle Icon={IconCalendar} title={format(new Date(made_at), DATE_FORMATS.year)} />}
-                            {size && <IconTitle Icon={IconRulerMeasure} title={size + ' sqm'} />}
+                            <StyledIconTitle
+                                StyledIconProps={{
+                                    Icon: IconMapPin,
+                                    className: 'size-5 bg-primary/5',
+                                    IconProps: { className: 'size-3 text-primary' },
+                                }}
+                                label={address ?? ''}
+                            />
+                            {made_at && (
+                                <StyledIconTitle
+                                    StyledIconProps={{
+                                        Icon: IconCalendar,
+                                        className: 'size-5 bg-primary/5',
+                                        IconProps: { className: 'size-3 text-primary' },
+                                    }}
+                                    label={format(new Date(made_at), DATE_FORMATS.year)}
+                                />
+                            )}
+
+                            {size && (
+                                <StyledIconTitle
+                                    StyledIconProps={{
+                                        Icon: IconRulerMeasure,
+                                        className: 'size-5 bg-primary/5',
+                                        IconProps: { className: 'size-3 text-primary' },
+                                    }}
+                                    label={size + ' sqm'}
+                                />
+                            )}
                         </CardContent>
                     </Card>
                 </Link>

@@ -15,6 +15,7 @@ export type Database = {
           description: string | null
           email: string
           facebook_url: string | null
+          favicon_url: string | null
           id: string
           instagram_url: string | null
           is_onboarded: boolean
@@ -35,6 +36,7 @@ export type Database = {
           description?: string | null
           email: string
           facebook_url?: string | null
+          favicon_url?: string | null
           id?: string
           instagram_url?: string | null
           is_onboarded?: boolean
@@ -55,6 +57,7 @@ export type Database = {
           description?: string | null
           email?: string
           facebook_url?: string | null
+          favicon_url?: string | null
           id?: string
           instagram_url?: string | null
           is_onboarded?: boolean

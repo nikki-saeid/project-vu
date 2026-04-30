@@ -8,11 +8,31 @@ import { randomUUID } from 'crypto';
 
 export const storageService = {
     // resize image to webp format
-    resizeImageToWebp: async function (file: File, width: number, height: number) {
+    resizeImageToWebp: async function (file: File, width: number, height: number, isCircle = false) {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        return await sharp(buffer).resize(width, height).webp({ quality: 80 }).toBuffer();
+        let image = sharp(buffer).resize(width, height, {
+            fit: 'cover',
+            position: 'center',
+        });
+
+        if (isCircle) {
+            const circleMask = Buffer.from(`
+      <svg width="${width}" height="${height}">
+        <circle cx="${width / 2}" cy="${height / 2}" r="${Math.min(width, height) / 2}" fill="white"/>
+      </svg>
+    `);
+
+            image = image.composite([
+                {
+                    input: circleMask,
+                    blend: 'dest-in', // this "cuts the corners"
+                },
+            ]);
+        }
+
+        return await image.webp({ quality: 80 }).toBuffer();
     },
 
     qualityUpdateImageToWebp: async function (file: File, quality: number) {
@@ -23,12 +43,12 @@ export const storageService = {
     },
 
     // upload after resize
-    uploadAfterResize: async function (path: string, file: File | null, width: number, height: number) {
+    uploadAfterResize: async function (path: string, file: File | null, width: number, height: number, isCircle = false) {
         if (!(file instanceof File)) {
             throw { error: new Error('Missing file'), status: StatusCodes.BAD_REQUEST };
         }
 
-        const buffer = await this.resizeImageToWebp(file, width, height);
+        const buffer = await this.resizeImageToWebp(file, width, height, isCircle);
 
         return await storageRepository.upload(path, buffer);
     },

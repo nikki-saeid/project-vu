@@ -15,8 +15,7 @@ export const businessService = {
                 ...data,
             });
         }
-        business.logo_url = business.logo_url ? await storageRepository.getStoragePublicUrl(business.logo_url) : business.logo_url;
-        return business;
+        return await this.makeBusinessLogoPublic(business);
     },
 
     getByUserId: async function (userId: string) {
@@ -25,9 +24,10 @@ export const businessService = {
     },
 
     makeBusinessLogoPublic: async function (business: Business) {
-        if (!business.logo_url) return business;
+        if (!business.logo_url || !business.favicon_url) return business;
 
         business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;
+        business.favicon_url = (await storageRepository.getStoragePublicUrl(business.favicon_url)) + `?t=${Date.now()}`;
         return business;
     },
 
@@ -81,8 +81,10 @@ export const businessService = {
         // logo
         if (logo) {
             const path = `${data.user_id}/logo.webp`;
-            await storageService.removeMany([path]);
+            const pathFavicon = `${data.user_id}/favicon.webp`;
+            await storageService.removeMany([path, pathFavicon]);
             data.logo_url = await storageService.uploadAfterResize(path, logo, 500, 500);
+            data.favicon_url = await storageService.uploadAfterResize(pathFavicon, logo, 80, 80, true);
         }
 
         // update

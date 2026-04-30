@@ -7,8 +7,14 @@ import '@/styles/globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Your modern platform that help you showcase your work in a clear, visual, and compelling way | ProjectVu',
+    title: {
+        template: '%s | ProjectVu',
+        default: 'Your modern platform that help you showcase your work in a clear, visual, and compelling way | ProjectVu',
+    },
     description: 'ProjectVu is a modern platform that helps professionals showcase their work in a clear, visual, and compelling way',
+    icons: {
+        icon: '/favicon.ico',
+    },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -9,7 +9,7 @@ export const subscriptionRepository = {
 
             if (error) throw error;
 
-            return data;
+            return data as Subscription | null;
         },
     },
     admin: {

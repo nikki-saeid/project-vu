@@ -51,6 +51,15 @@ export type DialogFormProps = {
     onOpenChange: (open: boolean) => void;
 };
 
+export type DialogCoreProps = {
+    title: string;
+    trigger?: ReactNode;
+    action: ReactNode;
+    content: ReactNode;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+};
+
 export type FormProps = {
     onSuccess?: () => void;
     id: string;

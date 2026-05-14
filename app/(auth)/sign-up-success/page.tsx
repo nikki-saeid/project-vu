@@ -13,7 +13,7 @@ import { createClient } from '@/lib/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconCheck } from '@tabler/icons-react';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
-import { redirect, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -25,15 +25,15 @@ const formSchema = z.object({
 
 export default function SignUpSuccess() {
     const searchParams = useSearchParams();
+    const router = useRouter();
     const email = searchParams.get('email') ?? '';
     const { setUser } = useUser();
 
     if (!email) {
-        redirect('/sign-up');
+        router.push('/sign-up');
     }
 
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
 
     const form = useForm({
         resolver: zodResolver(formSchema),

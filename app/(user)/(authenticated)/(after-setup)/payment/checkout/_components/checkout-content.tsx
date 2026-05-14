@@ -26,7 +26,7 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
         <CardLayouts
             action={
                 <div className="flex justify-between w-full">
-                    <Link href={`/onboarding/subscription-plan?plan=${plan}`}>
+                    <Link href={`/payment/subscription-plan?plan=${plan}`}>
                         <Button size="sm" variant="outline" type="submit">
                             Back
                         </Button>

@@ -6,9 +6,32 @@ import { useDashboard } from '@/lib/contexts/dashboard-context';
 import ActionMenu from './_components/action-menu';
 import LiveButton from './_components/live-button';
 import ShareButtons from './_components/share-buttons';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { useEffect } from 'react';
 
 export default function LivePage() {
     const { business, projects } = useDashboard();
+
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const searchParams = useSearchParams();
+    const paymentSuccess = searchParams.get('payment') === 'success';
+
+    useEffect(() => {
+        if (paymentSuccess) {
+            toast.dismiss();
+            toast.success('Payment successful! Your subscription has been activated. You can add unlimited projects now.', {
+                onDismiss: () => {
+                    router.replace(pathname);
+                },
+                onAutoClose: () => {
+                    router.replace(pathname);
+                },
+            });
+        }
+    }, [pathname, paymentSuccess, router]);
 
     return (
         <div>

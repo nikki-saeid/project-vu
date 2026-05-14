@@ -6,6 +6,8 @@ export const PRICING_PLANS_IDS = {
     annual: 'annual',
 } as const;
 
+export const MAX_PROJECTS_FREE_PLAN = 3;
+
 export const PRICING_PLANS: PricingPlanProps[] = [
     {
         id: PRICING_PLANS_IDS.monthly,

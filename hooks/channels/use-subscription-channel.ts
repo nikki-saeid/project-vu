@@ -1,44 +1,50 @@
 import { useDashboard } from '@/lib/contexts/dashboard-context';
+import { useUser } from '@/lib/contexts/user-context';
 import { createClient } from '@/lib/supabase/client';
 import type { Subscription } from '@/lib/types/db';
-import { RealtimeChannel, RealtimePostgresUpdatePayload } from '@supabase/supabase-js';
+
+import { RealtimeChannel, RealtimePostgresChangesPayload } from '@supabase/supabase-js';
+
 import { useEffect } from 'react';
 
 export function useSubscriptionChannel() {
-    const { subscription, setSubscription } = useDashboard();
-    const subscriptionId = subscription?.id;
+    const { setSubscription } = useDashboard();
+    const { user } = useUser();
 
     useEffect(() => {
-        let channel: RealtimeChannel | undefined;
+        if (!user?.id) return;
 
-        const init = () => {
-            const supabase = createClient();
+        const supabase = createClient();
 
-            channel = supabase
-                .channel('subscription_update')
-                .on(
-                    'postgres_changes',
-                    {
-                        event: 'UPDATE',
-                        schema: 'public',
-                        table: 'subscriptions',
-                        filter: `id=eq.${subscriptionId}`,
-                    },
-                    (payload: RealtimePostgresUpdatePayload<Subscription>) => {
-                        if (!payload.errors) {
-                            setSubscription(payload.new);
-                        }
-                    },
-                )
-                .subscribe();
-        };
+        const channel: RealtimeChannel = supabase
+            .channel(`subscription:${user.id}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'subscriptions',
+                    filter: `user_id=eq.${user.id}`,
+                },
+                (payload: RealtimePostgresChangesPayload<Subscription>) => {
+                    console.log('REALTIME EVENT', payload);
 
-        init();
+                    switch (payload.eventType) {
+                        case 'INSERT':
+                        case 'UPDATE':
+                            setSubscription(payload.new as Subscription);
+                            break;
+
+                        case 'DELETE':
+                            setSubscription(null);
+                            break;
+                    }
+                },
+            )
+            .subscribe();
 
         return () => {
-            if (channel) channel.unsubscribe();
+            supabase.removeChannel(channel);
         };
-    }, [subscriptionId, setSubscription]);
-
-    return subscription;
+    }, [user?.id, setSubscription]);
 }

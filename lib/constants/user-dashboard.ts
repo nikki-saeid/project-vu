@@ -1,6 +1,8 @@
 import { Constants } from '@/lib/types/supabase';
 import { IconAppWindow, IconBuildings, IconCode, IconCreditCard, IconPencil, IconUserCircle } from '@tabler/icons-react';
 
+
+
 export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
     main: [
         {

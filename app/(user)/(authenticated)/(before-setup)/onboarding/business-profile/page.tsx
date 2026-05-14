@@ -3,13 +3,15 @@
 import BusinessForm from '@/components/business-ui/business-form';
 import CardForm from '@/components/card-form';
 import { Button } from '@/components/ui/button';
+import { updateOnboardingStatus } from '@/lib/api-fetcher/user/client/business';
 import { useRouter } from 'next/navigation';
 
 export default function BusinessProfile() {
     const router = useRouter();
 
-    const handleNext = () => {
-        router.push('/onboarding/subscription-plan');
+    const handleNext = async () => {
+        await updateOnboardingStatus(true);
+        router.push('/dashboard/live-page');
     };
 
     return (

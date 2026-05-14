@@ -4,24 +4,27 @@ import { businessRepository } from '../repositories/business.repository';
 import { StatusCodes } from 'http-status-codes';
 import { storageService } from './storage.service';
 import { randomUUID } from 'crypto';
+import { subscriptionMiddleware } from '../middlewares/subscription.middleware';
 
 export const projectService = {
     // get business by user id or create if not exists
     create: async function (userId: string, data: Partial<Project>, images: File[] = []) {
-        // get the business
-        const business = (await businessRepository.getByUserId(userId)) as Business;
-        if (!business) {
-            throw { error: new Error('Business not found'), status: StatusCodes.NOT_FOUND };
-        }
+        return subscriptionMiddleware.projectsMax(async function () {
+            // get the business
+            const business = (await businessRepository.getByUserId(userId)) as Business;
+            if (!business) {
+                throw { error: new Error('Business not found'), status: StatusCodes.NOT_FOUND };
+            }
 
-        const id = randomUUID();
+            const id = randomUUID();
 
-        // store images
-        const path = `${userId}/projects/${id}`;
-        const projectImages = await storageService.uploadMany(images, path);
+            // store images
+            const path = `${userId}/projects/${id}`;
+            const projectImages = await storageService.uploadMany(images, path);
 
-        // create project
-        return await projectRepository.create({ ...data, id, business_id: business.id, images_urls: projectImages });
+            // create project
+            return await projectRepository.create({ ...data, id, business_id: business.id, images_urls: projectImages });
+        }, userId);
     },
 
     getById: async function (id: string) {

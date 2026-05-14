@@ -24,7 +24,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <TooltipProvider>
                     <UserProviderInner>{children}</UserProviderInner>
                 </TooltipProvider>
-                <Toaster theme="light" richColors position="top-right" />
+                <Toaster
+                    toastOptions={{
+                        duration: 6000,
+                    }}
+                    theme="light"
+                    richColors
+                    position="top-right"
+                />
             </body>
         </html>
     );

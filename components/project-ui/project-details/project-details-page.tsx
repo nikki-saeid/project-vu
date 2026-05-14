@@ -39,7 +39,7 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                 description=""
             />
             <DashboardCard title={<H4 className="font-medium tracking-normal text-2xl">{title}</H4>} description={description}>
-                {(made_at || size) && (
+                {(made_at || size || cost) && (
                     <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mb-6">
                         {made_at && (
                             <StyledIconTitle

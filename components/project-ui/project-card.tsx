@@ -1,12 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DATE_FORMATS } from '@/lib/constants/date-formats';
 import type { ProjectCardProps } from '@/lib/types/forms';
-import { IconCalendar, IconMapPin, IconRulerMeasure } from '@tabler/icons-react';
+import { IconCalendar, IconCurrencyDollarAustralian, IconMapPin, IconRulerMeasure } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import ImageCarousel from '../images-ui/image-carousel';
 import StyledIconTitle from '../styled-icon-title';
 import { Carousel, CarouselNext, CarouselPrevious } from '../ui/carousel';
+import { getProjectCostLabel } from '@/lib/helpers/other';
 
 export default function ProjectCard({
     slug,
@@ -19,6 +20,7 @@ export default function ProjectCard({
     isPublic,
     made_at,
     size,
+    cost,
 }: ProjectCardProps) {
     return (
         <div className="relative h-full">
@@ -68,6 +70,17 @@ export default function ProjectCard({
                                         IconProps: { className: 'size-3 text-primary' },
                                     }}
                                     label={size + ' sqm'}
+                                />
+                            )}
+
+                            {cost && (
+                                <StyledIconTitle
+                                    StyledIconProps={{
+                                        Icon: IconCurrencyDollarAustralian,
+                                        className: 'size-5 bg-primary/5',
+                                        IconProps: { className: 'size-3 text-primary' },
+                                    }}
+                                    label={getProjectCostLabel(cost)}
                                 />
                             )}
                         </CardContent>

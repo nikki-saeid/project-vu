@@ -9,6 +9,7 @@ export const projectCreateSchema = z.object({
     isImagesUploaded: z.boolean({ required_error: 'Images are required' }).refine((val) => val, { message: 'Images are required' }),
     made_at: z.string().optional(),
     size: z.string().regex(/^\d+$/, 'Size must be a number').optional().or(z.literal('')),
+    cost: z.string().regex(/^\d+$/, 'Cost must be a number').optional().or(z.literal('')),
 });
 
 export type ProjectCreateInput = z.infer<typeof projectCreateSchema>;

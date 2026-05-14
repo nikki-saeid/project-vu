@@ -15,14 +15,13 @@ import type { LocationFeature } from '@/lib/types/map';
 import { cn } from '@/lib/utils/classes-merge';
 import { projectCreateSchema, type ProjectCreateInput } from '@/lib/validators/user/project';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IconAlignLeft, IconClipboardText, IconRulerMeasure } from '@tabler/icons-react';
+import { IconAlignLeft, IconClipboardText, IconCurrencyDollarAustralian, IconRulerMeasure } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import type { FileError } from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
-import FormLoader from '../loader-ui/fixed-loader';
 import ProjectLocationPicker from './project-location-picker';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
@@ -43,6 +42,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             isImagesUploaded: project?.images_urls?.length ? project?.images_urls?.length > 0 : false,
             made_at: project?.made_at ?? '',
             size: project?.size ?? '',
+            cost: project?.cost ?? '',
         },
     });
 
@@ -127,6 +127,7 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             latitude: data.latitude,
             longitude: data.longitude,
             size: data.size,
+            cost: data.cost,
             made_at: data.made_at ? new Date(data.made_at).toISOString() : undefined,
         });
         formData.append('body', body);
@@ -289,7 +290,10 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
                 render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                         <FieldLabel htmlFor="project-made-at">
-                            Created On <i>(optional)</i>
+                            Created On{' '}
+                            <i>
+                                <b>(optional)</b>
+                            </i>
                         </FieldLabel>
                         <Select onValueChange={field.onChange} value={field.value ? format(field.value, 'yyyy') : ''}>
                             <SelectTrigger>
@@ -315,7 +319,10 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
                 render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                         <FieldLabel htmlFor="project-size">
-                            Size <i>(optional)</i>
+                            Size{' '}
+                            <i>
+                                <b>(optional)</b>
+                            </i>
                         </FieldLabel>
                         <InputGroup>
                             <InputGroupAddon>
@@ -330,6 +337,37 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
                             />
                             <InputGroupAddon align="inline-end">
                                 <span className="">sqm</span>
+                            </InputGroupAddon>
+                        </InputGroup>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                )}
+            />
+
+            <Controller
+                name="cost"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="project-cost">
+                            Cost{' '}
+                            <i>
+                                <b>(optional)</b>
+                            </i>
+                        </FieldLabel>
+                        <InputGroup>
+                            <InputGroupAddon>
+                                <IconCurrencyDollarAustralian className="size-4" />
+                            </InputGroupAddon>
+                            <InputGroupInput
+                                {...field}
+                                id="project-cost"
+                                aria-invalid={fieldState.invalid}
+                                placeholder="Project cost in dollars"
+                                autoComplete="off"
+                            />
+                            <InputGroupAddon align="inline-end">
+                                <span className="">AUD</span>
                             </InputGroupAddon>
                         </InputGroup>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

@@ -11,6 +11,7 @@ import { IconCalendar, IconRulerMeasure } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import ProjectsMap from '../projects-map';
 import ProjectDetailsImages from './project-details-images';
+import { getProjectCostLabel } from '@/lib/helpers/other';
 
 type ProjectDetailsPageProps = {
     project: ProjectWithLatLng;
@@ -18,11 +19,14 @@ type ProjectDetailsPageProps = {
 };
 
 export default function ProjectDetailsPage({ project, business }: ProjectDetailsPageProps) {
-    const { images_urls, title, description, address, made_at, size } = project ?? {
+    const { images_urls, title, description, address, made_at, size, cost } = project ?? {
         images_urls: [],
         title: '',
         description: '',
         address: '',
+        made_at: undefined,
+        size: undefined,
+        cost: undefined,
     };
 
     return (
@@ -35,6 +39,27 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                 description=""
             />
             <DashboardCard title={<H4 className="font-medium tracking-normal text-2xl">{title}</H4>} description={description}>
+                {(made_at || size) && (
+                    <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mb-6">
+                        {made_at && (
+                            <StyledIconTitle
+                                StyledIconProps={{ Icon: IconCalendar }}
+                                label="Project Created On"
+                                title={format(new Date(made_at), DATE_FORMATS.year)}
+                            />
+                        )}
+                        {size && (
+                            <StyledIconTitle StyledIconProps={{ Icon: IconRulerMeasure }} label="Project Size" title={size + ' sqm'} />
+                        )}
+                        {cost && (
+                            <StyledIconTitle
+                                StyledIconProps={{ Icon: IconRulerMeasure }}
+                                label="Project Cost"
+                                title={getProjectCostLabel(cost)}
+                            />
+                        )}
+                    </div>
+                )}
                 <ProjectDetailsImages images_urls={images_urls} title={title} />
             </DashboardCard>
             <DashboardCard title="Location" description={address}>
@@ -47,7 +72,7 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                     projects={[project]}
                 />
             </DashboardCard>
-            {(made_at || size) && (
+            {/* {(made_at || size) && (
                 <DashboardCard title="Details" description="More details about this project">
                     <div className="flex flex-col gap-4">
                         {made_at && (
@@ -62,7 +87,7 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                         )}
                     </div>
                 </DashboardCard>
-            )}
+            )} */}
         </div>
     );
 }

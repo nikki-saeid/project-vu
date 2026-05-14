@@ -31,11 +31,11 @@ export const projectController = {
         const body = JSON.parse(formData.get('body') as string);
 
         // parse the body
-        const { title, description, address, latitude, longitude, made_at, size } = body;
+        const { title, description, address, latitude, longitude, made_at, size, cost } = body;
         const location = `POINT(${longitude} ${latitude})`;
 
         // Create the project
-        const project = await projectService.create(user.id, { title, description, address, location, made_at, size }, images as File[]);
+        const project = await projectService.create(user.id, { title, description, address, location, made_at, size, cost }, images as File[]);
         return new SuccessResponse<Project>('Project added successfully', project).send();
     }),
 
@@ -69,14 +69,14 @@ export const projectController = {
         const body = JSON.parse(formData.get('body') as string);
 
         // parse the body
-        const { title, description, address, latitude, longitude, made_at, size } = body;
+        const { title, description, address, latitude, longitude, made_at, size, cost } = body;
         const location = `POINT(${longitude} ${latitude})`;
 
         // update the project
         const project = await projectService.updateById(
             user.id,
             id,
-            { title, description, address, location, made_at, size },
+            { title, description, address, location, made_at, size, cost },
             images as File[],
         );
 

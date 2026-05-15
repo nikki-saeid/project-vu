@@ -1,5 +1,6 @@
 import { createsStripeServer } from '@/lib/stripe/server';
 import { lastDayOfMonth } from 'date-fns';
+import { get } from 'http';
 import Stripe from 'stripe';
 
 type CheckoutSessionMetadata = {
@@ -100,6 +101,13 @@ export const stripeRepository = {
             return await stripe.subscriptions.update(id, {
                 cancel_at_period_end: false,
             });
+        },
+    },
+    paymentMethod: {
+        getById: async function (id: string | undefined) {
+            if (!id) return null;
+            const stripe = await createsStripeServer();
+            return await stripe.paymentMethods.retrieve(id);
         },
     },
 };

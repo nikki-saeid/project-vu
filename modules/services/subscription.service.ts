@@ -15,16 +15,20 @@ export const subscriptionService = {
         },
     },
     admin: {
-        // create
         create: async function (data: Partial<Subscription>) {
             return await subscriptionRepository.admin.create(data);
         },
-        // update
         updateByBusinessId: async function (businessId: string, data: Partial<Subscription>) {
             return await subscriptionRepository.admin.updateByBusinessId(businessId, data);
         },
+        getByBusinessId: async function (businessId: string) {
+            return await subscriptionRepository.admin.getByBusinessId(businessId);
+        },
         getAllActive: async function () {
             return await subscriptionRepository.admin.getAllActive();
+        },
+        updateByCustomerId: async function (customerId: string, data: Partial<Subscription>) {
+            return await subscriptionRepository.admin.updateByCustomerId(customerId, data);
         },
     },
 };

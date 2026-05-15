@@ -9,6 +9,8 @@ export default function SubBilling() {
     const { subscription } = useDashboard();
     const isCanceled = subscription?.cancel_at_period_end;
 
+    const paymentMethodType = subscription?.payment_method_type;
+
     return (
         <>
             {isCanceled ? (
@@ -24,6 +26,8 @@ export default function SubBilling() {
                     </div>
                 </DashboardCard>
             )}
+
+            {paymentMethodType ?? "kjhgfghjkl"}
         </>
     );
 }

@@ -129,10 +129,14 @@ export type Database = {
         Row: {
           business_id: string
           cancel_at_period_end: boolean | null
+          card_brand: string | null
+          card_last4: string | null
           created_at: string
           current_period_end: string | null
           current_period_start: string | null
           id: string
+          payment_method_id: string | null
+          payment_method_type: string | null
           plan: string | null
           price_id: string | null
           product_id: string | null
@@ -143,10 +147,14 @@ export type Database = {
         Insert: {
           business_id: string
           cancel_at_period_end?: boolean | null
+          card_brand?: string | null
+          card_last4?: string | null
           created_at?: string
           current_period_end?: string | null
           current_period_start?: string | null
           id?: string
+          payment_method_id?: string | null
+          payment_method_type?: string | null
           plan?: string | null
           price_id?: string | null
           product_id?: string | null
@@ -157,10 +165,14 @@ export type Database = {
         Update: {
           business_id?: string
           cancel_at_period_end?: boolean | null
+          card_brand?: string | null
+          card_last4?: string | null
           created_at?: string
           current_period_end?: string | null
           current_period_start?: string | null
           id?: string
+          payment_method_id?: string | null
+          payment_method_type?: string | null
           plan?: string | null
           price_id?: string | null
           product_id?: string | null

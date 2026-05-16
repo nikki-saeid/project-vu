@@ -1,6 +1,9 @@
 const MELBOURNE_LATITUDE = -37.8136;
 const MELBOURNE_LONGITUDE = 144.9631;
 
+const AUSTRALIA_LATITUDE = -25.2744;
+const AUSTRALIA_LONGITUDE = 133.7751;
+
 export const MAP_CONSTANTS = {
     FLY_TO: {
         ZOOM: 14,
@@ -11,7 +14,7 @@ export const MAP_CONSTANTS = {
         DEBOUNCE_MS: 400,
         DEFAULT_LIMIT: 5,
         DEFAULT_COUNTRY: 'AU',
-        DEFAULT_PROXIMITY: [MELBOURNE_LONGITUDE, MELBOURNE_LATITUDE] as [number, number],
+        DEFAULT_PROXIMITY: [AUSTRALIA_LONGITUDE, AUSTRALIA_LATITUDE] as [number, number],
     },
 } as const;
 

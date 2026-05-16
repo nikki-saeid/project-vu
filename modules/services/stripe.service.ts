@@ -29,7 +29,6 @@ export const stripeService = {
     webhook: async function (requestBuffer: string, stripeSignature: string) {
         const event = await stripeRepository.webhook(requestBuffer, stripeSignature);
 
-        console.log('================================================================== >>>>>>>>>>>>>>>>>> event.type', event.type);
         switch (event.type) {
             case 'invoice.created':
             case 'invoice.paid': {

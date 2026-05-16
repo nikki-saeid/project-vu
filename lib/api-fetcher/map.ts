@@ -1,3 +1,4 @@
+import { MAP_CONSTANTS } from '../constants/map';
 import { LocationFeature, LocationSuggestion } from '../types/features';
 
 const MAPBOX_API_BASE = 'https://api.mapbox.com/search/searchbox/v1';
@@ -31,7 +32,13 @@ export interface RetrieveResponse {
 }
 
 export async function searchLocations(options: SearchOptions): Promise<LocationSuggestion[]> {
-    const { query, country = 'US', limit = 5, proximity, signal } = options;
+    const {
+        query,
+        country = MAP_CONSTANTS.SEARCH.DEFAULT_COUNTRY,
+        limit = MAP_CONSTANTS.SEARCH.DEFAULT_LIMIT,
+        proximity = MAP_CONSTANTS.SEARCH.DEFAULT_PROXIMITY,
+        signal,
+    } = options;
 
     const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
     if (!accessToken) {

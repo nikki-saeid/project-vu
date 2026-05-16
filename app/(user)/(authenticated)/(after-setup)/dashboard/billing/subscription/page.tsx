@@ -11,12 +11,37 @@ import DataCard from '@/components/dashboard-ui/data-card';
 import Stripe from 'stripe';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function SubBilling() {
     const { subscription } = useDashboard();
     const isCanceled = subscription?.cancel_at_period_end;
     const type = subscription?.payment_method_type as Stripe.PaymentMethod.Type;
     const brand = subscription?.card_brand;
+
+    // -----------
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const searchParams = useSearchParams();
+    const cardUpdated = searchParams.get('card_updated') === 'success';
+
+    useEffect(() => {
+        if (cardUpdated) {
+            toast.dismiss();
+            toast.success('Payment method updated successfully!', {
+                duration: 3000,
+                onDismiss: () => {
+                    router.replace(pathname);
+                },
+                onAutoClose: () => {
+                    router.replace(pathname);
+                },
+            });
+        }
+    }, [pathname, cardUpdated, router]);
 
     return (
         <>

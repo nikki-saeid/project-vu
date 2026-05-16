@@ -24,11 +24,8 @@ export function useSubscriptionChannel() {
                     event: '*',
                     schema: 'public',
                     table: 'subscriptions',
-                    filter: `user_id=eq.${user.id}`,
                 },
                 (payload: RealtimePostgresChangesPayload<Subscription>) => {
-                    console.log('REALTIME EVENT', payload);
-
                     switch (payload.eventType) {
                         case 'INSERT':
                         case 'UPDATE':
@@ -43,11 +40,8 @@ export function useSubscriptionChannel() {
             )
             .subscribe();
 
-        console.log('useSubscriptionChannel', 'subscribed');
-
         return () => {
             supabase.removeChannel(channel);
-            console.log('useSubscriptionChannel', 'unsubscribed');
         };
     }, [user?.id, setSubscription]);
 }

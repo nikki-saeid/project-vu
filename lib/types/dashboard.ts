@@ -5,7 +5,7 @@ import { LogoProps, StyledIconProps } from './ui';
 
 type SidebarNavigationItem = { title: string; url: string; Icon: TablerIcon };
 
-export type DashboardSidebarProps = ChildrenProp & React.ComponentProps<typeof Sidebar>;
+export type DashboardSidebarProps = ChildrenProp & React.ComponentProps<typeof Sidebar> & { footer?: React.ReactNode };
 export type DashboardSidebarGroupProps = { label?: string; data: SidebarNavigationItem[] };
 export type DashboardHeaderProps = { pagesMetadata: Omit<SidebarNavigationItem, 'Icon'>[] };
 export type SidebarCustomButtonProps = Omit<SidebarNavigationItem, 'Icon'> & ChildrenProp;
@@ -23,7 +23,7 @@ export type IconCardProps = {
     label: string;
     title: string;
     StyledIconProps?: StyledIconProps;
-    Icon?: React.ReactNode
+    Icon?: React.ReactNode;
 };
 
 export type DashboardCardProps = ChildrenProp & {

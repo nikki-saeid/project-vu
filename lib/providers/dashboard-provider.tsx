@@ -4,6 +4,7 @@ import type { ProjectWithLatLng } from '@/lib/types/api';
 import type { Business, Subscription } from '@/lib/types/db';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DashboardContext, DashboardContextValue } from '../contexts/dashboard-context';
+import { useSubscriptionChannel } from '@/hooks/channels/use-subscription-channel';
 
 type DashboardProviderProps = {
     children: React.ReactNode;

@@ -7,6 +7,7 @@ import { DATE_FORMATS } from '@/lib/constants/date-formats';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { ChildrenProp } from '@/lib/types/common';
 import { format } from 'date-fns';
+import { notFound } from 'next/navigation';
 
 export default function Layout({ children }: ChildrenProp) {
     const { subscription } = useDashboard();
@@ -14,6 +15,8 @@ export default function Layout({ children }: ChildrenProp) {
     const invoiceEndDate = subscription?.current_period_end
         ? format(new Date(subscription.current_period_end), DATE_FORMATS.dateWithTime)
         : '-';
+
+    if (!subscription) return notFound();
 
     return (
         <div>

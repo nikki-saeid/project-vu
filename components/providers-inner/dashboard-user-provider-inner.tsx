@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 export default async function DashboardUserProviderInner({ children }: ChildrenProp) {
     // get data
     const business = await getUserBusiness();
-    if (!business) {
+    if (!business || !business.is_onboarded) {
         redirect('/onboarding/business-profile');
     }
 

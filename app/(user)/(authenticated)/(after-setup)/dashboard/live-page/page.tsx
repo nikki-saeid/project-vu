@@ -23,6 +23,7 @@ export default function LivePage() {
         if (paymentSuccess) {
             toast.dismiss();
             toast.success('Payment successful! Your subscription has been activated. You can add unlimited projects now.', {
+                duration: 3000,
                 onDismiss: () => {
                     router.replace(pathname);
                 },

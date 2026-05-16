@@ -243,16 +243,10 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
             />
             <Separator />
             <div className="flex flex-col gap-2">
-                <H4 className="text-foreground">
-                    Business tags
-                    <i>
-                        <b>(optional)</b>
-                    </i>
-                </H4>
+                <H4 className="text-foreground">Business tags (optional)</H4>
                 <P className="text-muted-foreground">Add your tags related to your business.</P>
             </div>
 
-            {/* // !----------------------- PROJECT TAGS */}
             <Controller
                 name="project_type_tags"
                 control={form.control}
@@ -273,7 +267,6 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                 }}
             />
 
-            {/* // !----------------------- Services TAGS */}
             <Controller
                 name="service_type_tags"
                 control={form.control}
@@ -294,12 +287,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
             />
             <Separator />
             <div className="flex flex-col gap-2">
-                <H4 className="text-foreground">
-                    Socials
-                    <i>
-                        <b>(optional)</b>
-                    </i>
-                </H4>
+                <H4 className="text-foreground">Socials (optional)</H4>
                 <P className="text-muted-foreground">Add your business social media links to help customers find you online.</P>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">

@@ -1,12 +1,13 @@
 'use client';
 
+import AbsoluteLoader from '@/components/loader-ui/absolute-loader';
 import Loader from '@/components/loader-ui/loader';
 import { Button } from '@/components/ui/button';
-import { PaymentElement, useCheckout } from '@stripe/react-stripe-js/checkout';
+import { useCheckout } from '@stripe/react-stripe-js/checkout';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import CheckoutDetails from './checkout-details';
-import AbsoluteLoader from '@/components/loader-ui/absolute-loader';
+import PaymentCardsList from './payment-cards-list';
 
 export default function CheckoutForm() {
     const checkoutState = useCheckout();
@@ -20,7 +21,7 @@ export default function CheckoutForm() {
         return <Loader />;
     }
 
-    // ----------
+    // handle form submission and confirm the payment
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         setIsLoading(true);
         e.preventDefault();
@@ -46,22 +47,7 @@ export default function CheckoutForm() {
 
                 <CheckoutDetails details={checkoutState.checkout.lineItems[0]} />
 
-                <PaymentElement
-                    options={{
-                        wallets: {
-                            applePay: 'auto',
-                            googlePay: 'auto',
-                        },
-                        terms: {
-                            card: 'always',
-                            applePay: 'always',
-                            googlePay: 'always',
-                        },
-                        fields: {
-                            billingDetails: 'auto',
-                        },
-                    }}
-                />
+                <PaymentCardsList />
 
                 <Button disabled={isLoading} type="submit">
                     {isLoading ? 'Processing...' : 'Pay now'}

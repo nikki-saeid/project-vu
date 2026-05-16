@@ -22,7 +22,8 @@ export type MapWrapperProps = ChildrenProp &
 export type IconCardProps = {
     label: string;
     title: string;
-    StyledIconProps: StyledIconProps;
+    StyledIconProps?: StyledIconProps;
+    Icon?: React.ReactNode
 };
 
 export type DashboardCardProps = ChildrenProp & {

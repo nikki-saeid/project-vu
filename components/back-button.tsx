@@ -5,9 +5,10 @@ import { Button } from './ui/button';
 
 type BackButtonProps = {
     url?: string;
+    isIcon?: boolean;
 };
 
-export default function BackButton({ url }: BackButtonProps) {
+export default function BackButton({ url, isIcon = true }: BackButtonProps) {
     const router = useRouter();
 
     const handleBack = () => {
@@ -18,9 +19,13 @@ export default function BackButton({ url }: BackButtonProps) {
         }
     };
 
-    return (
+    return isIcon ? (
         <Button onClick={handleBack} variant="outline" size="icon-sm" className="rounded-full">
             <IconArrowLeft />
+        </Button>
+    ) : (
+        <Button onClick={handleBack} size="sm" variant="outline" type="submit">
+            Back
         </Button>
     );
 }

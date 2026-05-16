@@ -1,12 +1,7 @@
 import { createsStripeServer } from '@/lib/stripe/server';
+import { CheckoutSessionMetadata } from '@/lib/types/api';
 import { lastDayOfMonth } from 'date-fns';
-import { get } from 'http';
 import Stripe from 'stripe';
-
-type CheckoutSessionMetadata = {
-    businessId: string;
-    plan: string;
-};
 
 export const stripeRepository = {
     webhook: async function (requestBuffer: string, stripeSignature: string) {
@@ -33,6 +28,19 @@ export const stripeRepository = {
                 },
                 // return_url: `${process.env.NEXT_PUBLIC_BASE_URL}?session_id={CHECKOUT_SESSION_ID}`,
                 return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/live-page?payment=success`,
+            });
+        },
+        updateByStripeCustomerId: async function (stripeCustomerId: string, metadata: CheckoutSessionMetadata) {
+            const stripe = await createsStripeServer();
+            return await stripe.checkout.sessions.create({
+                mode: 'setup',
+                ui_mode: 'elements',
+                customer: stripeCustomerId,
+                currency: 'aud',
+                setup_intent_data: {
+                    metadata,
+                },
+                return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/billing/subscription?card_updated=success`,
             });
         },
 
@@ -104,10 +112,24 @@ export const stripeRepository = {
         },
     },
     paymentMethod: {
-        getById: async function (id: string | undefined) {
+        getById: async function (id: string) {
             if (!id) return null;
             const stripe = await createsStripeServer();
             return await stripe.paymentMethods.retrieve(id);
+        },
+    },
+
+    setupIntent: {
+        getById: async function (id: string) {
+            const stripe = await createsStripeServer();
+            return await stripe.setupIntents.retrieve(id);
+        },
+    },
+
+    customer: {
+        updateById: async function (id: string, data: Stripe.CustomerUpdateParams) {
+            const stripe = await createsStripeServer();
+            return await stripe.customers.update(id, data);
         },
     },
 };

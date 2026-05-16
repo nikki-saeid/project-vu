@@ -46,3 +46,8 @@ export function isErrorThrown(error: unknown): error is ErrorThrown {
 // ----------- service
 
 export type UsersWithPagination = { users: User[]; aud: string } & Pagination;
+
+export type CheckoutSessionMetadata = {
+    businessId?: string;
+    plan?: string;
+};

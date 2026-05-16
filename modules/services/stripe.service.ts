@@ -1,43 +1,45 @@
 import { PRICING_PLANS_IDS } from '@/lib/constants/pricing-plans';
+import { unixToDBString } from '@/lib/utils/unixToString';
 import { StatusCodes } from 'http-status-codes';
 import Stripe from 'stripe';
 import { stripeRepository } from '../repositories/stripe.repository';
 import { businessService } from './business.service';
 import { subscriptionService } from './subscription.service';
-import { unixToDBString } from '@/lib/utils/unixToString';
 
 type UserInfo = {
     userId: string;
     email: string;
 };
 
+// ================> event.type: charge.succeeded
+// ================> event.type: invoice.payment_succeeded
 // ================> event.type: invoice.created
-// ================> event.type: invoice.paid
 // ================> event.type: invoice.finalized
+// ================> event.type: invoice.paid
+// ================> event.type: checkout.session.completed
 // ================> event.type: payment_method.attached
-
 // ================> event.type: customer.created
-
+// ================> event.type: customer.updated
 // ================> event.type: customer.subscription.created
 // ================> event.type: payment_intent.succeeded
 // ================> event.type: payment_intent.created
-// ================> event.type: customer.updated
 // ================> event.type: invoice_payment.paid
 
 export const stripeService = {
     webhook: async function (requestBuffer: string, stripeSignature: string) {
         const event = await stripeRepository.webhook(requestBuffer, stripeSignature);
 
+        // console.log('================================================================== >>>>>>>>>>>>>>>>>> event.type', event.type);
         switch (event.type) {
             case 'invoice.created':
-            case 'invoice.paid':
-            case 'invoice.finalized': {
+            case 'invoice.paid': {
                 await this.subscription.invoice(event.data.object);
                 return;
             }
 
-            case 'payment_method.attached': {
-                await this.subscription.paymentMethod(event.data.object);
+            case 'payment_intent.created':
+            case 'payment_intent.succeeded': {
+                await this.subscription.paymentIntent(event.data.object);
                 return;
             }
 
@@ -50,6 +52,12 @@ export const stripeService = {
             case 'customer.subscription.created':
             case 'customer.subscription.updated': {
                 await this.subscription.subscription(event.data.object);
+                return;
+            }
+
+            // ------------
+            case 'checkout.session.completed': {
+                await this.subscription.session(event.data.object);
                 return;
             }
         }
@@ -71,6 +79,7 @@ export const stripeService = {
 
             // check if businessId has a subscription
             const subscription = await subscriptionService.admin.getByBusinessId(businessId);
+
             if (!subscription) {
                 return await subscriptionService.admin.create({
                     business_id: businessId,
@@ -78,7 +87,7 @@ export const stripeService = {
                 });
             }
 
-            // create subscription
+            // update subscription
             return await subscriptionService.admin.updateByBusinessId(businessId, {
                 current_period_start: unixToDBString(invoice.lines.data[0].period.start),
                 current_period_end: unixToDBString(invoice.lines.data[0].period.end),
@@ -94,7 +103,6 @@ export const stripeService = {
             const customerId = typeof customer === 'string' ? customer : customer.id;
             // create subscription
             return await subscriptionService.admin.updateByCustomerId(customerId, {
-                stripe_customer_id: customerId,
                 payment_method_id: paymentMethod?.id,
                 payment_method_type: paymentMethod?.type,
                 card_brand: paymentMethod?.card?.brand,
@@ -151,6 +159,49 @@ export const stripeService = {
             return;
         },
 
+        session: async function (session: Stripe.Checkout.Session) {
+            // update the default payment method for the customer
+            if (session.mode === 'setup') {
+                // get setup intent
+                if (!session.setup_intent) return;
+                const setupIntentId = typeof session.setup_intent === 'string' ? session.setup_intent : session.setup_intent.id;
+                const setupIntent = await stripeService.setupIntent.getById(setupIntentId);
+
+                // get payment method id
+                if (!setupIntent.payment_method) return;
+                const paymentMethodId =
+                    typeof setupIntent.payment_method === 'string' ? setupIntent.payment_method : setupIntent.payment_method.id;
+
+                // get customer id
+                if (!session.customer) return;
+                const customerId = typeof session.customer === 'string' ? session.customer : session.customer.id;
+
+                await stripeService.customer.updateById(customerId, {
+                    invoice_settings: {
+                        default_payment_method: paymentMethodId,
+                    },
+                });
+
+                // update the payment method
+                const paymentMethod = await stripeService.paymentMethod.getById(paymentMethodId);
+                if (!paymentMethod) return;
+                return this.paymentMethod(paymentMethod);
+            }
+            return;
+        },
+
+        paymentIntent: async function (paymentIntent: Stripe.PaymentIntent) {
+            // get payment method id
+            if (!paymentIntent.payment_method) return;
+            const paymentMethodId =
+                typeof paymentIntent.payment_method === 'string' ? paymentIntent.payment_method : paymentIntent.payment_method.id;
+
+            // update the payment method
+            const paymentMethod = await stripeService.paymentMethod.getById(paymentMethodId);
+            if (!paymentMethod) return;
+            return this.paymentMethod(paymentMethod);
+        },
+
         cancelById: async function (id: string) {
             return await stripeRepository.subscription.cancelById(id);
         },
@@ -179,6 +230,14 @@ export const stripeService = {
                     throw new Error('Invalid plan');
             }
         },
+        updateByStripeCustomerId: async function (stripeCustomerId: string, userId: string) {
+            const business = await businessService.getByUserId(userId);
+            if (!business) {
+                throw { error: new Error('Business is required'), status: StatusCodes.BAD_REQUEST };
+            }
+
+            return await stripeRepository.checkoutSession.updateByStripeCustomerId(stripeCustomerId, { businessId: business.id });
+        },
     },
 
     invoice: {
@@ -190,6 +249,24 @@ export const stripeService = {
     balanceTransaction: {
         getAllByMonth: async function (month: number) {
             return await stripeRepository.balanceTransaction.getAllByMonth(month);
+        },
+    },
+
+    setupIntent: {
+        getById: async function (id: string) {
+            return await stripeRepository.setupIntent.getById(id);
+        },
+    },
+
+    customer: {
+        updateById: async function (id: string, data: Stripe.CustomerUpdateParams) {
+            return await stripeRepository.customer.updateById(id, data);
+        },
+    },
+
+    paymentMethod: {
+        getById: async function (id: string) {
+            return await stripeRepository.paymentMethod.getById(id);
         },
     },
 };

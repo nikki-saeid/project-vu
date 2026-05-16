@@ -1,13 +1,13 @@
 'use client';
 
 import CardLayouts from '@/components/card-layouts';
+import CheckoutForm from '@/components/subscription-ui/checkout-form';
 import { Button } from '@/components/ui/button';
 import { getCheckoutSession } from '@/lib/api-fetcher/stripe/client';
 import { stripeClient } from '@/lib/stripe/client';
+import { CheckoutElementsProvider } from '@stripe/react-stripe-js/checkout';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import CheckoutForm from './checkout-form';
-import { CheckoutElementsProvider } from '@stripe/react-stripe-js/checkout';
 
 type CheckoutContentProps = {
     plan: string;

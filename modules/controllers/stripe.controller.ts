@@ -30,6 +30,19 @@ export const stripeController = {
 
             return new SuccessResponse<Stripe.Checkout.Session>('Checkout Session retrieved successfully', session).send();
         }),
+
+        updateByStripeCustomerId: tryCatchWrapperPrivate(async function ({
+            user,
+            contextParams,
+        }: ControllerPropsPrivate<ParamsStripeCustomerId>) {
+            // Get the project id
+            if (!contextParams) throw new Error('Customer Id is required');
+            const params = await contextParams.params;
+            const { stripeCustomerId } = params;
+
+            const session = await stripeService.checkoutSession.updateByStripeCustomerId(stripeCustomerId, user.id);
+            return new SuccessResponse<Stripe.Checkout.Session>('Checkout Session retrieved successfully', session).send();
+        }),
     },
 
     invoice: {

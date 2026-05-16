@@ -24,8 +24,7 @@ export default function CancelSubscriptionDialog() {
                     Cancel subscription
                 </Button>
             }
-            form={(id, setIsLoading) => <SubscriptionCancelForm
-                 id={id} setIsLoading={setIsLoading} onSuccess={() => setOpen(false)} />}
+            form={(id, setIsLoading) => <SubscriptionCancelForm id={id} setIsLoading={setIsLoading} onSuccess={() => setOpen(false)} />}
             action={(id, isLoading) => (
                 <Button type="submit" variant="destructive" form={id} disabled={isLoading}>
                     {isLoading ? 'Canceling...' : 'Cancel subscription'}

@@ -1,9 +1,0 @@
-import type { ChildrenProp } from '@/lib/types/common';
-
-export default async function layout({ children }: ChildrenProp) {
-    return (
-        <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-            <div className="w-full max-w-lg">{children}</div>
-        </div>
-    );
-}

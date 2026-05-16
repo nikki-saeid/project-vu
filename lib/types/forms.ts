@@ -35,7 +35,7 @@ export type CardFormProps = {
     id: string;
 } & ClassNameProp;
 export type CardLayoutsProps = {
-    title?: string;
+    title?: ReactNode;
     description?: string;
     action?: ReactNode;
 } & ClassNameProp &

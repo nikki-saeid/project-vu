@@ -43,8 +43,11 @@ export function useSubscriptionChannel() {
             )
             .subscribe();
 
+        console.log('useSubscriptionChannel', 'subscribed');
+
         return () => {
             supabase.removeChannel(channel);
+            console.log('useSubscriptionChannel', 'unsubscribed');
         };
     }, [user?.id, setSubscription]);
 }

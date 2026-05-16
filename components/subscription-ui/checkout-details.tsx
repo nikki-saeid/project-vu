@@ -1,8 +1,6 @@
 'use client';
 import H2 from '@/components/typography/H2';
-import H3 from '@/components/typography/H3';
 import P from '@/components/typography/P';
-import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StripeCheckoutLineItem } from '@stripe/stripe-js';
 

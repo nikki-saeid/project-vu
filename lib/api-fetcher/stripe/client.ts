@@ -9,6 +9,11 @@ export const getCheckoutSession = async (plan: string) => {
     return response.data;
 };
 
+export const getUpdatePaymentMethodCheckoutSession = async (stripeCustomerId: string) => {
+    const response = await fetcher<Stripe.Checkout.Session>(`${API_URL}/stripe/checkout-session/update-payment-method/${stripeCustomerId}`);
+    return response.data;
+};
+
 export const cancelSubscription = async (id: string) => {
     const response = await fetcher<Stripe.Checkout.Session>(`${API_URL}/stripe/subscription/${id}/cancel`, {
         method: 'POST',

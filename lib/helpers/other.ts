@@ -1,4 +1,6 @@
-export const getProjectCostLabel = (cost: string ) => {
+import { Stripe } from "stripe";
+
+export const getProjectCostLabel = (cost: string) => {
     const costInt = parseInt(cost);
 
     return `${
@@ -9,3 +11,84 @@ export const getProjectCostLabel = (cost: string ) => {
               : parseFloat((costInt / 1000).toFixed(1)) + 'K'
     } AUD`;
 };
+
+export function mapPaymentMethodTypeToLogo(type?: Stripe.PaymentMethod.Type, brand?: string | null) {
+    // card brands
+    if (type === 'card' || type === 'card_present') {
+        switch (brand?.toLowerCase()) {
+            case 'visa':
+                return 'Visa';
+
+            case 'mastercard':
+                return 'Mastercard';
+
+            case 'amex':
+            case 'american express':
+                return 'AmericanExpress';
+
+            case 'discover':
+                return 'Discover';
+
+            case 'diners':
+            case 'diners club':
+                return 'DinersClub';
+
+            case 'jcb':
+                return 'JCB';
+
+            case 'unionpay':
+                return 'UnionPay';
+
+            case 'maestro':
+                return 'Maestro';
+
+            default:
+                return 'Generic';
+        }
+    }
+
+    // alternative payment methods
+    switch (type) {
+        case 'paypal':
+            return 'PayPal';
+
+        case 'alipay':
+            return 'Alipay';
+
+        case 'swish':
+            return 'Swish';
+
+        // unsupported / no official icon in package
+        case 'cashapp':
+        case 'amazon_pay':
+        case 'klarna':
+        case 'afterpay_clearpay':
+        case 'affirm':
+        case 'link':
+        case 'paynow':
+        case 'wechat_pay':
+        case 'revolut_pay':
+        case 'bancontact':
+        case 'ideal':
+        case 'eps':
+        case 'giropay':
+        case 'sofort':
+        case 'sepa_debit':
+        case 'bacs_debit':
+        case 'acss_debit':
+        case 'au_becs_debit':
+        case 'us_bank_account':
+        case 'nz_bank_account':
+        case 'fpx':
+        case 'grabpay':
+        case 'p24':
+        case 'promptpay':
+        case 'upi':
+        case 'blik':
+        case 'boleto':
+        case 'oxxo':
+        case 'zip':
+        default:
+            return 'Generic';
+    }
+}

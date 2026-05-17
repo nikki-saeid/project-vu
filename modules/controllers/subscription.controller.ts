@@ -9,6 +9,6 @@ export const subscriptionController = {
     get: tryCatchWrapperPrivate(async function ({ user }: ControllerPropsPrivate) {
         const subscription = await subscriptionService.user.getByUsedId(user.id);
 
-        return new SuccessResponse<Subscription>('subscription retrieved successfully', subscription).send();
+        return new SuccessResponse<Subscription | null>('subscription retrieved successfully', subscription).send();
     }),
 };

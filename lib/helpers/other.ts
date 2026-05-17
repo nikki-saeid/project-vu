@@ -106,3 +106,7 @@ export const getLiveUrl = (slug: string | null | undefined) => {
 
     return BASE_URL + livePageHref;
 };
+
+export const arrayToSequentialString = (array: string[]) => {
+    return array.slice(0, -1).join(', ') + ' and ' + array[array.length - 1];
+};

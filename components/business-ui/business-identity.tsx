@@ -11,7 +11,7 @@ type BusinessIdentityProps = {
 export default function BusinessIdentity({ business }: BusinessIdentityProps) {
     return (
         <div className="flex flex-col gap-4">
-            <BusinessHeader name={business.name} logo_url={business.logo_url} type={business.type} description={business.description} />
+            <BusinessHeader name={business.name} logo_url={business.logo_url} types={business.types} description={business.description} />
             <BusinessTags project_type_tags={business.project_type_tags} service_type_tags={business.service_type_tags} />
             <BusinessSocials
                 website_url={business.website_url}

@@ -1,4 +1,4 @@
-import { getLiveUrl } from '@/lib/helpers/other';
+import { arrayToSequentialString, getLiveUrl } from '@/lib/helpers/other';
 import { Business } from '@/lib/types/db';
 import { useQRCode } from 'next-qrcode';
 import H3 from '../typography/H3';
@@ -31,17 +31,18 @@ export default function BusinessProfileWithQrCodeCard({ business }: BusinessProf
                                 errorCorrectionLevel: 'H',
                                 margin: 0,
                                 scale: 5,
-                                width: 180,
+                                width: 230,
                             }}
                         />
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center text-center w-57.5">
                     <H3>{business.name}</H3>
-                    <P>{business.type}</P>
+
+                    <P>{arrayToSequentialString(business.types ?? [])}</P>
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center text-center w-57.5">
                     <P>{business.phone}</P>
                     <P>{url.split('//')[1]}</P>
                 </div>

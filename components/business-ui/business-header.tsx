@@ -5,9 +5,9 @@ import { Badge } from '../ui/badge';
 import BusinessAvatar from './business-avatar';
 import Link from 'next/link';
 
-type BusinessHeaderProps = Pick<Business, 'name' | 'logo_url' | 'type' | 'description'> & { url?: string };
+type BusinessHeaderProps = Pick<Business, 'name' | 'logo_url' | 'types' | 'description'> & { url?: string };
 
-export default function BusinessHeader({ name, logo_url, type, description, url }: BusinessHeaderProps) {
+export default function BusinessHeader({ name, logo_url, types, description, url }: BusinessHeaderProps) {
     return (
         <header className="flex flex-col gap-4">
             <div className="flex gap-4 items-center">
@@ -20,9 +20,14 @@ export default function BusinessHeader({ name, logo_url, type, description, url 
                     ) : (
                         <H4>{name}</H4>
                     )}
-                    <Badge variant="outline" className="capitalize">
-                        {type}
-                    </Badge>
+
+                    <div className="flex items-center gap-1 flex-wrap max-w-xs">
+                        {types?.map((type) => (
+                            <Badge key={type} variant="outline" className="capitalize">
+                                {type}
+                            </Badge>
+                        ))}
+                    </div>
                 </div>
             </div>
             {description !== '' && <P className="text-foreground">{description}</P>}

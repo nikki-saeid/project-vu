@@ -26,7 +26,7 @@ export type Database = {
           project_type_tags: string[] | null
           service_type_tags: string[] | null
           slug: string | null
-          type: string | null
+          types: string[] | null
           user_id: string
           website_url: string | null
           x_url: string | null
@@ -47,7 +47,7 @@ export type Database = {
           project_type_tags?: string[] | null
           service_type_tags?: string[] | null
           slug?: string | null
-          type?: string | null
+          types?: string[] | null
           user_id: string
           website_url?: string | null
           x_url?: string | null
@@ -68,7 +68,7 @@ export type Database = {
           project_type_tags?: string[] | null
           service_type_tags?: string[] | null
           slug?: string | null
-          type?: string | null
+          types?: string[] | null
           user_id?: string
           website_url?: string | null
           x_url?: string | null
@@ -140,7 +140,7 @@ export type Database = {
           plan: string | null
           price_id: string | null
           product_id: string | null
-          status: string
+          status: string | null
           stripe_customer_id: string | null
           stripe_subscription_id: string | null
         }
@@ -158,7 +158,7 @@ export type Database = {
           plan?: string | null
           price_id?: string | null
           product_id?: string | null
-          status: string
+          status?: string | null
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
         }
@@ -176,7 +176,7 @@ export type Database = {
           plan?: string | null
           price_id?: string | null
           product_id?: string | null
-          status?: string
+          status?: string | null
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
         }

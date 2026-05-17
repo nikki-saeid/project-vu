@@ -35,7 +35,7 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                 url={'/page/' + business.slug}
                 name={business.name}
                 logo_url={business.logo_url}
-                type={business.type}
+                types={business.types}
                 description=""
             />
             <DashboardCard title={<H4 className="font-medium tracking-normal text-2xl">{title}</H4>} description={description}>

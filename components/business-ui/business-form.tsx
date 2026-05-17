@@ -1,9 +1,19 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import {
+    Combobox,
+    ComboboxChip,
+    ComboboxChips,
+    ComboboxChipsInput,
+    ComboboxContent,
+    ComboboxEmpty,
+    ComboboxItem,
+    ComboboxList,
+    ComboboxValue,
+} from '@/components/ui/combobox';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
 import { updateUserBusiness } from '@/lib/api-fetcher/user/client/business';
 import { getUserAuth } from '@/lib/api-fetcher/user/server/auth';
@@ -20,11 +30,9 @@ import {
     IconBuildings,
     IconPencil,
     IconPhone,
-    IconRestore,
     IconUser,
     IconWorld,
 } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
@@ -37,6 +45,7 @@ import TagsCombobox from './combobox-helpers/tags-combobox';
 
 const ProjectTagsCombobox = TagsCombobox<'project_type_tags'>;
 const ServicesTagsCombobox = TagsCombobox<'service_type_tags'>;
+const TypesCombobox = TagsCombobox<'types'>;
 
 export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFormProps) {
     const { business, setBusiness } = useDashboard();
@@ -47,7 +56,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
         defaultValues: {
             name: business?.name ?? '',
             description: business?.description ?? '',
-            type: business?.type ?? BUSINESS_TYPE[0],
+            types: business?.types ?? [],
             phone: business?.phone ?? '',
             service_type_tags: business?.service_type_tags ?? [],
             project_type_tags: business?.project_type_tags ?? [],
@@ -95,19 +104,6 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
         }
     };
 
-    const type = form.watch('type');
-    const [isOther, setIsOther] = useState(!business?.type ? false : !BUSINESS_TYPE.find((item) => item === business?.type));
-    const handleRestore = () => {
-        form.setValue('type', BUSINESS_TYPE[0]);
-        setIsOther(false);
-    };
-    useEffect(() => {
-        if (type === 'Other') {
-            form.setValue('type', '');
-            setIsOther(true);
-        }
-    }, [type, form]);
-
     return (
         <form className="flex flex-col gap-4 md:gap-6" id={id} onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
@@ -132,41 +128,20 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                 />
 
                 <Controller
-                    name="type"
+                    name="types"
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="form-type">Business type</FieldLabel>
-                            {isOther ? (
-                                <InputGroup>
-                                    <InputGroupInput
-                                        {...field}
-                                        id="form-type"
-                                        type="text"
-                                        aria-invalid={fieldState.invalid}
-                                        placeholder="Type a business type"
-                                        autoComplete="on"
-                                    />
-                                    <InputGroupAddon align="inline-end">
-                                        <Button size="icon-sm" variant="ghost" onClick={handleRestore} className="rounded-full">
-                                            <IconRestore />
-                                        </Button>
-                                    </InputGroupAddon>
-                                </InputGroup>
-                            ) : (
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="data-placeholder:text-[15px]">
-                                        <SelectValue placeholder="Pick a business type" />
-                                    </SelectTrigger>
-                                    <SelectContent className="z-1000" {...field} id="project-title" aria-invalid={fieldState.invalid}>
-                                        {BUSINESS_TYPE.map((year) => (
-                                            <SelectItem value={year + ''} key={year}>
-                                                {year}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            )}
+                            <FieldLabel htmlFor="form-types">Business types</FieldLabel>
+
+                            <TypesCombobox
+                                form={form}
+                                field={field}
+                                name="types"
+                                items={BUSINESS_TYPE}
+                                placeholder="Select business types"
+                            />
+
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
                     )}

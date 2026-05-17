@@ -7,16 +7,15 @@ import { IconDotsVertical } from '@tabler/icons-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import EditPageDialog from './edit-page-dialog';
+import BusinessCardDialog from './business-card-dialog';
 
 export default function ActionMenu() {
+    // ----------- EditPageDialog
     const [open, setOpen] = useState(false);
-
     const searchParams = useSearchParams();
     const isOpen = searchParams.get('open') === 'true';
-
     const router = useRouter();
     const pathname = usePathname();
-
     const onOpenChange = (open: boolean) => {
         if (!open) {
             router.replace(pathname); // remove ?open=true
@@ -24,6 +23,9 @@ export default function ActionMenu() {
             router.replace(`${pathname}?open=true`);
         }
     };
+
+    // ----------- BusinessCardDialog
+    const [isBusinessCardOpen, setBusinessCardOpen] = useState(false);
 
     return (
         <>
@@ -36,17 +38,20 @@ export default function ActionMenu() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent side="bottom" align="end">
                     <DropdownMenuGroup>
-                        <DropdownMenuItem className="text-sm" onClick={() => onOpenChange(true)}>
-                            Edit page
-                        </DropdownMenuItem>
-
                         <AddProjectButtonLink>
                             <DropdownMenuItem className="text-sm">Add project</DropdownMenuItem>
                         </AddProjectButtonLink>
+                        <DropdownMenuItem className="text-sm" onClick={() => onOpenChange(true)}>
+                            Edit page
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-sm" onClick={() => setBusinessCardOpen(true)}>
+                            Business card
+                        </DropdownMenuItem>
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
             <EditPageDialog open={isOpen} setOpen={onOpenChange} />
+            <BusinessCardDialog open={isBusinessCardOpen} setOpen={setBusinessCardOpen} />
         </>
     );
 }

@@ -1,14 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { IconCircle, IconPlus, IconX } from '@tabler/icons-react';
+import { IconPlus } from '@tabler/icons-react';
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import DialogCore from '../dialog-core';
 import P from '../typography/P';
-import H4 from '../typography/H4';
-import StyledIcon from '../styled-icon';
-import Link from 'next/link';
 
 export default function MaxProjectsDialogRedirect() {
     const searchParams = useSearchParams();

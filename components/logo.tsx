@@ -3,7 +3,23 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Logo({ isWhite, variant = 'full' }: LogoProps) {
-    return variant === 'no-icon' ? (
+    return variant === 'small' ? (
+        <div className="text-sm whitespace-nowrap font-bold text-center">
+            <span className={isWhite ? 'text-white' : 'text-foreground'}>Project </span>
+
+            <Image
+                src={isWhite ? '/brand/logo-white.webp' : '/brand/logo.webp'}
+                width={210}
+                height={352}
+                alt="ProjectVu logo"
+                className="inline w-2.5 mb-2.25"
+                loading="eager"
+                unoptimized
+            />
+
+            <span className={isWhite ? 'text-white' : 'text-primary'}>u</span>
+        </div>
+    ) : variant === 'no-icon' ? (
         <div></div>
     ) : (
         <Link href="/">

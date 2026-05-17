@@ -1,4 +1,5 @@
-import { Stripe } from "stripe";
+import { Stripe } from 'stripe';
+import { BASE_URL } from '../constants/urls';
 
 export const getProjectCostLabel = (cost: string) => {
     const costInt = parseInt(cost);
@@ -92,3 +93,16 @@ export function mapPaymentMethodTypeToLogo(type?: Stripe.PaymentMethod.Type, bra
             return 'Generic';
     }
 }
+
+export const getLiveHref = (slug: string | null | undefined) => {
+    if (!slug) return null;
+
+    return `/page/${slug}`;
+};
+
+export const getLiveUrl = (slug: string | null | undefined) => {
+    const livePageHref = getLiveHref(slug);
+    if (!livePageHref) return '';
+
+    return BASE_URL + livePageHref;
+};

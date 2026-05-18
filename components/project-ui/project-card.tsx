@@ -8,6 +8,7 @@ import ImageCarousel from '../images-ui/image-carousel';
 import StyledIconTitle from '../styled-icon-title';
 import { Carousel, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import { getProjectCostLabel } from '@/lib/helpers/other';
+import { cn } from '@/lib/utils/classes-merge';
 
 export default function ProjectCard({
     slug,
@@ -21,9 +22,10 @@ export default function ProjectCard({
     made_at,
     size,
     cost,
+    className,
 }: ProjectCardProps) {
     return (
-        <div className="relative h-full">
+        <div className={cn('relative h-full', className)}>
             <Carousel className="h-full">
                 {action && <div className="absolute top-2 right-2 z-10">{action}</div>}
                 {images_urls && images_urls.length > 1 && (

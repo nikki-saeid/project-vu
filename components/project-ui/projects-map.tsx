@@ -26,7 +26,7 @@ function ProjectsMap({ embed = false, projects, isPublic, className, disablePopu
                     initialViewState={{ ...centerLatLng, zoom: zoomLevel }}
                     isSearchable={false}
                     fullHeight={embed}
-                    className={cn(embed ? 'rounded-none' : '', className)}
+                    className={cn('relative', embed ? 'rounded-none' : '', className)}
                 >
                     <ProjectsLocations slug={slug} isPublic={isPublic} projects={projects} disablePopup={disablePopup} />
                 </Map>

@@ -1,35 +1,16 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Combobox,
-    ComboboxChip,
-    ComboboxChips,
-    ComboboxChipsInput,
-    ComboboxContent,
-    ComboboxEmpty,
-    ComboboxItem,
-    ComboboxList,
-    ComboboxValue,
-} from '@/components/ui/combobox';
-import { useState } from 'react';
-import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils/classes-merge';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
-import {
-    Command,
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
-} from '@/components/ui/command';
-import { IconUser } from '@tabler/icons-react';
+import { IconChevronDown } from '@tabler/icons-react';
+import { Check, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ControllerFieldState, ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 
 type Fields =
     | 'types'
@@ -91,161 +72,122 @@ type ComboProps<T extends Fields> = {
     name: Fields;
     items: string[];
     placeholder: string;
+    fieldState: ControllerFieldState;
+    initValue: string[];
 };
 
-export default function TagsCombobox<T extends Fields>({ form, field, name, items, placeholder }: ComboProps<T>) {
-    const [otherTag, setOtherTag] = useState('');
+export default function TagsCombobox<T extends Fields>({ form, field, name, items, placeholder, fieldState, initValue }: ComboProps<T>) {
     const [open, setOpen] = useState(false);
+    const [selectedValues, setSelectedValues] = useState<string[]>(initValue);
     const [openTooltip, setOpenTooltip] = useState(false);
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setOpenTooltip(false);
-        setOtherTag(e.target.value);
-    };
-    const handleAdd = () => {
-        setOpen(false);
-        if (otherTag !== '') {
-            const values = form.getValues(name);
-            if (Array.isArray(values) && !values.includes(otherTag)) {
-                form.setValue(name, [...values, otherTag]);
-            }
+
+    const handleRemoveValue = (value: string) => setSelectedValues(selectedValues.filter((v) => v !== value));
+    const handleAddValue = (value: string) => {
+        if (value === 'Other') {
+            setOpenTooltip(true);
+            return;
         }
+
+        if (selectedValues.includes(value)) {
+            handleRemoveValue(value);
+        } else {
+            setSelectedValues([...selectedValues, value]);
+        }
+        setOpenTooltip(false);
+    };
+
+    const [otherTag, setOtherTag] = useState('');
+    const handleAddOtherValue = () => {
+        handleAddValue(otherTag);
         setOtherTag('');
     };
 
-    const showDefaultList = otherTag === '' || items.some((i) => i.toLowerCase().includes(otherTag.toLowerCase()));
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // setOpenTooltip(false);
+        setOtherTag(e.target.value);
+    };
+
+    useEffect(() => {
+        form.setValue(name, selectedValues);
+    }, [selectedValues, form, name]);
 
     return (
-        // <Popover open={open} onOpenChange={setOpen} modal={!open}>
-        //     <Combobox
-        //         items={items}
-        //         value={Array.isArray(field.value) ? field.value : []}
-        //         onValueChange={(value) => {
-        //             if (value.includes('Other')) {
-        //                 setOtherTag('');
-        //                 setOpen(false);
-        //                 setOpenTooltip(true);
-        //                 return;
-        //             }
-        //             field.onChange(value);
-        //         }}
-        //         name={field.name}
-        //         multiple
-        //     >
-        //         <ComboboxChips>
-        //             <ComboboxValue>
-        //                 {Array.isArray(field.value) && field.value.map((item) => <ComboboxChip key={item}>{item}</ComboboxChip>)}
-        //             </ComboboxValue>
-        //             <Tooltip open={openTooltip} onOpenChange={setOpenTooltip}>
-        //                 <TooltipTrigger>
-        //                     <div className="absolute top-0 -right-2"></div>
-        //                 </TooltipTrigger>
-        //                 <TooltipContent className="z-1000">
-        //                     <p>Type your tags related to your business.</p>
-        //                 </TooltipContent>
-        //             </Tooltip>
-        //             <PopoverTrigger>
-        //                 <ComboboxChipsInput onChange={handleOnChange} placeholder={placeholder} />
-        //             </PopoverTrigger>
-        //         </ComboboxChips>
-        //         <PopoverContent>
-        //             {showDefaultList ? (
-        //                 <ComboboxContent className="pointer-events-auto overflow-auto">
-        //                     <ComboboxList className="overflow-y-auto overscroll-contain">
-        //                         {(item: string) => (
-        //                             <ComboboxItem key={item} value={item}>
-        //                                 {item}
-        //                             </ComboboxItem>
-        //                         )}
-        //                     </ComboboxList>
-        //                 </ComboboxContent>
-        //             ) : (
-        //                 <ComboboxContent className="pointer-events-auto overflow-auto">
-        //                     {/* if empty */}
-        //                     <ComboboxEmpty className="p-1">
-        //                         <Button size="sm" variant="grey" onClick={handleAdd} className="w-full">
-        //                             use this tag
-        //                             <span className="font-semibold text-foreground">&quot;{otherTag}&quot;</span>
-        //                         </Button>
-        //                     </ComboboxEmpty>
+        <Popover onOpenChange={setOpen} open={open} modal={true}>
+            <div className="flex flex-wrap gap-1">
+                <InputGroup className="h-fit flex flex-wrap">
+                    {selectedValues.length > 0 && (
+                        <div className="flex wrap gap-1 p-1 flex-wrap">
+                            {selectedValues.map((value) => (
+                                <Badge key={value} variant="outline">
+                                    {value}
+                                    <button
+                                        type="button"
+                                        className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                                        onClick={() => handleRemoveValue(value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleRemoveValue(value);
+                                            }
+                                        }}
+                                        onMouseDown={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        }}
+                                    >
+                                        <X className="size-3 text-muted-foreground hover:text-foreground" />
+                                    </button>
+                                </Badge>
+                            ))}
+                        </div>
+                    )}
+                    <PopoverTrigger asChild>
+                        <div className="flex flex-1">
+                            <InputGroupAddon align="inline-end">
+                                <IconChevronDown />
+                            </InputGroupAddon>
+                            <InputGroupInput
+                                {...(field as { value: string })}
+                                id="form-website"
+                                type="text"
+                                aria-invalid={fieldState.invalid}
+                                placeholder={placeholder}
+                                autoComplete="url"
+                                value=""
+                                className="flex-1"
+                            />
+                        </div>
+                    </PopoverTrigger>
+                </InputGroup>
+            </div>
 
-        //                     {/* if not empty */}
-        //                     <ComboboxList className="overflow-y-auto">
-        //                         {(item: string) => (
-        //                             <ComboboxItem key={item} value={item}>
-        //                                 {item}
-        //                             </ComboboxItem>
-        //                         )}
-        //                     </ComboboxList>
-        //                 </ComboboxContent>
-        //             )}
-        //         </PopoverContent>
-        //     </Combobox>
-        // </Popover>
-
-        <>
-            <Popover modal={true}>
-                <Combobox
-                    items={items}
-                    value={Array.isArray(field.value) ? field.value : []}
-                    onValueChange={(value) => {
-                        if (value.includes('Other')) {
-                            setOtherTag('');
-                            setOpenTooltip(true);
-                            return;
-                        }
-
-                        field.onChange(value);
-                    }}
-                    name={field.name}
-                    multiple
-                >
-                    <ComboboxChips>
-                        <ComboboxValue>
-                            {Array.isArray(field.value) && field.value.map((item) => <ComboboxChip key={item}>{item}</ComboboxChip>)}
-                        </ComboboxValue>
-
-                        <Tooltip open={openTooltip} onOpenChange={setOpenTooltip}>
-                            <TooltipTrigger asChild>
-                                <div className="absolute top-0 -right-2" />
-                            </TooltipTrigger>
-
-                            <TooltipContent className="z-1000">
-                                <p>Type your tags related to your business.</p>
-                            </TooltipContent>
-                        </Tooltip>
-
-                        {/* FIX */}
-                        <ComboboxChipsInput onChange={handleOnChange} placeholder={placeholder} />
-                    </ComboboxChips>
-
-                    <PopoverContent
-                        onOpenAutoFocus={(e) => e.preventDefault()}
-                        align="start"
-                        className="z-1000 w-(--radix-popover-trigger-width) p-0"
-                    >
-                        {showDefaultList ? (
-                            <ComboboxContent className="border-0">
-                                <ComboboxList className="max-h-60 overflow-y-auto">
-                                    {(item: string) => (
-                                        <ComboboxItem key={item} value={item}>
-                                            {item}
-                                        </ComboboxItem>
-                                    )}
-                                </ComboboxList>
-                            </ComboboxContent>
-                        ) : (
-                            <ComboboxContent className="border-0">
-                                <ComboboxEmpty className="p-1">
-                                    <Button size="sm" variant="grey" onClick={handleAdd} className="w-full">
-                                        use this tag
-                                        <span className="font-semibold text-foreground">&quot;{otherTag}&quot;</span>
-                                    </Button>
-                                </ComboboxEmpty>
-                            </ComboboxContent>
-                        )}
-                    </PopoverContent>
-                </Combobox>
-            </Popover>
-        </>
+            <PopoverContent className="w-full p-0 z-1000 relative">
+                <Command>
+                    <Tooltip open={openTooltip}>
+                        <TooltipTrigger>
+                            <CommandInput value={otherTag} placeholder="Search..." onChangeCapture={handleOnChange} />
+                        </TooltipTrigger>
+                        <TooltipContent className="z-1000">
+                            <p>Type your tags related to your business.</p>
+                        </TooltipContent>
+                    </Tooltip>
+                    <CommandList>
+                        <CommandEmpty className="p-1">
+                            <Button size="sm" variant="grey" onClick={handleAddOtherValue} className="w-full">
+                                use this tag
+                                <span className="font-semibold text-foreground">&quot;{otherTag}&quot;</span>
+                            </Button>
+                        </CommandEmpty>
+                        <CommandGroup>
+                            {items.map((tag) => (
+                                <CommandItem key={tag} onSelect={(value) => handleAddValue(value)} value={tag}>
+                                    <Check className={cn('mr-2 size-4', selectedValues.includes(tag) ? 'opacity-100' : 'opacity-0')} />
+                                    {tag}
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
+                    </CommandList>
+                </Command>
+            </PopoverContent>
+        </Popover>
     );
 }

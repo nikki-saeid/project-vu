@@ -1,17 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-    Combobox,
-    ComboboxChip,
-    ComboboxChips,
-    ComboboxChipsInput,
-    ComboboxContent,
-    ComboboxEmpty,
-    ComboboxItem,
-    ComboboxList,
-    ComboboxValue,
-} from '@/components/ui/combobox';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
@@ -140,6 +129,8 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                 name="types"
                                 items={BUSINESS_TYPE}
                                 placeholder="Select business types"
+                                fieldState={fieldState}
+                                initValue={form.getValues('types')}
                             />
 
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -235,6 +226,8 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                 name="project_type_tags"
                                 items={PROJECT_TYPE_TAGS}
                                 placeholder="Select project types"
+                                fieldState={fieldState}
+                                initValue={form.getValues('project_type_tags')}
                             />
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </Field>
@@ -255,6 +248,8 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                             name="service_type_tags"
                             items={SERVICE_TYPE_TAGS}
                             placeholder="Select services types"
+                            fieldState={fieldState}
+                            initValue={form.getValues('service_type_tags')}
                         />
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>

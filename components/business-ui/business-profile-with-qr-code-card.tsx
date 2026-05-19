@@ -38,13 +38,13 @@ export default function BusinessProfileWithQrCodeCard({ business }: BusinessProf
                 </div>
 
                 <div className="flex flex-col items-center text-center w-57.5">
-                    <H3>{business.name}</H3>
+                    <H3 className="text-center">{business.name}</H3>
 
-                    <P>{arrayToSequentialString(business.types ?? [])}</P>
+                    <P className="text-center">{arrayToSequentialString(business.types ?? [])}</P>
                 </div>
-                <div className="flex flex-col items-center text-center w-57.5">
-                    <P>{business.phone}</P>
-                    <P>{url.split('//')[1]}</P>
+                <div className="flex flex-col items-center w-57.5">
+                    <P className="text-center">{business.phone}</P>
+                    <P className="text-center">{url.split('//')[1]}</P>
                 </div>
 
                 <Logo variant="small" />

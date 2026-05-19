@@ -9,6 +9,7 @@ import type { DropzoneProps } from '@/lib/types/forms';
 import { cn } from '@/lib/utils/classes-merge';
 import { IconPhoto, IconPlus, IconTrash, IconUpload } from '@tabler/icons-react';
 import { Avatar, AvatarImage } from '../ui/avatar';
+import { VideoPlayer } from '../shadix-ui/components/video-player/video-player';
 
 export const formatBytes = (bytes: number, decimals = 2, size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB') => {
     const k = 1000;
@@ -95,7 +96,7 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
             {files.map((file, idx) => {
                 return (
                     <div key={`${file.name}-${idx}`} className="flex flex-col">
-                        <div className="flex items-center justify-between gap-x-4  py-2 first:mt-4 last:mb-4 ">
+                        <div className="flex items-center justify-between gap-x-4 py-2 first:mt-4 last:mb-4 ">
                             {file.type.startsWith('image/') ? (
                                 <>
                                     {isLogo ? (
@@ -107,10 +108,12 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
                                         <img
                                             src={file.preview}
                                             alt={file.name}
-                                            className="border aspect-video w-full  object-cover rounded-lg"
+                                            className="border aspect-video w-full object-cover rounded-lg"
                                         />
                                     )}
                                 </>
+                            ) : file.type.startsWith('video/') ? (
+                                <VideoPlayer src={file.preview ?? ''} />
                             ) : (
                                 <div className="h-10 w-10 rounded border bg-muted flex items-center justify-center">
                                     <IconPhoto size={18} />

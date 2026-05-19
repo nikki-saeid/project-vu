@@ -72,22 +72,6 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                     projects={[project]}
                 />
             </DashboardCard>
-            {/* {(made_at || size) && (
-                <DashboardCard title="Details" description="More details about this project">
-                    <div className="flex flex-col gap-4">
-                        {made_at && (
-                            <StyledIconTitle
-                                StyledIconProps={{ Icon: IconCalendar }}
-                                label="Project Created On"
-                                title={format(new Date(made_at), DATE_FORMATS.year)}
-                            />
-                        )}
-                        {size && (
-                            <StyledIconTitle StyledIconProps={{ Icon: IconRulerMeasure }} label="Project Size" title={size + ' sqm'} />
-                        )}
-                    </div>
-                </DashboardCard>
-            )} */}
         </div>
     );
 }

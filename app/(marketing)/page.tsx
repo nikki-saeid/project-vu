@@ -16,10 +16,10 @@ export default function Home() {
             <Hero />
             <LiveMap />
             <Features />
-            <AboutUs />
             <PricingPlans />
             <Cta />
             <Contact />
+            <AboutUs />
         </div>
     );
 }

@@ -17,8 +17,8 @@ export default function LiveMap() {
         <Container>
             <section id={SECTIONS_IDS.liveMap}>
                 <SectionHeader label="LIVE DEMO MAP" title="Showcase your projects with interactive map" />
-                <div className="mt-3 rounded-lg overflow-hidden">
-                    <ProjectsMap embed={false} projects={demoProjects} isPublic={true} slug={demoBusiness.slug ?? ''} />
+                <div className="mt-6 rounded-lg overflow-hidden">
+                    <ProjectsMap className='h-100' embed={false} projects={demoProjects} isPublic={true} slug={demoBusiness.slug ?? ''} />
                 </div>
             </section>
         </Container>

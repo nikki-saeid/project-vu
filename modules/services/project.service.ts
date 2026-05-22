@@ -1,14 +1,13 @@
 import { Business, Project } from '@/lib/types/db';
-import { projectRepository } from '../repositories/project.repository';
-import { businessRepository } from '../repositories/business.repository';
 import { StatusCodes } from 'http-status-codes';
-import { storageService } from './storage.service';
-import { randomUUID } from 'crypto';
 import { subscriptionMiddleware } from '../middlewares/subscription.middleware';
+import { businessRepository } from '../repositories/business.repository';
+import { projectRepository } from '../repositories/project.repository';
+import { storageService } from './storage.service';
 
 export const projectService = {
     // get business by user id or create if not exists
-    create: async function (userId: string, data: Partial<Project>, images: File[] = []) {
+    create: async function (userId: string, data: Partial<Project>) {
         return subscriptionMiddleware.projectsMax(async function () {
             // get the business
             const business = (await businessRepository.getByUserId(userId)) as Business;
@@ -16,14 +15,8 @@ export const projectService = {
                 throw { error: new Error('Business not found'), status: StatusCodes.NOT_FOUND };
             }
 
-            const id = randomUUID();
-
-            // store images
-            const path = `${userId}/projects/${id}`;
-            const projectImages = await storageService.uploadMany(images, path);
-
             // create project
-            return await projectRepository.create({ ...data, id, business_id: business.id, images_urls: projectImages });
+            return await projectRepository.create({ ...data, business_id: business.id });
         }, userId);
     },
 
@@ -56,22 +49,9 @@ export const projectService = {
     },
 
     // update project by id
-    updateById: async function (userId: string, id: string, data: Partial<Project>, images: File[] = []) {
-        // get the project
-        const project = await projectRepository.getById(id);
-        if (!project) {
-            throw { error: new Error('Project not found'), status: StatusCodes.NOT_FOUND };
-        }
-
-        // remove images
-        await storageService.removeMany(project.images_urls);
-
-        // store images
-        const path = `${userId}/projects/${id}`;
-        const projectImages = await storageService.uploadMany(images, path);
-
+    updateById: async function (id: string, data: Partial<Project>) {
         // update project
-        return (await projectRepository.updateById(id, { ...data, images_urls: projectImages })) as Project;
+        return (await projectRepository.updateById(id, data)) as Project;
     },
 
     // delete project by id

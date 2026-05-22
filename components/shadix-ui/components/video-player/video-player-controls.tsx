@@ -1,20 +1,21 @@
-"use client";
+'use client';
 
-import type React from "react";
+import type React from 'react';
 
 import {
-    Maximize,
-    Minimize,
-    Pause,
-    Play,
-    Volume1,
-    Volume2,
-    VolumeOff,
-} from "lucide-react";
-import { motion } from "motion/react";
+    IconMaximize as Maximize,
+    IconMinimize as Minimize,
+    IconPlayerPause as Pause,
+    IconPlayerPlay as Play,
+    IconVolume as Volume1,
+    IconVolume2,
+    IconVolume3 as VolumeOff,
+} from '@tabler/icons-react';
 
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { motion } from 'motion/react';
+
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
 
 const MotionButton = motion.create(Button);
 
@@ -47,21 +48,17 @@ export const VideoPlayerControls: React.FC<VideoPlayerControlsProps> = ({
                 <MotionButton
                     variant="ghost"
                     className="rounded-full !bg-accent/60 hover:!bg-accent/70 transition-all duration-300 ease-in"
-                    size={"icon-lg"}
+                    size={'icon-lg'}
                     whileTap={{
                         scale: 0.9,
                     }}
                     transition={{
                         duration: 0.01,
-                        ease: "linear",
+                        ease: 'linear',
                     }}
                     onClick={onPlayPause}
                 >
-                    {playing ? (
-                        <Pause className="size-5" />
-                    ) : (
-                        <Play className="size-5" />
-                    )}
+                    {playing ? <Pause className="size-5" /> : <Play className="size-5" />}
                 </MotionButton>
 
                 {/* Volume Slider */}
@@ -122,24 +119,18 @@ export const VideoPlayerControls: React.FC<VideoPlayerControlsProps> = ({
                 <MotionButton
                     variant="ghost"
                     className="rounded-full !bg-accent/60 hover:!bg-accent/70 transition-all duration-300 ease-in"
-                    size={"icon-sm"}
+                    size={'icon-sm'}
                     whileTap={{
                         scale: 0.9,
                     }}
                     transition={{
                         duration: 0.01,
-                        ease: "linear",
+                        ease: 'linear',
                     }}
                     onClick={toggleFullscreen}
-                    aria-label={
-                        isFullscreen ? "Exit fullscreen" : "Enter fullscreen"
-                    }
+                    aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
                 >
-                    {isFullscreen ? (
-                        <Minimize className="size-5" />
-                    ) : (
-                        <Maximize className="size-5" />
-                    )}
+                    {isFullscreen ? <Minimize className="size-5" /> : <Maximize className="size-5" />}
                 </MotionButton>
             </div>
         </div>

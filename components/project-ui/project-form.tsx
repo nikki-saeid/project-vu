@@ -4,11 +4,11 @@ import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useSupabaseUpload } from '@/hooks/use-supabase-upload';
+import { uploadProjectFiles } from '@/lib/api-fetcher/storage/client';
 import { createProject, updateProject } from '@/lib/api-fetcher/user/client/projects';
 import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
 import { YEARS } from '@/lib/constants/months';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
-import { compressImage } from '@/lib/helpers/image-compression';
 import { projectToLocationFeature } from '@/lib/helpers/project-map';
 import type { ProjectFormProps } from '@/lib/types/forms';
 import type { LocationFeature } from '@/lib/types/map';
@@ -23,6 +23,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ImageUpload from '../file-upload-ui/image-upload';
 import ProjectLocationPicker from './project-location-picker';
+import { Project } from '@/lib/types/db';
+import { APIResponseSend } from '@/lib/helpers/api-response';
 
 type FileWithPreview = File & { preview?: string; errors: readonly FileError[] };
 const MAX_IMAGES = 5;
@@ -111,61 +113,43 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     // On submit
     // ------------------------------
 
-    const getFormData = async (data: ProjectCreateInput) => {
-        // Upload images
-        const formData = new FormData();
-        const compressedImages = await Promise.all(files.map((file) => compressImage(file)));
-        compressedImages.forEach((img) => {
-            formData.append('images', img);
-        });
-
-        // body
-        const body = JSON.stringify({
-            title: data.title,
-            description: data.description,
-            address: data.address,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            size: data.size,
-            cost: data.cost,
-            made_at: data.made_at ? new Date(data.made_at).toISOString() : undefined,
-        });
-        formData.append('body', body);
-
-        return formData;
-    };
-
-    const handleAdd = async (data: ProjectCreateInput) => {
-        const formData = await getFormData(data);
-
-        // Create project
-        const created = await createProject(formData);
-        toast.success(created.message);
-    };
-
-    const handleUpdate = async (data: ProjectCreateInput) => {
-        const formData = await getFormData(data);
-
-        // Create project
-        const updated = await updateProject(formData, project?.id ?? '');
-        toast.success(updated.message);
-    };
     const onSubmit = async (data: ProjectCreateInput) => {
         if (errors.length === 0 && files.length <= MAX_IMAGES) {
             setIsLoading(true);
             try {
+                // upload the files
+                const { images_urls, projectId } = await uploadProjectFiles(files, project?.id, project?.storage_images_urls);
+
+                // generate the body
+                const body = JSON.stringify({
+                    title: data.title,
+                    description: data.description,
+                    address: data.address,
+                    latitude: data.latitude,
+                    longitude: data.longitude,
+                    size: data.size,
+                    cost: data.cost,
+                    made_at: data.made_at ? new Date(data.made_at).toISOString() : undefined,
+                    images_urls: images_urls,
+                    id: projectId,
+                });
+
+                // create or update the project
+                let newProject: APIResponseSend<Project> | null = null;
                 if (!project) {
-                    await handleAdd(data);
+                    newProject = await createProject(body);
                 } else {
-                    await handleUpdate(data);
+                    newProject = await updateProject(body, projectId);
                 }
 
-                const newProject = await getUserProjects();
-                setProjects(newProject);
+                // get the new list of projects
+                const newListProjects = await getUserProjects();
+                setProjects(newListProjects);
 
                 // Success
                 form.reset();
                 onSuccess?.();
+                toast.success(newProject.message);
             } catch (error) {
                 toast.error(error instanceof Error ? error.message : 'Failed to create project');
             } finally {
@@ -173,6 +157,10 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
             }
         }
     };
+
+    // ------------------------------
+    // On submit End
+    // ------------------------------
 
     useEffect(() => {
         if (searchedLocation) {

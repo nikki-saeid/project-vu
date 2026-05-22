@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import ProjectImageSkeleton from '../skeleton-ui/project-image-skeleton';
 import type { ClassNameProp } from '@/lib/types/common';
 import { cn } from '@/lib/utils/classes-merge';
+import { VideoPlayer } from '../shadix-ui/components/video-player/video-player';
 
 type ImageCarouselProps = {
     images_urls: string[];
@@ -16,12 +17,18 @@ export default function ImageCarousel({ images_urls, title, className }: ImageCa
                 return (
                     <CarouselItem key={image}>
                         <Suspense fallback={<ProjectImageSkeleton />}>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                src={image ?? '/placeholder.svg'}
-                                alt={title ?? 'Project image'}
-                                className={cn('relative z-1 aspect-video h-40 w-full object-cover', className)}
-                            />
+                            {image.includes('video') ? (
+                                <div className={cn('relative z-1  h-40', className)}>
+                                    <VideoPlayer src={image} isThumbnail cover className="rounded-none" />
+                                </div>
+                            ) : (
+                                /* eslint-disable-next-line @next/next/no-img-element */
+                                <img
+                                    src={image ?? '/placeholder.svg'}
+                                    alt={title ?? 'Project image'}
+                                    className={cn('relative z-1 aspect-video h-40 w-full object-cover', className)}
+                                />
+                            )}
                         </Suspense>
                     </CarouselItem>
                 );

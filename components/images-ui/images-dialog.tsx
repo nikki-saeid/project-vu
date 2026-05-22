@@ -2,6 +2,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Suspense } from 'react';
 import ProjectImageSkeleton from '../skeleton-ui/project-image-skeleton';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
+import { VideoPlayer } from '../shadix-ui/components/video-player/video-player';
 
 type ImagesDialogProps = {
     images_urls: string[];
@@ -13,34 +14,37 @@ type ImagesDialogProps = {
 export default function ImagesDialog({ images_urls, title, open, setOpen }: ImagesDialogProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent showCloseButton={true} className="h-[calc(100vh-2rem)] min-w-[calc(100vw-2rem)]">
-                <DialogHeader>
+            <DialogContent showCloseButton className="h-screen min-w-screen max-w-none rounded-none border-0 p-0">
+                <DialogHeader className="absolute top-4 left-4 z-50">
                     <DialogTitle>{title}</DialogTitle>
                 </DialogHeader>
-                <div className="relative">
-                    <Carousel>
-                        <CarouselPrevious size="icon-sm" className="absolute  top-1/2  -translate-y-1/2 left-2  z-54" />
-                        <CarouselNext size="icon-sm" className="absolute top-1/2 right-2 -translate-y-1/2 z-54" />
-                        <CarouselContent>
-                            {images_urls.map((image) => {
-                                return (
-                                    <CarouselItem className="flex items-center justify-center" key={image}>
-                                        <Suspense fallback={<ProjectImageSkeleton />}>
-                                            <div className="h-[80vh] w-fit rounded-lg overflow-hidden">
-                                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img
-                                                    src={image ?? '/placeholder.svg'}
-                                                    alt={title ?? 'Project image'}
-                                                    className="z-90 h-full object-contain"
-                                                />
-                                            </div>
-                                        </Suspense>
-                                    </CarouselItem>
-                                );
-                            })}
-                        </CarouselContent>
-                    </Carousel>
-                </div>
+
+                <Carousel className="h-full w-full">
+                    <CarouselPrevious size="icon-sm" className="absolute left-4 top-1/2 z-50 -translate-y-1/2" />
+
+                    <CarouselNext size="icon-sm" className="absolute right-4 top-1/2 z-50 -translate-y-1/2" />
+
+                    <CarouselContent className="h-[95vh] mt-10">
+                        {images_urls.map((image) => (
+                            <CarouselItem key={image} className="flex h-[95vh] items-center justify-center">
+                                <Suspense fallback={<ProjectImageSkeleton />}>
+                                    <div className="flex h-full w-full items-center justify-center overflow-hidden p-4">
+                                        {image.includes('video') ? (
+                                            <VideoPlayer src={image} autoPlay className="h-full w-full" height="h-full" />
+                                        ) : (
+                                            /* eslint-disable-next-line @next/next/no-img-element */
+                                            <img
+                                                src={image ?? '/placeholder.svg'}
+                                                alt={title ?? 'Project image'}
+                                                className="max-h-full max-w-full object-contain rounded-lg"
+                                            />
+                                        )}
+                                    </div>
+                                </Suspense>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </Carousel>
             </DialogContent>
         </Dialog>
     );

@@ -26,16 +26,24 @@ export const projectController = {
     // get by user id
     create: tryCatchWrapperPrivate(async ({ req, user }: ControllerPropsPrivate) => {
         // Get the body
-        const formData = await req.formData();
-        const images = formData.getAll('images');
-        const body = JSON.parse(formData.get('body') as string);
+        const body = await req.json();
 
         // parse the body
-        const { title, description, address, latitude, longitude, made_at, size, cost } = body;
+        const { title, description, address, latitude, longitude, made_at, size, cost, images_urls, id } = body;
         const location = `POINT(${longitude} ${latitude})`;
 
         // Create the project
-        const project = await projectService.create(user.id, { title, description, address, location, made_at, size, cost }, images as File[]);
+        const project = await projectService.create(user.id, {
+            id,
+            title,
+            description,
+            address,
+            location,
+            made_at,
+            size,
+            cost,
+            images_urls,
+        });
         return new SuccessResponse<Project>('Project added successfully', project).send();
     }),
 
@@ -57,28 +65,30 @@ export const projectController = {
     }),
 
     // update
-    updateById: tryCatchWrapperPrivate(async function ({ req, user, contextParams }: ControllerPropsPrivate<ParamsId>) {
+    updateById: tryCatchWrapperPrivate(async function ({ req, contextParams }: ControllerPropsPrivate<ParamsId>) {
         // Get the project id
         if (!contextParams) throw new Error('Id is required');
         const params = await contextParams.params;
         const { id } = params;
 
         // Get the body
-        const formData = await req.formData();
-        const images = formData.getAll('images');
-        const body = JSON.parse(formData.get('body') as string);
+        const body = await req.json();
 
         // parse the body
-        const { title, description, address, latitude, longitude, made_at, size, cost } = body;
+        const { title, description, address, latitude, longitude, made_at, size, cost, images_urls } = body;
         const location = `POINT(${longitude} ${latitude})`;
 
         // update the project
-        const project = await projectService.updateById(
-            user.id,
-            id,
-            { title, description, address, location, made_at, size, cost },
-            images as File[],
-        );
+        const project = await projectService.updateById(id, {
+            title,
+            description,
+            address,
+            location,
+            made_at,
+            size,
+            cost,
+            images_urls,
+        });
 
         return new SuccessResponse<Project>('Project updated successfully', project).send();
     }),

@@ -1,7 +1,5 @@
+import { BUCKET_NAME, CACHE_CONTROL } from '@/lib/constants/storage';
 import { createClient } from '@/lib/supabase/server';
-
-const BUCKET_NAME = 'businesses';
-const CACHE_CONTROL = '0';
 
 export const storageRepository = {
     // get by user id
@@ -17,6 +15,14 @@ export const storageRepository = {
         if (error) throw error;
 
         return path;
+    },
+    createSignedUploadUrl: async function (path: string) {
+        const supabase = await createClient();
+        const { data, error } = await supabase.storage.from(BUCKET_NAME).createSignedUploadUrl(path);
+
+        if (error) throw error;
+
+        return { token: data.token, path: data.path };
     },
 
     // remove many

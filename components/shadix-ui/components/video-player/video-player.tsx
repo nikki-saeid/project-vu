@@ -10,6 +10,16 @@ import { VideoPlayerProgressBar } from '@/components/shadix-ui/components/video-
 import { useVideoPlayer } from '@/hooks/useVideoPlayer';
 import { cn } from '@/lib/utils/classes-merge';
 import { useEffect, useState } from 'react';
+import {
+    IconMaximize as Maximize,
+    IconMinimize as Minimize,
+    IconPlayerPause as Pause,
+    IconPlayerPlay as Play,
+    IconVolume as Volume1,
+    IconVolume2,
+    IconVolume3 as VolumeOff,
+} from '@tabler/icons-react';
+import StyledIcon from '@/components/styled-icon';
 
 export interface VideoPlayerProps {
     /** @public (required) Source of the video */
@@ -37,9 +47,21 @@ export interface VideoPlayerProps {
         label: string;
     }[];
     className?: string;
+    height?: string;
+    cover?: boolean;
+    isThumbnail?: boolean;
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ subtitles, src, autoPlay = false, thumbnail, thumbnailTime, className }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({
+    subtitles,
+    src,
+    autoPlay = false,
+    thumbnail,
+    thumbnailTime,
+    className,
+    cover,
+    isThumbnail = false,
+}) => {
     const {
         playerRef,
         containerRef,
@@ -88,23 +110,23 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ subtitles, src, autoPlay = fa
     }, []);
 
     return (
-        <div className={cn('w-full max-w-2xl mx-auto overflow-hidden rounded-lg', className)}>
-            <div ref={containerRef} className="relative w-fit">
+        <div className={cn('w-full h-full bg-primary/10 overflow-hidden rounded-lg', className)}>
+            <div ref={containerRef} className="relative flex h-full w-full items-center justify-center">
                 <video
-                    ref={playerRef}
+                    ref={isThumbnail ? undefined : playerRef}
                     src={src as string}
-                    className="w-fit overflow-hidden rounded-lg"
+                    className={cn('max-h-full max-w-full ', cover ? 'object-cover w-full' : 'object-contain')}
                     controls={false}
                     poster={displayThumb || undefined}
                     crossOrigin="anonymous"
-                    onTimeUpdate={handleProgress}
-                    onLoadedMetadata={handleProgress}
-                    onPlay={handlePlay}
-                    onPause={handlePause}
-                    onClick={handlePlayPause}
-                    onWaiting={handleWaiting}
-                    onCanPlay={handleCanPlay}
-                    onCanPlayThrough={handleCanPlay}
+                    onTimeUpdate={isThumbnail ? undefined : handleProgress}
+                    onLoadedMetadata={isThumbnail ? undefined : handleProgress}
+                    onPlay={isThumbnail ? undefined : handlePlay}
+                    onPause={isThumbnail ? undefined : handlePause}
+                    onClick={isThumbnail ? undefined : handlePlayPause}
+                    onWaiting={isThumbnail ? undefined : handleWaiting}
+                    onCanPlay={isThumbnail ? undefined : handleCanPlay}
+                    onCanPlayThrough={isThumbnail ? undefined : handleCanPlay}
                     muted={muted}
                 >
                     <track kind="captions" srcLang="en" label="English" />
@@ -113,28 +135,36 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ subtitles, src, autoPlay = fa
                     ))}
                 </video>
 
-                <VideoPlayerBuffer isBuffering={isBuffering} />
+                {!isThumbnail ? (
+                    <>
+                        <VideoPlayerBuffer isBuffering={isBuffering} />
 
-                <VideoPlayerIndicator indicator={indicator} playing={playing} />
+                        <VideoPlayerIndicator indicator={indicator} playing={playing} />
 
-                <VideoPlayerProgressBar
-                    progress={progress}
-                    loadedProgress={loadedProgress}
-                    playerRef={playerRef as React.RefObject<HTMLVideoElement>}
-                    duration={duration}
-                    onSeek={seek}
-                />
+                        <VideoPlayerProgressBar
+                            progress={progress}
+                            loadedProgress={loadedProgress}
+                            playerRef={playerRef as React.RefObject<HTMLVideoElement>}
+                            duration={duration}
+                            onSeek={seek}
+                        />
 
-                <VideoPlayerControls
-                    playing={playing}
-                    volume={volume}
-                    muted={muted}
-                    isFullscreen={isFullscreen}
-                    toggleFullscreen={toggleFullscreen}
-                    onPlayPause={handlePlayPause}
-                    onVolumeChange={handleVolumeChange}
-                    onMuteToggle={() => setMuted(!muted)}
-                />
+                        <VideoPlayerControls
+                            playing={playing}
+                            volume={volume}
+                            muted={muted}
+                            isFullscreen={isFullscreen}
+                            toggleFullscreen={toggleFullscreen}
+                            onPlayPause={handlePlayPause}
+                            onVolumeChange={handleVolumeChange}
+                            onMuteToggle={() => setMuted(!muted)}
+                        />
+                    </>
+                ) : (
+                    <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10">
+                        <StyledIcon Icon={Play} className="bg-white/80" />
+                    </div>
+                )}
             </div>
         </div>
     );

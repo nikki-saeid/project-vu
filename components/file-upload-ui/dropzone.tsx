@@ -113,7 +113,7 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
                                     )}
                                 </>
                             ) : file.type.startsWith('video/') ? (
-                                <VideoPlayer src={file.preview ?? ''} />
+                                <VideoPlayer src={file.preview ?? ''} className="aspect-video" />
                             ) : (
                                 <div className="h-10 w-10 rounded border bg-muted flex items-center justify-center">
                                     <IconPhoto size={18} />

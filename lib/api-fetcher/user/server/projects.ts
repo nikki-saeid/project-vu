@@ -3,6 +3,7 @@
 import { API_URL } from '@/lib/constants/urls';
 import { fetcher } from '@/lib/helpers/fetcher';
 import type { ProjectWithLatLng } from '@/lib/types/api';
+import { randomUUID } from 'crypto';
 import { cookies } from 'next/headers';
 
 export const getUserProjects = async () => {
@@ -14,6 +15,10 @@ export const getUserProjects = async () => {
     return response.data ?? [];
 };
 
+export const generateUniqueId = async () => {
+    return randomUUID();
+};
+
 export const getPublicProjectsBySlug = async (slug: string) => {
     const cookie = await cookies();
     const response = await fetcher<ProjectWithLatLng[]>(`${API_URL}/public/projects/${slug}`, {
@@ -21,7 +26,6 @@ export const getPublicProjectsBySlug = async (slug: string) => {
     });
     return response.data;
 };
-
 
 export const getProjectById = async (id: string) => {
     const cookie = await cookies();
@@ -31,9 +35,6 @@ export const getProjectById = async (id: string) => {
     return response.data;
 };
 
-
-
-
 export const getPublicProjectById = async (id: string) => {
     const cookie = await cookies();
     const response = await fetcher<ProjectWithLatLng>(`${API_URL}/public/projects/details/${id}`, {
@@ -41,4 +42,3 @@ export const getPublicProjectById = async (id: string) => {
     });
     return response.data;
 };
-

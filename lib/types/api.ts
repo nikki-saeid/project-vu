@@ -6,6 +6,7 @@ import type { Database } from './supabase';
 export type ProjectWithLatLng = Database['public']['Tables']['projects']['Row'] & {
     lng?: number;
     lat?: number;
+    storage_images_urls?: string[];
 };
 
 export type ProjectWithLatLngAndPagination = {
@@ -17,6 +18,7 @@ export type ProjectWithLatLngAndPagination = {
 export type ParamsId = { id: string };
 export type ParamsSlug = { slug: string };
 export type ParamsPlan = { plan: string };
+export type ParamsProjectId = { projectId: string };
 export type ParamsStripeCustomerId = { stripeCustomerId: string };
 export type ContextParams<T = Record<string, string>> = {
     params: Promise<T>;
@@ -50,4 +52,10 @@ export type UsersWithPagination = { users: User[]; aud: string } & Pagination;
 export type CheckoutSessionMetadata = {
     businessId?: string;
     plan?: string;
+};
+
+export type CreateSignedUploadUrlResponse = {
+    token: string;
+    path: string;
+    projectId: string;
 };

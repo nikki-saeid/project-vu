@@ -109,13 +109,13 @@ port = 54324
 [storage]
 enabled = true
 # The maximum file size allowed (e.g. "5MB", "500KB").
-file_size_limit = "1MiB"
+file_size_limit = "7MiB"
 
 # Uncomment to configure local storage buckets
 [storage.buckets.businesses]
 public = true
-file_size_limit = "1MiB"
-allowed_mime_types = ["image/webp"]
+file_size_limit = "7MiB"
+allowed_mime_types = ["image/*", "video/*"]
 objects_path = "./businesses"
 
 # Allow connections via S3 compatible clients
@@ -155,7 +155,7 @@ site_url = "env(NEXT_PUBLIC_BASE_URL)"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
     "https://www.projectvu.com.au/**",
-    "http://localhost:3000/**"
+    "http://localhost:3000/**",
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600

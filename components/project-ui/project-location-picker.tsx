@@ -6,7 +6,7 @@ import ProjectLocationPickerInner from './project-location-picker-inner';
 function ProjectLocationPicker({ onSearchedLocationChange, onEditLocation }: ProjectLocationPickerProps) {
     return (
         <Map
-            className="h-100"
+            className="h-70"
             isSearchable={true}
             initialViewState={
                 onEditLocation && {

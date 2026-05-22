@@ -12,7 +12,7 @@ export default async function DashboardOnboardingProviderInner({ children }: Chi
     }
 
     return (
-        <DashboardProvider initialBusiness={business} initialProjects={null} initialSubscription={null}>
+        <DashboardProvider initialBusiness={business} initialProjects={null} initialSubscription={null} initialReviews={null}>
             {children}
         </DashboardProvider>
     );

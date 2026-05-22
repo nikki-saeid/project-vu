@@ -1,0 +1,37 @@
+'use client';
+
+import DashboardCard from '@/components/dashboard-ui/dashboard-card';
+import DashboardSubNavbar from '@/components/dashboard-ui/dashboard-sub-navbar';
+import ReviewList from '@/components/review-ui/review-list';
+import RequestReviewDialog from '@/components/review-ui/review-request-dialog';
+import { useDashboard } from '@/lib/contexts/dashboard-context';
+import ReviewsSentTable from './_components/reviews-sent-table';
+
+export default function Page() {
+    const { reviews } = useDashboard();
+
+    const reviewsSent = reviews ? reviews.filter((review) => review.status === 'sent') : [];
+    const reviewsDone = reviews ? reviews.filter((review) => review.status === 'done') : [];
+
+    return (
+        <div>
+            <DashboardSubNavbar>
+                <div></div>
+                <RequestReviewDialog />
+            </DashboardSubNavbar>
+            <div className="flex flex-col md:gap-6 gap-4 p-4 md:p-6">
+                {reviewsSent.length > 0 && (
+                    <DashboardCard title="Reviews requested" description="Reviews sent to clients and waiting for approval">
+                        <ReviewsSentTable reviews={reviewsSent} />
+                    </DashboardCard>
+                )}
+
+                {reviewsDone.length > 0 && (
+                    <DashboardCard title="Reviews list" description="This list will be shown in your live page.">
+                        <ReviewList reviews={reviewsDone} />
+                    </DashboardCard>
+                )}
+            </div>
+        </div>
+    );
+}

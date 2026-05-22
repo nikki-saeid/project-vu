@@ -9,7 +9,9 @@ export type PasswordInputProps = React.ComponentProps<'input'>;
 export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 'logo_url' | 'name'>> & ClassNameProp;
 
 // Project
-export type ProjectCardProps = { action?: ReactNode; isPublic?: boolean } & Partial<ProjectWithLatLng> & Pick<Business, 'slug'> & ClassNameProp;
+export type ProjectCardProps = { action?: ReactNode; isPublic?: boolean } & Partial<ProjectWithLatLng> &
+    Pick<Business, 'slug'> &
+    ClassNameProp;
 export type ProjectLocationPickerProps = {
     onSearchedLocationChange: (location: LocationFeature) => void;
     onEditLocation?: LocationFeature;
@@ -68,6 +70,8 @@ export type FormProps = {
 
 export type ProjectFormProps = { project?: ProjectWithLatLng } & ClassNameProp & FormProps;
 export type BusinessFormProps = FormProps;
+export type ReviewRequestFormProps = FormProps;
+export type ReviewFormProps = FormProps;
 export type BusinessDeleteFormProps = FormProps;
 export type ProjectDeleteFormProps = FormProps;
 export type AdminDisableUserFormProps = FormProps & { activate: boolean };

@@ -1,7 +1,7 @@
 'use client';
 
 import type { ProjectWithLatLng } from '@/lib/types/api';
-import type { Business, Subscription } from '@/lib/types/db';
+import type { Business, Review, Subscription } from '@/lib/types/db';
 import { createContext, useContext } from 'react';
 
 export type DashboardContextValue = {
@@ -11,6 +11,8 @@ export type DashboardContextValue = {
     setProjects: (projects: ProjectWithLatLng[]) => void;
     subscription: Subscription | null;
     setSubscription: (subscription: Subscription | null) => void;
+    reviews: Review[] | null;
+    setReviews: (reviews: Review[] | null) => void;
 };
 
 export const DashboardContext = createContext<DashboardContextValue | null>(null);

@@ -125,6 +125,53 @@ export type Database = {
           },
         ]
       }
+      reviews: {
+        Row: {
+          business_id: string
+          comment: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string
+          rate: number | null
+          request_comment: string | null
+          status: Database["public"]["Enums"]["review_status"]
+          summary: string | null
+        }
+        Insert: {
+          business_id: string
+          comment?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          rate?: number | null
+          request_comment?: string | null
+          status?: Database["public"]["Enums"]["review_status"]
+          summary?: string | null
+        }
+        Update: {
+          business_id?: string
+          comment?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          rate?: number | null
+          request_comment?: string | null
+          status?: Database["public"]["Enums"]["review_status"]
+          summary?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           business_id: string
@@ -199,6 +246,7 @@ export type Database = {
     }
     Enums: {
       page_status: "draft" | "live"
+      review_status: "sent" | "done"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -327,6 +375,7 @@ export const Constants = {
   public: {
     Enums: {
       page_status: ["draft", "live"],
+      review_status: ["sent", "done"],
     },
   },
 } as const

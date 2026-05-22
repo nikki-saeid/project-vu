@@ -11,7 +11,9 @@ import LiveButton from './_components/live-button';
 import ShareButtons from './_components/share-buttons';
 
 export default function LivePage() {
-    const { business, projects } = useDashboard();
+    const { business, projects, reviews } = useDashboard();
+
+    const reviewsDone = reviews ? reviews.filter((review) => review.status === 'done') : [];
 
     const router = useRouter();
     const pathname = usePathname();
@@ -45,7 +47,7 @@ export default function LivePage() {
                 </div>
             </DashboardSubNavbar>
             <div className="flex flex-col gap-4 p-4 md:p-6">
-                <BusinessProfile business={business} projects={projects} isPublic={false} />
+                <BusinessProfile business={business} projects={projects} isPublic={false} reviews={reviewsDone} />
             </div>
         </div>
     );

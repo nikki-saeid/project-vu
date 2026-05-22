@@ -1,7 +1,4 @@
-import { Constants } from '@/lib/types/supabase';
-import { IconAppWindow, IconBuildings, IconCode, IconCreditCard, IconPencil, IconUserCircle } from '@tabler/icons-react';
-
-
+import { IconAppWindow, IconBubbleText, IconBuildings, IconCode, IconCreditCard, IconPencil, IconUserCircle } from '@tabler/icons-react';
 
 export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
     main: [
@@ -14,6 +11,11 @@ export const USER_DASHBOARD_SIDEBAR_NAVIGATION = {
             title: 'Projects',
             url: '/dashboard/projects',
             Icon: IconBuildings,
+        },
+        {
+            title: 'Reviews',
+            url: '/dashboard/reviews',
+            Icon: IconBubbleText,
         },
     ],
     map: [

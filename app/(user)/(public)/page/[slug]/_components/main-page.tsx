@@ -10,8 +10,10 @@ import { useUser } from '@/lib/contexts/user-context';
 type MainPageProps = { slug: string };
 
 export default function MainPage({ slug }: MainPageProps) {
-    const { business, projects } = usePublic();
+    const { business, projects, reviews } = usePublic();
     const { user } = useUser();
+
+    const reviewsDone = reviews ? reviews.filter((review) => review.status === 'done') : [];
 
     return (
         <div className="flex flex-col bg-background min-h-screen">
@@ -26,7 +28,7 @@ export default function MainPage({ slug }: MainPageProps) {
                                 description="In order to show the portfolio publicly, you need to publish it."
                             />
                         )}
-                        <BusinessProfile business={business} projects={projects} isPublic={true} />
+                        <BusinessProfile business={business} projects={projects} isPublic={true} reviews={reviewsDone} />
                     </div>
                 </Container>
             </div>

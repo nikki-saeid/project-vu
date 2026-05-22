@@ -20,8 +20,8 @@ export type MapWrapperProps = ChildrenProp &
     };
 
 export type IconCardProps = {
-    label: string;
-    title: string;
+    label?: React.ReactNode;
+    title?: React.ReactNode;
     StyledIconProps?: StyledIconProps;
     Icon?: React.ReactNode;
 };

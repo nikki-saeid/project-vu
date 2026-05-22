@@ -33,7 +33,7 @@ export default function MainLayout({ children }: ChildrenProp) {
                     footer={
                         subscription ? undefined : (
                             <Link href="/payment/subscription-plan" className="w-full">
-                                <Button variant="outlinePrimary" size="sm" className='w-full'>
+                                <Button variant="outlinePrimary" size="sm" className="w-full">
                                     Upgrade to Pro
                                 </Button>
                             </Link>

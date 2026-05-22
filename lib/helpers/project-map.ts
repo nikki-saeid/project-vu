@@ -101,8 +101,8 @@ export function getZoomLevelForLocations(projects: ProjectWithCoordinates[]) {
     const longestDistance = getLongestDistance(projects);
 
     const distanceTickMeters = 25000;
-    const zoomTick = 0.5;
+    const zoomTick = 0.25;
 
     const ticks = Math.floor(longestDistance / distanceTickMeters);
-    return Math.max(3.25, BASE_ZOOM - ticks * zoomTick);
+    return Math.max(3, BASE_ZOOM - ticks * zoomTick);
 }

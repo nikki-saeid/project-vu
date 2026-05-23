@@ -25,12 +25,14 @@ export default function BusinessProfile({ business, projects, isPublic, reviews 
                     <BusinessIdentity business={business} />
                     <Separator />
                     <ProjectsTabs projects={projects} isPublic={isPublic} slug={business.slug ?? ''} />
-                    <Separator />
                     {reviews && reviews.length > 0 && (
-                        <div className="flex flex-col gap-2">
-                            <P className="font-semibold">Reviews</P>
-                            <ReviewList reviews={reviews} />
-                        </div>
+                        <>
+                            <Separator />
+                            <div className="flex flex-col gap-2">
+                                <P className="font-semibold">Reviews</P>
+                                <ReviewList reviews={reviews} />
+                            </div>
+                        </>
                     )}
                 </div>
             </section>

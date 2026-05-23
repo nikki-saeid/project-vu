@@ -12,6 +12,15 @@ export const reviewRepository = {
         return data as Review;
     },
 
+    getByEmailAndBusinessId: async function (email: string, businessId: string) {
+        const supabase = await createClient();
+        const { data, error } = await supabase.from('reviews').select().eq('email', email).eq('business_id', businessId).maybeSingle();
+
+        if (error) throw error;
+
+        return data as Review;
+    },
+
     getManyByBusinessId: async function (businessId: string) {
         const supabase = await createClient();
         const { data, error } = await supabase

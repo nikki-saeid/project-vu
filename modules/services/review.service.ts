@@ -7,10 +7,21 @@ import { emailService } from './email.service';
 export const reviewService = {
     // get business by user id or create if not exists
     request: async function (userId: string, data: Partial<Review>) {
+
+        if (!data.email) {
+            throw { error: new Error('Email is required'), status: StatusCodes.BAD_REQUEST };
+        }
+
         // get the business
         const business = (await businessRepository.getByUserId(userId)) as Business;
         if (!business) {
             throw { error: new Error('Business not found'), status: StatusCodes.NOT_FOUND };
+        }
+
+        // check if review already exists
+        const existingReview = await reviewRepository.getByEmailAndBusinessId(data.email, business.id);
+        if (existingReview) {
+            throw { error: new Error('You have already requested a review to ' + data.email), status: StatusCodes.BAD_REQUEST };
         }
 
         // create review

@@ -24,6 +24,7 @@ export default function MapProvider({ mapContainerRef, initialViewState, childre
             center: [initialViewState.longitude, initialViewState.latitude],
             zoom: initialViewState.zoom,
             attributionControl: false,
+            projection: 'mercator',
         });
 
         map.current.on('load', () => {

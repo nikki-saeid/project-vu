@@ -38,7 +38,7 @@ export default function BusinessProfileSkeleton() {
                         <Skeleton className="h-9 w-28" />
                         <Skeleton className="h-9 w-28" />
                     </div>
-                    <Skeleton className="aspect-video w-full h-150 min-h-[200px]" />
+                    <Skeleton className="aspect-video w-full h-150 min-h-50" />
                 </div>
             </div>
         </section>

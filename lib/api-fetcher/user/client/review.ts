@@ -17,3 +17,10 @@ export async function updatepublicReviewById(body: string, id: string) {
     });
     return response;
 }
+
+export async function deleteReviewById(id: string) {
+    const response = await fetcher<void>(`${API_URL}/user/review/${id}`, {
+        method: 'DELETE',
+    });
+    return response;
+}

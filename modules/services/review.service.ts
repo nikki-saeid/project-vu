@@ -7,7 +7,6 @@ import { emailService } from './email.service';
 export const reviewService = {
     // get business by user id or create if not exists
     request: async function (userId: string, data: Partial<Review>) {
-
         if (!data.email) {
             throw { error: new Error('Email is required'), status: StatusCodes.BAD_REQUEST };
         }
@@ -67,5 +66,10 @@ export const reviewService = {
 
         // get the projects
         return await reviewRepository.getManyByBusinessId(business.id);
+    },
+
+    // delete project by id
+    deleteById: async function (id: string) {
+        return await reviewRepository.deleteById(id);
     },
 };

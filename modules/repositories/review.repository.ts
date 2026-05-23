@@ -50,4 +50,14 @@ export const reviewRepository = {
 
         return data as Review;
     },
+
+    // delete project by id
+    deleteById: async function (id: string) {
+        const supabase = await createClient();
+        const { data, error } = await supabase.from('reviews').delete().eq('id', id).select().maybeSingle();
+
+        if (error) throw error;
+
+        return data;
+    },
 };

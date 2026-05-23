@@ -74,4 +74,5 @@ export type ReviewRequestFormProps = FormProps;
 export type ReviewFormProps = FormProps;
 export type BusinessDeleteFormProps = FormProps;
 export type ProjectDeleteFormProps = FormProps;
+export type ReviewDeleteFormProps = FormProps;
 export type AdminDisableUserFormProps = FormProps & { activate: boolean };

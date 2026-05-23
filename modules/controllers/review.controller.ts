@@ -51,4 +51,16 @@ export const reviewController = {
         const projects = await reviewService.getManyByBusinessSlug(slug);
         return new SuccessResponse<Review[]>('Reviews fetched successfully', projects).send();
     }),
+
+    // delete
+    deleteById: tryCatchWrapperPrivate(async function ({ contextParams }: ControllerPropsPrivate<ParamsId>) {
+        // Get the project id
+        if (!contextParams) throw new Error('Id is required');
+        const params = await contextParams.params;
+        const { id } = params;
+
+        const review = await reviewService.deleteById(id);
+
+        return new SuccessResponse<Review>('Review deleted successfully', review).send();
+    }),
 };

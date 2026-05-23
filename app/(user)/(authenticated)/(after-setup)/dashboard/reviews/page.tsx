@@ -34,7 +34,7 @@ export default function Page() {
 
                 {reviewsDone.length > 0 && (
                     <DashboardCard title="Reviews list" description="This list will be shown in your live page.">
-                        <ReviewList reviews={reviewsDone} />
+                        <ReviewList reviews={reviewsDone} isPublic={false} />
                     </DashboardCard>
                 )}
             </div>

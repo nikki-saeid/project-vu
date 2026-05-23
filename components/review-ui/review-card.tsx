@@ -1,14 +1,18 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { IconStar, IconStarFilled } from '@tabler/icons-react';
-import { AvatarFallback, Avatar } from '../ui/avatar';
-import { Review } from '@/lib/types/db';
-import P from '../typography/P';
-import { Separator } from '../ui/separator';
 import { timeAgo } from '@/lib/helpers/other';
+import { Review } from '@/lib/types/db';
+import { IconStar, IconStarFilled } from '@tabler/icons-react';
+import React from 'react';
+import P from '../typography/P';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+import { Separator } from '../ui/separator';
 
-export default function ReviewCard({ name, comment, rate, summary, created_at }: Partial<Review>) {
+type ReviewCardProps = Partial<Review> & { action?: React.ReactNode };
+
+export default function ReviewCard({ name, comment, rate, summary, created_at, action }: ReviewCardProps) {
     return (
-        <Card className="py-2.5">
+        <Card className="py-2.5 relative">
+            {action && <div className="absolute top-2 right-2 z-10">{action}</div>}
             <CardContent className="px-2.5 flex gap-3">
                 <Avatar>
                     <AvatarFallback className="uppercase">{name?.slice(0, 2)}</AvatarFallback>

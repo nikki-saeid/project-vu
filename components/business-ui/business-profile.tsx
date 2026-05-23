@@ -30,7 +30,7 @@ export default function BusinessProfile({ business, projects, isPublic, reviews 
                             <Separator />
                             <div className="flex flex-col gap-2">
                                 <P className="font-semibold">Reviews</P>
-                                <ReviewList reviews={reviews} />
+                                <ReviewList reviews={reviews} isPublic={isPublic} />
                             </div>
                         </>
                     )}

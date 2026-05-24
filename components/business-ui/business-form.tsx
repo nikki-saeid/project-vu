@@ -53,6 +53,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
             instagram_url: business?.instagram_url ?? undefined,
             facebook_url: business?.facebook_url ?? undefined,
             x_url: business?.x_url ?? undefined,
+            google_map_url: business?.google_map_url ?? undefined,
         },
     });
 
@@ -355,6 +356,34 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                     )}
                 />
             </div>
+            <Separator />
+            <div className="flex flex-col gap-2">
+                <H4 className="text-foreground">Google map rating (optional)</H4>
+                <P className="text-muted-foreground">Add your Google map url to help customers find you and rate your business.</P>
+            </div>
+            <Controller
+                name="google_map_url"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="form-website">Website</FieldLabel>
+                        <InputGroup>
+                            <InputGroupAddon>
+                                <IconWorld />
+                            </InputGroupAddon>
+                            <InputGroupInput
+                                {...(field as { value: string })}
+                                id="form-website"
+                                type="text"
+                                aria-invalid={fieldState.invalid}
+                                placeholder="https://www.google.com/maps/place/id"
+                                autoComplete="url"
+                            />
+                        </InputGroup>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                )}
+            />
         </form>
     );
 }

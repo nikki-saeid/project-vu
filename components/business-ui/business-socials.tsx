@@ -1,16 +1,23 @@
-import { IconBrandFacebook, IconBrandInstagram, IconBrandX, IconWorld } from '@tabler/icons-react';
+import { IconBrandFacebook, IconBrandGoogleMaps, IconBrandInstagram, IconBrandX, IconWorld } from '@tabler/icons-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { Business } from '@/lib/types/db';
 
-type BusinessSocialsProps = Pick<Business, 'website_url' | 'facebook_url' | 'instagram_url' | 'x_url'>;
+type BusinessSocialsProps = Pick<Business, 'website_url' | 'facebook_url' | 'instagram_url' | 'x_url' | 'google_map_url'>;
 
-export default function BusinessSocials({ website_url, facebook_url, instagram_url, x_url }: BusinessSocialsProps) {
-    const socials = Boolean(x_url) || Boolean(facebook_url) || Boolean(instagram_url) || Boolean(website_url);
+export default function BusinessSocials({ website_url, facebook_url, instagram_url, x_url, google_map_url }: BusinessSocialsProps) {
+    const socials = Boolean(x_url) || Boolean(facebook_url) || Boolean(instagram_url) || Boolean(website_url) || Boolean(google_map_url);
 
     if (!socials) return null;
     return (
         <div className="flex gap-1">
+            {google_map_url && (
+                <Link href={google_map_url} target="_blank">
+                    <Button variant="outline" className="rounded-full" size="icon-xs">
+                        <IconBrandGoogleMaps />
+                    </Button>
+                </Link>
+            )}
             {website_url && (
                 <Link href={website_url} target="_blank">
                     <Button variant="outline" className="rounded-full" size="icon-xs">

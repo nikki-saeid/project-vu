@@ -16,6 +16,7 @@ export type Database = {
           email: string
           facebook_url: string | null
           favicon_url: string | null
+          google_map_url: string | null
           id: string
           instagram_url: string | null
           is_onboarded: boolean
@@ -37,6 +38,7 @@ export type Database = {
           email: string
           facebook_url?: string | null
           favicon_url?: string | null
+          google_map_url?: string | null
           id?: string
           instagram_url?: string | null
           is_onboarded?: boolean
@@ -58,6 +60,7 @@ export type Database = {
           email?: string
           facebook_url?: string | null
           favicon_url?: string | null
+          google_map_url?: string | null
           id?: string
           instagram_url?: string | null
           is_onboarded?: boolean

@@ -18,6 +18,7 @@ export default function BusinessIdentity({ business }: BusinessIdentityProps) {
                 facebook_url={business.facebook_url}
                 instagram_url={business.instagram_url}
                 x_url={business.x_url}
+                google_map_url={business.google_map_url}
             />
             <BusinessContact phone={business.phone} email={business.email} />
         </div>

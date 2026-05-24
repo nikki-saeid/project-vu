@@ -1,12 +1,14 @@
+import Stripe from 'stripe';
 import { adminRepository } from '../repositories/admin.repository';
 import { businessService } from './business.service';
 import { projectService } from './project.service';
 import { storageService } from './storage.service';
 import { stripeService } from './stripe.service';
 import { subscriptionService } from './subscription.service';
+import { PriceCreateInput } from '@/lib/validators/user/admin';
+import { randomUUID } from 'crypto';
 
 export const adminService = {
-    // get user
     user: {
         deleteById: async function (userId: string) {
             // get business to remove logo
@@ -33,28 +35,69 @@ export const adminService = {
             return await adminRepository.user.banById(userId);
         },
     },
-
     subscription: {
         getAllActive: async function () {
             return await subscriptionService.admin.getAllActive();
         },
     },
-    // business: {
-    //     updateByUserId: async function (userId: string, data: Partial<Business>) {
-    //         return await adminRepository.business.updateByUserId(userId, data);
-    //     },
-
-    //     updateById: async function (id: string, data: Partial<Business>) {
-    //         return await adminRepository.business.updateById(id, data);
-    //     },
-    // },
-
     analytics: {
         getNetRevenueByMonth: async function (month: number) {
             const balanceTransactions = await stripeService.balanceTransaction.getAllByMonth(month);
 
             const netRevenue = balanceTransactions.reduce((accumulator, currentValue) => accumulator + currentValue.net, 0);
             return Math.ceil(netRevenue / balanceTransactions.length);
+        },
+    },
+    pricing: {
+        create: async function (data: Omit<PriceCreateInput, 'benefits'> & { benefits: string }) {
+            // create product
+            const product = await stripeService.product.create({
+                name: data.name,
+                description: data.description,
+                metadata: {
+                    benefits: data.benefits,
+                    saving: data.saving ? data.saving : null,
+                },
+            });
+
+            return await stripeService.price.create({
+                currency: 'aud',
+                active: data.active,
+                unit_amount: data.unit_amount,
+                nickname: data.name,
+                recurring: {
+                    interval: data.interval,
+                    interval_count: data.interval_count,
+                },
+                metadata: {
+                    id: randomUUID(),
+                },
+                product: product.id,
+            });
+        },
+        updateById: async function (
+            id: string,
+            data: Pick<PriceCreateInput, 'active' | 'name' | 'saving' | 'description'> & { benefits: string; productId: string },
+        ) {
+            await stripeService.product.updateById(data.productId, {
+                name: data.name,
+                description: data.description,
+                metadata: {
+                    benefits: data.benefits,
+                    saving: data.saving ? data.saving : null,
+                },
+            });
+
+            return await stripeService.price.updateById(id, {
+                nickname: data.name,
+                active: data.active,
+                metadata: {
+                    id: randomUUID(),
+                },
+            });
+        },
+        getAll: async function () {
+            return await stripeService.price.getAll();
         },
     },
 };

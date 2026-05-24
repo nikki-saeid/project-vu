@@ -40,29 +40,4 @@ export const adminRepository = {
             return data.user;
         },
     },
-
-    // business: {
-    //     updateById: async function (id: string, data: Partial<Business>) {
-    //         const adminClient = await createServiceRoleClient();
-    //         const { error, data: updatedData } = await adminClient.from('businesses').update(data).eq('id', id).select().maybeSingle();
-
-    //         if (error) throw error;
-
-    //         return updatedData;
-    //     },
-
-    //     updateByUserId: async function (userId: string, data: Partial<Business>) {
-    //         const adminClient = await createServiceRoleClient();
-    //         const { error, data: updatedData } = await adminClient
-    //             .from('businesses')
-    //             .update(data)
-    //             .eq('user_id', userId)
-    //             .select()
-    //             .maybeSingle();
-
-    //         if (error) throw error;
-
-    //         return updatedData;
-    //     },
-    // },
 };

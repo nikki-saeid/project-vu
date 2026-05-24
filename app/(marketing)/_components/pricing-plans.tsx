@@ -1,11 +1,18 @@
-import { PRICING_PLANS } from '@/lib/constants/pricing-plans';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import SectionHeader from './section-header';
-import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
-import Container from '@/components/ui/container';
+'use client';
+
 import PricingPlanCard from '@/components/subscription-ui/pricing-plan-card';
+import Container from '@/components/ui/container';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { SECTIONS_IDS } from '@/lib/constants/navbar-url';
+import { useUser } from '@/lib/contexts/user-context';
+import SectionHeader from './section-header';
 
 export default function PricingPlans() {
+    const { pricings } = useUser();
+    if (!pricings || pricings.length === 0) return null;
+
+    const sortedPricings = pricings.sort((a, b) => (b.unit_amount ?? 0) - (a.unit_amount ?? 0));
+
     return (
         <Container>
             <div className=" p-10 rounded-lg border flex flex-col md:gap-6 gap-4" id={SECTIONS_IDS.pricing}>
@@ -15,22 +22,22 @@ export default function PricingPlans() {
                 />
                 {/* DESKTOP */}
                 <div className="gap-4 lg:flex hidden">
-                    {PRICING_PLANS.map((plan) => (
+                    {sortedPricings.map((plan) => (
                         <PricingPlanCard key={plan.id} {...plan} />
                     ))}
                 </div>
 
                 {/* MOBILE */}
                 <div className="lg:hidden block max-w-sm mx-auto">
-                    <Tabs defaultValue={PRICING_PLANS[0].id}>
+                    <Tabs defaultValue={sortedPricings[0].id}>
                         <TabsList className="mb-3 w-full text-secondary-foreground bg-secondary/30">
-                            {PRICING_PLANS.map((plan) => (
+                            {sortedPricings.map((plan) => (
                                 <TabsTrigger key={plan.id} value={plan.id}>
-                                    {plan.name}
+                                    {plan.nickname}
                                 </TabsTrigger>
                             ))}
                         </TabsList>
-                        {PRICING_PLANS.map((plan) => (
+                        {sortedPricings.map((plan) => (
                             <TabsContent forceMount key={plan.id} value={plan.id} className="data-[state=inactive]:hidden">
                                 <PricingPlanCard key={plan.id} {...plan} />
                             </TabsContent>

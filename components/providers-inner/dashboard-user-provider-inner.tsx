@@ -1,9 +1,12 @@
 import { getUserBusiness } from '@/lib/api-fetcher/user/server/business';
+import { getUserPriceById } from '@/lib/api-fetcher/user/server/pricing';
 import { getUserProjects } from '@/lib/api-fetcher/user/server/projects';
 import { getUserReviews } from '@/lib/api-fetcher/user/server/review';
 import { getUserSubscription } from '@/lib/api-fetcher/user/server/subscription';
 import { DashboardProvider } from '@/lib/providers/dashboard-provider';
+import { PriceResponse, ProjectWithLatLng } from '@/lib/types/api';
 import type { ChildrenProp } from '@/lib/types/common';
+import { Review, Subscription } from '@/lib/types/db';
 import { redirect } from 'next/navigation';
 
 export default async function DashboardUserProviderInner({ children }: ChildrenProp) {
@@ -13,9 +16,21 @@ export default async function DashboardUserProviderInner({ children }: ChildrenP
         redirect('/onboarding/business-profile');
     }
 
-    const projects = await getUserProjects();
-    const subscription = await getUserSubscription();
-    const reviews = await getUserReviews();
+    let projects: ProjectWithLatLng[] | null = null;
+    let subscription: Subscription | null = null;
+    let reviews: Review[] | null = null;
+    let price: PriceResponse | null = null;
+
+    try {
+        projects = await getUserProjects();
+        subscription = await getUserSubscription();
+        reviews = await getUserReviews();
+        if (subscription && subscription.price_id) {
+            price = await getUserPriceById(subscription.price_id);
+        }
+    } catch (error) {
+        console.error(error);
+    }
 
     return (
         <DashboardProvider
@@ -23,6 +38,7 @@ export default async function DashboardUserProviderInner({ children }: ChildrenP
             initialReviews={reviews}
             initialProjects={projects}
             initialSubscription={subscription}
+            initialPrice={price}
         >
             {children}
         </DashboardProvider>

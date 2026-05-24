@@ -1,4 +1,3 @@
-import { PRICING_PLANS_IDS } from '@/lib/constants/pricing-plans';
 import { unixToDBString } from '@/lib/utils/unixToString';
 import { StatusCodes } from 'http-status-codes';
 import Stripe from 'stripe';
@@ -209,7 +208,6 @@ export const stripeService = {
             return await stripeRepository.subscription.resumeById(id);
         },
     },
-
     checkoutSession: {
         getByPlan: async function (plan: string, { userId, email }: UserInfo) {
             // get business
@@ -218,16 +216,25 @@ export const stripeService = {
                 throw { error: new Error('Business is required'), status: StatusCodes.BAD_REQUEST };
             }
 
-            switch (plan) {
-                case PRICING_PLANS_IDS.monthly:
-                    return await stripeRepository.checkoutSession.getMonthly(email, { plan, businessId: business.id });
-                case PRICING_PLANS_IDS.six_month:
-                    return await stripeRepository.checkoutSession.get6Monthly(email, { plan, businessId: business.id });
-                case PRICING_PLANS_IDS.annual:
-                    return await stripeRepository.checkoutSession.getYearly(email, { plan, businessId: business.id });
-                default:
-                    throw new Error('Invalid plan');
+            const prices = await stripeRepository.price.getAll();
+            const price = prices.find((price) => price?.metadata?.id === plan);
+
+            if (!price) {
+                throw { error: new Error('Invalid plan'), status: StatusCodes.BAD_REQUEST };
             }
+
+            // get quantity
+            const quantity = (price.recurring?.interval_count ?? 1) * (price.recurring?.interval === 'year' ? 12 : 1);
+
+            return await stripeRepository.checkoutSession.get(
+                price.id,
+                email,
+                {
+                    plan: price.nickname ?? '',
+                    businessId: business.id,
+                },
+                quantity,
+            );
         },
         updateByStripeCustomerId: async function (stripeCustomerId: string, userId: string) {
             const business = await businessService.getByUserId(userId);
@@ -238,34 +245,73 @@ export const stripeService = {
             return await stripeRepository.checkoutSession.updateByStripeCustomerId(stripeCustomerId, { businessId: business.id });
         },
     },
-
     invoice: {
         getManyByStripeCustomerId: async function (stripeCustomerId: string) {
             return await stripeRepository.invoice.getManyByStripeCustomerId(stripeCustomerId, 5);
         },
     },
-
     balanceTransaction: {
         getAllByMonth: async function (month: number) {
             return await stripeRepository.balanceTransaction.getAllByMonth(month);
         },
     },
-
     setupIntent: {
         getById: async function (id: string) {
             return await stripeRepository.setupIntent.getById(id);
         },
     },
-
     customer: {
         updateById: async function (id: string, data: Stripe.CustomerUpdateParams) {
             return await stripeRepository.customer.updateById(id, data);
         },
     },
-
     paymentMethod: {
         getById: async function (id: string) {
             return await stripeRepository.paymentMethod.getById(id);
+        },
+    },
+    price: {
+        getById: async function (id: string) {
+            return await stripeRepository.price.getById(id);
+        },
+        getAll: async function () {
+            return await stripeRepository.price.getAll();
+        },
+        updateById: async function (id: string, data: Stripe.PriceUpdateParams) {
+            return await stripeRepository.price.updateById(id, data);
+        },
+
+        create: async function (data: Stripe.PriceCreateParams) {
+            return await stripeRepository.price.create(data);
+        },
+
+        priceToResponse: function (price: Stripe.Price) {
+            return {
+                id: price.metadata?.id,
+                nickname: price.nickname,
+                unit_amount: price.unit_amount,
+                description: (price.product as Stripe.Product)?.description,
+                active: price.active,
+                currency: price.currency,
+                recurring: {
+                    interval: price.recurring?.interval,
+                    interval_count: price.recurring?.interval_count,
+                },
+                product: {
+                    name: (price.product as Stripe.Product)?.name,
+                    metadata: (price.product as Stripe.Product)?.metadata,
+                    description: (price.product as Stripe.Product)?.description,
+                },
+            };
+        },
+    },
+
+    product: {
+        create: async function (data: Stripe.ProductCreateParams) {
+            return await stripeRepository.product.create(data);
+        },
+        updateById: async function (id: string, data: Stripe.ProductUpdateParams) {
+            return await stripeRepository.product.updateById(id, data);
         },
     },
 };

@@ -4,6 +4,7 @@ import type { ProjectWithLatLng } from './api';
 import type { ChildrenProp, ClassNameProp } from './common';
 import type { Business } from './db';
 import type { LocationFeature } from './map';
+import Stripe from 'stripe';
 
 export type PasswordInputProps = React.ComponentProps<'input'>;
 export type ProfileAvatarProps = { badge?: ReactNode } & Partial<Pick<Business, 'logo_url' | 'name'>> & ClassNameProp;
@@ -69,6 +70,7 @@ export type FormProps = {
 };
 
 export type ProjectFormProps = { project?: ProjectWithLatLng } & ClassNameProp & FormProps;
+export type PriceFormProps = { price?: Stripe.Price } & FormProps;
 export type BusinessFormProps = FormProps;
 export type ReviewRequestFormProps = FormProps;
 export type ReviewFormProps = FormProps;

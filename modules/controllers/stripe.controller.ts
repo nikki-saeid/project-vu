@@ -1,6 +1,13 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapperPrivate, tryCatchWrapperPublic } from '@/lib/helpers/global-try-catch';
-import { ControllerPropsPrivate, ControllerPropsPublic, ParamsId, ParamsPlan, ParamsStripeCustomerId } from '@/lib/types/api';
+import {
+    ControllerPropsPrivate,
+    ControllerPropsPublic,
+    ParamsId,
+    ParamsPlan,
+    ParamsStripeCustomerId,
+    PriceResponse,
+} from '@/lib/types/api';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 import { stripeService } from '../services/stripe.service';
@@ -80,6 +87,30 @@ export const stripeController = {
             await stripeService.subscription.resumeById(id);
 
             return new SuccessResponse('Subscription resumed successfully', null).send();
+        }),
+    },
+
+    price: {
+        getAll: tryCatchWrapperPublic(async function () {
+            const pricing = await stripeService.price.getAll();
+
+            return new SuccessResponse<PriceResponse[]>(
+                'Pricing fetched successfully',
+                pricing.filter((price) => price.active).map((price) => stripeService.price.priceToResponse(price)),
+            ).send();
+        }),
+
+        getById: tryCatchWrapperPrivate(async function ({ contextParams }: ControllerPropsPrivate<ParamsId>) {
+            // Get the project id
+            if (!contextParams) throw new Error('Id is required');
+            const params = await contextParams.params;
+            const { id } = params;
+
+            console.log('idddddd', id);
+
+            const price = await stripeService.price.getById(id);
+
+            return new SuccessResponse<PriceResponse>('Price fetched successfully', stripeService.price.priceToResponse(price)).send();
         }),
     },
 };

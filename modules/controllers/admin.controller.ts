@@ -1,9 +1,10 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
 import { tryCatchWrapperPrivate } from '@/lib/helpers/global-try-catch';
 import { ControllerPropsPrivate, ParamsId, UsersWithPagination } from '@/lib/types/api';
-import { adminService } from '../services/admin.service';
 import { Subscription } from '@/lib/types/db';
 import { User } from '@supabase/supabase-js';
+import { adminService } from '../services/admin.service';
+import Stripe from 'stripe';
 
 export const adminController = {
     // update user
@@ -54,6 +55,38 @@ export const adminController = {
         getAllActive: tryCatchWrapperPrivate(async () => {
             const subscriptions = await adminService.subscription.getAllActive();
             return new SuccessResponse<Subscription[]>('Active subscriptions fetched successfully', subscriptions).send();
+        }),
+    },
+
+    pricing: {
+        create: tryCatchWrapperPrivate(async function ({ req }: ControllerPropsPrivate) {
+            // Get the body
+            const body = await req.json();
+
+            // create pricing
+            const pricing = await adminService.pricing.create(body);
+
+            return new SuccessResponse<Stripe.Price>('Pricing created successfully', pricing).send();
+        }),
+
+        updateById: tryCatchWrapperPrivate(async function ({ req, contextParams }: ControllerPropsPrivate<ParamsId>) {
+            // Get the project id
+            if (!contextParams) throw new Error('Id is required');
+            const params = await contextParams.params;
+            const { id } = params;
+
+            // Get the body
+            const body = await req.json();
+
+            // update the project
+            const price = await adminService.pricing.updateById(id, body);
+
+            return new SuccessResponse<Stripe.Price>('Price updated successfully', price).send();
+        }),
+        getAll: tryCatchWrapperPrivate(async function () {
+            const pricing = await adminService.pricing.getAll();
+
+            return new SuccessResponse<Stripe.Price[]>('Pricing fetched successfully', pricing).send();
         }),
     },
 };

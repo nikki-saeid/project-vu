@@ -3,7 +3,7 @@
 import { UserContext, UserContextValue } from '@/lib/contexts/user-context';
 import { User } from '@supabase/supabase-js';
 import React, { useEffect, useMemo, useState } from 'react';
-import { ProjectWithLatLng } from '../types/api';
+import { ProjectWithLatLng, PriceResponse } from '../types/api';
 import { Business } from '../types/db';
 
 type UserProviderProps = {
@@ -11,12 +11,14 @@ type UserProviderProps = {
     initialUser: User | null;
     initialDemoProjects: ProjectWithLatLng[] | null;
     initialDemoBusiness: Business | null;
+    initPricings: PriceResponse[] | null;
 };
 
-export function UserProvider({ children, initialUser, initialDemoProjects, initialDemoBusiness }: UserProviderProps) {
+export function UserProvider({ children, initialUser, initialDemoProjects, initialDemoBusiness, initPricings }: UserProviderProps) {
     const [user, setUser] = useState<User | null>(initialUser);
     const [demoProjects, setDemoProjects] = useState<ProjectWithLatLng[] | null>(initialDemoProjects);
     const [demoBusiness, setDemoBusiness] = useState<Business | null>(initialDemoBusiness);
+    const [pricings, setPricings] = useState<PriceResponse[] | null>(initPricings);
 
     useEffect(() => {
         setDemoProjects(demoProjects);
@@ -38,8 +40,10 @@ export function UserProvider({ children, initialUser, initialDemoProjects, initi
             setDemoProjects,
             demoBusiness,
             setDemoBusiness,
+            pricings,
+            setPricings,
         }),
-        [user, demoProjects, demoBusiness],
+        [user, demoProjects, demoBusiness, pricings],
     );
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

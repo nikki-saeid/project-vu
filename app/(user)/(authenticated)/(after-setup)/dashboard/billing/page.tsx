@@ -5,26 +5,49 @@ import DataCard from '@/components/dashboard-ui/data-card';
 import IconCard from '@/components/dashboard-ui/icon-card';
 import { Button } from '@/components/ui/button';
 import { DATE_FORMATS } from '@/lib/constants/date-formats';
-import { PRICING_PLANS } from '@/lib/constants/pricing-plans';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { mapPaymentMethodTypeToLogo } from '@/lib/helpers/other';
 import { IconCreditCard, IconCurrencyDollarAustralian, IconRefresh, IconSparkles } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { PaymentIcon } from 'react-svg-credit-card-payment-icons';
+import { toast } from 'sonner';
+import Stripe from 'stripe';
 import InvoiceHistory from './_components/invoice-history';
 import SubscriptionMoreMenu from './_components/subscription-more-menu';
-import Stripe from 'stripe';
 
 export default function Billing() {
-    const { subscription } = useDashboard();
-    const plan = PRICING_PLANS.find((plan) => plan.id === subscription?.plan);
+    const { subscription, price } = useDashboard();
     const invoiceEndDate = subscription?.current_period_end
         ? format(new Date(subscription.current_period_end), DATE_FORMATS.dateWithTime)
         : '-';
     const id = subscription?.stripe_customer_id;
     const type = subscription?.payment_method_type as Stripe.PaymentMethod.Type;
     const brand = subscription?.card_brand;
+
+    // -----------
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const searchParams = useSearchParams();
+    const cardUpdated = searchParams.get('card_updated') === 'success';
+
+    useEffect(() => {
+        if (cardUpdated) {
+            toast.dismiss();
+            toast.success('Payment method updated successfully!', {
+                duration: 3000,
+                onDismiss: () => {
+                    router.replace(pathname);
+                },
+                onAutoClose: () => {
+                    router.replace(pathname);
+                },
+            });
+        }
+    }, [pathname, cardUpdated, router]);
 
     return (
         <>
@@ -39,14 +62,14 @@ export default function Billing() {
                             Icon: IconSparkles,
                         }}
                         label="Plan"
-                        title={plan?.name ?? ''}
+                        title={price?.nickname ?? ''}
                     />
                     <IconCard
                         StyledIconProps={{
                             Icon: IconCurrencyDollarAustralian,
                         }}
                         label="Fees"
-                        title={`${plan?.priceLabel}/month`}
+                        title={`${(price?.unit_amount ?? 0) / 100}/month`}
                     />
                     <IconCard
                         StyledIconProps={{

@@ -1,4 +1,4 @@
-import { IconDashboard, IconUsersGroup } from '@tabler/icons-react';
+import { IconCurrencyDollar, IconDashboard, IconUsersGroup } from '@tabler/icons-react';
 
 export const ADMIN_DASHBOARD_SIDEBAR_NAVIGATION = {
     main: [
@@ -11,6 +11,11 @@ export const ADMIN_DASHBOARD_SIDEBAR_NAVIGATION = {
             title: 'User management',
             url: '/admin/user-management',
             Icon: IconUsersGroup,
+        },
+        {
+            title: 'Pricing',
+            url: '/admin/pricing',
+            Icon: IconCurrencyDollar,
         },
     ],
 };

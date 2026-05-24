@@ -13,6 +13,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 import UsersTable from './_components/users-table';
 import { Badge } from '@/components/ui/badge';
+import DashboardSubNavbar from '@/components/dashboard-ui/dashboard-sub-navbar';
 
 export default function UserManagement() {
     const { usersWithPagination, setUsersWithPagination } = useAdmin();
@@ -39,49 +40,54 @@ export default function UserManagement() {
     }, [data, setUsersWithPagination]);
 
     return (
-        <section>
-            <P className="text-muted-foreground mb-4 md:mb-6">Manage all users, their details, and statuses below.</P>
+        <div>
+            <DashboardSubNavbar />
+            <div className="flex flex-col gap-4 md:gap-6 p-4 md:p-6">
+                <P className="text-muted-foreground">Manage all users, their details, and statuses below.</P>
 
-            <div className="flex items-center gap-1 flex-1 justify-between mb-2">
-                <Badge variant="outline">Total Users : {total}</Badge>
-                <div className="flex items-center gap-0.5">
-                    {page === 1 ? (
-                        <Button className="rounded-full" disabled variant="outline" size="icon-sm">
-                            <IconChevronLeft />
-                        </Button>
+                <div>
+                    <div className="flex items-center gap-1 flex-1 justify-between mb-2">
+                        <Badge variant="outline">Total Users : {total}</Badge>
+                        <div className="flex items-center gap-0.5">
+                            {page === 1 ? (
+                                <Button className="rounded-full" disabled variant="outline" size="icon-sm">
+                                    <IconChevronLeft />
+                                </Button>
+                            ) : (
+                                <Link href={`?page=${page - 1}`}>
+                                    <Button className="rounded-full" variant="outline" size="icon-sm">
+                                        <IconChevronLeft />
+                                    </Button>
+                                </Link>
+                            )}
+                            {page === lastPage ? (
+                                <Button className="rounded-full" disabled variant="outline" size="icon-sm">
+                                    <IconChevronRight />
+                                </Button>
+                            ) : (
+                                <Link href={`?page=${page + 1}`}>
+                                    <Button className="rounded-full" variant="outline" size="icon-sm">
+                                        <IconChevronRight />
+                                    </Button>
+                                </Link>
+                            )}
+                        </div>
+                    </div>
+                    {isPending ? (
+                        <TableSkeleton />
                     ) : (
-                        <Link href={`?page=${page - 1}`}>
-                            <Button className="rounded-full" variant="outline" size="icon-sm">
-                                <IconChevronLeft />
-                            </Button>
-                        </Link>
-                    )}
-                    {page === lastPage ? (
-                        <Button className="rounded-full" disabled variant="outline" size="icon-sm">
-                            <IconChevronRight />
-                        </Button>
-                    ) : (
-                        <Link href={`?page=${page + 1}`}>
-                            <Button className="rounded-full" variant="outline" size="icon-sm">
-                                <IconChevronRight />
-                            </Button>
-                        </Link>
+                        <Suspense fallback={<TableSkeleton />}>
+                            {usersWithPagination?.users.length === 0 ? (
+                                <EmptyData>
+                                    <P>No users found.</P>
+                                </EmptyData>
+                            ) : (
+                                <UsersTable />
+                            )}
+                        </Suspense>
                     )}
                 </div>
             </div>
-            {isPending ? (
-                <TableSkeleton />
-            ) : (
-                <Suspense fallback={<TableSkeleton />}>
-                    {usersWithPagination?.users.length === 0 ? (
-                        <EmptyData>
-                            <P>No users found.</P>
-                        </EmptyData>
-                    ) : (
-                        <UsersTable />
-                    )}
-                </Suspense>
-            )}
-        </section>
+        </div>
     );
 }

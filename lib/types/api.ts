@@ -1,6 +1,7 @@
 import { Pagination, User } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
 import type { Database } from './supabase';
+import Stripe from 'stripe';
 
 // Shared API response types
 export type ProjectWithLatLng = Database['public']['Tables']['projects']['Row'] & {
@@ -52,10 +53,28 @@ export type UsersWithPagination = { users: User[]; aud: string } & Pagination;
 export type CheckoutSessionMetadata = {
     businessId?: string;
     plan?: string;
+    price?: number;
 };
 
 export type CreateSignedUploadUrlResponse = {
     token: string;
     path: string;
     projectId: string;
+};
+
+export type PriceResponse = {
+    id: string;
+    nickname: string | null;
+    unit_amount: number | null;
+    active: boolean;
+    currency: string;
+    recurring: {
+        interval: Stripe.Price.Recurring.Interval | undefined;
+        interval_count: number | undefined;
+    };
+    product: {
+        name: string | undefined;
+        metadata: Stripe.Metadata | undefined;
+        description: string | null | undefined;
+    };
 };

@@ -40,23 +40,10 @@ export const stripeRepository = {
                 setup_intent_data: {
                     metadata,
                 },
-                return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/billing/subscription?card_updated=success`,
+                return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/billing?card_updated=success`,
             });
         },
-
-        getMonthly: async function (email: string, metadata: CheckoutSessionMetadata) {
-            return await this.get(process.env.STRIPE_MONTHLY_PRICE_ID!, email, metadata, 1);
-        },
-
-        get6Monthly: async function (email: string, metadata: CheckoutSessionMetadata) {
-            return await this.get(process.env.STRIPE_6_MONTHLY_PRICE_ID!, email, metadata, 6);
-        },
-
-        getYearly: async function (email: string, metadata: CheckoutSessionMetadata) {
-            return await this.get(process.env.STRIPE_YEARLY_PRICE_ID!, email, metadata, 12);
-        },
     },
-
     invoice: {
         getManyByStripeCustomerId: async function (stripeCustomerId: string, limit: number) {
             const stripe = await createsStripeServer();
@@ -118,18 +105,49 @@ export const stripeRepository = {
             return await stripe.paymentMethods.retrieve(id);
         },
     },
-
     setupIntent: {
         getById: async function (id: string) {
             const stripe = await createsStripeServer();
             return await stripe.setupIntents.retrieve(id);
         },
     },
-
     customer: {
         updateById: async function (id: string, data: Stripe.CustomerUpdateParams) {
             const stripe = await createsStripeServer();
             return await stripe.customers.update(id, data);
+        },
+    },
+    price: {
+        getById: async function (id: string) {
+            const stripe = await createsStripeServer();
+            return await stripe.prices.retrieve(id);
+        },
+        getAll: async function () {
+            const stripe = await createsStripeServer();
+            return (
+                await stripe.prices.list({
+                    expand: ['data.product'],
+                })
+            ).data;
+        },
+        updateById: async function (id: string, data: Stripe.PriceUpdateParams) {
+            const stripe = await createsStripeServer();
+            return await stripe.prices.update(id, data);
+        },
+        create: async function (data: Stripe.PriceCreateParams) {
+            const stripe = await createsStripeServer();
+            return await stripe.prices.create(data);
+        },
+    },
+
+    product: {
+        create: async function (data: Stripe.ProductCreateParams) {
+            const stripe = await createsStripeServer();
+            return await stripe.products.create(data);
+        },
+        updateById: async function (id: string, data: Stripe.ProductUpdateParams) {
+            const stripe = await createsStripeServer();
+            return await stripe.products.update(id, data);
         },
     },
 };

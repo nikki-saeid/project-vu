@@ -31,7 +31,7 @@ export default function UserLayout({ children }: ChildrenProp) {
                             .flat()
                             .map((item) => ({ ...item, Icon: undefined }))}
                     />
-                    <main className="@container/main flex flex-1 flex-col gap-6 md:p-6 p-4">{children}</main>
+                    <main className="@container/main flex flex-1 flex-col gap-6">{children}</main>
                 </SidebarInset>
             </SidebarProvider>
         </QueryClientProvider>

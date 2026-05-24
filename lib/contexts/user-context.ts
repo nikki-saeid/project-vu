@@ -2,7 +2,7 @@
 
 import type { User } from '@supabase/supabase-js';
 import { createContext, useContext } from 'react';
-import { ProjectWithLatLng } from '../types/api';
+import { ProjectWithLatLng, PriceResponse } from '../types/api';
 import { Business } from '../types/db';
 
 export type UserContextValue = {
@@ -12,6 +12,8 @@ export type UserContextValue = {
     setDemoProjects: (projects: ProjectWithLatLng[] | null) => void;
     demoBusiness: Business | null;
     setDemoBusiness: (business: Business | null) => void;
+    pricings: PriceResponse[] | null;
+    setPricings: (pricings: PriceResponse[] | null) => void;
 };
 
 export const UserContext = createContext<UserContextValue | null>(null);

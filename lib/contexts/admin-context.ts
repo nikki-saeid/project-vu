@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext } from 'react';
+import Stripe from 'stripe';
 import { UsersWithPagination } from '../types/api';
 import { Subscription } from '../types/db';
 
@@ -9,6 +10,8 @@ export type AdminContextValue = {
     usersWithPagination: UsersWithPagination | null;
     setActiveSubscriptions: (activeSubscriptions: Subscription[]) => void;
     setUsersWithPagination: (usersWithPagination: UsersWithPagination | null) => void;
+    pricings: Stripe.Price[] | null;
+    setPricings: (pricings: Stripe.Price[] | null) => void;
 };
 
 export const AdminContext = createContext<AdminContextValue | null>(null);

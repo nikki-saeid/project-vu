@@ -5,7 +5,7 @@ import Container from '@/components/ui/container';
 export default function AboutUs() {
     return (
         <Container>
-            <div className="relative bg-primary/5 p-10 rounded-lg">
+            <div className="relative bg-primary/5 p-13 rounded-lg">
                 <section className="flex flex-col items-center gap-4 z-1" id={SECTIONS_IDS.aboutUs}>
                     <SectionHeader
                         label="ABOUT US"
@@ -16,7 +16,7 @@ export default function AboutUs() {
                         }
                     />
 
-                    <P className="text text-sm text-center  leading-5.5 text-foreground">
+                    <P className="text-md text-center text-foreground">
                         Project Vu is a modern platform that helps professionals showcase their work in a clear, visual, and compelling way
                         . We turn your completed projects into a professional portfolio, combining photos, locations, and key details all in
                         one place. Project Vu can act as a mini website if you don&apos;t have one, or it can work alongside your existing

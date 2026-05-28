@@ -39,7 +39,9 @@ export default function ProjectCard({
                         <ImageCarousel className="sm:h-50 h-60" images_urls={images_urls ?? []} title={title} />
 
                         <CardHeader>
-                            <CardTitle>{title}</CardTitle>
+                            <CardTitle>
+                                {title && title.length > 50 ? title.substring(0, 50) + '...' : title}
+                            </CardTitle>
                             <CardDescription>
                                 {description && description.length > 50 ? description.substring(0, 50) + '...' : description}
                             </CardDescription>

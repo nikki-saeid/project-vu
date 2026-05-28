@@ -71,7 +71,7 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                 <ProjectsMap
                     slug={business?.slug ?? ''}
                     disablePopup
-                    className="h-100"
+                    className="h-110"
                     isPublic={false}
                     embed={false}
                     projects={[project]}

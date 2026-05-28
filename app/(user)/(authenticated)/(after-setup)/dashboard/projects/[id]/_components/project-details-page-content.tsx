@@ -14,13 +14,15 @@ export default function ProjectDetailsPageContent({ id }: ProjectDetailsPageCont
 
     const project = projects.find((p) => p.id === id);
 
-    if (!business || !project) return <EmptyData>Project not found</EmptyData>;
-
     return (
         <div>
             <DashboardSubNavbar />
             <div className="p-4 md:p-6">
-                <ProjectDetailsPage project={project} business={business} />
+                {!business || !project ? (
+                    <EmptyData>Project not found</EmptyData>
+                ) : (
+                    <ProjectDetailsPage project={project} business={business} />
+                )}
             </div>
         </div>
     );

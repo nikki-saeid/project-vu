@@ -31,13 +31,16 @@ export default function MaxProjectsDialogRedirect() {
             }
             action={
                 <Link href="/payment/subscription-plan">
-                    <Button type="submit">Upgrade Now</Button>
+                    <Button type="submit">Go Unlimited</Button>
                 </Link>
             }
             content={
                 <div className="flex flex-col gap-4">
-                    <P className="text-destructive">You have reached the maximum number of projects allowed on the free plan.</P>
-                    <P className="font-semibold">Upgrade your plan to add unlimited projects.</P>
+                    <P className="">
+                        Nice work! your portfolio is growing and youve reached your{' '}
+                        <span className="font-semibold">3 free project limit</span>.
+                    </P>
+                    <P className="font-semibold">Upgrade to unlimited projects and keep showcasing your work to future clients.</P>
                 </div>
             }
             title="Max projects reached"

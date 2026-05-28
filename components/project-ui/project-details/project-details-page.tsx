@@ -7,11 +7,12 @@ import H4 from '@/components/typography/H4';
 import { DATE_FORMATS } from '@/lib/constants/date-formats';
 import { ProjectWithLatLng } from '@/lib/types/api';
 import { Business } from '@/lib/types/db';
-import { IconCalendar, IconRulerMeasure } from '@tabler/icons-react';
+import { IconCalendar, IconCurrencyDollarAustralian, IconRulerMeasure } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import ProjectsMap from '../projects-map';
 import ProjectDetailsImages from './project-details-images';
 import { getProjectCostLabel } from '@/lib/helpers/other';
+import StyledIconTitleSameText from '@/components/styled-icon-title-same-text';
 
 type ProjectDetailsPageProps = {
     project: ProjectWithLatLng;
@@ -42,18 +43,22 @@ export default function ProjectDetailsPage({ project, business }: ProjectDetails
                 {(made_at || size || cost) && (
                     <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mb-6">
                         {made_at && (
-                            <StyledIconTitle
+                            <StyledIconTitleSameText
                                 StyledIconProps={{ Icon: IconCalendar }}
                                 label="Project Created On"
                                 title={format(new Date(made_at), DATE_FORMATS.year)}
                             />
                         )}
                         {size && (
-                            <StyledIconTitle StyledIconProps={{ Icon: IconRulerMeasure }} label="Project Size" title={size + ' sqm'} />
+                            <StyledIconTitleSameText
+                                StyledIconProps={{ Icon: IconRulerMeasure }}
+                                label="Project Size"
+                                title={size + ' sqm'}
+                            />
                         )}
                         {cost && (
-                            <StyledIconTitle
-                                StyledIconProps={{ Icon: IconRulerMeasure }}
+                            <StyledIconTitleSameText
+                                StyledIconProps={{ Icon: IconCurrencyDollarAustralian }}
                                 label="Project Cost"
                                 title={getProjectCostLabel(cost)}
                             />

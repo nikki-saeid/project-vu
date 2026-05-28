@@ -23,7 +23,7 @@ export default function PricingPlans() {
                 {/* DESKTOP */}
                 <div className="gap-4 lg:flex hidden">
                     {sortedPricings.map((plan) => (
-                        <PricingPlanCard noAction key={plan.id} {...plan} />
+                        <PricingPlanCard key={plan.id} {...plan} />
                     ))}
                 </div>
 
@@ -39,7 +39,7 @@ export default function PricingPlans() {
                         </TabsList>
                         {sortedPricings.map((plan) => (
                             <TabsContent forceMount key={plan.id} value={plan.id} className="data-[state=inactive]:hidden">
-                                <PricingPlanCard noAction key={plan.id} {...plan} />
+                                <PricingPlanCard key={plan.id} {...plan} />
                             </TabsContent>
                         ))}
                     </Tabs>

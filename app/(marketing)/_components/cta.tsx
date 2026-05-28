@@ -16,7 +16,7 @@ export default function Cta() {
 
                 <Button asChild size="lg" className="">
                     <Link href="/sign-up" className="inline-flex items-center gap-2">
-                        Create my map
+                        Get started for free
                         <IconArrowRight className="size-4" />
                     </Link>
                 </Button>

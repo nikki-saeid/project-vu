@@ -109,12 +109,12 @@ port = 54324
 [storage]
 enabled = true
 # The maximum file size allowed (e.g. "5MB", "500KB").
-file_size_limit = "7MiB"
+file_size_limit = "50MiB"
 
 # Uncomment to configure local storage buckets
 [storage.buckets.businesses]
 public = true
-file_size_limit = "7MiB"
+file_size_limit = "50MiB"
 allowed_mime_types = ["image/*", "video/*"]
 objects_path = "./businesses"
 

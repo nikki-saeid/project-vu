@@ -199,11 +199,11 @@ export const useVideoPlayer = ({
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.code === "Space" && playerRef.current) {
-            e.preventDefault();
-            handlePlayPause();
-            return;
-        }
+        // if (e.code === "Space" && playerRef.current) {
+        //     e.preventDefault();
+        //     handlePlayPause();
+        //     return;
+        // }
 
         if (e.code === "ArrowRight" && playerRef.current) {
             e.preventDefault();

@@ -177,25 +177,26 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
 };
 
 const DropzoneEmptyState = ({ className }: { className?: string }) => {
-    const { maxFiles, maxFileSize, inputRef } = useDropzoneContext();
+    const { maxFiles, maxFileSize, inputRef, isLogo } = useDropzoneContext();
 
     return (
         <div className={cn('flex flex-col items-center gap-y-2', className)}>
             <IconUpload size={20} className="text-muted-foreground" />
             <p className="text-sm">
-                Upload {!!maxFiles && maxFiles > 1 ? `up to ${maxFiles}` : ''} image
-                {!maxFiles || maxFiles > 1 ? 's' : ''}
+                Upload {!!maxFiles && maxFiles > 1 ? `up to ${maxFiles}` : ''}{' '}
+                {isLogo ? 'image' : maxFiles === 1 ? `image or video` : 'images and videos'}
             </p>
             <div className="flex flex-col items-center gap-2">
                 <div className="flex gap-1 items-center">
                     <p className="text-xs text-muted-foreground">Drag and drop or</p>
                     <UploadButton onClick={() => inputRef.current?.click()} variant="outline" size="xs">
                         <IconPlus />
-                        Select {maxFiles === 1 ? `image` : 'images'}
+                        Select
+                        {/* {isLogo ? 'image' : maxFiles === 1 ? `image or video` : 'images and videos'} */}
                     </UploadButton>
                 </div>
                 {maxFileSize !== Number.POSITIVE_INFINITY && (
-                    <p className="text-xs text-muted-foreground">Maximum image size: {formatBytes(maxFileSize, 2)}</p>
+                    <p className="text-xs text-muted-foreground">Maximum file size: {formatBytes(maxFileSize, 2)}</p>
                 )}
             </div>
         </div>

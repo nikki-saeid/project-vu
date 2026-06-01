@@ -17,15 +17,40 @@ import { toast } from 'sonner';
 import Stripe from 'stripe';
 import InvoiceHistory from './_components/invoice-history';
 import SubscriptionMoreMenu from './_components/subscription-more-menu';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 
 export default function Billing() {
-    const { subscription, price } = useDashboard();
+    const { subscription, price, business } = useDashboard();
     const invoiceEndDate = subscription?.current_period_end
         ? format(new Date(subscription.current_period_end), DATE_FORMATS.dateWithTime)
         : '-';
     const id = subscription?.stripe_customer_id;
     const type = subscription?.payment_method_type as Stripe.PaymentMethod.Type;
     const brand = subscription?.card_brand;
+
+    // ----------
+
+    const handleCardTitle = () => {
+        if (type === 'card') {
+            return `****${subscription?.card_last4 ?? ''}`;
+        } else if (type === 'link') {
+            return (business?.email ?? '').slice(0, 3) + '****' + (business?.email ?? '').split('@')[1];
+        }
+        return 'Unknown';
+    };
+    const cardTitle = handleCardTitle();
+
+    const handleCardLogo = () => {
+        if (type === 'link') {
+            return (
+                <Avatar className="size-12.5 rounded-none">
+                    <AvatarImage src="/payment-method/link.svg" />
+                </Avatar>
+            );
+        }
+        return <PaymentIcon type={mapPaymentMethodTypeToLogo(type, brand)} format="logo" width={50} />;
+    };
+    const cardLogo = handleCardLogo();
 
     // -----------
     const router = useRouter();
@@ -62,7 +87,7 @@ export default function Billing() {
                             Icon: IconSparkles,
                         }}
                         label="Plan"
-                        title={price?.nickname ?? ''}
+                        title={price?.nickname ?? '-'}
                     />
                     <IconCard
                         StyledIconProps={{
@@ -76,7 +101,7 @@ export default function Billing() {
                             Icon: IconRefresh,
                         }}
                         label="Your plan renews"
-                        title={invoiceEndDate}
+                        title={invoiceEndDate ?? '-'}
                     />
                 </div>
             </DashboardCard>
@@ -87,8 +112,8 @@ export default function Billing() {
                         <DataCard
                             label="Payment Method"
                             description="This is the payment method that will be charged for your subscription. You can update it anytime."
-                            title={`*****${subscription.card_last4}`}
-                            badge={<PaymentIcon type={mapPaymentMethodTypeToLogo(type, brand)} format="logo" width={50} />}
+                            title={cardTitle}
+                            badge={cardLogo}
                             StyledIconProps={{
                                 Icon: IconCreditCard,
                                 className: 'bg-primary/5',

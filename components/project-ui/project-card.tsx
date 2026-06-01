@@ -23,6 +23,7 @@ export default function ProjectCard({
     size,
     cost,
     className,
+    inMap,
 }: ProjectCardProps) {
     return (
         <div className={cn('relative h-full', className)}>
@@ -30,18 +31,32 @@ export default function ProjectCard({
                 {action && <div className="absolute top-2 right-2 z-10">{action}</div>}
                 {images_urls && images_urls.length > 1 && (
                     <>
-                        <CarouselPrevious size="icon-xs" className="absolute sm:top-25 top-30 left-2 -translate-y-1/2 z-10" />
-                        <CarouselNext size="icon-xs" className="absolute sm:top-25 top-30 right-2 -translate-y-1/2 z-10" />
+                        <CarouselPrevious
+                            size="icon-xs"
+                            className={cn(
+                                'absolute left-2 -translate-y-1/2 z-10',
+
+                                inMap ? '' : 'sm:top-25 top-30',
+                            )}
+                            style={{ top: inMap ? '80px' : '' }}
+                        />
+                        <CarouselNext
+                            size="icon-xs"
+                            className={cn(
+                                'absolute right-2 -translate-y-1/2 z-10',
+
+                                inMap ? '' : 'sm:top-25 top-30',
+                            )}
+                            style={{ top: inMap ? '80px' : '' }}
+                        />
                     </>
                 )}
                 <Link href={isPublic ? `/page/${slug}/projects/${id}` : `/dashboard/projects/${id}`}>
                     <Card className="pt-0 shadow-none overflow-hidden h-full">
-                        <ImageCarousel className="sm:h-50 h-60" images_urls={images_urls ?? []} title={title} />
+                        <ImageCarousel className={cn(inMap ? 'h-40' : 'sm:h-50 h-60')} images_urls={images_urls ?? []} title={title} />
 
                         <CardHeader>
-                            <CardTitle>
-                                {title && title.length > 50 ? title.substring(0, 50) + '...' : title}
-                            </CardTitle>
+                            <CardTitle>{title && title.length > 50 ? title.substring(0, 50) + '...' : title}</CardTitle>
                             <CardDescription>
                                 {description && description.length > 50 ? description.substring(0, 50) + '...' : description}
                             </CardDescription>

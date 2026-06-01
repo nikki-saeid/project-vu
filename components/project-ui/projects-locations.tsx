@@ -3,12 +3,12 @@
 import { projectToLocationFeature } from '@/lib/helpers/project-map';
 import { ProjectWithLatLng } from '@/lib/types/api';
 import type { LocationFeature } from '@/lib/types/features';
-import { cn } from '@/lib/utils/classes-merge';
 import { IconX } from '@tabler/icons-react';
 import { memo, useMemo, useState } from 'react';
 import { LocationMarker } from '../map-ui/location-marker';
 import { Button } from '../ui/button';
 import ProjectCard from './project-card';
+import { cn } from '@/lib/utils/classes-merge';
 
 type ProjectsLocationsProps = {
     projects: ProjectWithLatLng[];
@@ -47,20 +47,19 @@ function ProjectsLocations({ projects, disablePopup, isPublic, slug }: ProjectsL
                 //     slug={slug}
                 // />
 
-                <ProjectCard
-                    {...projects.find((p) => p.id === selectedLocation.properties.mapbox_id)}
-                    isPublic={isPublic}
-                    slug={slug}
-                    className={cn(
-                        'w-80 h-fit absolute left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom slide-out-to-bottom',
-                        'sm:scale-90 scale-80 bottom-0 translate-y-10 sm:translate-y-4 sm:bottom-0'
-                    )}
-                    action={
-                        <Button size="icon-xs" className="rounded-full shadow-xs" variant="outline" onClick={handlePopUpOff}>
-                            <IconX />
-                        </Button>
-                    }
-                />
+                <div className={cn('absolute z-50', 'left-1/2 -translate-x-1/2', 'bottom-2', 'w-80', 'animate-in slide-in-from-bottom')}>
+                    <ProjectCard
+                        {...projects.find((p) => p.id === selectedLocation.properties.mapbox_id)}
+                        isPublic={isPublic}
+                        slug={slug}
+                        inMap
+                        action={
+                            <Button size="icon-xs" className="rounded-full shadow-xs" variant="outline" onClick={handlePopUpOff}>
+                                <IconX />
+                            </Button>
+                        }
+                    />
+                </div>
             )}
         </>
     );

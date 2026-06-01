@@ -108,7 +108,7 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
                                         <img
                                             src={file.preview}
                                             alt={file.name}
-                                            className="border aspect-video w-full object-cover rounded-lg"
+                                            className="border aspect-video object-cover w-full h-full overflow-hidden rounded-lg "
                                         />
                                     )}
                                 </>

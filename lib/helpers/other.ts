@@ -108,7 +108,7 @@ export const getLiveUrl = (slug: string | null | undefined) => {
 };
 
 export const arrayToSequentialString = (array: string[]) => {
-    return array.slice(0, -1).join(', ') + ' and ' + array[array.length - 1];
+    return array.length === 1 ? array[0] : array.slice(0, -1).join(', ') + ' and ' + array[array.length - 1];
 };
 
 export function timeAgo(date: string | Date) {

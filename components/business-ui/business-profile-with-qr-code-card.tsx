@@ -19,12 +19,6 @@ export default function BusinessProfileWithQrCodeCard({ business }: BusinessProf
             <div className="flex flex-col gap-5 items-center p-5  from-transparent to-primary/15 bg-linear-0">
                 <div className="border rounded-lg p-5 bg-white">
                     <div className="relative">
-                        {business.favicon_url && (
-                            <div className="absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={business.favicon_url} width={35} alt="ProjectVu logo" loading="eager" />
-                            </div>
-                        )}
                         <Canvas
                             text={url}
                             options={{

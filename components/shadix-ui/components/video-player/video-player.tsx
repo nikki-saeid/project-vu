@@ -113,20 +113,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         <div className={cn('w-full h-full bg-primary/10 overflow-hidden rounded-lg', className)}>
             <div ref={containerRef} className="relative flex h-full w-full items-center justify-center">
                 <video
-                    ref={isThumbnail ? undefined : playerRef}
+                    ref={playerRef}
                     src={src as string}
                     className={cn('max-h-full max-w-full ', cover ? 'object-cover w-full' : 'object-contain')}
                     controls={false}
                     poster={displayThumb || undefined}
                     crossOrigin="anonymous"
-                    onTimeUpdate={isThumbnail ? undefined : handleProgress}
-                    onLoadedMetadata={isThumbnail ? undefined : handleProgress}
-                    onPlay={isThumbnail ? undefined : handlePlay}
-                    onPause={isThumbnail ? undefined : handlePause}
-                    onClick={isThumbnail ? undefined : handlePlayPause}
-                    onWaiting={isThumbnail ? undefined : handleWaiting}
-                    onCanPlay={isThumbnail ? undefined : handleCanPlay}
-                    onCanPlayThrough={isThumbnail ? undefined : handleCanPlay}
+                    onTimeUpdate={handleProgress}
+                    onLoadedMetadata={handleProgress}
+                    onPlay={handlePlay}
+                    onPause={handlePause}
+                    onClick={handlePlayPause}
+                    onWaiting={handleWaiting}
+                    onCanPlay={handleCanPlay}
+                    onCanPlayThrough={handleCanPlay}
                     muted={muted}
                 >
                     <track kind="captions" srcLang="en" label="English" />
@@ -135,36 +135,31 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                     ))}
                 </video>
 
-                {!isThumbnail ? (
-                    <>
-                        <VideoPlayerBuffer isBuffering={isBuffering} />
+                <VideoPlayerBuffer isBuffering={isBuffering} />
 
-                        <VideoPlayerIndicator indicator={indicator} playing={playing} />
+                <VideoPlayerIndicator indicator={indicator} playing={playing} />
 
-                        <VideoPlayerProgressBar
-                            progress={progress}
-                            loadedProgress={loadedProgress}
-                            playerRef={playerRef as React.RefObject<HTMLVideoElement>}
-                            duration={duration}
-                            onSeek={seek}
-                        />
-
-                        <VideoPlayerControls
-                            playing={playing}
-                            volume={volume}
-                            muted={muted}
-                            isFullscreen={isFullscreen}
-                            toggleFullscreen={toggleFullscreen}
-                            onPlayPause={handlePlayPause}
-                            onVolumeChange={handleVolumeChange}
-                            onMuteToggle={() => setMuted(!muted)}
-                        />
-                    </>
-                ) : (
-                    <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10">
-                        <StyledIcon Icon={Play} className="bg-white/80" />
-                    </div>
+                {!isThumbnail && (
+                    <VideoPlayerProgressBar
+                        progress={progress}
+                        loadedProgress={loadedProgress}
+                        playerRef={playerRef as React.RefObject<HTMLVideoElement>}
+                        duration={duration}
+                        onSeek={seek}
+                    />
                 )}
+
+                <VideoPlayerControls
+                    playing={playing}
+                    volume={volume}
+                    muted={muted}
+                    isFullscreen={isFullscreen}
+                    toggleFullscreen={toggleFullscreen}
+                    onPlayPause={handlePlayPause}
+                    onVolumeChange={handleVolumeChange}
+                    onMuteToggle={() => setMuted(!muted)}
+                    isThumbnail={isThumbnail}
+                />
             </div>
         </div>
     );

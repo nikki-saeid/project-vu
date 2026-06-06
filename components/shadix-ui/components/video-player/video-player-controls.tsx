@@ -28,6 +28,7 @@ interface VideoPlayerControlsProps {
     onPlayPause: () => void;
     onVolumeChange: (value: number[]) => void;
     onMuteToggle: () => void;
+    isThumbnail?: boolean;
 }
 
 export const VideoPlayerControls: React.FC<VideoPlayerControlsProps> = ({
@@ -39,15 +40,36 @@ export const VideoPlayerControls: React.FC<VideoPlayerControlsProps> = ({
     onPlayPause,
     onVolumeChange,
     onMuteToggle,
+    isThumbnail,
 }) => {
-    return (
+    return isThumbnail ? (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+            {!playing && (
+                <MotionButton
+                    variant="ghost"
+                    className="rounded-full bg-accent/60! hover:bg-accent/70! transition-all duration-300 ease-in"
+                    size={'icon-lg'}
+                    whileTap={{
+                        scale: 0.9,
+                    }}
+                    transition={{
+                        duration: 0.01,
+                        ease: 'linear',
+                    }}
+                    onClick={onPlayPause}
+                >
+                    <Play className="size-5" />
+                </MotionButton>
+            )}
+        </div>
+    ) : (
         <div className="absolute bottom-2 flex items-center gap-4 justify-between w-full px-3">
             {/* Left Controls */}
             <div className="flex items-center justify-start gap-2">
                 {/* Play Button */}
                 <MotionButton
                     variant="ghost"
-                    className="rounded-full !bg-accent/60 hover:!bg-accent/70 transition-all duration-300 ease-in"
+                    className="rounded-full bg-accent/60! hover:bg-accent/70! transition-all duration-300 ease-in"
                     size={'icon-lg'}
                     whileTap={{
                         scale: 0.9,
@@ -118,7 +140,7 @@ export const VideoPlayerControls: React.FC<VideoPlayerControlsProps> = ({
             <div className="flex items-center gap-2">
                 <MotionButton
                     variant="ghost"
-                    className="rounded-full !bg-accent/60 hover:!bg-accent/70 transition-all duration-300 ease-in"
+                    className="rounded-full bg-accent/60! hover:bg-accent/70! transition-all duration-300 ease-in"
                     size={'icon-sm'}
                     whileTap={{
                         scale: 0.9,

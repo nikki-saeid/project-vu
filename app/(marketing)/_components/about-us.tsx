@@ -16,9 +16,9 @@ export default function AboutUs() {
                         }
                     />
 
-                    <P className="text-md text-center text-foreground">
-                        Project Vu is a modern platform that helps professionals showcase their work in a clear, visual, and compelling way
-                        . We turn your completed projects into a professional portfolio, combining photos, locations, and key details all in
+                    <P className="text-md text-justify text-foreground">
+                        Project Vu is a modern platform that helps professionals showcase their work in a clear, visual, and compelling way.
+                        We turn your completed projects into a professional portfolio, combining photos, locations, and key details all in
                         one place. Project Vu can act as a mini website if you don&apos;t have one, or it can work alongside your existing
                         website to enhance your online presence. Your projects can be viewed on an interactive map or in a clean list
                         format, giving clients a complete picture of what you&apos;ve done and where you&apos;ve done it. Our goal is

@@ -2,17 +2,16 @@
 
 import BusinessHeader from '@/components/business-ui/business-header';
 import DashboardCard from '@/components/dashboard-ui/dashboard-card';
-import StyledIconTitle from '@/components/styled-icon-title';
+import StyledIconTitleSameText from '@/components/styled-icon-title-same-text';
 import H4 from '@/components/typography/H4';
 import { DATE_FORMATS } from '@/lib/constants/date-formats';
+import { getProjectCostLabel } from '@/lib/helpers/other';
 import { ProjectWithLatLng } from '@/lib/types/api';
 import { Business } from '@/lib/types/db';
 import { IconCalendar, IconCurrencyDollarAustralian, IconRulerMeasure } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import ProjectsMap from '../projects-map';
 import ProjectDetailsImages from './project-details-images';
-import { getProjectCostLabel } from '@/lib/helpers/other';
-import StyledIconTitleSameText from '@/components/styled-icon-title-same-text';
 
 type ProjectDetailsPageProps = {
     project: ProjectWithLatLng;

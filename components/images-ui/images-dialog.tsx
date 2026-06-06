@@ -9,9 +9,10 @@ type ImagesDialogProps = {
     title?: string;
     open: boolean;
     setOpen: (open: boolean) => void;
+    startIndex: number;
 };
 
-export default function ImagesDialog({ images_urls, title, open, setOpen }: ImagesDialogProps) {
+export default function ImagesDialog({ images_urls, title, open, setOpen, startIndex = 0 }: ImagesDialogProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent showCloseButton className="h-screen min-w-screen max-w-none rounded-none border-0 p-0">
@@ -19,7 +20,7 @@ export default function ImagesDialog({ images_urls, title, open, setOpen }: Imag
                     <DialogTitle>{title}</DialogTitle>
                 </DialogHeader>
 
-                <Carousel className="h-full w-full">
+                <Carousel className="h-full w-full" opts={{ startIndex }}>
                     <CarouselPrevious size="icon-sm" className="absolute left-4 top-1/2 z-50 -translate-y-1/2" />
 
                     <CarouselNext size="icon-sm" className="absolute right-4 top-1/2 z-50 -translate-y-1/2" />

@@ -12,7 +12,12 @@ type GallerySection = {
     images: GalleryImage[];
 };
 
-export default function Gallery({ sections }: { sections: GallerySection[] }) {
+type GalleryProps = {
+    sections: GallerySection[];
+    onOpen?: (index: number) => void;
+};
+
+export default function Gallery({ sections, onOpen }: GalleryProps) {
     return (
         <div className="flex gap-4 h-100">
             {sections.map((section, sectionIndex) => (
@@ -22,7 +27,13 @@ export default function Gallery({ sections }: { sections: GallerySection[] }) {
                             <VideoPlayer cover isThumbnail key={imageIndex} src={image.src} className="w-full" />
                         ) : (
                             // eslint-disable-next-line @next/next/no-img-element
-                            <img key={imageIndex} src={image.src} alt={image.alt} className="rounded-lg h-full w-full object-cover" />
+                            <img
+                                onClick={() => onOpen?.(imageIndex + 1)}
+                                key={imageIndex}
+                                src={image.src}
+                                alt={image.alt}
+                                className="rounded-lg h-full w-full object-cover"
+                            />
                         ),
                     )}
                 </div>

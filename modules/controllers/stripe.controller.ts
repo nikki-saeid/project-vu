@@ -106,8 +106,6 @@ export const stripeController = {
             const params = await contextParams.params;
             const { id } = params;
 
-            console.log('idddddd', id);
-
             const price = await stripeService.price.getById(id);
 
             return new SuccessResponse<PriceResponse>('Price fetched successfully', stripeService.price.priceToResponse(price)).send();

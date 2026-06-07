@@ -10,11 +10,11 @@ export const businessProfileSchema = z.object({
     project_type_tags: z.array(z.string().min(1, 'Project type tags are required')).max(5, 'You can select up to 5 project type tags'),
     description: z.string().min(10, 'Bio is required').max(2000, 'Bio must be less than 2000 characters'),
     phone: z.string().min(1, 'Phone is required'),
-    website_url: z.string().url('Please enter a valid website URL').optional(),
-    instagram_url: z.string().url('Please enter a valid Instagram URL').optional(),
-    facebook_url: z.string().url('Please enter a valid Facebook URL').optional(),
-    x_url: z.string().url('Please enter a valid X URL').optional(),
-    google_map_url: z.string().url('Please enter a valid Google Map URL').optional(),
+    website_url: z.string().url('Please enter a valid website URL').optional().or(z.literal('')),
+    instagram_url: z.string().url('Please enter a valid Instagram URL').optional().or(z.literal('')),
+    facebook_url: z.string().url('Please enter a valid Facebook URL').optional().or(z.literal('')),
+    x_url: z.string().url('Please enter a valid X URL').optional().or(z.literal('')),
+    google_map_url: z.string().url('Please enter a valid Google Map URL').optional().or(z.literal('')),
 });
 
 export const businessDeleteSchema = z.object({

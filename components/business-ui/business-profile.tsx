@@ -2,9 +2,7 @@ import { ProjectWithLatLng } from '@/lib/types/api';
 import { Business, Review } from '@/lib/types/db';
 import { Suspense } from 'react';
 import ProjectsTabs from '../project-ui/projects-tabs';
-import ReviewList from '../review-ui/review-list';
 import BusinessProfileSkeleton from '../skeleton-ui/business-profile-skeleton';
-import P from '../typography/P';
 import { Separator } from '../ui/separator';
 import BusinessIdentity from './business-identity';
 
@@ -22,18 +20,9 @@ export default function BusinessProfile({ business, projects, isPublic, reviews 
         <Suspense fallback={<BusinessProfileSkeleton />}>
             <section>
                 <div className="flex flex-col gap-8">
-                    <BusinessIdentity business={business} />
+                    <BusinessIdentity isPublic={isPublic} business={business} reviews={reviews ?? []} />
                     <Separator />
                     <ProjectsTabs projects={projects} isPublic={isPublic} slug={business.slug ?? ''} />
-                    {reviews && reviews.length > 0 && (
-                        <>
-                            <Separator />
-                            <div className="flex flex-col gap-2">
-                                <P className="font-semibold">Reviews</P>
-                                <ReviewList reviews={reviews} isPublic={isPublic} />
-                            </div>
-                        </>
-                    )}
                 </div>
             </section>
         </Suspense>

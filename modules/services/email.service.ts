@@ -32,8 +32,6 @@ export const emailService = {
             .replaceAll('{{OPTIONAL_BLOCK}}', optionalBlock)
             .replaceAll('{{REVIEW_URL}}', `${process.env.NEXT_PUBLIC_BASE_URL}/review/${reviewId}`);
 
-        console.log(html);
-
         return await emailRepository.send(`${businessName} <noreply@projectvu.com.au>`, [email], "We'd love your feedback", html);
     },
 };

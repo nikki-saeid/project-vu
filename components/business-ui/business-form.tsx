@@ -359,14 +359,22 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
             <Separator />
             <div className="flex flex-col gap-2">
                 <H4 className="text-foreground">Google map rating (optional)</H4>
-                <P className="text-muted-foreground">Add your Google map url to help customers find you and rate your business.</P>
+                <P className="text-muted-foreground">Add your Google map review url to help customers find you and rate your business.</P>
+                <ol className="list-decimal list-inside text-xs text-muted-foreground">
+                    <li>Google your business name</li>
+                    <li>Your Google Business panel appears on the right</li>
+                    <li>
+                        Click &quot;Get more reviews&quot; - Google gives you a direct share link that looks like: {''}
+                        <span className="text-muted-foreground text-nowrap">https://g.page/r/YOUR_CODE/review</span>
+                    </li>
+                </ol>
             </div>
+
             <Controller
                 name="google_map_url"
                 control={form.control}
                 render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="form-website">Website</FieldLabel>
                         <InputGroup>
                             <InputGroupAddon>
                                 <IconWorld />
@@ -376,7 +384,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
                                 id="form-website"
                                 type="text"
                                 aria-invalid={fieldState.invalid}
-                                placeholder="https://www.google.com/maps/place/id"
+                                placeholder="https://g.page/r/xxx/review"
                                 autoComplete="url"
                             />
                         </InputGroup>

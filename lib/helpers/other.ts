@@ -1,5 +1,6 @@
 import { Stripe } from 'stripe';
 import { BASE_URL } from '../constants/urls';
+import { Review } from '../types/db';
 
 export const getProjectCostLabel = (cost: string) => {
     const costInt = parseInt(cost);
@@ -136,4 +137,23 @@ export function timeAgo(date: string | Date) {
     }
 
     return 'just now';
+}
+
+export function getAverageRating(_reviews: Review[]) {
+    const reviews = _reviews.filter((review) => review.status === 'done');
+
+    const averageRating = reviews.length > 0 ? reviews.reduce((sum, review) => sum + (review.rate ?? 0), 0) / reviews.length : 0;
+
+    let mainStart = Math.floor(averageRating);
+    let halfStart = averageRating % 1;
+    if (halfStart >= 0.9) {
+        mainStart += 1;
+        halfStart = 0;
+    }
+
+    return {
+        averageRating,
+        mainStart,
+        halfStart,
+    };
 }

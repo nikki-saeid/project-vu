@@ -13,11 +13,11 @@ type ProjectsTabsProps = {
 export default function ProjectsTabs({ projects, isPublic, slug }: ProjectsTabsProps) {
     return (
         <Tabs defaultValue="map">
-            <TabsList className="mb-3 w-full bg-gray-300/20 hover:bg-gray-300/30">
+            <TabsList className="mb-3 w-full bg-primary/10 hover:bg-primary/15">
                 <TabsTrigger
                     value="map"
                     id="map"
-                    className="p-4.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                    className="p-4.5 text-primary hover:text-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                 >
                     <IconMap2 />
                     Projects map
@@ -25,7 +25,7 @@ export default function ProjectsTabs({ projects, isPublic, slug }: ProjectsTabsP
                 <TabsTrigger
                     value="list"
                     id="list"
-                    className="p-4.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                    className="p-4.5 text-primary hover:text-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                 >
                     <IconLayoutList />
                     Projects list

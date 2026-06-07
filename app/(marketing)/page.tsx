@@ -1,11 +1,10 @@
 import Script from 'next/script';
 import AboutUs from './_components/about-us';
+import Contact from './_components/contact';
 import Cta from './_components/cta';
 import Features from './_components/features';
 import Hero from './_components/hero';
 import LiveMap from './_components/live-map';
-import PricingPlans from './_components/pricing-plans';
-import Contact from './_components/contact';
 
 export default function Home() {
     return (

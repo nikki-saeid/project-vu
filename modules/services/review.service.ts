@@ -72,4 +72,29 @@ export const reviewService = {
     deleteById: async function (id: string) {
         return await reviewRepository.deleteById(id);
     },
+
+    resendById: async function (id: string, userId: string) {
+        // get the business
+        const business = (await businessRepository.getByUserId(userId)) as Business;
+        if (!business) {
+            throw { error: new Error('Business not found'), status: StatusCodes.NOT_FOUND };
+        }
+
+        // create review
+        const review = await reviewRepository.getById(id);
+        if (!review) {
+            throw { error: new Error('Review not found'), status: StatusCodes.NOT_FOUND };
+        }
+
+        // send email
+        await emailService.sendReviewRequest(
+            review.id,
+            review.email,
+            business.name ?? 'Project Vu',
+            review.name,
+            review.request_comment ?? undefined,
+        );
+
+        return review;
+    },
 };

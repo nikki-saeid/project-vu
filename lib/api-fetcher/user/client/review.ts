@@ -24,3 +24,10 @@ export async function deleteReviewById(id: string) {
     });
     return response;
 }
+
+export async function resendReviewById(id: string) {
+    const response = await fetcher<void>(`${API_URL}/user/review/${id}/resend`, {
+        method: 'POST',
+    });
+    return response;
+}

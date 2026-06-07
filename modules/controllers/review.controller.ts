@@ -63,4 +63,16 @@ export const reviewController = {
 
         return new SuccessResponse<Review>('Review deleted successfully', review).send();
     }),
+
+    // resend
+    resendById: tryCatchWrapperPrivate(async function ({ contextParams, user }: ControllerPropsPrivate<ParamsId>) {
+        // Get the project id
+        if (!contextParams) throw new Error('Id is required');
+        const params = await contextParams.params;
+        const { id } = params;
+
+        const review = await reviewService.resendById(id, user.id);
+
+        return new SuccessResponse<Review>('Review request resend successfully', review).send();
+    }),
 };

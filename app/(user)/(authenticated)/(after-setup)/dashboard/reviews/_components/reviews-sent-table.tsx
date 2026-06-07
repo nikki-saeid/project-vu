@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DATE_FORMATS } from '@/lib/constants/date-formats';
 import { Review } from '@/lib/types/db';
 import { format } from 'date-fns';
+import ActionMenu from './action-menu';
 
 type ReviewsSentTableProps = {
     reviews: Review[];
@@ -30,6 +31,7 @@ export default function ReviewsSentTable({ reviews }: ReviewsSentTableProps) {
                         <TableHead>
                             <P className="text-xs">Sent on</P>
                         </TableHead>
+                        <TableHead></TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -37,11 +39,14 @@ export default function ReviewsSentTable({ reviews }: ReviewsSentTableProps) {
                         <TableRow key={review.id}>
                             <TableCell className="p-3">{review.name}</TableCell>
                             <TableCell className="p-3">{review.email}</TableCell>
-                            <TableCell className="p-3">{review.request_comment || "No message"}</TableCell>
+                            <TableCell className="p-3">{review.request_comment || 'No message'}</TableCell>
                             <TableCell className="p-3">
                                 <Badge>Sent</Badge>
                             </TableCell>
                             <TableCell className="p-3">{format(new Date(review.created_at), DATE_FORMATS.dateWithTime)}</TableCell>
+                            <TableCell className="p-3">
+                                <ActionMenu reviewId={review.id} />
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

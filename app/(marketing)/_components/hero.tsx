@@ -24,7 +24,7 @@ export default function Hero() {
                                 size="lg"
                                 className="w-full bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
                             >
-                                Get started now
+                                Get started for free
                                 <IconArrowRight className="size-4" />
                             </Button>
                         </Link>

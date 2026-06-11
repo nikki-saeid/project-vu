@@ -14,7 +14,7 @@ export const businessProfileSchema = z.object({
     instagram_url: z.string().url('Please enter a valid Instagram URL').optional().or(z.literal('')),
     facebook_url: z.string().url('Please enter a valid Facebook URL').optional().or(z.literal('')),
     x_url: z.string().url('Please enter a valid X URL').optional().or(z.literal('')),
-    google_map_url: z.string().url('Please enter a valid Google Map URL').optional().or(z.literal('')),
+    google_map_url: z.string().url('Please enter a valid Google review URL').optional().or(z.literal('')),
 });
 
 export const businessDeleteSchema = z.object({

@@ -47,7 +47,7 @@ export default function BusinessSocials({ website_url, facebook_url, instagram_u
                     {socials && <Separator orientation="vertical" style={{ height: '10px', margin: '0 5px' }} />}
                     <Link href={google_map_url} target="_blank">
                         <Button variant="outline" className="rounded-full" size="xs">
-                            <IconBrandGoogle /> Rate us on Google Maps
+                            <IconBrandGoogle /> Rate us on Google
                         </Button>
                     </Link>
                 </>

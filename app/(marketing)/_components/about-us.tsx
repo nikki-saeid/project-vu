@@ -16,12 +16,7 @@ export default function AboutUs() {
                         }
                     />
 
-                    <P
-                        className="text-md text-justify text-foreground"
-                        style={{
-                            textAlignLast: 'center',
-                        }}
-                    >
+                    <P className="text-md text-center text-foreground">
                         Project Vu helps professionals showcase their work through a visual, interactive portfolio. Display completed
                         projects with photos, locations, and key details all in one place. Use it as a standalone portfolio or alongside
                         your existing website. Clients can explore your work on an interactive map or in a simple project list, helping you

@@ -358,8 +358,8 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
             </div>
             <Separator />
             <div className="flex flex-col gap-2">
-                <H4 className="text-foreground">Google map rating (optional)</H4>
-                <P className="text-muted-foreground">Add your Google map review url to help customers find you and rate your business.</P>
+                <H4 className="text-foreground">Google reviews (optional)</H4>
+                <P className="text-muted-foreground">Add your Google review url to help customers find you and rate your business.</P>
                 <ol className="list-decimal list-inside text-xs text-muted-foreground">
                     <li>Google your business name</li>
                     <li>Your Google Business panel appears on the right</li>

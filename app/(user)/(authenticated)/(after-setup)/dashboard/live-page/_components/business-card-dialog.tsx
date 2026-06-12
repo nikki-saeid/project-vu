@@ -8,49 +8,54 @@ import { useDashboard } from '@/lib/contexts/dashboard-context';
 import { toPng } from 'html-to-image';
 import { useCallback, useRef } from 'react';
 
-type EditPageDialogProps = {
-    open: boolean;
-    setOpen: (open: boolean) => void;
-};
-
-export default function BusinessCardDialog({ open, setOpen }: EditPageDialogProps) {
+export default function BusinessCardDialog({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) {
     const { business } = useDashboard();
-
-    const filename = (business?.slug ?? '') + '-profile-card' + '.png';
+    const filename = (business?.slug ?? '') + '-profile-card.png';
     const ref = useRef<HTMLDivElement>(null);
 
-    const handleDownload = useCallback(async () => {
-        if (ref.current === null) {
-            return;
-        }
+    const capture = useCallback(async (): Promise<string | null> => {
+        if (!ref.current) return null;
+
+        // Replace every <canvas> with an <img> of its pixel data, capture, then restore
+        const node = ref.current;
+        const canvases = Array.from(node.querySelectorAll<HTMLCanvasElement>('canvas'));
+        const replacements: { img: HTMLImageElement; canvas: HTMLCanvasElement; parent: Node }[] = [];
+
+        canvases.forEach((canvas) => {
+            const img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            img.width = canvas.offsetWidth;
+            img.height = canvas.offsetHeight;
+            img.style.cssText = window.getComputedStyle(canvas).cssText;
+            canvas.parentNode!.replaceChild(img, canvas);
+            replacements.push({ img, canvas, parent: img.parentNode! });
+        });
 
         try {
-            const dataUrl = await toPng(ref.current, { cacheBust: true, pixelRatio: 10 });
-            const link = document.createElement('a');
-            link.download = filename;
-            link.href = dataUrl;
-            link.click();
-        } catch (error) {
-            // throw new Error(JSON.stringify(error, null, 2));
-            console.log(error);
+            return await toPng(node, { cacheBust: true, pixelRatio: 10 });
+        } finally {
+            // Restore canvases
+            replacements.forEach(({ img, canvas }) => {
+                img.parentNode?.replaceChild(canvas, img);
+            });
         }
-    }, [ref, filename]);
+    }, []);
+
+    const handleDownload = useCallback(async () => {
+        const dataUrl = await capture();
+        if (!dataUrl) return;
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = dataUrl;
+        link.click();
+    }, [capture, filename]);
 
     const handleShare = useCallback(async () => {
-        if (!ref.current) return;
-
+        const dataUrl = await capture();
+        if (!dataUrl) return;
         try {
-            const dataUrl = await toPng(ref.current, {
-                cacheBust: true,
-                pixelRatio: 10,
-            });
-
             const blob = await (await fetch(dataUrl)).blob();
-
-            const file = new File([blob], filename, {
-                type: 'image/png',
-            });
-
+            const file = new File([blob], filename, { type: 'image/png' });
             if (navigator.share && navigator.canShare?.({ files: [file] })) {
                 await navigator.share({
                     title: business?.name ?? 'Business Profile',
@@ -58,13 +63,12 @@ export default function BusinessCardDialog({ open, setOpen }: EditPageDialogProp
                     files: [file],
                 });
             } else {
-                // Fallback: download image
                 handleDownload();
             }
         } catch (error) {
             console.error(error);
         }
-    }, [business, filename, handleDownload]);
+    }, [business, capture, filename, handleDownload]);
 
     return (
         <DialogCore

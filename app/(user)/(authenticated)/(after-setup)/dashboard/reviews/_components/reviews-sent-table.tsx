@@ -41,7 +41,7 @@ export default function ReviewsSentTable({ reviews }: ReviewsSentTableProps) {
                             <TableCell className="p-3">{review.email}</TableCell>
                             <TableCell className="p-3">{review.request_comment || 'No message'}</TableCell>
                             <TableCell className="p-3">
-                                <Badge>Sent</Badge>
+                                <Badge variant="outline">Sent</Badge>
                             </TableCell>
                             <TableCell className="p-3">{format(new Date(review.created_at), DATE_FORMATS.dateWithTime)}</TableCell>
                             <TableCell className="p-3">

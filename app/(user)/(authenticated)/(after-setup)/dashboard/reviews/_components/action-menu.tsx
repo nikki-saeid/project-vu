@@ -8,18 +8,18 @@ import { useState } from 'react';
 
 type ActionMenuProps = {
     reviewId: string;
-}
+};
 
 export default function ActionMenu({ reviewId }: ActionMenuProps) {
     // ----------- EditPageDialog
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
 
     // ----------- BusinessCardDialog
     const [resendOpen, setResendOpen] = useState(false);
 
     return (
         <>
-            <DropdownMenu open={open} onOpenChange={setOpen}>
+            {/* <DropdownMenu open={open} onOpenChange={setOpen}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon-xs" className="rounded-full" onClick={() => setOpen(true)} aria-label="Open menu">
                         <IconDotsVertical className="size-4" />
@@ -33,7 +33,10 @@ export default function ActionMenu({ reviewId }: ActionMenuProps) {
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
+            <Button size="xs" onClick={() => setResendOpen(true)}>
+                Resend
+            </Button>
             <ReviewResendRequestDialog open={resendOpen} setOpen={setResendOpen} reviewId={reviewId} />
         </>
     );

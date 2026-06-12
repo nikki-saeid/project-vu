@@ -32,7 +32,7 @@ export default function ProjectsTabs({ projects, isPublic, slug }: ProjectsTabsP
                 </TabsTrigger>
             </TabsList>
             <TabsContent forceMount value="map" className="data-[state=inactive]:hidden">
-                <ProjectsMap className="h-110" embed={false} projects={projects} isPublic={isPublic} slug={slug} />
+                <ProjectsMap className="h-130" embed={false} projects={projects} isPublic={isPublic} slug={slug} />
             </TabsContent>
             <TabsContent forceMount value="list" className="data-[state=inactive]:hidden">
                 <ProjectsList projects={projects} isPublic={isPublic} slug={slug} />

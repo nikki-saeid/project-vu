@@ -25,7 +25,7 @@ export default function BusinessProfileWithQrCodeCard({ business }: BusinessProf
                                 errorCorrectionLevel: 'H',
                                 margin: 0,
                                 scale: 5,
-                                width: 230,
+                                width: 130,
                             }}
                         />
                     </div>

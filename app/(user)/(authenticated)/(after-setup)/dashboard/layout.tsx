@@ -1,8 +1,10 @@
 'use client';
 
+import CardLayouts from '@/components/card-layouts';
 import DashboardHeader from '@/components/dashboard-ui/dashboard-header';
 import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
+import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { useSubscriptionChannel } from '@/hooks/channels/use-subscription-channel';
@@ -32,11 +34,16 @@ export default function MainLayout({ children }: ChildrenProp) {
                     variant="inset"
                     footer={
                         subscription ? undefined : (
-                            <Link href="/payment/subscription-plan" className="w-full">
-                                <Button variant="outlinePrimary" size="sm" className="w-full">
-                                    Go Unlimited
-                                </Button>
-                            </Link>
+                            <div className="border rounded-lg p-2 flex flex-col items-center gap-2">
+                                <P className="text-xs font-semibold text-center">
+                                    Your plan is currently limited to 3 projects.
+                                </P>
+                                <Link href="/payment/subscription-plan" className="w-full">
+                                    <Button variant="outlinePrimary" size="sm" className="w-full">
+                                        Go Unlimited
+                                    </Button>
+                                </Link>
+                            </div>
                         )
                     }
                 >

@@ -16,6 +16,7 @@ export default function ReviewsSentTable({ reviews }: ReviewsSentTableProps) {
             <Table className="w-full">
                 <TableHeader className="sticky top-0 z-10 bg-muted h-full">
                     <TableRow>
+                        <TableHead></TableHead>
                         <TableHead>
                             <P className="text-xs">Name</P>
                         </TableHead>
@@ -31,12 +32,14 @@ export default function ReviewsSentTable({ reviews }: ReviewsSentTableProps) {
                         <TableHead>
                             <P className="text-xs">Sent on</P>
                         </TableHead>
-                        <TableHead></TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {reviews.map((review) => (
                         <TableRow key={review.id}>
+                            <TableCell className="p-3">
+                                <ActionMenu reviewId={review.id} />
+                            </TableCell>
                             <TableCell className="p-3">{review.name}</TableCell>
                             <TableCell className="p-3">{review.email}</TableCell>
                             <TableCell className="p-3">{review.request_comment || 'No message'}</TableCell>
@@ -44,9 +47,6 @@ export default function ReviewsSentTable({ reviews }: ReviewsSentTableProps) {
                                 <Badge variant="outline">Sent</Badge>
                             </TableCell>
                             <TableCell className="p-3">{format(new Date(review.created_at), DATE_FORMATS.dateWithTime)}</TableCell>
-                            <TableCell className="p-3">
-                                <ActionMenu reviewId={review.id} />
-                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

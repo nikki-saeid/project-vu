@@ -52,9 +52,9 @@ export default function ProjectForm({ onSuccess, className, id, setIsLoading, pr
     // Upload image
     // ------------------------------
     const dropZoneProps = useSupabaseUpload({
-        allowedMimeTypes: ['image/*', 'video/*'],
+        allowedMimeTypes: ['image/*'],
         maxFiles: MAX_IMAGES,
-        maxFileSize: 50 * 1000 * 1000,
+        maxFileSize: 7 * 1000 * 1000,
     });
     const { files, setFiles, errors } = dropZoneProps;
 

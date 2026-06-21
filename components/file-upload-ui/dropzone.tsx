@@ -112,9 +112,11 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
                                         />
                                     )}
                                 </>
-                            ) : file.type.startsWith('video/') ? (
-                                <VideoPlayer src={file.preview ?? ''} className="aspect-video" />
                             ) : (
+                                //  : file.type.startsWith('video/') ? (
+                                //     <VideoPlayer src={file.preview ?? ''} className="aspect-video" />
+                                // )
+
                                 <div className="h-10 w-10 rounded border bg-muted flex items-center justify-center">
                                     <IconPhoto size={18} />
                                 </div>
@@ -134,7 +136,9 @@ const DropzoneContent = ({ className, onChooseImage }: { className?: string; onC
                                         .map((e) =>
                                             e.message.startsWith('File is larger than')
                                                 ? `File is larger than ${formatBytes(maxFileSize, 2)} (Size: ${formatBytes(file.size, 2)})`
-                                                : e.message,
+                                                : e.message.startsWith('File type must be')
+                                                  ? e.message.replaceAll('/*', '')
+                                                  : e.message,
                                         )
                                         .join(', ')}
                                 </p>
@@ -184,7 +188,8 @@ const DropzoneEmptyState = ({ className }: { className?: string }) => {
             <IconUpload size={20} className="text-muted-foreground" />
             <p className="text-sm">
                 Upload {!!maxFiles && maxFiles > 1 ? `up to ${maxFiles}` : ''}{' '}
-                {isLogo ? 'image' : maxFiles === 1 ? `image or video` : 'images and videos'}
+                {/* {isLogo ? 'image' : maxFiles === 1 ? `image or video` : 'images and videos'} */}
+                {isLogo ? 'image' : maxFiles === 1 ? `image` : 'images'}
             </p>
             <div className="flex flex-col items-center gap-2">
                 <div className="flex gap-1 items-center">

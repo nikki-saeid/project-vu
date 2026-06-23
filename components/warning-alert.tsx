@@ -5,9 +5,10 @@ type WarningAlertProps = {
     title: string;
     description: string;
     subWarning?: string;
+    action?: React.ReactNode;
 };
 
-export default function WarningAlert({ title, description, subWarning }: WarningAlertProps) {
+export default function WarningAlert({ title, description, subWarning, action }: WarningAlertProps) {
     return (
         <Alert className="border-amber-200 bg-amber-50 text-amber-800 flex items-center gap-2">
             <IconAlertTriangle />
@@ -16,6 +17,7 @@ export default function WarningAlert({ title, description, subWarning }: Warning
                 <AlertDescription className="text-amber-800">{description}</AlertDescription>
                 {subWarning && <AlertDescription className="text-amber-800 font-semibold">{subWarning}</AlertDescription>}
             </div>
+            {action && action}
         </Alert>
     );
 }

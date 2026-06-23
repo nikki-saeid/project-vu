@@ -1,11 +1,16 @@
 import { projectService } from './../services/project.service';
 import { StatusCodes } from 'http-status-codes';
 import { subscriptionService } from '../services/subscription.service';
-import { MAX_PROJECTS_FREE_PLAN } from '@/lib/constants/pricing-plans';
+import { MAX_MONTHS_FREE_PLAN, MAX_PROJECTS_FREE_PLAN } from '@/lib/constants/pricing-plans';
+import { businessService } from '../services/business.service';
+import { addMonths } from 'date-fns';
+import { businessRepository } from '../repositories/business.repository';
+import { DEMO_USER_ID } from '@/lib/constants/urls';
 
 export const subscriptionMiddleware = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     projectsMax: async function (next: Function, userId: string) {
+        if (userId === DEMO_USER_ID) return await next();
         const subscription = await subscriptionService.user.getByUsedId(userId);
         const projects = await projectService.getMany(userId);
 
@@ -20,22 +25,72 @@ export const subscriptionMiddleware = {
     },
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-    subscribedWithProjectsMax: async function (next: Function, userId: string) {
-        const projects = await projectService.getMany(userId);
+    profileToDraft: async function (next: Function, userId: string, message?: string) {
+        if (userId === DEMO_USER_ID) return await next();
 
-        if (projects.length > MAX_PROJECTS_FREE_PLAN) {
+        const subscription = await subscriptionService.user.getByUsedId(userId);
+
+        if (
+            subscription &&
+            (subscription.status !== 'active' || new Date(subscription.current_period_end ?? '').getTime() < new Date().getTime())
+        ) {
+            // expired free plan -> business status to draft
+            await businessRepository.update({ user_id: userId, page_status: 'draft' });
+            if (message) {
+                throw {
+                    error: new Error(message),
+                    status: StatusCodes.FORBIDDEN,
+                };
+            }
+        } else if (!subscription) {
+            const business = await businessService.getByUserId(userId);
+
+            if (business) {
+                const validUntilDate = addMonths(business.created_at, MAX_MONTHS_FREE_PLAN);
+
+                if (validUntilDate.getTime() < new Date().getTime()) {
+                    // expired free plan -> business status to draft
+                    await businessRepository.update({ user_id: userId, page_status: 'draft' });
+                    if (message) {
+                        throw {
+                            error: new Error(message),
+                            status: StatusCodes.FORBIDDEN,
+                        };
+                    }
+                }
+            }
+        }
+
+        return await next();
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+    profileToDraftByDraft: async function (next: Function, slug: string) {
+        const business = await businessRepository.getBySlug(slug);
+
+        if (business) {
+            const userId = business.user_id;
+            if (userId === DEMO_USER_ID) return await next();
+
             const subscription = await subscriptionService.user.getByUsedId(userId);
+
             if (
                 subscription &&
                 (subscription.status !== 'active' || new Date(subscription.current_period_end ?? '').getTime() < new Date().getTime())
             ) {
-                throw {
-                    error: new Error('Your subscription is not active, Please subscribe to a plan to keep using your projects'),
-                    status: StatusCodes.FORBIDDEN,
-                };
+                // expired free plan -> business status to draft
+                await businessRepository.admin.update({ user_id: userId, page_status: 'draft' });
+            } else if (!subscription) {
+                const validUntilDate = addMonths(business.created_at, MAX_MONTHS_FREE_PLAN);
+
+                if (validUntilDate.getTime() < new Date().getTime()) {
+                    // expired free plan -> business status to draft
+                    await businessRepository.admin.update({ user_id: userId, page_status: 'draft' });
+                    console.log('expired free plan -> business status to draft');
+                }
             }
         }
 
-        return next();
+        return await next();
     },
 };

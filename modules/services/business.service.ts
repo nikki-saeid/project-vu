@@ -3,19 +3,22 @@ import { businessRepository } from '../repositories/business.repository';
 import { storageRepository } from '../repositories/storage.repository';
 import { storageService } from './storage.service';
 import { StatusCodes } from 'http-status-codes';
+import { subscriptionMiddleware } from '../middlewares/subscription.middleware';
 
 export const businessService = {
     // get business by user id or create if not exists
     getByUserIdOrCreate: async function (userId: string, data: Partial<Business>) {
-        let business = await businessRepository.getByUserId(userId);
+        return await subscriptionMiddleware.profileToDraft(async function () {
+            let business = await businessRepository.getByUserId(userId);
 
-        if (!business) {
-            business = await businessRepository.create({
-                user_id: userId,
-                ...data,
-            });
-        }
-        return await this.makeBusinessLogoPublic(business);
+            if (!business) {
+                business = await businessRepository.create({
+                    user_id: userId,
+                    ...data,
+                });
+            }
+            return await businessService.makeBusinessLogoPublic(business);
+        }, userId);
     },
 
     getByUserId: async function (userId: string) {
@@ -36,17 +39,19 @@ export const businessService = {
 
     // get business by slug
     getBySlug: async function (slug: string, userId: string | null) {
-        // get business
-        const business = await businessRepository.getBySlug(slug);
+        return await subscriptionMiddleware.profileToDraftByDraft(async function () {
+            // get business
+            const business = await businessRepository.getBySlug(slug);
 
-        // check if business is live
-        if (business) {
-            if (business?.user_id === userId || business?.page_status === 'live') {
-                return await this.makeBusinessLogoPublic(business);
+            // check if business is live
+            if (business) {
+                if (business?.user_id === userId || business?.page_status === 'live') {
+                    return await businessService.makeBusinessLogoPublic(business);
+                }
             }
-        }
 
-        throw { error: new Error('Portfolio is not live'), status: StatusCodes.NOT_FOUND };
+            throw { error: new Error('Profile is not found'), status: StatusCodes.NOT_FOUND };
+        }, slug);
     },
 
     slug: {
@@ -78,7 +83,7 @@ export const businessService = {
     update: async function (data: Partial<Business>, logo?: File) {
         // generate slug if name is present in the request body
         if (!data.slug && data.name) {
-            data.slug = await this.slug.generateUnique(data.name);
+            data.slug = await businessService.slug.generateUnique(data.name);
         }
 
         // logo
@@ -94,7 +99,18 @@ export const businessService = {
         let business = await businessRepository.update(data);
 
         // make business logo public
-        business = await this.makeBusinessLogoPublic(business);
+        business = await businessService.makeBusinessLogoPublic(business);
         return business;
+    },
+
+    updatePageStatus: async function (status: 'live' | 'draft', userId: string) {
+        return subscriptionMiddleware.profileToDraft(
+            async function () {
+                // update
+                return await businessRepository.update({ user_id: userId, page_status: status });
+            },
+            userId,
+            'Please upgrade your plan to keep using your profile',
+        );
     },
 };

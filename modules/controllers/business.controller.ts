@@ -41,7 +41,7 @@ export const businessController = {
         const status = body?.status as PageStatusEnum | undefined;
 
         // Update the business
-        const business = await businessService.update({ user_id: user.id, page_status: status });
+        const business = await businessService.updatePageStatus(status ?? 'draft', user.id);
         return new SuccessResponse<Business>('Page status updated successfully', business).send();
     }),
 
@@ -52,6 +52,6 @@ export const businessController = {
 
         // Update the business
         const business = await businessService.update({ user_id: user.id, is_onboarded });
-        return new SuccessResponse<Business>('Page status updated successfully', business).send();
+        return new SuccessResponse<Business>('Profile updated successfully', business).send();
     }),
 };

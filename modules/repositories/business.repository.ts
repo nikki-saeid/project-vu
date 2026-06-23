@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createServiceRoleClient } from '@/lib/supabase/server';
 import { Business } from '@/lib/types/db';
 
 export const businessRepository = {
@@ -19,7 +19,7 @@ export const businessRepository = {
 
         if (error) throw error;
 
-        return data;
+        return data as Business;
     },
 
     // create
@@ -40,5 +40,22 @@ export const businessRepository = {
         if (error) throw error;
 
         return data;
+    },
+
+    admin: {
+        // create
+        update: async function (business: Partial<Business>) {
+            const supabase = await createServiceRoleClient();
+            const { data, error } = await supabase
+                .from('businesses')
+                .update(business)
+                .eq('user_id', business.user_id)
+                .select()
+                .maybeSingle();
+
+            if (error) throw error;
+
+            return data;
+        },
     },
 };

@@ -1,6 +1,5 @@
 'use client';
 
-import CardLayouts from '@/components/card-layouts';
 import DashboardHeader from '@/components/dashboard-ui/dashboard-header';
 import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
@@ -8,16 +7,19 @@ import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { useSubscriptionChannel } from '@/hooks/channels/use-subscription-channel';
+import { DATE_FORMATS } from '@/lib/constants/date-formats';
+import { MAX_MONTHS_FREE_PLAN } from '@/lib/constants/pricing-plans';
 import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/lib/constants/user-dashboard';
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import type { ChildrenProp } from '@/lib/types/common';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { format, addMonths } from 'date-fns';
 import Link from 'next/link';
 
 const queryClient = new QueryClient();
 
 export default function MainLayout({ children }: ChildrenProp) {
-    const { subscription } = useDashboard();
+    const { subscription, business } = useDashboard();
     useSubscriptionChannel();
 
     return (
@@ -36,7 +38,10 @@ export default function MainLayout({ children }: ChildrenProp) {
                         subscription ? undefined : (
                             <div className="border rounded-lg p-2 flex flex-col items-center gap-2">
                                 <P className="text-xs font-semibold text-center">
-                                    Your plan is currently limited to 3 projects.
+                                    Your plan is currently limited to 3 projects.{' '}
+                                    {business
+                                        ? 'Until ' + format(addMonths(business.created_at, MAX_MONTHS_FREE_PLAN), DATE_FORMATS.dateNumber)
+                                        : ''}
                                 </P>
                                 <Link href="/payment/subscription-plan" className="w-full">
                                     <Button variant="outlinePrimary" size="sm" className="w-full">

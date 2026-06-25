@@ -26,14 +26,15 @@ export const businessService = {
         return await this.makeBusinessLogoPublic(business);
     },
 
-    makeBusinessLogoPublic: async function (business: Business) {
-        if (!business.logo_url) return business;
-        business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;
+    makeBusinessLogoPublic: async function (business: Business | null) {
+        if (business) {
+            if (!business.logo_url) return business;
+            business.logo_url = (await storageRepository.getStoragePublicUrl(business.logo_url)) + `?t=${Date.now()}`;
 
-        if (business.favicon_url) {
-            business.favicon_url = (await storageRepository.getStoragePublicUrl(business.favicon_url)) + `?t=${Date.now()}`;
+            if (business.favicon_url) {
+                business.favicon_url = (await storageRepository.getStoragePublicUrl(business.favicon_url)) + `?t=${Date.now()}`;
+            }
         }
-
         return business;
     },
 

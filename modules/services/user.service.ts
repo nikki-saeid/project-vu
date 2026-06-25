@@ -1,8 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
+import { emailService } from './email.service';
 
 type UpdateUserType = {
     avatar_url?: string;
-    full_time?: string;
+    full_name?: string;
 };
 
 export const userService = {
@@ -31,5 +32,11 @@ export const userService = {
         if (updateUserError) throw updateUserError;
         // Return response
         return user;
+    },
+
+    email: {
+        welcome: async function ({ full_name, email }: { full_name: string; email: string }) {
+            return await emailService.sendWelcomeEmail(email, full_name);
+        },
     },
 };

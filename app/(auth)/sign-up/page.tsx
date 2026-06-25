@@ -73,7 +73,7 @@ export default function SignUpForm() {
             toast.success('Successfully signed up.');
 
             // Redirect the user to a success page or dashboard after successful sign-up
-            router.push(`/sign-up-success?email=${data.email}`);
+            router.push(`/sign-up-success?email=${data.email}&full_name=${data.full_name}`);
         } catch (error: unknown) {
             toast.dismiss();
             toast.error(error instanceof Error ? error.message : 'An error occurred while signing up.');

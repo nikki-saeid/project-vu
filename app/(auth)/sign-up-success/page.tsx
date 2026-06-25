@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { sendWelcomeEmail } from '@/lib/api-fetcher/user/client/email';
 import { useUser } from '@/lib/contexts/user-context';
 import { createClient } from '@/lib/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -27,9 +28,10 @@ export default function SignUpSuccess() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const email = searchParams.get('email') ?? '';
+    const full_name = searchParams.get('full_name') ?? '';
     const { setUser } = useUser();
 
-    if (!email) {
+    if (!email || !full_name) {
         router.push('/sign-up');
     }
 
@@ -62,6 +64,10 @@ export default function SignUpSuccess() {
             toast.dismiss();
             toast.success('Successfully verified.');
 
+            // Send welcome email
+            await sendWelcomeEmail({ full_name, email });
+
+            // Redirect to onboarding
             router.push('/onboarding/business-profile');
         } catch (error: unknown) {
             toast.dismiss();

@@ -2,10 +2,10 @@ import { projectService } from './../services/project.service';
 import { StatusCodes } from 'http-status-codes';
 import { subscriptionService } from '../services/subscription.service';
 import { MAX_MONTHS_FREE_PLAN, MAX_PROJECTS_FREE_PLAN } from '@/lib/constants/pricing-plans';
-import { businessService } from '../services/business.service';
 import { addMonths } from 'date-fns';
 import { businessRepository } from '../repositories/business.repository';
 import { DEMO_USER_ID } from '@/lib/constants/urls';
+import { Subscription } from '@/lib/types/db';
 
 export const subscriptionMiddleware = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
@@ -28,7 +28,13 @@ export const subscriptionMiddleware = {
     profileToDraft: async function (next: Function, userId: string, message?: string) {
         if (userId === DEMO_USER_ID) return await next();
 
-        const subscription = await subscriptionService.user.getByUsedId(userId);
+        let subscription: Subscription | null = null;
+
+        try {
+            subscription = await subscriptionService.user.getByUsedId(userId);
+        } catch (error) {
+            console.log(error);
+        }
 
         if (
             subscription &&
@@ -43,7 +49,7 @@ export const subscriptionMiddleware = {
                 };
             }
         } else if (!subscription) {
-            const business = await businessService.getByUserId(userId);
+            const business = await businessRepository.getByUserId(userId);
 
             if (business) {
                 const validUntilDate = addMonths(business.created_at, MAX_MONTHS_FREE_PLAN);

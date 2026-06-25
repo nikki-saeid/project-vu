@@ -22,4 +22,17 @@ export const userController = {
         await adminService.user.deleteById(user.id);
         return new SuccessResponse('Your account deleted successfully', null).send();
     }),
+
+    email: {
+        welcome: tryCatchWrapperPrivate(async ({ req }: ControllerPropsPrivate) => {
+            // Get the body
+            const body = await req.json();
+
+            const { full_name, email } = body;
+
+            // Update the user
+            await userService.email.welcome({ full_name, email });
+            return new SuccessResponse('Your email sent successfully', null).send();
+        }),
+    },
 };

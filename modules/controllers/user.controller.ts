@@ -19,7 +19,7 @@ export const userController = {
     // delete user
     delete: tryCatchWrapperPrivate(async ({ user }: ControllerPropsPrivate) => {
         // Update the user
-        await adminService.user.deleteById(user.id);
+        await adminService.user.deleteById(user.id, user.email, user.user_metadata.full_name);
         return new SuccessResponse('Your account deleted successfully', null).send();
     }),
 

@@ -10,6 +10,10 @@ const reviewRequestTemplate = fs.readFileSync(reviewEmailFilePath, 'utf8');
 const welcomeEmailFilePath = path.join(process.cwd(), 'lib/resend/templates/welcome.html');
 const welcomeTemplate = fs.readFileSync(welcomeEmailFilePath, 'utf8');
 
+// delete account email
+const deleteAccountEmailFilePath = path.join(process.cwd(), 'lib/resend/templates/account-deleted.html');
+const deleteAccountTemplate = fs.readFileSync(deleteAccountEmailFilePath, 'utf8');
+
 export const emailService = {
     // get business by user id or create if not exists
     sendReviewRequest: async function (reviewId: string, email: string, businessName: string, clientName: string, requestComment?: string) {
@@ -46,5 +50,16 @@ export const emailService = {
             .replaceAll('{{USER_NAME}}', full_name);
 
         return await emailRepository.send(`Project Vu <noreply@projectvu.com.au>`, [email], 'Welcome to Project Vu', html);
+    },
+
+    sendDeleteAccountEmail: async function (email: string, full_name: string) {
+        const html = deleteAccountTemplate.replaceAll('{{USER_NAME}}', full_name);
+
+        return await emailRepository.send(
+            `Project Vu <noreply@projectvu.com.au>`,
+            [email],
+            'You have permanentely deleted your account',
+            html,
+        );
     },
 };

@@ -1,16 +1,16 @@
-import Stripe from 'stripe';
+import { PriceCreateInput } from '@/lib/validators/user/admin';
+import { randomUUID } from 'crypto';
 import { adminRepository } from '../repositories/admin.repository';
 import { businessService } from './business.service';
 import { projectService } from './project.service';
 import { storageService } from './storage.service';
 import { stripeService } from './stripe.service';
 import { subscriptionService } from './subscription.service';
-import { PriceCreateInput } from '@/lib/validators/user/admin';
-import { randomUUID } from 'crypto';
+import { emailService } from './email.service';
 
 export const adminService = {
     user: {
-        deleteById: async function (userId: string) {
+        deleteById: async function (userId: string, email?: string, full_name?: string) {
             // get business to remove logo
             const business = await businessService.getByUserId(userId);
             storageService.removeMany([business?.logo_url ?? '']);
@@ -22,8 +22,11 @@ export const adminService = {
                 await storageService.removeMany(images_urls ?? []);
             }
 
+            await adminRepository.user.deleteById(userId);
+
             // remove user
-            return await adminRepository.user.deleteById(userId);
+            if (!email) return;
+            return await emailService.sendDeleteAccountEmail(email, full_name ?? '');
         },
         getMany: async function (page: number) {
             return await adminRepository.user.getMany(page);

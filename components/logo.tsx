@@ -1,46 +1,37 @@
+import { ClassNameProp } from '@/lib/types/common';
 import type { LogoProps } from '@/lib/types/ui';
-import Image from 'next/image';
+import { cn } from '@/lib/utils/classes-merge';
 import Link from 'next/link';
 
-export default function Logo({ isWhite, variant = 'full' }: LogoProps) {
-    return variant === 'small' ? (
-        <div className="text-sm whitespace-nowrap font-bold text-center">
-            <span className={isWhite ? 'text-white' : 'text-foreground'}>Project </span>
+type LogoImageProps = LogoProps & ClassNameProp;
 
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={isWhite ? '/brand/logo-white.webp' : '/brand/logo.webp'} alt="ProjectVu logo" className="inline w-2.5 mb-2.25" />
+export function LogoImage({ isWhite, variant, size, isPng }: LogoImageProps) {
+    return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+            src={
+                isPng
+                    ? '/brand/logo-full.png'
+                    : variant === 'icon'
+                      ? isWhite
+                          ? '/brand/logo-white.webp'
+                          : '/brand/logo.webp'
+                      : isWhite
+                        ? '/brand/logo-full-white.webp'
+                        : '/brand/logo-full.webp'
+            }
+            alt="ProjectVu logo"
+            className={cn('w-30 m-auto', size === 'sm' && 'w-20', size === 'md' && 'w-25', size === '2xs' && 'w-4')}
+        />
+    );
+}
 
-            <span className={isWhite ? 'text-white' : 'text-primary'}>u</span>
-        </div>
-    ) : variant === 'no-icon' ? (
-        <div></div>
+export default function Logo({ isWhite, variant, size, isPng }: LogoProps) {
+    return variant === 'no-link' ? (
+        <LogoImage isWhite={isWhite} variant={variant} size={size} isPng={isPng} />
     ) : (
         <Link href="/">
-            {variant === 'black' ? (
-                <Image
-                    src="/brand/logo-black.webp"
-                    width={210}
-                    height={352}
-                    alt="ProjectVu logo"
-                    className="inline md:w-5.25 sm:w-4.5 w-4.25"
-                    loading="eager"
-                />
-            ) : (
-                <div className="text-lg sm:text-xl md:text-2xl text-nowrap font-bold text-center ">
-                    {variant !== 'icon' && <span className={isWhite ? 'text-white' : 'text-foreground'}>Project </span>}
-
-                    <Image
-                        src={isWhite ? '/brand/logo-white.webp' : '/brand/logo.webp'}
-                        width={210}
-                        height={352}
-                        alt="ProjectVu logo"
-                        className="inline md:w-4.25 md:mb-3.75 sm:w-3.5 sm:mb-3.25 w-3.25 mb-2.75 "
-                        loading="eager"
-                    />
-
-                    {variant !== 'icon' && <span className={isWhite ? 'text-white' : 'text-primary'}>u</span>}
-                </div>
-            )}
+            <LogoImage isWhite={isWhite} variant={variant} size={size} isPng={isPng} />
         </Link>
     );
 }

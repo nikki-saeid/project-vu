@@ -5,7 +5,7 @@ import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider, useSidebar } from '@/components/ui/sidebar';
 import { useSubscriptionChannel } from '@/hooks/channels/use-subscription-channel';
 import { DATE_FORMATS } from '@/lib/constants/date-formats';
 import { MAX_MONTHS_FREE_PLAN } from '@/lib/constants/pricing-plans';

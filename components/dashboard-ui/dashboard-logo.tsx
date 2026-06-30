@@ -6,8 +6,8 @@ export default function DashboardLogo() {
     const { state, isMobile } = useSidebar();
 
     if (isMobile) {
-        return <Logo variant="full" />;
+        return <Logo />;
     }
 
-    return state === 'collapsed' ? <Logo variant="icon" /> : <Logo variant="full" />;
+    return state === 'collapsed' ? <Logo variant="icon" size="2xs" /> : <Logo />;
 }

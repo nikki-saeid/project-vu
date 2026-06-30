@@ -63,7 +63,7 @@ export default function BusinessForm({ onSuccess, id, setIsLoading }: BusinessFo
     const dropZoneProps = useSupabaseUpload({
         allowedMimeTypes: ['image/*'],
         maxFiles: 1,
-        maxFileSize: 1000 * 1000,
+        maxFileSize: 7 * 1000 * 1000,
         isLogo: true,
     });
     const { errors, files } = dropZoneProps;

@@ -13,28 +13,56 @@ export default function BusinessCardDialog({ open, setOpen }: { open: boolean; s
     const filename = (business?.slug ?? '') + '-profile-card.png';
     const ref = useRef<HTMLDivElement>(null);
 
+    async function waitForImages(node: HTMLElement) {
+        const images = Array.from(node.querySelectorAll('img'));
+
+        await Promise.all(
+            images.map(async (img) => {
+                if (!img.complete) {
+                    await new Promise<void>((resolve, reject) => {
+                        img.onload = () => resolve();
+                        img.onerror = () => reject();
+                    });
+                }
+
+                try {
+                    await img.decode();
+                } catch {
+                    // decode() can throw if already decoded; ignore
+                }
+            }),
+        );
+    }
+
     const capture = useCallback(async (): Promise<string | null> => {
         if (!ref.current) return null;
 
-        // Replace every <canvas> with an <img> of its pixel data, capture, then restore
         const node = ref.current;
+
+        await waitForImages(node);
+
         const canvases = Array.from(node.querySelectorAll<HTMLCanvasElement>('canvas'));
-        const replacements: { img: HTMLImageElement; canvas: HTMLCanvasElement; parent: Node }[] = [];
+        const replacements: {
+            img: HTMLImageElement;
+            canvas: HTMLCanvasElement;
+        }[] = [];
 
         canvases.forEach((canvas) => {
             const img = document.createElement('img');
-            img.src = canvas.toDataURL('image/png');
-            img.width = canvas.offsetWidth;
-            img.height = canvas.offsetHeight;
-            img.style.cssText = window.getComputedStyle(canvas).cssText;
+            img.src = canvas.toDataURL();
+            img.width = canvas.width;
+            img.height = canvas.height;
+
             canvas.parentNode!.replaceChild(img, canvas);
-            replacements.push({ img, canvas, parent: img.parentNode! });
+            replacements.push({ img, canvas });
         });
 
         try {
-            return await toPng(node, { cacheBust: true, pixelRatio: 10 });
+            return await toPng(node, {
+                cacheBust: true,
+                pixelRatio: 4,
+            });
         } finally {
-            // Restore canvases
             replacements.forEach(({ img, canvas }) => {
                 img.parentNode?.replaceChild(canvas, img);
             });

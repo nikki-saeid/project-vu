@@ -41,7 +41,7 @@ export default function BusinessProfileWithQrCodeCard({ business }: BusinessProf
                     <P className="text-center">{url.split('//')[1]}</P>
                 </div>
 
-                <Logo variant="small" />
+                <Logo size="sm" isPng variant="no-link" />
             </div>
         </div>
     );

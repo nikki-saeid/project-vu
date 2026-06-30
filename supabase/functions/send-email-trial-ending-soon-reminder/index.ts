@@ -8,8 +8,8 @@ Deno.serve(async (req) => {
         // Get date
         const createdSense = new Date();
         // Add 2 weeks and subtract 3 months natively
-        // createdSense.setDate(createdSense.getDate() + 14);
-        // createdSense.setMonth(createdSense.getMonth() - 3);
+        createdSense.setDate(createdSense.getDate() + 14);
+        createdSense.setMonth(createdSense.getMonth() - 3);
 
         // Fetch data
         const { data: usersToEmail, error: dbError } = await supabaseClient

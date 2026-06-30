@@ -14,6 +14,10 @@ const welcomeTemplate = fs.readFileSync(welcomeEmailFilePath, 'utf8');
 const deleteAccountEmailFilePath = path.join(process.cwd(), 'lib/resend/templates/account-deleted.html');
 const deleteAccountTemplate = fs.readFileSync(deleteAccountEmailFilePath, 'utf8');
 
+// trial end soon
+const trialEndSoonEmailFilePath = path.join(process.cwd(), 'lib/resend/templates/trial-end-soon-reminder.html');
+const trialEndSoonTemplate = fs.readFileSync(trialEndSoonEmailFilePath, 'utf8');
+
 export const emailService = {
     // get business by user id or create if not exists
     sendReviewRequest: async function (reviewId: string, email: string, businessName: string, clientName: string, requestComment?: string) {
@@ -61,5 +65,13 @@ export const emailService = {
             'You have permanentely deleted your account',
             html,
         );
+    },
+
+    sendTrialEndSoonReminder: async function (email: string, name: string) {
+        const html = trialEndSoonTemplate
+            .replaceAll('{{USER_NAME}}', name)
+            .replaceAll('{{APP_URL}}', `${process.env.NEXT_PUBLIC_BASE_URL}`);
+
+        return await emailRepository.send(`Project Vu <noreply@projectvu.com.au>`, [email], 'Your free trial ends in 2 weeks', html);
     },
 };

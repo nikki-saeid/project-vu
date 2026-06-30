@@ -20,6 +20,7 @@ export type Database = {
           id: string
           instagram_url: string | null
           is_onboarded: boolean
+          is_trial_email_reminder_sent: boolean | null
           logo_url: string | null
           name: string | null
           page_status: Database["public"]["Enums"]["page_status"]
@@ -42,6 +43,7 @@ export type Database = {
           id?: string
           instagram_url?: string | null
           is_onboarded?: boolean
+          is_trial_email_reminder_sent?: boolean | null
           logo_url?: string | null
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]
@@ -64,6 +66,7 @@ export type Database = {
           id?: string
           instagram_url?: string | null
           is_onboarded?: boolean
+          is_trial_email_reminder_sent?: boolean | null
           logo_url?: string | null
           name?: string | null
           page_status?: Database["public"]["Enums"]["page_status"]

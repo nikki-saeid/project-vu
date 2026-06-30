@@ -38,5 +38,8 @@ export const userService = {
         welcome: async function ({ full_name, email }: { full_name: string; email: string }) {
             return await emailService.sendWelcomeEmail(email, full_name);
         },
+        trialEndSoonReminder: async function ({ name, email }: { name: string; email: string }) {
+            return await emailService.sendTrialEndSoonReminder(email, name);
+        },
     },
 };

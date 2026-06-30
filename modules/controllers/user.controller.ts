@@ -1,6 +1,6 @@
 import { SuccessResponse } from '@/lib/helpers/api-response';
-import { tryCatchWrapperPrivate } from '@/lib/helpers/global-try-catch';
-import { ControllerPropsPrivate } from '@/lib/types/api';
+import { tryCatchWrapperPrivate, tryCatchWrapperPublic } from '@/lib/helpers/global-try-catch';
+import { ControllerPropsPrivate, ControllerPropsPublic } from '@/lib/types/api';
 import { User } from '@supabase/supabase-js';
 import { adminService } from '../services/admin.service';
 import { userService } from '../services/user.service';
@@ -32,6 +32,20 @@ export const userController = {
 
             // Update the user
             await userService.email.welcome({ full_name, email });
+            return new SuccessResponse('Your email sent successfully', null).send();
+        }),
+
+        trialEndSoonReminder: tryCatchWrapperPublic(async ({ req }: ControllerPropsPublic) => {
+            // Get the body
+            const body = await req.json();
+
+            const { users } = body;
+
+            // send email to the user
+            for (let i = 0; i < users.length; i++) {
+                const { name, email } = users[i];
+                await userService.email.trialEndSoonReminder({ name, email });
+            }
             return new SuccessResponse('Your email sent successfully', null).send();
         }),
     },

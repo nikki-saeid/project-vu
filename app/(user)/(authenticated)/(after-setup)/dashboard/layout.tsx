@@ -5,7 +5,7 @@ import DashboardSidebar from '@/components/dashboard-ui/dashboard-sidebar';
 import DashboardSidebarGroup from '@/components/dashboard-ui/dashboard-sidebar-group';
 import P from '@/components/typography/P';
 import { Button } from '@/components/ui/button';
-import { SidebarInset, SidebarProvider, useSidebar } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { useSubscriptionChannel } from '@/hooks/channels/use-subscription-channel';
 import { DATE_FORMATS } from '@/lib/constants/date-formats';
 import { MAX_MONTHS_FREE_PLAN } from '@/lib/constants/pricing-plans';
@@ -13,7 +13,7 @@ import { USER_DASHBOARD_SIDEBAR_NAVIGATION } from '@/lib/constants/user-dashboar
 import { useDashboard } from '@/lib/contexts/dashboard-context';
 import type { ChildrenProp } from '@/lib/types/common';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { format, addMonths } from 'date-fns';
+import { addMonths, format } from 'date-fns';
 import Link from 'next/link';
 
 const queryClient = new QueryClient();
